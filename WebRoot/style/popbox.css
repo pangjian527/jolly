@@ -1,0 +1,179 @@
+@CHARSET "utf-8";
+
+.pop_box {
+	position: absolute;
+	z-index: 8;
+	border:0;
+}
+
+.pop_box .bottom_left, .pop_box .bottom_middle, .pop_box .bottom_right{
+	padding-bottom:11px;
+}
+.pop_box .top_left, .pop_box .top_middle, .pop_box .top_right{
+	padding-top:11px;
+}
+
+.pop_box .left_top, .pop_box .left_middle, .pop_box .left_bottom{
+	padding-left:11px;
+}
+.pop_box .right_top, .pop_box .right_middle, .pop_box .right_bottom{
+	padding-right:11px;
+}
+
+.pop_box div .arrow{
+	position: absolute;
+	overflow: hidden;
+	border:0;
+	z-index:100;
+}
+.pop_box div .arrow i{
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url("../image/pop_arrow.gif");
+}
+
+.pop_box .top_left .arrow, .pop_box .top_middle .arrow, .pop_box .top_right .arrow{
+	width:24px;
+	height:12px;
+	top:0;
+	left:15px; 
+}
+
+.pop_box .bottom_left .arrow, .pop_box .bottom_middle .arrow, .pop_box .bottom_right .arrow{
+	width:24px;
+	height:12px;
+	bottom:0;
+	left:15px; 
+}
+
+.pop_box .bottom_left .arrow i, .pop_box .bottom_middle .arrow i, .pop_box .bottom_right .arrow i{
+	margin-top:-12px;
+}
+
+.pop_box .right_top .arrow, .pop_box .right_middle .arrow, .pop_box .right_bottom .arrow{
+	width:12px;
+	height:24px;
+	top:15px;
+	right:0; 
+}
+.pop_box .right_top .arrow i, .pop_box .right_middle .arrow i, .pop_box .right_bottom .arrow i{
+	margin-left:-12px;
+}
+.pop_box .left_top .arrow, .pop_box .left_middle .arrow, .pop_box .left_bottom .arrow{
+	width:12px;
+	height:24px;
+	top:15px;
+	left:0; 
+}
+.pop_box .top_middle .arrow, .pop_box .bottom_middle .arrow{
+	left:50%;
+	margin-left:-12px;
+}
+.pop_box .top_right .arrow, .pop_box .bottom_right .arrow{
+	right:15px;
+	left:auto;
+}
+.pop_box .left_middle .arrow, .pop_box .right_middle .arrow{
+	top:50%;
+	margin-top:-12px;
+}
+.pop_box .left_bottom .arrow, .pop_box .right_bottom .arrow{
+	bottom:15px;
+	top:auto;
+}
+
+.pop_box div .content {
+	border: 1px solid #CCCCCC;
+	border-radius:6px;
+	padding:5px;
+	*padding-top:3px;
+	background: white;
+}
+.pop_box .bottom_left .content, .pop_box .bottom_middle .content, .pop_box .top_left .content, .pop_box .top_middle .content{
+	padding-right:24px;
+}
+	
+.pop_box .content div.operate{
+	padding:0;
+	margin:5px 0 0;
+}
+
+.pop_box button.close{
+	width:12px;
+	height:12px;
+	position:absolute;
+	background: url(../image/iconA3_2.gif) 0px -680px no-repeat;
+	border:0;
+	padding:0;
+	margin:0;
+	z-index:101;
+}
+.pop_box .left_top .close, .pop_box .left_middle .close, .pop_box .left_bottom .close{
+	right:4px;
+	top:4px;
+}
+.pop_box .right_top .close, .pop_box .right_middle .close, .pop_box .right_bottom .close{
+	left:4px;
+	top:4px;
+}
+.pop_box .top_right .close, .pop_box .top_middle .close, .pop_box .top_left .close{
+	right:5px;
+	top:16px;
+}
+.pop_box .bottom_right .close, .pop_box .bottom_middle .close, .pop_box .bottom_left .close{
+	right:5px;
+	top:10px;
+}
+
+
+/*******************************************************************************
+	declare skin ORANGE
+*******************************************************************************/
+	
+.pop_box div.orange .content {
+	border-color:#D7C960;
+	background: #FFFFE3;
+}
+.pop_box div.orange .arrow i{
+	background-position:0 0;
+}
+
+/*******************************************************************************
+	declare skin SEA
+*******************************************************************************/
+.pop_box div.sea .content {
+	border-color: #ABBDCD;
+	background: #F0F9FF;
+}
+
+.pop_box div.sea .arrow i{
+	background-position:0 -92px;
+}
+
+/*******************************************************************************
+	declare dark
+*******************************************************************************/
+.pop_box .dark .content {
+	border-color: #464747;
+	background: #464747;
+	color:white;
+}
+.pop_box div.dark .arrow i{
+	background-position:0 -183px;
+}
+/*******************************************************************************
+	declare skin pop menu for PopMenu component
+*******************************************************************************/
+
+.pop_box .pop_menu .content {
+	border-color:#999;
+	background: white;
+	box-shadow:0 0 10px rgba(0,0,0,.5)
+}
+.pop_box div.pop_menu {
+	padding:0;
+}
+.pop_box .pop_menu .arrow {
+	display:none;
+}

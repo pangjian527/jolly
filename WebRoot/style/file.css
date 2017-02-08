@@ -1,0 +1,188 @@
+/*
+	file×é¼þÍâ¹Û
+	myq add 2013-12-24
+*/
+.files_big_icon{
+	text-align: center;
+	font-family: Î¢ÈíÑÅºÚ,arial;
+}
+.files_big_icon div.add{
+	border: 2px dashed #ccc;
+	float: left;
+	width: 120px;
+	height: 160px;
+	margin: 10px 25px 15px 10px;
+	position:relative;
+}
+.files_big_icon div.add a{
+	font-size: 60px;
+	font-family: arial;
+	color: #999;
+	text-decoration: none;
+	display: block;
+	width: 60px;
+	font-weight: bold;
+	height: 60px;
+	line-height: 60px;
+	margin: 50px auto 0 auto;
+}
+.files_big_icon div.add:hover a{
+	color:red;
+}
+.files_big_icon div.add input{
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	right: 2px;
+	height: 141px;
+	opacity: 0;	
+}
+.files_big_icon div.attachment, .files_big_icon div.progress{
+	float: left;
+	width: 120px;
+	height: 160px;
+	border: 1px solid #ccc;
+	margin: 10px 25px 15px 10px;
+	position:relative;
+}
+
+.files_big_icon div.attachment i, .files_big_icon div.progress i{
+	display: block;
+	width: 67px;
+	height: 75px;
+	margin: 15px 0 10px 17px;
+	background: url(../image/fileico_v4.png) transparent -230px -144px no-repeat;	
+}
+.files_big_icon div.attachment i.image, .files_big_icon div.progress i.image{
+	background-position:-383px -294px;
+}
+.files_big_icon div.attachment i.audio, .files_big_icon div.progress i.audio{
+	background-position:-304px -294px;
+}
+.files_big_icon div.attachment i.video, .files_big_icon div.progress i.video{
+	background-position:-79px -294px;
+}
+.files_big_icon div.attachment i.word, .files_big_icon div.progress i.word{
+	background-position:-79px -144px;
+}
+.files_big_icon div.attachment i.excel, .files_big_icon div.progress i.excel{
+	background-position:-150px -144px;
+}
+.files_big_icon div.attachment i.ppt, .files_big_icon div.progress i.ppt{
+	background-position:-304px -294px;
+}
+.files_big_icon div.attachment i.pdf, .files_big_icon div.progress i.pdf{
+	background-position:-300px -219px;
+}
+.files_big_icon div.attachment i.zip, .files_big_icon div.attachment i.zip{
+	background-position:-379px -144px;
+}
+.files_big_icon div.attachment i.unknown, .files_big_icon div.progress i.unknown{
+	background-position:-4px -219px;
+}
+
+.files_big_icon div.attachment a, .files_big_icon div.progress a{
+	display: block;
+	color: black;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	margin-bottom: 2px;
+	padding:0 2px;
+	color:#36c
+}
+.files_big_icon div.attachment span, .files_big_icon div.progress span{
+	color: #999;
+}
+.files_big_icon div.attachment button, .files_big_icon div.progress button{
+	border: 0;
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	right: 0px;
+	top: 0px;
+	display:none;
+	text-indent: -10000px;
+	background: url(../image/p_button_icon1.png) -283px -164px;
+}
+.files_big_icon div.attachment button.rise{
+	left:-10px;
+	top: 50%;
+	background: url(../image/p_button_icon1.png) -51px -174px;
+	margin: 0;
+	right: -10px;
+	z-index: 10;
+	width: 14px;
+}
+.files_big_icon div.attachment button.drop{
+	top: 50%;
+	background: url(../image/p_button_icon1.png) -64px -174px;
+	margin: 0;
+	right: -10px;
+	z-index: 10;
+	width: 14px;
+}
+.files_big_icon div.attachment:hover button, .files_big_icon div.progress:hover button{
+	display:block;
+}
+.files_big_icon div.attachment div.img-shell{
+	width:auto;
+	height:120px;
+	overflow:hidden
+}
+.files_big_icon div.attachment div.img-shell span{
+	display: table;
+	height: 100%;
+	width: 100%;
+}
+.files_big_icon div.attachment div.img-shell span a{
+	display: table-cell;
+	vertical-align: middle;
+}
+.files_big_icon div.attachment div.img-shell span a img{
+	width:100%;
+}
+dl.files_attachment_operate{
+	width:200px;
+	
+}
+dl.files_attachment_operate dt{
+	border-bottom:1px solid #ccc;
+	text-align: center;
+	line-height: 30px;
+	font-family: arial,Î¢ÈíÑÅºÚ;
+	font-size: 14px;
+}
+dl.files_attachment_operate dd{
+	border-radius: 4px;
+	margin-top: 5px;
+	width: 40px;
+	height: 40px;
+	float: left;
+	text-align: center;
+	font-size: 12px;
+	line-height: 60px;
+}
+dl.files_attachment_operate dd:hover{
+	background-color:#666;
+}
+dl.files_attachment_operate dd i{
+	position: absolute;
+	width: 14px;
+	height: 14px;
+	top: 6px;
+	left: 14px;
+	background: url(../image/p_button_icon_w.png) -313px -95px;
+}
+dl.files_attachment_operate dd.open i{
+	background-position:-313px -95px;
+}
+dl.files_attachment_operate dd.open i{
+	background-position:-409px -120px;
+}
+dl.files_attachment_operate dd.display i{
+	background-position:-265px -72px
+}
+dl.files_attachment_operate dd.delete i{
+	background-position:-313px 0
+}

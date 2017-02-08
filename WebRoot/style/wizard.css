@@ -1,0 +1,118 @@
+@charset "utf-8";
+.wizard_progress_info li{
+	float:left;
+	width:200px;
+	margin:10px 2px 0 2px;
+	text-align:center;
+	position:relative;
+	height:60px;
+}
+.wizard_progress_info li dt{
+	position: absolute;
+	width: 26px;
+	height: 26px;
+	left: 50%;
+	margin-left: -7px;
+	top: 29px;
+	background: #ccc;
+	text-align: center;
+	line-height: 26px;
+	border-radius: 30px;
+	font-weight: bold;
+	font-family: arial;
+	font-size: 14px;
+	z-index: 10;
+	color: white;
+}
+.wizard_progress_info li dd{
+	padding-bottom:15px;
+	position: absolute;
+	top: 1px;
+	width: 100%;
+	font-size: 16px;
+	border-bottom:4px solid #ccc;
+	color:#ccc;
+	font-family: arial,微软雅黑;
+}
+.wizard_progress_info li.active dt{
+	background-color:#E64346;
+}
+.wizard_progress_info li.active dd{
+	border-color:#E64346;
+	color:#E64346;	
+}
+.wizard_progress_info li.finish dt{
+	background-color: #F29FA1;
+	background: url(../image/p_button_icon_w.png) -282px 5px #F29FA1 no-repeat;
+	text-indent: -10000px;
+}
+.wizard_progress_info li.finish dd{
+	border-color:#F29FA1;
+	color:#F29FA1;	
+}
+.wizard_progress_info li.finish{
+	color:blue;
+	border-color:blue;
+}
+div.wizard_content div.active{
+	display:block;
+}
+div.wizard_content div.sleep, div.wizard_content div.finish{
+	display:none;
+}
+div.wizard_content div div.wizard_navigate{
+	display:none;
+}
+div.wizard_content div.forward div.wizard_navigate{
+	display:block;
+}
+div.active h3{
+	color:black;
+}
+div.active h3 i{
+	background:url(image/p_msg_bg4.png) -1px -126px;
+}
+div.active span.navigate{
+	display:none;
+}
+
+div.forward h3{
+	color:black;
+}
+div.forward h3 i{
+	background:url(image/p_msg_bg4.png) -1px -126px;
+}
+div.finish h3{
+	color:black;
+}
+div.finish h3 i{
+	background:url(image/p_msg_bg2.png) 0 -812px
+}
+
+
+.next_step{
+	height: 30px;
+	background: #009ee3;
+	color: white;
+	border: 0;
+	font-size: 14px;
+	font-weight: bold;
+	position:relative;
+	margin-left:240px;
+	text-align:left;
+	padding: 0 25px 0 10px;
+}
+.next_step span{
+	margin-left:5px;
+	font-size: 12px;
+	font-weight: normal;	
+}
+.next_step s{
+	position:absolute;
+	right:0;
+	top:0;
+	bottom:0;
+	width:16px;
+	background:red;
+	background:url(http://img04.taobaocdn.com/tps/i4/T1sUJIXE8XXXbS0S25-47-500.png) white -5px -264px
+}		

@@ -1,0 +1,32 @@
+body {
+	 width:100%; 
+
+	 background:white
+}
+
+/* declare element length in ul for two_col_compress style */
+ul.two_col li {
+	width: 280px
+}
+ul.two_col li label {
+	width: 80px
+}
+ul.two_col li input,ul.two_col li select, ul.two_col li textarea{
+	width: 165px;
+	margin-left:82px
+}
+ul.two_col li select{
+	width:169px;
+}
+ul.two_col li div {
+	margin-left:83px
+}
+ul.two_col li div input,ul.two_col li div select, ul.two_col li div textarea{
+	margin-left:0px
+}
+ul.two_col li.colspan_2 {
+	width: auto
+}
+ul.two_col li.colspan_2 .colspan_2 {
+	width: 442px
+}

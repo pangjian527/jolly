@@ -1,0 +1,40 @@
+body{
+	width:auto
+}
+#result{
+	padding-left:95px;
+	min-height:85px;
+	_height:85px;
+	width:265px;
+	position:absolute;
+
+}
+.success{
+	background: url(../image/success.jpg) no-repeat left;	
+}
+.error{
+	background: url(../image/warning.jpg) no-repeat left;	
+}
+#result h3{
+	font-size:30px;
+	line-height:40px;
+	height:auto;
+	color:red;
+	background-color: transparent;
+	margin:0;
+	border:0;
+}
+#detail{
+	margin:10px 0 10px 5px;
+	font-size:14px;
+}
+#timeSpan{
+	padding:0 0.5em
+}
+#result span.operate{
+	left:95px;
+	top:90px;
+}
+h3{
+	text-indent:0;
+}

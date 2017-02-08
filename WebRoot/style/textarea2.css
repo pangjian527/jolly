@@ -1,0 +1,27 @@
+@CHARSET "utf-8";
+
+div.textarea2{
+	border:1xp solid #ccc;
+}
+
+div.textarea2 div.item_content{
+	
+}
+
+
+div.textarea2 div.edit_content{
+	
+}
+
+div.textarea2 div.edit_content input{
+	border:0;
+	width:30px;
+}
+div.textarea2 div.edit_content span{
+	
+}
+
+div.pop_menu ul li.focused{
+	background:#616ED3;
+	color:white;
+}

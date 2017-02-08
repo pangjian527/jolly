@@ -1,0 +1,1031 @@
+@charset "utf-8";
+/*********************************************************************************
+	Part 0.定义通用的css清理样式，统一相同的标签的默认样式，避免浏览器不一致现象 
+*********************************************************************************/
+*{
+	outline:none;
+}
+body {
+	MARGIN: 0;
+	font:12px/1.5 Tahoma,Helvetica,Arial,'\5b8b\4f53',sans-serif;
+	text-align: left;
+	color:#444;
+	background-color:white;
+	width:auto; 
+	outline:none;
+}
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td {
+	margin:0;
+	padding: 0;
+}
+a{
+	COLOR: #7d7d7d;
+	TEXT-DECORATION: none; 
+	outline: none;
+}
+a:hover {
+	COLOR: #FF0000;
+	text-decoration:underline;
+}
+ul li {
+	list-style: none;
+}
+dl, dl dd,dl dt {
+	margin: 0px;
+	position: relative
+}
+select, input, textarea.auto_height{
+	height:16px;
+	line-height:16px;
+	padding:2px 1px;
+	border:1px solid #ccc;
+	font-size:12px;
+	
+}
+input{
+	*border: expression(this.type == "checkbox" || this.type == "radio" ? "none" : "1px solid #ccc"); 
+}
+input.radio, input.checkbox {
+	width: auto;
+	height:auto;
+	margin:1px 4px 0;
+	vertical-align:text-bottom
+}
+input.Wdate{
+	background:url(../image/calendar.png) no-repeat 98% center;
+}
+select{
+	height:30px;
+}
+form {
+	list-style: none;
+	margin: 0px;
+	padding: 0px
+}
+
+button {
+	border: 1px solid #999999;
+	padding: 0px 2px;
+	font-size: 12px;
+	line-height:20px;
+	height:20px;
+	background: url(../image/button_bg.png) repeat-x left;
+	margin:1px 2px
+}
+
+button.search, button.ok, button.add, button.delete, button.cancel, button.return, button.upload,
+button.download, button.edit, button.import, button.export, button.reset{
+	color: #444;
+	text-decoration: none;
+	background-color: #DFDFDF;
+	padding: 4px 6px 4px 4px;
+	text-align: center;
+	
+	background-image: -webkit-linear-gradient(#ECECEC,#ECECEC 25%,#DFDFDF);
+	background-image: linear-gradient(#ECECEC,#ECECEC 25%,#DFDFDF);
+	border: 1px solid #CCC;
+	border-bottom-color: #AAA;
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	font-size: 14px;
+	height: 30px;
+	line-height: 20px;
+	border-radius: 4px;
+	letter-spacing:1px;
+
+}
+button.search i, button.ok i, button.add i, button.delete i, button.cancel i, button.return i,
+button.upload i, button.download i, button.edit i, button.import i, button.reset i{
+	margin-top: 2px;
+	margin-right: 0px;
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	vertical-align: text-top;
+	background: url(../image/p_button_icon_b.png) -48px -1px;
+}
+button.add i{
+ 	background-position:0 -97px
+}
+button.delete i{
+ 	background-position:-25px -97px;
+}
+button.ok i{
+	background-position:-288px -1px;
+}
+button.reset i{
+	background-position:-215px -25px;
+}
+button.cancel i{
+	background-position:-312px -1px;
+}
+button.return i{
+	background:url(../image/p_button_icon1.png) -224px 0;
+}
+button.upload i{
+	
+	background:url(../image/p_button_icon1.png) -280px 0;
+}
+button.download i{
+	background:url(../image/p_button_icon1.png) -308px 0;
+}
+button.download_disable{
+	color: gray;
+}
+button.download_disable i{
+	background:url(../image/p_button_icon1.png) -392px -57px;
+}
+
+button.edit i{
+	background-position: -96px -73px;
+}
+button.fire{
+	background-color: #D03024;
+	background-image: -moz-linear-gradient(top,#DF3629,#B9271C);
+	background-image: -ms-linear-gradient(top,#DF3629,#B9271C);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#DF3629),to(#B9271C));
+	background-image: -webkit-linear-gradient(top,#DF3629,#B9271C);
+	background-image: -o-linear-gradient(top,#DF3629,#B9271C);
+	background-image: linear-gradient(top,#DF3629,#B9271C);
+	background-repeat: repeat-x;
+	border-color: #B9271C #B9271C #771912;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+	color: white;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+button.sea{
+	background-color: #5CACD4;
+	background-image: -moz-linear-gradient(top,#74B9DA,#389ACA);
+	background-image: -ms-linear-gradient(top,#74B9DA,#389ACA);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#74B9DA),to(#389ACA));
+	background-image: -webkit-linear-gradient(top,#74B9DA,#389ACA);
+	background-image: -o-linear-gradient(top,#74B9DA,#389ACA);
+	background-image: linear-gradient(top,#74B9DA,#389ACA);
+	background-repeat: repeat-x;
+	border-color: #389ACA #389ACA #266D8F;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+	color: white;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+button.orange{
+	background-color: #f70;
+	background-image: -moz-linear-gradient(top,#f70,#f40);
+	background-image: -ms-linear-gradient(top,#f70,#f40);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#f70),to(#f40));
+	background-image: -webkit-linear-gradient(top,#f70,#f40);
+	background-image: -o-linear-gradient(top,#f70,#f40);
+	background-image: linear-gradient(top,#f70,#f40);
+	background-repeat: repeat-x;
+	border-color: #f40 #f70 #f70;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+	color: white;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+button.sea_disable{
+	background-color: #5CACD4;
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+button.fire i, button.sea i, button.orange i{
+	background-image: url(../image/p_button_icon_w.png)
+}
+.nui-scroll::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+.nui-scroll:hover::-webkit-scrollbar-thumb {
+	background-color: rgba(0,0,0,.2);
+	border-radius: 10px;
+	-webkit-box-shadow: inset 1px 1px 0 rgba(0,0,0,.1);
+}
+.nui-scroll::-webkit-scrollbar-track {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0);
+}
+/*********************************************************************************
+	Part 1.定义常用的布局元素样式 
+*********************************************************************************/
+.body_wrap{
+	margin:10px
+}
+
+.view_wrap{
+	width:1020px;
+	position:relative;
+	left:50%;
+	margin-left:-510px;
+}
+div.operate{
+	clear: both;
+	text-align:center;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+.tool_bar{
+	position: relative;
+	border-bottom: 1px solid #ddd;
+	padding: 10px;
+	background: #f7f7f7;
+	box-shadow: 0 0 10px #ddd;
+}
+.tool_bar .assist{
+	position:absolute;
+	right:1px;
+}
+/* 1.1 declare main layout elements in view html */
+.main_info,.middle_info,.sub_info,.large_info {
+	margin: 0px 5px 5px 0px;
+	float: left;
+	display:inline;
+
+}
+.sub_info{
+	float:right;
+}
+.main_info {
+	width: 575px;
+	float: left;
+}
+
+.main_info .title, .base_info .title {
+	position: relative;
+	line-height: 26px;
+	float:none;
+	font-size: 12px;
+	color: #0000ff;
+	background:white;
+	margin:0px
+}
+.main_info dl{
+	clear:both;
+	margin:1px;
+}
+.main_info dl dt{
+	font-weight:bold;
+	height:20px;
+	line-height:20px;
+}
+.main_info dl dt a{
+	position:absolute;
+	right:1px;
+	line-height:20px;
+	top:0px
+}
+.main_info dl dd{
+	float:left;
+	padding-left:15px;
+	background: url(../image/atchm.gif) no-repeat left;	
+	width:240px;
+}
+.main_info dl dd a{
+	text-decoration:underline;
+	color:#0068B7;
+	margin-right:10px;
+}
+.main_info dl dd span a{
+	text-decoration:none;
+	color:black;
+	margin-right:2px;
+}
+.middle_info {
+	width: 394px;
+	height:100px;
+	border: 1px solid #cccccc;
+}
+.large_info{
+	width:797px;
+	border: 1px solid #cccccc;
+}
+.middle_info dt,.sub_info dt,.large_info dt {
+	background-color: #D8F29F;
+	height: 22px;
+	line-height: 20px;
+	text-indent: 2pt;
+	font-weight: bold;
+}
+.large_info dt {
+	background-color:#DBE2E3
+}
+.sub_info{
+	margin-top:29px
+}
+
+.middle_info dd,.sub_info dd {
+	/*padding: 4px;*/
+	color: #333;
+}
+
+.sub_info {
+	width: 260px;
+	border: 1px solid #C4D5E0;
+}
+
+.sub_info dt {
+	background:url("../image/mytaobao_v4_bg.png") repeat-x scroll center -300px #EBF1F4;
+	border-bottom:1px solid #C4D5E0;
+	text-indent:0.5em;
+}
+
+/*********************************************************************************
+	Part 2.定义默认的的表格样式 
+*********************************************************************************/
+.query div.operate{
+	padding-top:5px;
+}
+.query_result h1{
+	height: 30px;
+	position: relative;
+	padding: 0 0 5px 35px;
+	margin-bottom:10px;
+}
+.query_result h1 b{
+	position: absolute;
+	left: 0;
+	top: 4px;
+	width: 26px;
+	height: 30px;
+	display: inline-block;
+	background: url(../image/p_msg_bg2.png) 0px -849px;
+}
+.query_result h1 label{
+	font-family: arial,微软雅黑;
+	font-size: 18px;
+}
+.query_result h1 span{
+	font-size: 14px;
+	color: #666;
+}
+.query_result h1 s{
+	position:absolute;
+	right:0;
+	text-decoration:none;
+}
+.query_result p.empty{
+	border: 1px solid #ccc;
+	padding: 40px 20px 40px 40px;
+	font-size: 15px;
+	font-family: 微软雅黑;
+	text-align:center
+}
+.query_result table {
+	border-collapse: separate;
+	font-size: 12px;
+	color: #666;
+	table-layout: fixed;
+	width: 100%;
+	margin: 0;
+	clear: both;
+	border-spacing: 0;
+	border-radius: 4px 4px 0 0;
+	border: 1px solid #ccc;
+	-ms-border-radius:4px 4px 0 0;
+}
+.query_result table thead {
+	color: #2C3341;
+}
+.query_result table thead tr:first-child th:first-child{
+	-webkit-border-radius: 4px 0 0 0;
+	-moz-border-radius: 4px 0 0 0;
+	border-radius: 4px 0 0 0;
+	-webkit-border-radius: 4px 0 0 0;
+	-moz-border-radius: 4px 0 0 0;
+	border-radius: 4px 0 0 0;
+	text-align:center
+}
+.query_result table thead tr:first-child th:last-child{
+	-webkit-border-radius: 0 4px 0 0;
+	-moz-border-radius: 0 4px 0 0;
+	border-radius: 0 4px 0 0;
+	-webkit-border-radius: 0 4px 0 0;
+	-moz-border-radius: 0 4px 0 0;
+	border-radius: 0 4px 0 0;
+	border-right:0;
+}
+.query_result table thead tr th {
+	padding: 8px 4px;
+	line-height: 16px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align: left;
+	background: whiteSmoke;
+	font-size: 14px;
+	font-family: arial,微软雅黑;
+	color: black;
+	-webkit-box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.2);
+	-moz-box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.2);
+	box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.2);
+	background-color: #84969E;
+	background-image: -moz-linear-gradient(top,#909FA7,#738791);
+	/*在IE下需要用滤镜filter代替-moz-linear-gradient*/
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#EFEFEF',endColorStr='#D9E1E8',gradientType='0'); 
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#909FA7),to(#738791));
+	background-image: -webkit-linear-gradient(top,#EFEFEF,#D9E1E8);
+	background-image: -o-linear-gradient(top,#909FA7,#738791);
+	background-image: linear-gradient(top,#909FA7,#738791);
+	background-repeat: repeat-x;
+	border-top: none;
+	border-bottom: 1px solid #CCC;
+	border-right: 1px solid rgba(0, 0, 0, 0.1);
+	font-weight: normal;
+}
+.query_result table tbody .even {
+	background: #F7FBFF;
+}
+.query_result table tbody tr td{
+	padding: 8px 4px;
+	font-size:12px;
+	line-height:1.5em;
+	font-weight: normal;
+	color: #333;
+	border-bottom:1px solid #ccc;
+}
+.query_result table tbody tr td:first-child, .query_result table thead tr:first-child th:first-child{
+	text-align:center;
+	color:#666
+}
+
+.query_result table tbody tr:last-child td{
+	border-bottom:0;
+}
+.query_result table tbody tr td a{
+	text-decoration:none;
+	color:#3366CC;
+}
+.query_result table tbody tr td a:hover{
+	text-decoration:underline;
+	color:#FF6600;
+}
+
+.query_result div.navigate {
+	padding:6px 0;
+	float: right
+}
+//定义表格关联的翻页导航样式
+#page_navigate_wrap{
+	margin-top:10px;
+}
+#page_navigate_wrap span{
+	float:left;
+	margin:0 0 0 1em;
+	line-height:25px;
+	*line-height:23px;//fix ie
+}
+
+#page_navigate_wrap a#goto{
+	border:1px solid #999;
+	width:3em;
+	height:20px;
+	color:black;
+	line-height:20px;
+	*line-height:22px;
+	*overflow:hidden;
+}
+#page_navigate_wrap a{
+	border: 1px solid #ccc;
+	height: 23px;
+	text-align: center;
+	display: block;
+	float: left;
+	margin-left: 3px;
+	line-height: 23px;
+	color: #0063DC;
+	text-decoration: none;
+	padding: 0 8px;
+}
+#page_navigate_wrap a.next{
+	text-align:left;
+	width:4.5em;
+	background:url("../image/T1A5RWXaNcXXXXXXXX-129-327.png") repeat-x scroll 45px -185px transparent;
+	text-indent:0.5em;
+}
+#page_navigate_wrap a.previous{
+	text-align:left;
+	text-indent:1em;
+	width:4.5em;
+	background:url("../image/T1A5RWXaNcXXXXXXXX-129-327.png") repeat-x scroll 3px -205px transparent
+			
+}
+#page_navigate_wrap a.current{
+	border-color:#FF5500;
+	color:#FF5500;
+	background-color:#FFEEE5;
+}
+#page_navigate_wrap a:hover{
+	border-color:#FF5500;
+	color:#FF5500;
+}
+#page_navigate_wrap span input{
+	width:25px;
+	margin:0 0 0 2px;
+}
+table tfoot .navigate input{
+	width: 20px
+}
+.tb-combobar{
+	margin-top: 10px;
+	height: auto;
+	width: 700px;
+}
+.tb-combobar .item-not-img{
+	background-image: url("../image/T1ocbJXjxiXXXZPI3b-100-270.png");
+	background-repeat:no-repeat;
+	height: 90px;
+	width: 80px; 
+	float: left;
+}
+.tb-combobar .item-not-found {
+	float: left;
+	width: auto;
+	height: 90px;
+	line-height: 90px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #404040;
+}
+.window_operate{
+	position:absolute;
+	top:8px;
+	right:13px;
+
+}
+.window_operate button{
+	width:28px;
+	height:18px;
+	
+	border:0;
+	margin:0;
+	padding:0
+}
+.window_operate button.close{
+	background-image:url(../script/dialog/images/dialog_closebtn.gif);
+}
+
+
+/* declare ul for organize show elements */
+ul.view {
+	float: left;
+	margin: 1px 0;
+	
+	border: 1px solid #ccc;
+}
+ul.view li {
+	float: left;
+	position: relative;
+	color: 000;
+	width: 284px;
+	line-height:2em;
+	_height:2em;
+	min-height:2em;
+}
+ul.view li label {
+	display: block;
+	width: 80px;
+	text-align: right;
+	position: absolute;
+	color: #005CAA;
+	left: 1px;
+	top:1px;
+	overflow:hidden;
+	white-space:nowrap;
+}
+ul.view li div {
+	margin-left: 84px;
+	font-weight: normal;
+	color: #3A3A3A;
+}
+
+ul.view li.colspan_2 {
+	width: 570px;
+}
+
+
+/*********************************************************************************
+	Part 4.定义用户输入表单的布局和样式 
+*********************************************************************************/
+ul.input li{
+	float:left;
+	min-height:30px;
+	margin:4px 0;
+}
+ul.input li label {
+	display:inline-block;
+	text-align: right;
+	word-break:keep-all;
+	white-space:nowrap; 
+	overflow:hidden;
+	text-overflow:ellipsis; 
+	height:22px;
+	line-height:22px;
+	vertical-align:top;
+}
+ul.input li input{
+	height:22px;
+	text-indent:5px;
+}
+ul.input li input.radio, ul.input li input.checkbox{
+	height:auto;
+}
+ul.input li select{
+	height:28px;
+	text-indent:5px;
+}
+ul.input li div.content_wrap{
+	display:inline-block;
+	line-height:22px;
+}
+
+ul.input li div.content_wrap span.radio, ul.input li div.content_wrap span.checkbox{
+	margin-right:10px;
+}
+
+ul.input li input.radio, ul.input li input.checkbox{
+	width: auto;
+	height:auto;
+	margin:0 3px 0 0;
+}
+ul.input li.mandatory label, ul.input th.mandatory {
+	color: #cc0000;
+}
+ul.input li label.error {
+	text-align:left;
+}
+ul.input li button.open_window {
+	width: 20px;
+	height: 22px;
+	margin:0px;
+	border:0;
+	background: url(../image/search.png) no-repeat;
+	margin-left:0px;
+	text-indent:-999px;
+	padding:0;
+	vertical-align:middle ;
+}
+/* declare element length in ul for three_col style */
+ul.three_col li {
+	width: 33%;
+}
+ul.three_col li label {
+	width: 24%;
+}
+ul.three_col li input, ul.three_col li textarea, ul.three_col li select, ul.three_col li textarea,
+	ul.three_col li div.content_wrap{
+	width: 50%;
+}
+
+
+ul.three_col li div input{
+	width:100%;
+}
+ul.three_col li.colspan_2 {
+	width: 66%;
+}
+ul.three_col li.colspan_2 label{
+	width:12%;
+}
+ul.three_col li.colspan_2 input, ul.three_col li.colspan_2 textarea, ul.three_col li.colspan_2 select, 
+ul.three_col li.colspan_2 textarea, ul.three_col li.colspan_2 textarea, ul.three_col li.colspan_2 div.content_wrap{
+	width:75%;
+}
+ul.three_col li input.radio, ul.three_col li input.checkox,ul.three_col li.colspan_2 input.radio, ul.three_col li.colspan_2 input.checkox{
+	width:auto;
+}
+ul.three_col li.colspan_3 {
+	width: 99%;
+}
+ul.three_col li.colspan_3 label {
+	width:8%;
+}
+
+ul.three_col li.colspan_3 div.content_wrap{
+	width:91%;
+}
+
+ul.three_col li.colspan_3 textarea {
+	width: 747px
+}
+ul.three_col li .range{
+	background:url(../image/forwarded2.gif) no-repeat 50% 50%;
+}
+ul.three_col li .range input{
+	width:81px;
+}
+ul.three_col li .range input:first-child{
+	margin-right:13px;
+}
+/* declare element length in ul for two_col style */
+ul.two_col li {
+	width: 45%;
+}
+ul.two_col li label {
+	width: 24%;
+}
+ul.two_col li input, ul.two_col li select, ul.two_col li textarea, ul.two_col li select{
+	width: 50%;
+}
+ul.two_col li input.radio, ul.two_col li input.checkbox{
+	width:auto;
+	height:auto
+}
+ul.two_col li p{
+	margin-left:25%;
+	color:#999
+}
+ul.two_col li.colspan_2 p{
+	margin-left:13%;
+	color:#999
+}
+
+ul.two_col li.colspan_2 {
+	width: 90%;
+}
+ul.two_col li.colspan_2 label{
+	width: 12%;
+}
+ul.two_col li.colspan_2 input[type='text']{
+	width: 75%
+}
+
+ul.two_col li .range{
+	background:url(../image/forwarded2.gif) no-repeat 50% 50%;
+}
+ul.two_col li .range input{
+	width:21%;
+}
+ul.two_col li .range input:first-child{
+	margin-right:5%;
+}
+/* 4.declare form elements */
+
+
+
+
+select option.level_2{
+	text-indent:1em;
+}
+select option.level_3{
+	text-indent:2em;
+}
+
+
+/* 5.declare div span h1-6 */
+h3 {
+	margin: 0;
+	height: 28px;
+	line-height:28px;
+}
+
+span.operate {
+	position: absolute;
+	right: 2px;
+	margin-top:auto;
+}
+
+span.operate a{
+	COLOR: #0063DC;
+	font-weight: normal;
+}
+
+span.operate A:hover {
+	COLOR: #FF6600;
+}
+
+div.box{
+	border:1px solid #ccc;
+	padding-bottom:5px;
+	margin-bottom:10px;
+	margin-top:10px;
+
+}
+div.box h3{
+	background:none;
+	border:0;
+	height:auto;
+	line-height:normal;
+	text-indent:10px;
+	margin:10px 0 5px 0;
+	color:#005CAA;
+	font-size:14px;
+	font-family:微软雅黑,arial;
+	font-weight: normal;
+}
+div.box ul.view{
+	border:0;
+}
+div.box_title{
+	border:1px solid #ccc;
+	padding-bottom:5px;
+	margin-bottom:10px;
+	margin-top:10px;	
+}
+div.box_title h3{
+	padding: 2px 4px;
+	background: #f1f1f1;
+	border: 0;
+	border-bottom: 1px solid #ccc;
+	margin: 10px 0 5px 10px;
+	color: #005CAA;
+	font-size: 14px;
+	margin: 0 0 5px 0;
+	height: 24px;
+	line-height: 24px;
+	text-indent: 10px;
+	font-weight: normal;
+}
+div.box_title ul.view{
+	border:0;
+}
+/* 6.declare clear elements */
+.clear {
+	clear: both;
+	position:static;
+}
+
+/* 6.declare common ui */ /* 6.2 tab page */
+
+
+.reveal {
+	color: #0a7acd;
+}
+
+.reveal a {
+	color: #d83004;
+}
+
+.reveal a:hover {
+	color: #fc3400;
+}
+table tfoot .navigate {
+	color: #2584cb;
+	font-weight: normal;
+}
+
+/* customer_info.html tab css*/
+
+#tab_head {
+	margin: 5px 0 0 0;
+	border-bottom: 5px solid  #3186a8;
+	border-top:1px solid white;
+}
+
+#tab_head ul {
+	margin: 0;
+	padding: 2px 0px 0px 5px;
+	font-weight: normal;
+	float: left;
+}
+
+#tab_head li {
+	display: inline;
+	background: url(../image/tab_head_bg0.gif) no-repeat;
+	float: left;
+	height: 24px;
+	width: 90px;
+	margin-right:2px;
+}
+
+#tab_head a {
+	display: block;
+	float: left;
+	border-bottom: 0;
+	padding: 0 1.5em;
+	line-height: 24px;
+	color: #236078;
+	font-size: 12px;
+	text-decoration: none;
+}
+
+#tab_head li.selected a {
+	background: url(../image/tab_head_bg1.gif) no-repeat;
+	font-weight: bold;
+	color: #fff;
+}
+ul.suggest{
+	position:absolute;
+	border:1px solid #40B3FF;
+	background:white;
+	z-index:99;
+}
+
+ul.suggest li{
+	text-indent:2px;
+	height: 2em;
+	line-height: 2em;
+	position:relative;
+}
+
+ul.suggest li.focus{
+	background:#316AC5;
+	color:white;	
+}
+
+ul.suggest li span.suggest_value{
+	position: absolute;
+	right:0.5em;
+}
+/*pj 2013.2.1 焦点丢失情况*/
+.focus-div-node{
+	position: absolute;
+	left: -100px;
+	top: -100px;	
+}
+
+#bg_shadow{
+	background-color:#333;
+	position:absolute;
+	left:0px;
+	top:0px;
+	opacity:0.3;
+	filter:alpha(opacity=30);
+	z-index:960;
+	width:100%;
+	height:100%
+}
+
+#bg_shadow_load {
+	position:absolute;
+	width: 214px;
+	height: 15px;
+	left: 45%;
+	top: 50%;
+	z-index:961;
+	background-image: url("../image/5-121204193R7-51.gif");
+}
+
+
+/* 2014-10-15 add system css... by/zhangz 
+
+.form-input {
+	display:block;width:100%;height:34px;padding:6px 12px;
+	
+	height: 28px;
+	padding-left: 5px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.form-input:focus {
+	border-color: #66afe9;
+	outline: 0;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+}
+*/
+.formextend_invalid_value{
+	-webkit-box-shadow:rgb(0, 102, 204) 0px 0px 5px
+}
+
+.tab-box dt{
+	border-bottom: 1px solid #ccc;
+	color: #f70;
+	letter-spacing: 2px;
+	font-size: 14px;
+	background:white
+}
+.tab-box dt ul{
+	  display: -webkit-box;
+}
+.tab-box dt li{
+	color: #999;
+	height: 30px;
+	line-height: 30px;
+	text-align:center;
+	color:#999;
+	padding-top: 10px;
+	font-weight: bold;
+	font-family: 微软雅黑;
+	-webkit-box-flex: 1;
+}
+.tab-box dt li.selected{
+	border-bottom: 2px solid #f40;
+	color: #f40;
+	position: relative;
+	bottom: -1px;
+	line-height: 28px;
+}
+.tab-box dd.tab-content{
+	display:none;
+}
+.tab-box dd.selected{
+	display:block
+}
+
+.tab-box dd.tab-content{
+	padding:15px
+}

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+        http://www.springframework.org/schema/task   
+        http://www.springframework.org/schema/task/spring-task-3.0.xsd"
+      xmlns:task="http://www.springframework.org/schema/task"  
+      default-lazy-init="false">
+
+    <context:property-placeholder location="classpath:sys.properties"/>
+    
+    <!-- 
+    <jee:jndi-lookup id="dataSource" jndi-name="/jdbc/model"
+		resource-ref="true" />
+	   -->
+    <!-- dao -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="${jdbc_url}"/>
+        <property name="initialSize" value="0"/>
+        <property name="minIdle" value="1"/>
+        <property name="maxActive" value="1000"/>
+    </bean>
+
+	<bean id="recordChangeListener" class="com.sys.app.aspect.RecordChangeListener"/>
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="schemaUpdate" value="false"/>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration"/>
+        <property name="configLocation" value="classpath:/com/sys/entity/_hibernate.cfg.xml"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">
+                    pub.dao.hibernate.MySQLDialect
+                </prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.connection.release_mode">auto</prop>
+                <prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop>
+            </props>
+        </property> 
+        <property name="eventListeners">
+            <map>
+                <entry key="post-insert" value-ref="recordChangeListener"/>
+                <entry key="pre-update" value-ref="recordChangeListener"/>
+                <entry key="post-update" value-ref="recordChangeListener"/>
+                <entry key="post-delete" value-ref="recordChangeListener"/>
+            </map>
+        </property>       
+    </bean>
+
+    <bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="txManager"/>
+
+    <!-- binding -->
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="customEditors">
+            <map>
+                <entry key="java.util.Date" value="pub.spring.DateEditor"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- message -->
+    <bean id="fallBackMessageSource" class="pub.spring.TemplatedMessageSource">
+        <property name="basename" value="WEB-INF/messages"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="cacheSeconds" value="3"/>
+        <property name="useCodeAsDefaultMessage" value="true"/>
+    </bean>
+
+    <bean id="messageSource" class="pub.spring.RequestScopeMessageSource">
+        <property name="parentMessageSource" ref="fallBackMessageSource"/>
+    </bean>
+
+    <!-- beans -->
+    <bean id="generalDao" class="pub.dao.hibernate.GeneralDaoImpl"/>
+    <bean id="entityUtils" class="pub.dao.hibernate.EntityUtils" lazy-init="false"/>
+    <context:component-scan base-package="com.sys,com.web.utils"/>
+    <bean id="calPrizeLeft" class="com.web.dingshi.CalPrizeLeft"></bean>  
+     <task:scheduled-tasks>    
+       <task:scheduled ref="calPrizeLeft" method="execute" cron="0 0 0 * * ?" /> 
+    </task:scheduled-tasks>
+    <!-- 定时器 
+    <bean id="synWendaTask" class="com.web.dingshi.action.WendaAction"></bean>  
+    <bean id="synPageTask" class="com.web.dingshi.action.PageTongbuAction"></bean> 
+    <bean id="makeHtmlTask" class="com.web.dingshi.action.MakeHtmlAction"></bean> 
+    <bean id="synGoodsTask" class="com.web.dingshi.action.SynGoodsAction"></bean> 
+    <task:scheduled-tasks>    
+       <task:scheduled ref="synWendaTask" method="execute" cron="12 0/10 7-23 * * ?" /> 
+       <task:scheduled ref="synPageTask" method="execute" cron="35 0/6 0-23 * * ?" /> 
+       <task:scheduled ref="makeHtmlTask" method="execute" cron="0 0/5 7-23 * * ?" /> 
+       <task:scheduled ref="synGoodsTask" method="execute" cron="30 0/10 7-23 * * ?" /> 
+    </task:scheduled-tasks>
+-->
+    <!-- ws 
+    <import resource="cxf-services.xml" />-->
+</beans>

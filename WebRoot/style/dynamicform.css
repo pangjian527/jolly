@@ -1,0 +1,176 @@
+@charset "utf-8";
+
+body{
+	background-color:#EDEDED;
+}
+.body_wrap{
+	margin:0px
+}
+div.dynamic_form, div.box, div.box_title{
+	margin-bottom:1em;
+	padding:10px 15px;
+	margin:20px 3%;
+	background-color:white;
+	border:1px solid #ccc;
+	border-radius:6px;
+}
+div.dynamic_form h3, div.box h3, div.box_title h3{
+	margin:0;
+	font-family:微软雅黑;
+	margin: 0;
+	border:0;
+	position:relative;
+	text-indent:0;
+	font-size: 16px;
+	border-bottom: 2px solid #0092d2;
+	letter-spacing:2px;
+	clear:both;
+	height: 30px;
+	line-height: 30px;
+}
+
+div.dynamic_form s{
+	display: block;
+	border-bottom: 1px solid #ccc;
+	clear: both;
+	margin: 5px 20px;
+	padding-top: 5px;
+}
+div.dynamic_form h4{
+	
+}
+div.dynamic_form dl{
+	float:left;
+	width:33%;
+	position:relative
+}
+div.dynamic_form dl.required dt{
+	color: red;
+}
+div.dynamic_form dl dt{
+	width:50%;
+	height:30px;
+	line-height:30px;
+	padding:4px 0;
+	text-align:right;
+	float:left;
+	margin-right:2px;
+	overflow:hidden;
+}
+div.dynamic_form dl.mandatory dt{
+	color:#cc0000
+}
+div.dynamic_form dl dt i, div.dynamic_form h4 i{
+	display: block;
+	width: 16px;
+	height: 16px;
+	line-height: 16px;
+	color: white;
+	font-style: normal;
+	position: absolute;
+	left: 0;
+	top: 10px;
+	background: #ccc;
+	border: 1px solid #ccc;
+	border-radius: 20px;
+	font-weight: bold;
+	font-size: 12px;
+	text-align: center;
+	font-family: arial;
+	text-indent: 0;
+}
+div.dynamic_form dl dd{
+	float:left;
+	min-height:30px;
+	line-height:30px;
+	padding:4px 0;
+	width:49%;
+}
+
+div.dynamic_form dl dd input{
+	height: 20px;
+	line-height: 20px;
+	padding: 4px 2px;
+	border: 1px solid #ccc;
+	font-size: 12px;
+	width: 100px;
+	
+	border-radius:4px;
+}
+div.dynamic_form dl dd span.radio, div.dynamic_form dl dd span.checkbox{
+	margin-right:10px;
+	display:inline-block
+} 
+div.dynamic_form dl dd span input.radio, div.dynamic_form dl dd span input.checkbox{
+	width:auto;
+	height:auto;
+	margin:0 4px 0 0;
+}
+div.dynamic_form dl dd select{
+	width:100px;
+}
+div.dynamic_form dl.auto_width{
+	width:auto;
+}
+div.dynamic_form dl.auto_width{
+	width:auto;
+}
+div.dynamic_form dl.auto_width dt{
+	width:auto;
+	position:static;
+	float:left;
+	padding-left:30px;
+}
+div.dynamic_form dl.auto_width dd{
+	width:auto;
+	position:static;
+	float:left;
+	margin-left:0;
+}
+div.dynamic_form dl.colspan_2{
+	width:67%;
+}
+div.dynamic_form dl.colspan_2 dt{
+	width:25%;
+}
+div.dynamic_form dl.colspan_2 dd{
+	width:74%;
+}
+div.dynamic_form dl.colspan_3{
+	width:100%;
+}
+
+div.dynamic_form dl.colspan_3 dt{
+	width:17%;
+}
+div.dynamic_form dl.colspan_3 dd{
+	width:82%;
+}
+div.dynamic_form h4{
+	clear: both;
+	height: 30px;
+	line-height: 30px;
+	padding: 4px 10px;
+	position: relative;
+	text-indent: 20px;
+	font-size: 14px;
+	font-weight: normal;
+	letter-spacing: 2px;
+	color:#416c88
+}
+
+div.dynamic_form dl dt s{
+	border: 0;
+	margin: 0;
+	padding: 0;
+	display: block;
+	position: absolute;
+	left: 60px;
+	background: white;
+	text-decoration: none;
+	color: #416c88;
+}
+
+div.dynamic_form dl.clearBoth{
+	clear: both;	
+}

@@ -1,0 +1,16 @@
+{
+	android-mall:{
+		number:"1.2.2",
+		mandatory:true,
+		describe:"支付宝在线支付等",
+		src:"version/htw_android_mall_1.2.2.apk",
+		level:2,
+		url:"http://www.91htw.com/version/htw_android_mall_1.2.2.apk"
+	},
+	android-merchant:{
+		number:"1.2.0",
+		mandatory:true,
+		describe:"全面版本升级",
+		src:"version/htw_android_merchant_1.2.0.apk"
+	}
+}

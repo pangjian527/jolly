@@ -1,0 +1,39 @@
+@charset "utf-8";
+/* CSS Document */
+
+.query .operate{
+	clear:both}
+table{
+	width:100%;
+	border-collapse:collapse;
+	font-size:12px;
+	color:#666}
+table caption{
+	height:30px;
+	line-height:30px}
+table caption label{
+	float:left;
+	height:30px}
+table caption a{
+	float:right}
+table .col0{width:40px}
+table .col1{width:60px}
+table .col2{width:150px}
+table .col3{width:60px}
+table .col4{width:60px}
+table .col5{width:100px}
+table .col6{width:120px}
+table .col7{width:20px}
+table thead{
+	color:#2C3341;
+   background-color:#f0f0f0;}
+table .col2, table .col4, table .col6{
+	color:#000}
+table tbody .even{
+	background:#E6E6FF}
+table tfoot .operate{
+	float:left}
+table tfoot .navigate{
+	float:right}
+table tfoot .navigate input{
+	width:20px}
