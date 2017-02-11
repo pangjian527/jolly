@@ -15,6 +15,17 @@
         <mapping class="com.sys.entity.File"/>
         <mapping class="com.sys.entity.LogFieldChange"/>
         <mapping class="com.sys.entity.LogRecordChange"/>
-        
+        <mapping class="com.sys.entity.Factory"/>
+        <mapping class="com.sys.entity.FactoryUser"/>
+        <mapping class="com.sys.entity.Area"/>
+        <mapping class="com.sys.entity.Bill"/>
+        <mapping class="com.sys.entity.BillDetail"/>
+        <mapping class="com.sys.entity.Bookform"/>
+        <mapping class="com.sys.entity.BookformDetail"/>
+        <mapping class="com.sys.entity.Product"/>
+        <mapping class="com.sys.entity.ProductItem"/>
+        <mapping class="com.sys.entity.Score"/>
+        <mapping class="com.sys.entity.StockRecord"/>
+        <mapping class="com.sys.entity.UsageRecord"/>
     </session-factory>
 </hibernate-configuration>

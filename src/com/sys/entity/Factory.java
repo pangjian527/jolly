@@ -71,7 +71,9 @@ public class Factory implements Serializable {
 	// （sys_status）状态；0:无效； 1:有效 2:待审核3:草稿4:被下架了
 	private Integer status;
 	
-	
+	public Factory() {
+		this.createTime = new Date();
+	}
 	
 	@GenericGenerator(name = "generator", strategy = "uuid.hex")
 	@Id

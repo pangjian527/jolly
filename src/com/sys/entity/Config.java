@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "t_config", catalog = "play")
+@Table(name = "t_config")
 public class Config implements Serializable {
 
 	private static final long serialVersionUID = 1258893852997775897L;

@@ -1,2 +1,4 @@
 *.class
 /bin/
+*.svn-base
+WebRoot/WEB-INF/classes/

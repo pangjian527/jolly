@@ -18,8 +18,11 @@ import org.springframework.web.servlet.View;
 import pub.dao.query.PageSettings;
 import pub.dao.query.QueryResult;
 import pub.spring.ActionResult;
+import pub.types.IdText;
 
+import com.sys.entity.Area;
 import com.sys.entity.Factory;
+import com.sys.service.AreaService;
 import com.sys.service.FactoryService;
 import com.sys.service.FileService;
 import com.web.pmanager.PManagerAction;
@@ -48,8 +51,8 @@ public class FactoryAction extends PManagerAction<Factory>{
 		JSONArray jsonArr = new JSONArray();
 		for(Map row : (List<Map>)result.getRows()){
 			JSONObject jsonObj = new JSONObject();
-			jsonObj.element("id", row.get("ID"));
-			jsonObj.element("name", row.get("NAME"));
+			jsonObj.element("id", row.get("id"));
+			jsonObj.element("name", row.get("name"));
 			jsonArr.add(jsonObj);
 		}
 		object.element("results", jsonArr);
@@ -86,109 +89,17 @@ public class FactoryAction extends PManagerAction<Factory>{
 		return path;
 	}
 	
-	
-//	/*
-//	 * 保存
-//	 */
-//	@RequestMapping
-//	public View save(HttpServletRequest request, String id) throws Exception{		
-//		Factory factory = StrFuncs.isEmpty(id) ? new Factory() : factoryService.get(id);
-//		this.populate(factory);
-//		
-//		String[] brandIds = request.getParameterValues("brands");
-//		factoryService.save(factory,  brandIds, this.getUser(request));
-//		
-//		return ActionResult.ok("保存成功", "/pmanager/factory/factory.do?op=query&loadcache=1");
-//	}
-	
-	/**
-	 * jmj 2015-05-20 
-	 * 申请上架功能
-	 * @param request
-	 * @param id
-	 * @param auditCheck
-	 * @return
-	 * @throws Exception
-	 *//*
 	@RequestMapping
-	public View submit(HttpServletRequest request,String id, String auditCheck) throws Exception{
-		boolean success = factoryService.submit(id, getUser(request));
-		if(success){
-			return ActionResult.ok( "门店已申请，请等待审核通过", "/pmanager/factory/factory.do?op=query");
+	public String getAreas(HttpServletRequest request,HttpServletResponse response, String parentId) throws Exception{
+		try {
+			List<IdText> areas = areaService.queryByParentId(parentId);
+			
+			this.writeJson(areas);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		else{
-			return ActionResult.error("非法操作");
-		}
-	}*/
-	
-	/**
-	 * jmj 2015-05-20
-	 * 批准功能
-	 * @param request
-	 * @param id
-	 * @param auditCheck
-	 * @return
-	 * @throws Exception
-	 *//*
-	@RequestMapping
-	public View confirm(HttpServletRequest request,String id, String auditCheck) throws Exception{
-		boolean success = factoryService.confirm(id, getUser(request));
-		if(success){
-			return ActionResult.ok( "申请已批准，允许商家开始销售产品", "/pmanager/factory/factory.do?op=query");
-		}
-		else{
-			return ActionResult.error("非法操作");
-		}
-	}
-	
-	*//**
-	 * jmj 2015-05-20
-	 * 驳回
-	 * @param request
-	 * @param id
-	 * @param auditCheck
-	 * @return
-	 * @throws Exception
-	 *//*
-	@RequestMapping
-	public View reject(HttpServletRequest request,String id, String auditCheck) throws Exception{
-		boolean success = factoryService.reject(id, getUser(request));
-		if(success){
-			return ActionResult.ok( "申请被驳回", "/pmanager/factory/factory.do?op=query");
-		}
-		else{
-			return ActionResult.error("非法操作");
-		}
-	}
-	
-	*//**
-	 * jmj 2015-05-20
-	 * 直接下架功能
-	 * @param request
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 *//*
-	@RequestMapping
-	public View disable(HttpServletRequest request, String id) throws Exception{
-		boolean success = factoryService.disable(id, getUser(request));
-		if(success){
-			return ActionResult.ok( "门店已下架，无法继续销售产品", "/pmanager/factory/factory.do?op=query");
-		}
-		else{
-			return ActionResult.error("非法操作");
-		}
-	}
-	
-	@RequestMapping
-	public View delete(HttpServletRequest request, String id) throws Exception{
-		boolean success = factoryService.delete(id, getUser(request));
-		if(success){
-			return ActionResult.ok( "门店已被删除，如需恢复请联系系统管理员", "/pmanager/factory/factory.do?op=query");
-		}
-		else{
-			return ActionResult.error("非法操作");
-		}
+		return null;
 	}
 	
 	@RequestMapping
@@ -214,26 +125,116 @@ public class FactoryAction extends PManagerAction<Factory>{
 	}
 	
 	@RequestMapping
-	public String getAreas(HttpServletRequest request,HttpServletResponse response, String parentId) throws Exception{
-		try {
-			List<IdText> areas = areaService.queryByParentId(parentId);
-			
-			this.writeJson(areas);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+	public View delete(HttpServletRequest request, String id) throws Exception{
+		boolean success = factoryService.delete(id, getUser(request));
+		if(success){
+			return ActionResult.ok( "门店已被删除，如需恢复请联系系统管理员", "/pmanager/factory/factory.do?op=query");
 		}
-		return null;
+		else{
+			return ActionResult.error("非法操作");
+		}
+	}
+//	/*
+//	 * 保存
+//	 */
+//	@RequestMapping
+//	public View save(HttpServletRequest request, String id) throws Exception{		
+//		Factory factory = StrFuncs.isEmpty(id) ? new Factory() : factoryService.get(id);
+//		this.populate(factory);
+//		
+//		String[] brandIds = request.getParameterValues("brands");
+//		factoryService.save(factory,  brandIds, this.getUser(request));
+//		
+//		return ActionResult.ok("保存成功", "/pmanager/factory/factory.do?op=query&loadcache=1");
+//	}
+	
+	/**
+	 * 申请上架功能
+	 * @param request
+	 * @param id
+	 * @param auditCheck
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping
+	public View submit(HttpServletRequest request,String id, String auditCheck) throws Exception{
+		boolean success = factoryService.submit(id, getUser(request));
+		if(success){
+			return ActionResult.ok( "门店已申请，请等待审核通过", "/pmanager/factory/factory.do?op=query");
+		}
+		else{
+			return ActionResult.error("非法操作");
+		}
 	}
 	
+	/**
+	 * 批准功能
+	 * @param request
+	 * @param id
+	 * @param auditCheck
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping
-	public View uploadLocation() throws Exception{
-		
-		//上报所有商家的地理信息（）
-		factoryService.uploadLocation();
-		
-		return ActionResult.ok( "上报完成", "/pmanager/factory/factory.do?op=query");
-	}*/
+	public View confirm(HttpServletRequest request,String id, String auditCheck) throws Exception{
+		boolean success = factoryService.confirm(id, getUser(request));
+		if(success){
+			return ActionResult.ok( "申请已批准，允许商家开始销售产品", "/pmanager/factory/factory.do?op=query");
+		}
+		else{
+			return ActionResult.error("非法操作");
+		}
+	}
+	
+	/**
+	 * 驳回
+	 * @param request
+	 * @param id
+	 * @param auditCheck
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping
+	public View reject(HttpServletRequest request,String id, String auditCheck) throws Exception{
+		boolean success = factoryService.reject(id, getUser(request));
+		if(success){
+			return ActionResult.ok( "申请被驳回", "/pmanager/factory/factory.do?op=query");
+		}
+		else{
+			return ActionResult.error("非法操作");
+		}
+	}
+	
+	/**
+	 * jmj 2015-05-20
+	 * 直接下架功能
+	 * @param request
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping
+	public View disable(HttpServletRequest request, String id) throws Exception{
+		boolean success = factoryService.disable(id, getUser(request));
+		if(success){
+			return ActionResult.ok( "门店已下架，无法继续销售产品", "/pmanager/factory/factory.do?op=query");
+		}
+		else{
+			return ActionResult.error("非法操作");
+		}
+	}
+	
+	
+	
+	
+//	@RequestMapping
+//	public View uploadLocation() throws Exception{
+//		
+//		//上报所有商家的地理信息（）
+//		factoryService.uploadLocation();
+//		
+//		return ActionResult.ok( "上报完成", "/pmanager/factory/factory.do?op=query");
+//	}
 	
 /*	protected String getJspFolderPath(){
 		return "/pmanager/factory";
@@ -246,4 +247,6 @@ public class FactoryAction extends PManagerAction<Factory>{
 	private FactoryService factoryService;
 	@Autowired
 	private FileService fileService;
+	@Autowired
+	private AreaService areaService;
 }
