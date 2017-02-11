@@ -29,12 +29,9 @@ public class ProductItem implements Serializable {
 
 	public static String TABLE_NAME = "T_PRODUCT_ITEM";
 	
-	
-	public static final int STATUS_INVALID =0 ;	//无效 删除
-	public static final int STATUS_VALID =1 ;	//有效 {审核通过}
-	public static final int STATUS_APPROVE =2 ;	//待审核
-	public static final int STATUS_AUDITFAIL =3 ;//草稿   -->待审核
-	public static final int STATUS_OUT_OF_STOCK=4;//被下架了
+	public static final int STATUS_EFFECTIVE =1 ;//有效，未出库
+	public static final int STATUS_OUT_STOCK =2;//已经出库
+	public static final int STATUS_INVALID =3;//无效
 	
 	// 主键
 	private String id;
