@@ -68,6 +68,8 @@ public class Product implements Serializable {
 	// 更新时间
 	private Date updateTime;
 	
+	private int virtualCount;
+	
 	@GenericGenerator(name = "generator", strategy = "uuid.hex")
 	@Id
 	@GeneratedValue(generator = "generator")
@@ -155,6 +157,11 @@ public class Product implements Serializable {
 	public String getQuickCharge() {
 		return quickCharge;
 	}
+	
+	@Column(name = "VIRTUAL_COUNT")
+	public int getVirtualCount() {
+		return virtualCount;
+	}
 
 	public void setId(String id) {
 		this.id = id;
@@ -227,6 +234,13 @@ public class Product implements Serializable {
 	public void setQuickCharge(String quickCharge) {
 		this.quickCharge = quickCharge;
 	}
+
+
+	public void setVirtualCount(int virtualCount) {
+		this.virtualCount = virtualCount;
+	}
+	
+	
 
 
 }
