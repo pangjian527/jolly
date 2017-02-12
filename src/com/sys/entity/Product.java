@@ -70,6 +70,9 @@ public class Product implements Serializable {
 	
 	private int virtualCount;
 	
+	private String photoIds;
+	private Integer status;
+	
 	@GenericGenerator(name = "generator", strategy = "uuid.hex")
 	@Id
 	@GeneratedValue(generator = "generator")
@@ -162,6 +165,17 @@ public class Product implements Serializable {
 	public int getVirtualCount() {
 		return virtualCount;
 	}
+	
+	
+	@Column(name = "PHOTO_IDS")
+	public String getPhotoIds() {
+		return photoIds;
+	}
+
+	@Column(name = "STATUS")
+	public Integer getStatus() {
+		return status;
+	}
 
 	public void setId(String id) {
 		this.id = id;
@@ -239,8 +253,14 @@ public class Product implements Serializable {
 	public void setVirtualCount(int virtualCount) {
 		this.virtualCount = virtualCount;
 	}
-	
-	
+
+	public void setPhotoIds(String photoIds) {
+		this.photoIds = photoIds;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
 
 }

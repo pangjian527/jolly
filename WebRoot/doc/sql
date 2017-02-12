@@ -1,3 +1,60 @@
 2017-02-12 pj add
 	alter table `jolly`.`t_product` 
 	   add column `status` int NULL COMMENT '状态' after `photo_ids`
+	   
+	   
+2017-02-12 16:14 csx add
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : wersty
+Source Server Version : 50625
+Source Host           : localhost:3306
+Source Database       : jolly
+
+Target Server Type    : MYSQL
+Target Server Version : 50625
+File Encoding         : 65001
+
+Date: 2017-02-12 13:48:30
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for log_payment
+-- ----------------------------
+DROP TABLE IF EXISTS `log_payment`;
+CREATE TABLE `log_payment` (
+  `id` varchar(40) NOT NULL,
+  `amount` double DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL,
+  `sys_type` tinyint(4) DEFAULT NULL,
+  `req_content` text,
+  `req_result` text,
+  `return_content` text,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `callback_task` varchar(255) DEFAULT NULL,
+  `callback_config` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of log_payment
+-- ----------------------------
+	   
+ALTER TABLE `t_bookform`
+ADD COLUMN `code`  varchar(40) CHARACTER SET utf8 NULL AFTER `remark`;
+
+ALTER TABLE `t_bookform`
+ADD COLUMN `contact_tel`  varchar(20) CHARACTER SET utf8 NULL AFTER `code`;
+
+ALTER TABLE `t_bookform`
+ADD COLUMN `payment_id`  varchar(40) CHARACTER SET utf8 NULL AFTER `contact_tel`;
+
+ALTER TABLE `t_bookform`
+ADD COLUMN `cancel_time`  datetime NULL AFTER `payment_id`;
+
+ALTER TABLE `t_bookform`
+ADD COLUMN `cancel_reason`  varchar(255) CHARACTER SET utf8 NULL AFTER `cancel_time`;

@@ -33,10 +33,15 @@ public class Bookform implements Serializable {
 	
 	// 订单id（客户订单号）
 	private String id;
+	
+	// 订单id（客户订单编号）
+	private String code;
 	// 商家id
 	private String factoryId;
 	// 联系人姓名
 	private String contactMan;
+	// 联系人姓名
+	private String contactTel;
 	// 联系人省(T_AREA.ID)
 	private String contactProvinceId;
 	// 联系人市(T_AREA.ID)
@@ -59,6 +64,11 @@ public class Bookform implements Serializable {
 	// 更新时间
 	private Date updateTime;
 	
+	private String paymentId;
+	
+	private Date cancelTime;
+	private String cancelReason;
+	
 	
 	@GenericGenerator(name = "generator", strategy = "uuid.hex")
 	@Id
@@ -68,10 +78,20 @@ public class Bookform implements Serializable {
 		return id;
 	}
 
+	@Column(name = "CODE")
+	public String getCode() {
+		return code;
+	}
 
 	@Column(name = "CONTACT_MAN")
 	public String getContactMan() {
 		return contactMan;
+	}
+
+	
+	@Column(name = "CONTACT_TEL")
+	public String getContactTel() {
+		return contactTel;
 	}
 
 	@Column(name = "CONTACT_ADDR")
@@ -130,9 +150,27 @@ public class Bookform implements Serializable {
 		return contactCountyId;
 	}
 
+	@Column(name = "PAYMENT_ID")
+	public String getPaymentId() {
+		return paymentId;
+	}
+	
+	@Column(name = "CANCEL_TIME")
+	public Date getCancelTime() {
+		return cancelTime;
+	}
+
+	@Column(name = "CANCEL_REASON")
+	public String getCancelReason() {
+		return cancelReason;
+	}
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 
@@ -140,6 +178,11 @@ public class Bookform implements Serializable {
 		this.contactMan = contactMan;
 	}
 
+	
+
+	public void setContactTel(String contactTel) {
+		this.contactTel = contactTel;
+	}
 
 	public void setContactAddr(String contactAddr) {
 		this.contactAddr = contactAddr;
@@ -202,6 +245,16 @@ public class Bookform implements Serializable {
 		this.factoryId = factoryId;
 	}
 
+	public void setPaymentId(String paymentId) {
+		this.paymentId = paymentId;
+	}
 
+	public void setCancelTime(Date cancelTime) {
+		this.cancelTime = cancelTime;
+	}
+
+	public void setCancelReason(String cancelReason) {
+		this.cancelReason = cancelReason;
+	}
 	
 }
