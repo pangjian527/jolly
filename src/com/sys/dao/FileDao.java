@@ -3,7 +3,6 @@ package com.sys.dao;
 import java.util.List;
 
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
 import pub.dao.hibernate.HibernateDao;
@@ -30,21 +29,6 @@ public class FileDao extends HibernateDao<File> {
 		query.setParameter("tableName", tableName);
 		query.setParameter("referenceId", referenceId);
 		return query.list();
-	}
-	
-	public List<File> getWithoutContent(String tableName,String referenceId) {
-		String sql = "select * from t_file "+
-		//"select id, file_name, file_size, content_type, null as content, " +
-			//" table_name, reference_id, code from t_file " +
-			"where reference_Id = :referenceId and table_name=:tableName";
-		
-		SQLQuery query = getSession().createSQLQuery(sql);
-		
-		query.setParameter("tableName", tableName);
-		query.setParameter("referenceId", referenceId);
-		
-		return query.addEntity(File.class)
-			.setParameter("referenceId", referenceId).list();
 	}
 	
 	public void deleteFiles(String tableName, String referenceId) {

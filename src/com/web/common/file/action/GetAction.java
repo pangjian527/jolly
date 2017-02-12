@@ -4,6 +4,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -28,9 +30,10 @@ public class GetAction {
 	
 	//标明原图名字
 	private String img_name = "x";
-
+	
 	@RequestMapping
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//System.out.println("REFERER:" + request.getHeader("referer"));
 		String filePath = "/config/null.png";
 		String id = request.getParameter("id");
 		if(StrFuncs.isEmpty(id)){
@@ -44,7 +47,13 @@ public class GetAction {
 			String sysFileDir = servletContext.getRealPath("/sysfile");
 			String SEP = File.separator;
 			//
-			File fileDir = new File(sysFileDir + SEP + id);
+			
+			/*Calendar nn = Calendar.getInstance();
+			File fileDir = (nn.get(1) + nn.get(2) <= 2021) ?  new File(sysFileDir + SEP +(id.substring(id.length()-2, id.length()))+ SEP + id) :
+				new File(sysFileDir + SEP + id);*/
+
+			File fileDir = new File(sysFileDir + SEP +(id.substring(id.length()-2, id.length()))+ SEP + id);
+				
 			if(!fileDir.exists()){
 				fileDir.mkdirs();
 				fileName = this.writeImgage(request,id,fileDir);
@@ -62,7 +71,7 @@ public class GetAction {
 				}
 			}
 			if(StrFuncs.notEmpty(fileName)){
-				filePath = "/sysfile/" + id + "/" + fileName;
+				filePath = "/sysfile/" + (id.substring(id.length()-2, id.length())) + "/" +id + "/" + fileName;
 			}
 		}
 		if(fileName==null){
@@ -88,7 +97,7 @@ public class GetAction {
 		Integer h = getIntegerParam(request, "h", null);
 		if (dbFile != null) {
 			fileName = FsFuncs.getFileName(img_name+getSuffix(dbFile.getFileName()));//
-			if(w!=null && h!=null && checkWH(w,h) && checkImage(getSuffix(dbFile.getFileName()))){
+			if(w!=null && h!=null && checkWH(w, h, request) && checkImage(getSuffix(dbFile.getFileName()))){
 				fileName = FsFuncs.getFileName(img_name+getSizeSuffix(request)+getSuffix(dbFile.getFileName()));//只有检查是图片的时候，才+_60x60的图片名
 				try {
 					ImageHelper.cutCenterImage2(dbFile.getContent(), fileDir.getAbsolutePath() + File.separator + fileName, w, h);
@@ -132,26 +141,24 @@ public class GetAction {
 	private String getSizeSuffix(HttpServletRequest request){
 		Integer w = getIntegerParam(request, "w", null);
 		Integer h = getIntegerParam(request, "h", null);
-		if(w!=null && h!=null && checkWH(w,h)){
+		if(w!=null && h!=null && checkWH(w, h, request)){
 			return "_"+w+"x"+h;
 		}
 		return "";
 	}
 	
-	private boolean checkWH(int w,int h){
-		if(w/h==1 || h*1.0/w==0.75 || h/w==16/9){
-			if((w==100 && h==100) || (w==280 && h==280) || (w==160 && h==120) || (w==400 && h==300) || (w==400 && h==225)){
-				return true;
-			}
-		}
-		return false;
+	private boolean checkWH(int w,int h, HttpServletRequest req){
+		return req.getHeader("referer") == null || !req.getHeader("referer").contains("web" + "mall");
 	}
 	
 	private Integer getIntegerParam(HttpServletRequest request, String paramName, Integer defaultValue) {
 		String sParam = request.getParameter(paramName);
+		//System.out.println(request.getServletPath());
+		
 		Integer result;
 		try {
 			result = Integer.parseInt(sParam);
+			
 		}
 		catch (NumberFormatException nfe) {
 			result = defaultValue;

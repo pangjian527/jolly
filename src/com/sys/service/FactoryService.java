@@ -1,5 +1,8 @@
 package com.sys.service;
 
+import java.util.Date;
+import java.util.List;
+
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,8 @@ import pub.functions.StrFuncs;
 
 import com.sys.dao.FactoryDao;
 import com.sys.entity.Factory;
+import com.sys.entity.FactoryUser;
+import com.sys.entity.SysUser;
 import com.sys.utils.SqlUtils;
 
 /**
@@ -35,7 +40,7 @@ public class FactoryService extends BaseService<Factory>{
 	public QueryResult query(String condition,QuerySettings settings){
 		JSONObject queryJson = StrFuncs.isEmpty(condition) ? new JSONObject() : JSONObject.fromObject(condition);
 		Query query = new PagedQuery(settings);
-		StringBuffer select = new StringBuffer(" f.* ");
+		StringBuffer select = new StringBuffer(" f.*,a.full_name as areaname ,(select name from t_factory where id= f.id) referee_name ");
 		StringBuilder where = new StringBuilder(" 1=1 ");
 		StringBuilder orderBy = new StringBuilder();
 
@@ -45,16 +50,60 @@ public class FactoryService extends BaseService<Factory>{
 				" and f.status = :status");
 		this.addQueryLikeFilter(queryJson, where, query, "name",
 				" and f.name like :name");
-		this.addQueryEqualFilter(queryJson, where, query, "mobile",
-				" and f.mobile = :mobile");
+		this.addQueryLikeFilter(queryJson, where, query, "search",
+				" and f.name like:search");
+		this.addQueryLikeFilter(queryJson, where, query, "mobile",
+				" and f.mobile like :mobile");
 
 		query.select(select.toString()).from(
-				" t_factory f").where(
+				" t_factory f left join t_area a on f.county_id=a.id ").where(
 				where.toString()).orderBy(" f.update_time desc ");
 		generalDao.execute(query);
 		return query.getResult();
 	}
 	
+	@Transactional
+	public boolean saveGps(String id, Double x, Double y, SysUser user) throws Exception{
+		//1.验证操作合法性
+		Factory factory = get(id);
+		if(factory == null || factory.getStatus() == Factory.STATUS_OUT_OF_STOCK || user == null){
+			return false;
+		}
+		
+		//2.执行操作
+		factory.setGpsX(x);
+		factory.setGpsY(y);
+		
+		factoryDao.save(factory);
+		
+		return true;
+	}
+	
+	@Transactional
+	public void save(Factory factory){
+		if(StrFuncs.isEmpty(factory.getId())){
+			factory.setStatus(Factory.STATUS_AUDITFAIL);  //草稿状态
+		}
+		factory.setUpdateTime(new Date());
+		factoryDao.save(factory);
+		
+	}
+	
+	@Transactional
+	public boolean delete(String id, SysUser user) throws Exception{
+		//1.验证操作合法性
+		Factory factory = get(id);
+		Integer oldStatus = factory.getStatus();
+		if(factory == null || oldStatus == Factory.STATUS_INVALID || user == null){
+			return false;
+		}
+		
+		//2.执行操作
+		factory.setStatus(Factory.STATUS_INVALID);
+		factoryDao.save(factory);
+		
+		return true;
+	}
 	/**
 	 * 组合分页的查询结果
 	 * 主要用于data_provider查询，加上排序会出现分页错乱问题
@@ -207,24 +256,6 @@ public class FactoryService extends BaseService<Factory>{
 		}
 	}
 	
-//	@Transactional
-//	public void save(Factory factory, String[] brandIds, SysUser user)throws Exception{
-//		if(StrFuncs.isEmpty(factory.getId())){
-//			//1.新增，需要记新增日志，暂时就不记录数值内容了
-//			factory.setStatus(Factory.STATUS_AUDITFAIL);  //草稿状态
-//			factoryDao.save(factory);
-//			draftService.saveLog(Factory.TABLE_NAME, factory.getId(), user, "新增");
-//		}
-//		else{
-//			//1.修改，需要修改增日志，暂时就不记录数值的变化了
-//			factoryDao.save(factory);
-//			draftService.saveLog(Factory.TABLE_NAME, factory.getId(), user, "修改");
-//		}
-//		
-//		//3类型和品牌关联信息
-//		factoryBrandRelDao.saveRelations(factory.getId(), "factoryId", brandIds, "productBrandId");
-//	}
-	
 	
 	
 	*//**
@@ -371,25 +402,6 @@ public class FactoryService extends BaseService<Factory>{
 		return browseDatas;
 	}
 	
-	@Transactional
-	public boolean delete(String id, SysUser user) throws Exception{
-		//1.验证操作合法性
-		Factory factory = get(id);
-		Integer oldStatus = factory.getStatus();
-		if(factory == null || oldStatus == Factory.STATUS_INVALID || user == null){
-			return false;
-		}
-		
-		
-		//2.执行操作
-		factory.setStatus(Factory.STATUS_INVALID);
-		factoryDao.save(factory);
-		
-		//3.记日志了
-		draftService.saveLog(Factory.TABLE_NAME, id,  user, "删除至回收站",
-				"status", factory.getStatus().toString(), oldStatus.toString());
-		return true;
-	}
 	
 	*//**
 	 * 申请上架
@@ -399,7 +411,7 @@ public class FactoryService extends BaseService<Factory>{
 	 * 
 	 * jmj 2015-05-20
 	 * 扩展审核功能 实体类新定义了 状态码常量, 修改旧状态码
-	 *//*
+	 */
 	@Transactional
 	public boolean submit(String id, SysUser user) throws Exception{
 		//1.验证操作合法性
@@ -413,22 +425,22 @@ public class FactoryService extends BaseService<Factory>{
 		}else{
 			return false;
 		}
-		//3.进行停用词检查，简介可能为空
-		if(stopWordService.test(factory.getCharacteristic())!=null
-				&&stopWordService.test(factory.getCharacteristic()).size() != 0){
-			return false;
-		}else if(factory.getIntroduction() != null){
-			if(stopWordService.test(factory.getIntroduction()).size() != 0){
-				return false;
-			}
-		}
+//		//3.进行停用词检查，简介可能为空
+//		if(stopWordService.test(factory.getCharacteristic())!=null
+//				&&stopWordService.test(factory.getCharacteristic()).size() != 0){
+//			return false;
+//		}else if(factory.getIntroduction() != null){
+//			if(stopWordService.test(factory.getIntroduction()).size() != 0){
+//				return false;
+//			}
+//		}
 		//4.执行操作
 		factory.setStatus(Factory.STATUS_APPROVE);
 		factoryDao.save(factory);
 		
-		//5.记日志了
-		draftService.saveLog(Factory.TABLE_NAME, id,  user, "上架",
-				"status", factory.getStatus().toString(), oldStatus.toString());
+//		//5.记日志了
+//		draftService.saveLog(Factory.TABLE_NAME, id,  user, "上架",
+//				"status", factory.getStatus().toString(), oldStatus.toString());
 		return true;
 	}
 	
@@ -446,20 +458,20 @@ public class FactoryService extends BaseService<Factory>{
 //		factory.setStatus(Factory.ONLINE);
 //		factoryDao.save(factory);
 //		
-//		//3.记日志了
-//		draftService.saveLog(Factory.TABLE_NAME, id,  user, "上架",
-//				"status", factory.getStatus().toString(), oldStatus.toString());
+////		//3.记日志了
+////		draftService.saveLog(Factory.TABLE_NAME, id,  user, "上架",
+////				"status", factory.getStatus().toString(), oldStatus.toString());
 //		return true;
 //	}
 	
-	*//**
+	/**
 	 * jmj 2015-05-20
 	 * 批准上架开业
 	 * @param id
 	 * @param user
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	@Transactional
 	public boolean confirm(String id, SysUser user) throws Exception{
 		//1.验证操作合法性
@@ -468,33 +480,33 @@ public class FactoryService extends BaseService<Factory>{
 		if(factory == null || oldStatus != Factory.STATUS_APPROVE|| user == null){
 			return false;
 		}
-		//2.进行停用词检查，简介可能为空
-		if(stopWordService.test(factory.getCharacteristic())!=null&&
-				stopWordService.test(factory.getCharacteristic()).size() != 0){
-			return false;
-		}else if(factory.getIntroduction() != null){
-			if(stopWordService.test(factory.getIntroduction()).size() != 0){
-				return false;
-			}
-		}
+//		//2.进行停用词检查，简介可能为空
+//		if(stopWordService.test(factory.getCharacteristic())!=null&&
+//				stopWordService.test(factory.getCharacteristic()).size() != 0){
+//			return false;
+//		}else if(factory.getIntroduction() != null){
+//			if(stopWordService.test(factory.getIntroduction()).size() != 0){
+//				return false;
+//			}
+//		}
 		//3.执行操作
 		factory.setStatus(Factory.STATUS_VALID);
 		factoryDao.save(factory);
 		
-		//4.记日志了
-		draftService.saveLog(Factory.TABLE_NAME, id,  user, "批准",
-				"status", factory.getStatus().toString(), oldStatus.toString());
+//		//4.记日志了
+//		draftService.saveLog(Factory.TABLE_NAME, id,  user, "批准",
+//				"status", factory.getStatus().toString(), oldStatus.toString());
 		return true;
 	}
 	
-	*//**
+	/**
 	 * jmj 2015-05-20
 	 * 驳回
 	 * @param id
 	 * @param user
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	@Transactional
 	public boolean reject(String id, SysUser user) throws Exception{
 		//1.验证操作合法性
@@ -503,26 +515,26 @@ public class FactoryService extends BaseService<Factory>{
 		if(factory == null || oldStatus != Factory.STATUS_APPROVE|| user == null){
 			return false;
 		}
-		//2.进行停用词检查，简介可能为空
-		if(stopWordService.test(factory.getCharacteristic())!=null
-				&&stopWordService.test(factory.getCharacteristic()).size() != 0){
-			return false;
-		}else if(factory.getIntroduction() != null){
-			if(stopWordService.test(factory.getIntroduction()).size() != 0){
-				return false;
-			}
-		}
+//		//2.进行停用词检查，简介可能为空
+//		if(stopWordService.test(factory.getCharacteristic())!=null
+//				&&stopWordService.test(factory.getCharacteristic()).size() != 0){
+//			return false;
+//		}else if(factory.getIntroduction() != null){
+//			if(stopWordService.test(factory.getIntroduction()).size() != 0){
+//				return false;
+//			}
+//		}
 		//3.执行操作
 		factory.setStatus(Factory.STATUS_AUDITFAIL);
 		factoryDao.save(factory);
 		
-		//4.记日志了
-		draftService.saveLog(Factory.TABLE_NAME, id,  user, "驳回",
-				"status", factory.getStatus().toString(), oldStatus.toString());
+//		//4.记日志了
+//		draftService.saveLog(Factory.TABLE_NAME, id,  user, "驳回",
+//				"status", factory.getStatus().toString(), oldStatus.toString());
 		return true;
 	}
 	
-	*//**
+	/**
 	 * 直接下架
 	 * jmj 201-05-20 
 	 * 扩展审核功能 实体类新定义了 状态码常量, 修改旧状态码
@@ -530,7 +542,7 @@ public class FactoryService extends BaseService<Factory>{
 	 * @param user
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	@Transactional
 	public boolean disable(String id, SysUser user) throws Exception{
 		//1.验证操作合法性
@@ -544,34 +556,34 @@ public class FactoryService extends BaseService<Factory>{
 		factory.setStatus(Factory.STATUS_OUT_OF_STOCK);
 		factoryDao.save(factory);
 		
-		//3.记日志了
-		draftService.saveLog(Factory.TABLE_NAME, id,  user, "下架",
-				"status", factory.getStatus().toString(), oldStatus.toString());
+//		//3.记日志了
+//		draftService.saveLog(Factory.TABLE_NAME, id,  user, "下架",
+//				"status", factory.getStatus().toString(), oldStatus.toString());
 		return true;
 	}
 	
-	
+	/**
 	 * @功能说明：上传商家的信息至百度图层（后续做做成定时器）
 	 * 
 	 * @版本说明：2014-11-5 pj
-	 
-	public void uploadLocation()  {
-		List<Factory> factorys = factoryDao.getAll();
-		
-		try {
-			for (Factory factory : factorys) {
-				
-				if(factory.getGpsX().equals("1")||factory.getGpsY().equals("1"))
-					continue;
-				if(factory.getStatus()==1){
-					MapUtils.saveFactory(factory);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	*//**
+	 */
+//	public void uploadLocation()  {
+//		List<Factory> factorys = factoryDao.getAll();
+//		
+//		try {
+//			for (Factory factory : factorys) {
+//				
+//				if(factory.getGpsX().equals("1")||factory.getGpsY().equals("1"))
+//					continue;
+//				if(factory.getStatus()==1){
+//					MapUtils.saveFactory(factory);
+//				}
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+	/**
 	 * myq add @2015-2-3，根据车主轮胎安装要求，获得对应的安装门店，最多查询50家门店
 	 * @param isSpecialTyre
 	 * @param countyId

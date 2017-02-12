@@ -88,7 +88,7 @@ public class FileService  {
 	}*/
 		setFiles(tableName, refId, new String[]{fileId});
 	}
-	//myq add 2014-12-17，根据tableName+refId，更新 t_file表中的N份文件数据，并清除旧数据
+
 	public void setFiles(String tableName, String refId, String[] fileIds){
 		//a.预处理
 		List<String> oldFileIds = getIds(tableName, refId);
@@ -130,10 +130,11 @@ public class FileService  {
 		fileDao.delete(fileId);
 	}
 	
-	public List<File> getFileIds(String tableName,String referenceId){
-		return fileDao.getWithoutContent(tableName, referenceId);
+	public List<String> getFileIds(String tableName,String referenceId){
+		return fileDao.getFileIds(tableName, referenceId);
 	}
 	
+
 	@Autowired
 	private FileDao fileDao;
 

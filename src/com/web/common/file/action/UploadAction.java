@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import pub.functions.StrFuncs;
 
-import com.sun.org.apache.bcel.internal.generic.GETSTATIC;
 import com.sys.entity.File;
 import com.sys.service.FileService;
 import com.web.common.action.BaseAction;
@@ -38,12 +37,12 @@ public class UploadAction extends BaseAction{
 			InputStream is = fileUpload.getInputStream();
 			
 			File files = new File();
+			
 			files.setFileName(fileUpload.getOriginalFilename());
 			files.setFileSize( ((Long)fileUpload.getSize()).intValue());
 			files.setContent(fileUpload.getBytes());
-			files.setUpdateTime(new Date());
+			files.setUploadTime(new Date());
 			files.setContentType(fileUpload.getContentType());
-			files.setCode(this.getParam("imgCode"));
 			String fileId = baseInfo.save(files);
 			
 			List<File> info = new ArrayList<File>();
@@ -92,6 +91,7 @@ public class UploadAction extends BaseAction{
 	 * @return
 	 * @throws Exception
 	 */
+	
 	@RequestMapping
 	public String delete(HttpServletRequest request,HttpServletResponse response,String fileId) throws Exception{
 		try {

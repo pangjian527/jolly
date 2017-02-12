@@ -227,20 +227,6 @@ public abstract class BaseService<T>{
 		where.append(joinSql);
 		query.put(key, "%" + value);	
 	}
-	/*
-	 * 获取图片的JSON数据
-	 */
-	protected JSONObject getImgJson(String id,String tableName) {
-		JSONObject object=new JSONObject();
-		List<File> fileList=fileService.getFileIds(tableName, id);
-		for(File file:fileList){
-			JSONObject jsonObject=new JSONObject();
-			jsonObject.element("id", file.getId());
-			jsonObject.element("fileName", file.getFileName());
-			object.element(file.getCode(), jsonObject);
-		}
-		return object;
-	}
 	
 	public ListViewModel getExportModel(String condition, QuerySettings settings) throws Exception {
 		return null;

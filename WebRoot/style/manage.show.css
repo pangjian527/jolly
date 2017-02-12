@@ -1,0 +1,170 @@
+div#content{
+	position:absolute;
+	left:0;
+	right:218px;
+	top:54px;
+	bottom:0;
+	overflow-y:auto;
+}
+div#sub-info{
+	position:absolute;
+	right:0;
+	width:215px;
+	top:54px;
+	padding:0px;
+	bottom:0;
+	background:#fafafa
+}
+#board-box{
+	font-family: 微软雅黑;
+	position:absolute;
+	right:0;
+	left:0;
+	top:0;
+	bottom:0;
+	overflow-y:auto
+}
+#board-box div.operate{
+	position: relative;
+	height: 55px;
+	background: white;
+	margin: 0;
+	padding: 0;
+	border-bottom: 1px solid #ddd;
+
+}
+#board-box div.operate textarea{
+	width: 143px;
+	padding: 4px;
+	font-size: 12px;
+	position: absolute;
+	left: 5px;
+	bottom: 8px;
+	border:1px solid #ddd
+}
+#board-box div.operate button{
+	position: absolute;
+	right: 5px;
+	bottom: 8px;
+	font-size: 12px;
+	padding: 4px 8px;
+	font-family: 微软雅黑;
+	letter-spacing: 2px;
+	border-radius: 3px;
+	height: initial;
+	line-height: normal;	
+}
+#board-box div ul{
+
+}
+#board-box ul li{
+	margin: 5px 10px 15px;
+}
+#board-box ul li h4{
+	position:relative;
+	padding:0 5px
+}
+#board-box ul li.is-self h4{
+	text-align:right
+}
+#board-box ul li h4 span{
+	color:#999;
+	font-weight:normal
+}
+#board-box ul li p{
+	
+	padding: 5px;
+	border-radius: 4px;
+	margin: 8px 40px 5px 0;
+	background: #549DFB;
+	color: white;
+	position:relative;
+}
+#board-box ul li.is-self p{
+	margin: 8px 0 5px 40px;
+	background:#999
+}
+#board-box ul li p i{
+	border:8px solid transparent;
+	border-left-color:#549DFB;
+	position:absolute;
+	left:8px;
+	top:-7px;
+}
+#board-box ul li.is-self p i{
+	  left: inherit;
+  border-right-color: #999;
+  border-left-color: transparent;
+  right: 10px;
+}
+#sub-info #tab-box{
+	position:absolute;
+	top:0;
+	bottom:0;
+	right:0;
+	left:0
+}
+#sub-info dl.tab-box{
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	position:absolute;
+}
+#sub-info dl.tab-box dd.tab-content{
+	top:45px;
+	left:0;
+	right:0;
+	bottom:0;
+	position:absolute;
+}
+#log-box{
+	position:absolute;
+	top:0;
+	bottom:0;
+	right:0;
+	left:0;
+	overflow-y:auto;
+	background:white;
+}
+#log-box li{
+	padding:5px 10px 10px;
+	border-bottom:1px solid white
+}
+#log-box li:hover{
+	cursor: pointer;
+			background: #f0f0f0;
+			border-bottom:1px solid #ddd
+}
+#log-box li h4{
+	font-size:14px;
+}
+#log-box li span{
+	margin-left:4px;
+	font-weight:normal;
+	color:#999;
+	font-size:12px;
+}
+#log-box li p{
+	  background: #999;
+	  color: white;
+	  padding:5px;
+	  border-radius: 4px;
+	  position: relative;
+	  margin: 10px 5px 5px 0;
+	  padding-right: 140px;
+	 
+}
+#log-box li p i{
+	border: 6px solid transparent;
+	border-left-color: #999;
+	position: absolute;
+	left: 8px;
+	top: -6px;
+}
+#log-box li p span{
+	color:white;
+	position:absolute;
+	right:10px;
+	color:#f0f0f0
+}
