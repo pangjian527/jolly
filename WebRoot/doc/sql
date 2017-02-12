@@ -1,0 +1,3 @@
+2017-02-12 pj add
+	alter table `jolly`.`t_product` 
+	   add column `status` int NULL COMMENT '状态' after `photo_ids`
