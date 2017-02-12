@@ -3,6 +3,7 @@ package com.web.pmanager.order.action;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -60,6 +61,53 @@ public class BookformAction extends PManagerAction<Bookform>{
 			return ActionResult.error("无效操作", null);
 		}
 	}
+	
+	/**
+	 * 先拿货再付款需确认订单
+	 * @param request
+	 * @param model
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping
+	public View confirm(HttpServletRequest request, ModelMap model, String id)throws Exception {
+		boolean success = baseService.confirm(id, getUser(request));
+		if(success){
+			//1.通过短信向车主发送验证码
+			//baseService.sendVerifyCodeToCustomer(id, getUser(request));
+			//2.返回
+			return ActionResult.ok("订单已确认生效！", null);
+		}
+		else{
+			return ActionResult.error("无效操作", null);
+		}
+	}
+	
+	/**
+	 * 保存发货信息
+	 * @param request
+	 * @param model
+	 * @param bookformId
+	 * @param deliveryName
+	 * @param deliveryNo
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping
+	public void deliver(HttpServletRequest request, HttpServletResponse response,
+			String id, String deliveryFactory, String trackingNumber)throws Exception {
+		
+		boolean success = baseService.deliver(id, deliveryFactory, trackingNumber, this.getUser(request));
+		if(success){
+			this.writeJson(true);
+		}
+		else{
+			this.writeErrorJson("非法数据操作，请求被拒绝");
+		}
+		
+	}
+	
 	/*
 	@RequestMapping
 	public String printBookForm(HttpServletRequest request, ModelMap model, String id) throws Exception{
@@ -142,28 +190,6 @@ public class BookformAction extends PManagerAction<Bookform>{
 	}
 	
 	*//**
-	 * 确认加急订单
-	 * @param request
-	 * @param model
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 *//*
-	@RequestMapping
-	public View confirm(HttpServletRequest request, ModelMap model, String id)throws Exception {
-		boolean success = baseService.confirm(id, getUser(request));
-		if(success){
-			//1.通过短信向车主发送验证码
-			//baseService.sendVerifyCodeToCustomer(id, getUser(request));
-			//2.返回
-			return ActionResult.ok("订单已确认生效！", null);
-		}
-		else{
-			return ActionResult.error("无效操作", null);
-		}
-	}
-	
-	*//**
 	 * 确认货源
 	 * @param request
 	 * @throws Exception
@@ -200,29 +226,6 @@ public class BookformAction extends PManagerAction<Bookform>{
 		return ActionResult.ok("确认完成！", "/pmanager/order/bookform.do?op=query");
 	}
 	
-	*//**
-	 * 保存发货信息
-	 * @param request
-	 * @param model
-	 * @param bookformId
-	 * @param deliveryName
-	 * @param deliveryNo
-	 * @return
-	 * @throws Exception
-	 *//*
-	@RequestMapping
-	public void deliverTyre(HttpServletRequest request, HttpServletResponse response,
-			String id, String deliveryFactory, String trackingNumber)throws Exception {
-		
-		boolean success = baseService.deliverTyre(id, deliveryFactory, trackingNumber, this.getUser(request));
-		if(success){
-			this.writeJson(true);
-		}
-		else{
-			this.writeErrorJson("非法数据操作，请求被拒绝");
-		}
-		
-	}
 	
 	*//**
 	 * 确认轮胎到店操作

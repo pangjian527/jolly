@@ -188,6 +188,68 @@ public class BookformService extends BaseService<Bookform>{
 		return true;
 	}
 	
+	@Transactional
+	public boolean confirm(String id, SysUser user) throws Exception{
+		//0.验证数据操作的合法性
+		Bookform bookform = get(id);
+		if(bookform == null || user == null 
+				|| !bookform.getStatus().equals(Bookform.STATUS_CONFIRM_WAIT)){
+			return false;
+		}
+		
+		//1.变更数据状态
+		bookform.setStatus(Bookform.STATUS_CONFIRMED);
+		bookform.setConfirmTime(new Date());
+		bookform.setTrackingStatus(0);
+		save(bookform);
+		
+		/*//2.记录日志
+		draftService.saveLog(Bookform.TABLE_NAME, id, user, "确认有效", 
+			"status", String.valueOf(Bookform.STATUS_CONFIRM_WAIT), String.valueOf(Bookform.STATUS_CONFIRMED));*/
+		
+		//TODO	减库存
+//		List<BookformDetail> details = bookformDetailDao.getAllByBookId(id);
+//		for(BookformDetail detail : details){
+//		}
+		
+		//TODO.给商家发短信(服务订单发验证码，轮胎订单发欢迎短信)
+		//this.sendWelcomeToCustomer(id);
+		
+		return true;
+	}
+	
+	/**
+	 *  @2015-2-1，商城轮胎发货，记录物流状态、物流公司、运单号
+	 * 如果不是需要商城发货的轮胎订单，或者已经发过了，则返回false
+	 * @param id
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
+	@Transactional
+	public boolean deliver(String id, String deliveryFactory, String trackingNumber, SysUser user) throws Exception{
+		Bookform bookform = get(id);
+		if(bookform == null || user == null || bookform.getStatus() != Bookform.STATUS_CONFIRMED 
+				|| bookform.getTrackingStatus() != 0){
+			return false;
+		}
+		
+		//1.更新t_bookform主表
+		bookform.setTrackingStatus(Bookform.TRACKING_SEND);
+		bookform.setDeliveryFactory(deliveryFactory);
+		bookform.setTrackingNumber(trackingNumber);
+		bookform.setDeliveryTime(new Date());
+		
+		/*draftService.saveLog(Bookform.TABLE_NAME, id, user, "轮胎发货",
+			"trackingStatus", String.valueOf(Bookform.TRACKING_SEND), "",
+			"deliveryFactory", deliveryFactory, "",
+			"trackingNumber", trackingNumber, "",
+			"deliveryTime", DateFuncs.toString(bookform.getDeliveryTime()), "");*/
+		
+		//3.return
+		return true;
+	}
+	
 	/*public QueryResult queryPage(String condtion, QuerySettings settings) throws Exception {
 		//1.查询订单表数据
 		Query query = new PagedQuery(settings);
@@ -484,38 +546,7 @@ public class BookformService extends BaseService<Bookform>{
 	public int calculateInquirystock(String serviceFactoryId) {
 		return bookformDao.calculateInquirystock(serviceFactoryId);
 	}
-	*//**
-	 * myq add @2015-2-1，商城轮胎发货，记录物流状态、物流公司、运单号
-	 * 如果不是需要商城发货的轮胎订单，或者已经发过了，则返回false
-	 * @param id
-	 * @param user
-	 * @return
-	 * @throws Exception
-	 *//*
-	@Transactional
-	public boolean deliverTyre(String id, String deliveryFactory, String trackingNumber, SysUser user) throws Exception{
-		Bookform bookform = get(id);
-		if(bookform == null || user == null || bookform.getStatus() != Bookform.STATUS_CONFIRMED 
-				|| (!bookform.getTrackingType().equals("c") && !bookform.getTrackingType().equals("s"))
-				|| bookform.getTrackingStatus() != 0){
-			return false;
-		}
-		
-		//1.更新t_bookform主表
-		bookform.setTrackingStatus(Bookform.TRACKING_SEND);
-		bookform.setDeliveryFactory(deliveryFactory);
-		bookform.setTrackingNumber(trackingNumber);
-		bookform.setDeliveryTime(new Date());
-		
-		draftService.saveLog(Bookform.TABLE_NAME, id, user, "轮胎发货",
-			"trackingStatus", String.valueOf(Bookform.TRACKING_SEND), "",
-			"deliveryFactory", deliveryFactory, "",
-			"trackingNumber", trackingNumber, "",
-			"deliveryTime", DateFuncs.toString(bookform.getDeliveryTime()), "");
-		
-		//3.return
-		return true;
-	}
+	
 
 	@Transactional
 	public boolean receiveTyre(String id, FactoryUser user) throws Exception{

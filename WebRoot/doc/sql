@@ -58,3 +58,12 @@ ADD COLUMN `cancel_time`  datetime NULL AFTER `payment_id`;
 
 ALTER TABLE `t_bookform`
 ADD COLUMN `cancel_reason`  varchar(255) CHARACTER SET utf8 NULL AFTER `cancel_time`;
+
+2017-02-12 21:31 csx add
+ALTER TABLE `t_bookform`
+ADD COLUMN `delivery_factory`  varchar(255) CHARACTER SET utf8 NULL AFTER `cancel_reason`,
+ADD COLUMN `tracking_number`  varchar(50) CHARACTER SET utf8  NULL AFTER `delivery_factory`,
+ADD COLUMN `tracking_info`  text CHARACTER SET utf8  NULL AFTER `tracking_number`,
+ADD COLUMN `tracking_status`  tinyint NULL AFTER `tracking_info`;
+ADD COLUMN `delivery_time`  datetime NULL AFTER `tracking_status`;
+ADD COLUMN `confirm_time`  datetime NULL AFTER `delivery_time`;

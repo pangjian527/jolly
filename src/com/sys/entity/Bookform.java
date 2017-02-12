@@ -69,6 +69,16 @@ public class Bookform implements Serializable {
 	private Date cancelTime;
 	private String cancelReason;
 	
+	// 配送商
+	private String deliveryFactory;
+	// 快递单号
+	private String trackingNumber;
+	// 快递跟踪信息
+	private String trackingInfo;
+	// 配送状态（0未发货 1已发货 2已收货）
+	private Integer trackingStatus;
+	private Date deliveryTime;	
+	private Date confirmTime;
 	
 	@GenericGenerator(name = "generator", strategy = "uuid.hex")
 	@Id
@@ -164,6 +174,36 @@ public class Bookform implements Serializable {
 	public String getCancelReason() {
 		return cancelReason;
 	}
+	
+	@Column(name = "DELIVERY_FACTORY")
+	public String getDeliveryFactory() {
+		return deliveryFactory;
+	}
+
+	@Column(name = "TRACKING_NUMBER")
+	public String getTrackingNumber() {
+		return trackingNumber;
+	}
+
+	@Column(name = "TRACKING_INFO")
+	public String getTrackingInfo() {
+		return trackingInfo;
+	}
+
+	@Column(name = "TRACKING_STATUS")
+	public Integer getTrackingStatus() {
+		return trackingStatus;
+	}
+
+	@Column(name = "DELIVERY_TIME")	
+	public Date getDeliveryTime() {
+		return deliveryTime;
+	}
+	
+	@Column(name = "CONFIRM_TIME")	
+	public Date getConfirmTime() {
+		return confirmTime;
+	}
 
 	public void setId(String id) {
 		this.id = id;
@@ -255,6 +295,30 @@ public class Bookform implements Serializable {
 
 	public void setCancelReason(String cancelReason) {
 		this.cancelReason = cancelReason;
+	}
+
+	public void setDeliveryFactory(String deliveryFactory) {
+		this.deliveryFactory = deliveryFactory;
+	}
+
+	public void setTrackingNumber(String trackingNumber) {
+		this.trackingNumber = trackingNumber;
+	}
+
+	public void setTrackingInfo(String trackingInfo) {
+		this.trackingInfo = trackingInfo;
+	}
+
+	public void setTrackingStatus(Integer trackingStatus) {
+		this.trackingStatus = trackingStatus;
+	}
+
+	public void setDeliveryTime(Date deliveryTime) {
+		this.deliveryTime = deliveryTime;
+	}
+
+	public void setConfirmTime(Date confirmTime) {
+		this.confirmTime = confirmTime;
 	}
 	
 }

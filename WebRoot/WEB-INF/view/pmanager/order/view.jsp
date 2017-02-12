@@ -290,7 +290,7 @@
 		function confirmObject(){
 			var src = baseActionUrl + "?op=confirm&id=${data.bookform.id}";
 			Dialog.confirm({
-				content: "请确保与车主进行电话沟通后，再确认订单有效", 
+				content: "请确保与商家进行电话沟通后，再确认订单有效", 
 				title : "确认订单",
 				width:400, 
 				height:100,
@@ -365,7 +365,7 @@
 			closeActiveDialog();
 			
 			//3.ajax发起更新订单物流信息请求
-			var postData = {id:"${data.bookform.id}", op:"deliverTyre",
+			var postData = {id:"${data.bookform.id}", op:"deliver",
 				deliveryFactory:deliveryFactory, trackingNumber:trackingNumber};
 			$.ajax({url : "${home}/pmanager/order/bookform.do",
 				type:"post",
@@ -380,71 +380,6 @@
 						alert("发货成功");
 					}
 					window.location.reload();
-				}
-			});
-		}
-		
-		//确认是否门店自己是否有货
-		function confirmSupply(useFactoryTyre){
-			var src = baseActionUrl + "?op=confirmTyreSupply&id=${data.bookform.id}";
-			
-			//再次提示商户，车主需要的轮胎型号、数量；
-			var tableElement = document.getElementById("tyre-abstracts").cloneNode(true);
-			tableElement.style.display = "table";
-			var content = document.createDocumentFragment();
-			var pElement = document.createElement("p");
-			if(useFactoryTyre){
-				src +=  "&useFactoryTyre=true";
-				pElement.innerHTML = "请确保已与门店进行沟通，以下轮胎由门店自备";
-			}
-			else{
-				src +=  "&useFactoryTyre=false";
-				pElement.innerHTML = "请确保已与门店进行沟通，以下轮胎由好胎屋商城发货";
-			}
-			content.appendChild(pElement);
-			content.appendChild(tableElement);
-			
-			Dialog.confirm({
-				content: content, 
-				title : "确认轮胎来源",
-				width:600,
-				ok : function(){
-					Dialog.open({url : src, 
-						title:"操作结果", 
-						width:800, 
-						height:400,
-						onClose:function(){
-							window.location.reload();
-						}
-					});
-				}
-			});
-		}
-		//将待确认、有效的数据，转变为无效
-		function receiveTyre(){
-			content = document.createDocumentFragment();
-			var pElement = document.createElement("p");
-			pElement.innerHTML = "确认已与门店沟通，以下轮胎已经到店";
-			content.appendChild(pElement);
-			
-			var tableElement = document.getElementById("tyre-abstracts").cloneNode(true);
-			tableElement.style.display = "table";
-			content.appendChild(tableElement);
-			var src = baseActionUrl + "?op=receiveTyre&id=${data.bookform.id}";
-			Dialog.confirm({
-				content: content, 
-				title : "确认轮胎到店",
-				width:600,
-				ok:function(text){
-					src = src + "&reason=" + text; 
-					Dialog.open({url:src, 
-						title:"操作结果", 
-						width:600, 
-						height:200,
-						onClose:function(){
-							window.location.reload();
-						}
-					});
 				}
 			});
 		}
@@ -483,53 +418,11 @@
 			});
 		}
 		
-		function showConsult(){
-			var src = "${home}/pmanager/order/bookform.do?op=showUrgentInstall&id=${data.bookform.id}";
-			window.location = src;
-		}
 		
 		haux.dom.addEventHandler(window, "load", function(){
 			haux.component.tab2({element:document.getElementById("tab-box")});
 		});
 		
-		// 2015.10.15 add 更换门店
-		function exchangeObject(){
-			var src ="${home}/pmanager/order/bookform.do?op=queryFactory";
-			Dialog.open({url:src, 
-				title:"选择服务门店", 
-				width:950,
-				height:450,
-				onClose:function(){
-					
-				}
-			});
-		}
-		
-		
-		function iframeCallback(factoryId){
-			var src ="${home}/pmanager/order/bookform.do?op=resetFactory&bookformId=${data.bookform.id }&factoryId="+factoryId;
-			
-			if(!confirm("请确保已和门店、车主沟通修改服务门店。")){
-				return ;
-			}
-			$.ajax({url : src,
-				type:"post",
-				dataType: "json",
-				success:function(result){
-					if(result.error){
-						alert(result.error);
-					}
-					else{
-						alert("修改成功");
-						closeActiveDialog();
-						window.location.reload(true);
-					}
-				},
-				error:function(){
-					alert("网络异常，请稍后再试");
-				}
-			});
-		}
 		
 		function printBookForm(id){
 			window.location = "${home}/pmanager/order/bookform.do?op=printBookForm&id="+id;
@@ -798,10 +691,10 @@
 						</h4>
 						<p class="describe">
 							商家尚未付款，请及时联系商家完成在线支付
-							<button class="fire reset" onclick="taobaoObject()">
+							<!-- <button class="fire reset" onclick="taobaoObject()">
 								<i></i>
 								淘宝订单
-							</button>
+							</button> -->
 						</p>
 						<c:if test="${data.requireFinishPayment == false}">
 							<p class="describe">
@@ -810,12 +703,6 @@
 									<i></i>
 									确认
 								</button>
-								<c:if test="${data.bookform.factoryId != null}">
-									<button class="fire reset" onclick="exchangeObject()">
-										<i></i>
-										更换服务门店
-									</button>
-								</c:if>
 							</p>
 						</c:if>
 						
@@ -826,6 +713,28 @@
 							<i></i>
 							订单状态：已确认
 						</h4>
+						<p class="describe">
+							<c:if test="${data.bookform.trackingStatus == 0}">
+								商城尚未向商家发货，请及时完成以下工作
+								<br/>
+								<!-- 
+								<button type="button">发货</button>
+								 -->
+								 
+								<button type="button" class="ok" onclick="openDeliveryBox()">
+									<i></i>
+									发货
+								</button>
+								
+							</c:if>
+							<c:if test="${data.bookform.trackingStatus == 1}">
+								商城已于<fmt:formatDate value="${data.bookform.deliveryTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+								发货(${data.bookform.deliveryFactory}， ${data.bookform.trackingNumber})
+							</c:if>
+							<c:if test="${data.bookform.trackingStatus == 2}">
+								商品已被商家接收(${data.bookform.deliveryFactory}， ${data.bookform.trackingNumber})
+							</c:if>
+						</p>
 						<p class="describe">
 								<c:if test="${data.bookform.payType == 0}">
 									商家已在线支付费用
