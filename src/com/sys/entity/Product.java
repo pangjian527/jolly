@@ -29,8 +29,7 @@ public class Product implements Serializable {
 	public static final int STATUS_INVALID =0 ;	//无效 删除
 	public static final int STATUS_VALID =1 ;	//有效 {审核通过}
 	public static final int STATUS_APPROVE =2 ;	//待审核
-	public static final int STATUS_AUDITFAIL =3 ;//草稿   -->待审核
-	public static final int STATUS_OUT_OF_STOCK=4;//被下架了
+	public static final int STATUS_OUT_OF_STOCK=3;//被下架了
 	
 	// 主键
 	private String id;
@@ -69,6 +68,8 @@ public class Product implements Serializable {
 	private Date updateTime;
 	
 	private int virtualCount;
+	
+	private Integer status;
 	
 	@GenericGenerator(name = "generator", strategy = "uuid.hex")
 	@Id
@@ -162,6 +163,11 @@ public class Product implements Serializable {
 	public int getVirtualCount() {
 		return virtualCount;
 	}
+	
+	@Column(name = "STATUS")
+	public Integer getStatus() {
+		return status;
+	}
 
 	public void setId(String id) {
 		this.id = id;
@@ -239,8 +245,10 @@ public class Product implements Serializable {
 	public void setVirtualCount(int virtualCount) {
 		this.virtualCount = virtualCount;
 	}
-	
-	
 
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
 }

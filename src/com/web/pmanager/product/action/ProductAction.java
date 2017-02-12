@@ -46,6 +46,7 @@ public class ProductAction extends PManagerAction<Product>{
 	@RequestMapping
 	public View save(HttpServletRequest request,String id){
 		Product product = StrFuncs.isEmpty(id) ? new Product() : productService.get(id);
+		product.setStatus(Product.STATUS_APPROVE);
 		this.populate(product);
 		
 		productService.save(product);
@@ -81,6 +82,26 @@ public class ProductAction extends PManagerAction<Product>{
 		this.writeJson(true);
 	}
 	
+	@RequestMapping
+	public void effective(HttpServletRequest request, HttpServletResponse response,String productId){
+		
+		Product product = productService.get(productId);
+		product.setStatus(Product.STATUS_VALID);
+		
+		productService.save(product);
+		
+		this.writeJson(true);
+	}
+	@RequestMapping
+	public void distable(HttpServletRequest request, HttpServletResponse response,String productId){
+		
+		Product product = productService.get(productId);
+		product.setStatus(Product.STATUS_OUT_OF_STOCK);
+		
+		productService.save(product);
+		
+		this.writeJson(true);
+	}
 	
 	@Autowired
 	private ProductService productService;

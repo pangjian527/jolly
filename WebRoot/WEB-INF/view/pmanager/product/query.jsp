@@ -13,7 +13,6 @@
 	<script type="text/javascript" src="${home}/script/haux.dom.form.js"></script>
 	<script type="text/javascript" src="${home}/script/haux.component.date.js"></script>
 	<script type="text/javascript" src="${home}/script/haux.component.dialog.js"></script>
-	<script type="text/javascript" src="${home}/script/manage.query.js"></script>
 	<style type="text/css">
 		.col0{width: 40px;}
 		.col1{width:200px}
@@ -23,8 +22,43 @@
 	</style>
 	
 	<script type="text/javascript">
-		var queryCondition = ${queryCondition};
 		
+		function effective(productId){
+			if(confim("确定下架吗？")){
+				$.ajax({
+					type:"post",
+					url:"${home}/pmanager/product/product.do?op=effective",
+					data:{productId:productId},
+					success:function(data){
+						if(data.error){
+							alert("失败");
+						}else{
+							alert("上架成功！");
+							window.location.reload();
+						}
+					}
+				});
+			}
+		}
+		
+		function distable(productId){
+		
+			if(confim("确定下架吗？")){
+				$.ajax({
+					type:"post",
+					url:"${home}/pmanager/product/product.do?op=distable",
+					data:{productId:productId},
+					success:function(data){
+						if(data.error){
+							alert("失败");
+						}else{
+							alert("上架成功！");
+							window.location.reload();
+						}
+					}
+				});
+			}
+		}
 		
 	</script>
 		
@@ -80,6 +114,7 @@
 				<th>容量</th>
 				<th>虚拟销量</th>
 				<th>适用品牌</th>
+				<th>状态</th>
 				<th>操作</th>
 			</tr>
 		</thead>
@@ -95,10 +130,24 @@
 					<td>${data.virtual_count }</td>
 					<td>${data.apply_brand }</td>
 					<td>
-						<a href="javascript:void(0)" onclick="editObject('${data.id }');">
+						<c:if test="${data.status == 0}">
+							已删除
+						</c:if>
+						<c:if test="${data.status == 1}">
+							已上架
+						</c:if>
+						<c:if test="${data.status == 2}">
+							待上架
+						</c:if>
+						<c:if test="${data.status == 3}">
+							已下架
+						</c:if>
+					</td>
+					<td>
+						<a href="javascript:void(0)" onclick="effective('${data.id }');">
 							上架
 						</a>
-						<a href="javascript:void(0)" onclick="editObject('${data.id }');">
+						<a href="javascript:void(0)" onclick="distable('${data.id }');">
 							下架
 						</a>
 						<a href="${home}/pmanager/product/product.do?op=inStockExecute&productId=${data.id }">
