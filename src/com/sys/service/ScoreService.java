@@ -31,6 +31,8 @@ public class ScoreService extends BaseService<Score>{
 
 		this.addQueryEqualFilter(queryJson, where, query, "sysUserId",
 				" and s.sys_user_id = :sysUserId");
+		this.addQueryEqualFilter(queryJson, where, query, "factoryId",
+		" and s.factory_id = :factoryId");
 
 		query.select(select.toString()).from(" t_score s ").where(
 				where.toString()).orderBy(" s.create_time desc ");
@@ -38,8 +40,17 @@ public class ScoreService extends BaseService<Score>{
 		return query.getResult();
 	}
 	
-	public int getAllScore(String sysUserId,Date startDate,Date endDate){
+	public int getAllScoreBySysUser(String sysUserId,Date startDate,Date endDate){
 		return scoreDao.getAllScore(sysUserId,startDate,endDate);
+	}
+	
+	//获取商家的历史总积分
+	public int getFactoryHistoryScore(String factoryId){
+		return scoreDao.getFactoryHistoryScore(factoryId);
+	}
+	//获取商家的已经消费的积分
+	public int getFactoryConsumeScore(String factoryId) {
+		return scoreDao.getFactoryConsumeScore(factoryId);
 	}
 	
 	

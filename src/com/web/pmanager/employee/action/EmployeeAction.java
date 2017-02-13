@@ -50,12 +50,12 @@ public class EmployeeAction extends PManagerAction<Score>{
 		}
 		
 		//1. 获取当前用户所有的积分
-		int allScore = scoreService.getAllScore(sysUserId, null, null);
+		int allScore = scoreService.getAllScoreBySysUser(sysUserId, null, null);
 		//2. 获取当前月的积分
 		Date date = new Date();
 		Date monthFirstDay = DateFuncs.valueOf(DateFuncs.getMonthFirstDay(date));
 		Date monthLastDay = DateFuncs.valueOf(DateFuncs.getMonthLastDay(date));
-		int currentMonthScore = scoreService.getAllScore(sysUserId, monthFirstDay, monthLastDay);
+		int currentMonthScore = scoreService.getAllScoreBySysUser(sysUserId, monthFirstDay, monthLastDay);
 		//3. 获取上个月的积分
 		
 		System.out.println(DateFuncs.toDateString(monthFirstDay));
@@ -64,7 +64,7 @@ public class EmployeeAction extends PManagerAction<Score>{
 		System.out.println(DateFuncs.toDateString(upMonth));
 		Date upMonthFirstDay = DateFuncs.valueOf(DateFuncs.getMonthFirstDay(upMonth));
 		Date upMonthLastDay = DateFuncs.valueOf(DateFuncs.getMonthLastDay(upMonth));
-		int upMonthScore = scoreService.getAllScore(sysUserId, upMonthFirstDay, upMonthLastDay);
+		int upMonthScore = scoreService.getAllScoreBySysUser(sysUserId, upMonthFirstDay, upMonthLastDay);
 		
 		JSONObject object = new JSONObject();
 		object.element("sysUserId", sysUserId);

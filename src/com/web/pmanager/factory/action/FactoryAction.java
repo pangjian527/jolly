@@ -25,6 +25,7 @@ import com.sys.entity.Factory;
 import com.sys.service.AreaService;
 import com.sys.service.FactoryService;
 import com.sys.service.FileService;
+import com.sys.service.ScoreService;
 import com.web.pmanager.PManagerAction;
 
 /**
@@ -243,10 +244,35 @@ public class FactoryAction extends PManagerAction<Factory>{
 		return factoryService;
 	}*/
 	
+	@RequestMapping
+	public String factoryScore(HttpServletRequest request,ModelMap model, String id){
+		
+		int pageNo=this.getIntegerParam("pn", 1);
+		
+		//获取门店积分列表
+		JSONObject object = new JSONObject();
+		object.element("factoryId", id);
+		QueryResult queryResult = scoreService.query(object.toString(), PageSettings.of(pageNo));
+		
+		//历史总积分
+		int historyScore = scoreService.getFactoryHistoryScore(id);
+		//已消费积分
+		int consumeScore = scoreService.getFactoryConsumeScore(id);
+		
+		model.put("queryResult", queryResult);
+		model.put("historyScore", historyScore);
+		model.put("consumeScore", consumeScore);
+		model.put("leaveScore", historyScore + consumeScore);
+		return "/pmanager/factory/score";
+	}
+	
 	@Autowired
 	private FactoryService factoryService;
 	@Autowired
 	private FileService fileService;
 	@Autowired
 	private AreaService areaService;
+	
+	@Autowired
+	private ScoreService scoreService;
 }

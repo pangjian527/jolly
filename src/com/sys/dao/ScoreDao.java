@@ -40,5 +40,25 @@ public class ScoreDao extends HibernateDao<Score> {
 		
 		return Integer.valueOf(query.uniqueResult().toString());
 	}
+
+	public int getFactoryHistoryScore(String factoryId) {
+		StringBuffer sql = new StringBuffer(" select coalesce(sum(s.score),0) " +
+			"from t_score s where s.factory_id =:factoryId and score>=0");
+		
+		Query query = this.getSession().createSQLQuery(sql.toString()).
+		setParameter("factoryId", factoryId);
+
+		return Integer.valueOf(query.uniqueResult().toString());
+	}
+	
+	public int getFactoryConsumeScore(String factoryId) {
+		StringBuffer sql = new StringBuffer(" select coalesce(sum(s.score),0) " +
+			"from t_score s where s.factory_id =:factoryId and score <0");
+		
+		Query query = this.getSession().createSQLQuery(sql.toString()).
+		setParameter("factoryId", factoryId);
+
+		return Integer.valueOf(query.uniqueResult().toString());
+	}
 	
 }

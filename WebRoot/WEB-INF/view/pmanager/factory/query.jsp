@@ -245,6 +245,7 @@
 							<a href="javascript:void(0)" 
 								onclick="deleteObject('${data.id}', '删除门店', '删除门店${data.name}，数据删除后将不可恢复！');">删除</a>
 						</c:if>
+						<a href="${home}/pmanager/factory/factory.do?op=factoryScore&id=${data.id}">积分</a>
 					</td>
 				</tr>
 			</c:forEach>
