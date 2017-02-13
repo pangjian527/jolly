@@ -2,6 +2,7 @@ package com.sys.dao;
 
 import java.util.Date;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import pub.dao.hibernate.HibernateDao;
@@ -17,13 +18,27 @@ public class ScoreDao extends HibernateDao<Score> {
 
 	public int getAllScore(String sysUserId, Date startDate, Date endDate) {
 		
-		StringBuffer sql = new StringBuffer(" select sum(s.score) from t_score s where s.sys_user_id =:sysUserId ");
+		StringBuffer sql = new StringBuffer(" select coalesce(sum(s.score),0) " +
+				"from t_score s where s.sys_user_id =:sysUserId ");
 		
-		int countScore = Integer.valueOf(this.getSession().
-		createSQLQuery(sql.toString()).
-		setParameter("sysUserId", sysUserId).uniqueResult().toString());
+		if(startDate != null){
+			sql.append(" and s.create_time >=:startDate");
+		}
+		if(endDate != null){
+			sql.append(" and s.create_time <=:endDate");
+		}
 		
-		return countScore;
+		Query query = this.getSession().createSQLQuery(sql.toString()).
+				setParameter("sysUserId", sysUserId);
+		
+		if(startDate !=null ){
+			query.setParameter("startDate", startDate);
+		}
+		if(startDate !=null ){
+			query.setParameter("endDate", endDate);
+		}
+		
+		return Integer.valueOf(query.uniqueResult().toString());
 	}
 	
 }

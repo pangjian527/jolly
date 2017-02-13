@@ -822,6 +822,14 @@ public class FactoryService extends BaseService<Factory>{
 		return list;
 	}
 	*/
+	
+	/*
+	 * 统计某一员工的开店数量
+	 */
+	public int countFactoryBySysUser(String sysUserId){
+		return factoryDao.countFactoryBySysUser(sysUserId);
+	}
+	
 
 	@Autowired
 	private FactoryDao factoryDao;

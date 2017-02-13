@@ -91,7 +91,7 @@
 	                        <td align="center">${idx.index+1}</td>
 	                        <td>${data.name}</td>
 	                        <td>
-	                            100
+	                            ${data.factoryCount}
 	                        </td>
 	                    </tr>
                 	</c:forEach>
@@ -103,15 +103,15 @@
                 <div class="m_asset_panel">
                     <div class="asset_item">
                         <b>历史积分</b>
-                        <label>${allScore}</label>
+                        <label>￥${allScore}.00</label>
                     </div>
                     <div class="asset_item">
                         <b>上月积分</b>
-                        <label>1000</label>
+                        <label>￥${upMonthScore}.00</label>
                     </div>
                     <div class="asset_item">
                         <b>本月积分</b>
-                        <label>1000</label>
+                        <label>￥${currentMonthScore}.00</label>
                     </div>
                     <div style="clear:both;"></div>
                 </div>

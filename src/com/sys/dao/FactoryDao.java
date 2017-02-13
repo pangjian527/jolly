@@ -2,6 +2,8 @@ package com.sys.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
 import pub.dao.hibernate.HibernateDao;
@@ -66,6 +68,15 @@ public class FactoryDao extends HibernateDao<Factory> {
 			result.get(0);
 		}
 		return null;
+	}
+	
+	public int countFactoryBySysUser(String sysUserId){
+		String sql = "select count(1) from t_factory f where f.sys_user_id =:sysUserId ";
+		
+		Query query = this.getSession().createSQLQuery(sql)
+			.setParameter("sysUserId", sysUserId);
+		
+		return Integer.valueOf(query.uniqueResult().toString());
 	}
 	
 }
