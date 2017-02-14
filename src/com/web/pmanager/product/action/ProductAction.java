@@ -23,9 +23,12 @@ import pub.functions.JsonFuncs;
 import pub.functions.StrFuncs;
 import pub.spring.ActionResult;
 
+import com.sys.entity.Bookform;
+import com.sys.entity.Factory;
 import com.sys.entity.Product;
 import com.sys.entity.ProductItem;
 import com.sys.entity.StockRecord;
+import com.sys.service.BookformService;
 import com.sys.service.FactoryService;
 import com.sys.service.ProductItemService;
 import com.sys.service.ProductService;
@@ -118,7 +121,7 @@ public class ProductAction extends PManagerAction<Product>{
 	public String securityInfo(HttpServletRequest request, HttpServletResponse response,String securityCode){
 
 		String url = "/pmanager/product/security";
-		
+		request.setAttribute("securityCode", securityCode);
 		if(StrFuncs.isEmpty(securityCode))
 			return url;
 		
@@ -132,14 +135,17 @@ public class ProductAction extends PManagerAction<Product>{
 		
 		List<StockRecord> stockRecords = stockRecordService.getStockRecordBySecurityCode(securityCode);
 		
+		List<StockStatus> listStockStatus = this.getData(stockRecords);
+		
 		request.setAttribute("product", product);
 		request.setAttribute("productItem", productItem);
+		request.setAttribute("listStockStatus", listStockStatus);
 		
 		return url;
 	}
 	
 	
-	private List<StockStatus> getDate(List<StockRecord> stockRecords){
+	private List<StockStatus> getData(List<StockRecord> stockRecords){
 		
 		List<StockStatus> list = new LinkedList<StockStatus>();
 		
@@ -152,11 +158,17 @@ public class ProductAction extends PManagerAction<Product>{
 			if(StrFuncs.isEmpty(stockRecord.getBookId()))
 				continue;
 			
+			Bookform bookform = bookformService.get(stockRecord.getBookId());
+			status.bookformCode = bookform.getCode();
 			
+			Factory factory = factoryService.get(bookform.getFactoryId());
+			status.factoryName = factory.getName();
+			status.factoryMobile = factory.getMobile();
 			
+			list.add(status);
 		}
 		
-		return null;
+		return list;
 	}
 	
 	public static class StockStatus{
@@ -168,6 +180,8 @@ public class ProductAction extends PManagerAction<Product>{
 		public String bookformCode;
 
 		public int stockType;
+		
+		public String factoryMobile;
 	}
 	
 	
@@ -180,4 +194,6 @@ public class ProductAction extends PManagerAction<Product>{
 	private StockRecordService stockRecordService;
 	@Autowired
 	private FactoryService factoryService;
+	@Autowired
+	private BookformService bookformService;
 }

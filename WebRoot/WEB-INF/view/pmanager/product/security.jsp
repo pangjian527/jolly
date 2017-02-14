@@ -42,9 +42,9 @@
         }
 	</style>
 	<script type="text/javascript">
-		function saveObject(){
-			var securityCode = document.getElementById("securityCode").value;
-			
+		function queryObject(){
+			var securityCode = document.getElementById('securityCode').value;
+			window.location.href = "${home}/pmanager/product/product.do?op=securityInfo&securityCode="+securityCode;			
 		}
 	</script>		
 	
@@ -52,55 +52,57 @@
 <body>
 	<div class="m_data_panel" style="width:600px;margin:auto;">
         <div class="security_code">
-            <input id="securityCode" name="securityCode" placeholder="请输入防伪码"/>
-            <button>查询</button>
+            <input value="${securityCode}" id="securityCode" name="securityCode" placeholder="请输入防伪码"/>
+            <button  onclick="queryObject()">查询</button>
         </div>
-        <table cellpadding="0" cellspacing="0">
-            <thead>
-                <tr>
-                    <td width="100">属性</td>
-                    <td>信息</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>商品名称</td>
-                    <td>苹果原装手机内置电池iPhone4/4s/5/5s/6/7iPhone6s/6plus电池 苹果6专用电池</td>
-                </tr>
-                <tr>
-                    <td>电池型号</td>
-                    <td>iv8900</td>
-                </tr>
-                <tr>
-                    <td>适用品牌</td>
-                    <td>iphone</td>
-                </tr>
-                <tr>
-                    <td>适用机型</td>
-                    <td>iphone5 iphone6 iphone7 plus等苹果系列</td>
-                </tr>
-                <tr>
-                    <td>入库时间</td>
-                    <td>2017-01-10 10:00:33</td>
-                </tr>
-                <tr>
-                    <td>出库时间</td>
-                    <td>2017-01-10 10:00:33</td>
-                </tr>
-                <tr>
-                    <td>所属商家</td>
-                    <td>xxxxxx维修店</td>
-                </tr>
-                <tr>
-                    <td>订单号</td>
-                    <td>2016010213652</td>
-                </tr>
-                <tr>
-                    <td>查询次数</td>
-                    <td>0</td>
-                </tr>
-            </tbody>
-        </table>
+        <c:if test="${product != null}">
+	        <table cellpadding="0" cellspacing="0">
+	            <thead>
+	                <tr>
+	                    <td width="100">属性</td>
+	                    <td>信息</td>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr>
+	                    <td>商品名称</td>
+	                    <td>${product.name }</td>
+	                </tr>
+	                <tr>
+	                    <td>电池型号</td>
+	                    <td>${product.model }</td>
+	                </tr>
+	                <tr>
+	                    <td>适用品牌</td>
+	                    <td>${product.applyBrand }</td>
+	                </tr>
+	                <tr>
+	                    <td>适用机型</td>
+	                    <td>${product.applyPhoneType }</td>
+	                </tr>
+	                <tr>
+	                    <td>入库时间</td>
+	                    <td>2017-01-10 10:00:33</td>
+	                </tr>
+	                <tr>
+	                    <td>出库时间</td>
+	                    <td>2017-01-10 10:00:33</td>
+	                </tr>
+	                <tr>
+	                    <td>所属商家</td>
+	                    <td>xxxxxx维修店</td>
+	                </tr>
+	                <tr>
+	                    <td>订单号</td>
+	                    <td>2016010213652</td>
+	                </tr>
+	                <tr>
+	                    <td>查询次数</td>
+	                    <td>0</td>
+	                </tr>
+	            </tbody>
+	        </table>
+        </c:if>
     </div>
 </body>
 </html>

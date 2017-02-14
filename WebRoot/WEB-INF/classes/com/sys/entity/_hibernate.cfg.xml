@@ -27,5 +27,7 @@
         <mapping class="com.sys.entity.Score"/>
         <mapping class="com.sys.entity.StockRecord"/>
         <mapping class="com.sys.entity.UsageRecord"/>
+        <mapping class="com.sys.entity.LogPayment"/>
+        
     </session-factory>
 </hibernate-configuration>
