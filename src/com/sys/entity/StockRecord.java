@@ -26,6 +26,7 @@ public class StockRecord implements Serializable {
 	private String id;
 	
 	private String securitCode;
+	//1:入库， 0：出库
 	private Integer type;
 	// 创建时间（触发器维护）
 	private Date createTime;

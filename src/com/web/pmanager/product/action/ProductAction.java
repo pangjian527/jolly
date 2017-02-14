@@ -1,7 +1,14 @@
 package com.web.pmanager.product.action;
 
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSON;
+import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,13 +18,18 @@ import org.springframework.web.servlet.View;
 
 import pub.dao.query.PageSettings;
 import pub.dao.query.QueryResult;
+import pub.functions.DateFuncs;
+import pub.functions.JsonFuncs;
 import pub.functions.StrFuncs;
 import pub.spring.ActionResult;
 
 import com.sys.entity.Product;
 import com.sys.entity.ProductItem;
+import com.sys.entity.StockRecord;
+import com.sys.service.FactoryService;
 import com.sys.service.ProductItemService;
 import com.sys.service.ProductService;
+import com.sys.service.StockRecordService;
 import com.web.pmanager.PManagerAction;
 
 @Controller
@@ -99,13 +111,73 @@ public class ProductAction extends PManagerAction<Product>{
 		product.setStatus(Product.STATUS_OUT_OF_STOCK);
 		
 		productService.save(product);
-		
 		this.writeJson(true);
 	}
 	
-	@Autowired
-	private ProductService productService;
+	@RequestMapping
+	public String securityInfo(HttpServletRequest request, HttpServletResponse response,String securityCode){
+
+		String url = "/pmanager/product/security";
+		
+		if(StrFuncs.isEmpty(securityCode))
+			return url;
+		
+		//1. 获取防伪码
+		ProductItem productItem = productItemService.getBySecurityCode(securityCode);
+		if(productItem == null)
+			return url;
+		
+		//2. 获取商品信息
+		Product product = productService.get(productItem.getProductId());
+		
+		List<StockRecord> stockRecords = stockRecordService.getStockRecordBySecurityCode(securityCode);
+		
+		request.setAttribute("product", product);
+		request.setAttribute("productItem", productItem);
+		
+		return url;
+	}
+	
+	
+	private List<StockStatus> getDate(List<StockRecord> stockRecords){
+		
+		List<StockStatus> list = new LinkedList<StockStatus>();
+		
+		for (StockRecord stockRecord : stockRecords) {
+			
+			StockStatus status = new StockStatus();
+			status.stockType = stockRecord.getType();
+			status.createTime = stockRecord.getCreateTime();
+			
+			if(StrFuncs.isEmpty(stockRecord.getBookId()))
+				continue;
+			
+			
+			
+		}
+		
+		return null;
+	}
+	
+	public static class StockStatus{
+		
+		public Date createTime;
+		
+		public String factoryName;
+		
+		public String bookformCode;
+
+		public int stockType;
+	}
+	
+	
 	
 	@Autowired
+	private ProductService productService;
+	@Autowired
 	private ProductItemService productItemService;
+	@Autowired
+	private StockRecordService stockRecordService;
+	@Autowired
+	private FactoryService factoryService;
 }
