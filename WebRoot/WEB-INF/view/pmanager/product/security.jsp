@@ -40,6 +40,26 @@
             color: white;
             font-weight: bold;
         }
+        
+        div.stock_status_line {
+			border-left:1px solid #d9d9d9;        
+        }
+        div.stock_status_line  ul li{
+        	font-size: 14px;
+		    position: relative;
+		    padding: 10px 18px;
+        }
+        div.stock_status_line  ul li i{
+        	position: absolute;
+		    border: 1px solid red;
+		    height: 5px;
+		    width: 5px;
+		    top: 16px;
+		    left: -4px;
+		    background: red;
+		    border-radius: 10px;
+		    box-shadow: 0px 0px 17px red;
+        }
 	</style>
 	<script type="text/javascript">
 		function queryObject(){
@@ -50,7 +70,7 @@
 	
 </head>
 <body>
-	<div class="m_data_panel" style="width:600px;margin:auto;">
+	<div class="m_data_panel" style="width:600px;margin:auto;margin-top:80px">
         <div class="security_code">
             <input value="${securityCode}" id="securityCode" name="securityCode" placeholder="请输入防伪码"/>
             <button  onclick="queryObject()">查询</button>
@@ -81,24 +101,64 @@
 	                    <td>${product.applyPhoneType }</td>
 	                </tr>
 	                <tr>
-	                    <td>入库时间</td>
-	                    <td>2017-01-10 10:00:33</td>
-	                </tr>
-	                <tr>
-	                    <td>出库时间</td>
-	                    <td>2017-01-10 10:00:33</td>
-	                </tr>
-	                <tr>
-	                    <td>所属商家</td>
-	                    <td>xxxxxx维修店</td>
-	                </tr>
-	                <tr>
-	                    <td>订单号</td>
-	                    <td>2016010213652</td>
+	                    <td>容量</td>
+	                    <td>${product.capacity }</td>
 	                </tr>
 	                <tr>
 	                    <td>查询次数</td>
-	                    <td>0</td>
+	                    <td>
+	                    	${usageCount}
+	                    	<label style="color:red;font-weight:bold;">
+	                    	<c:if test="${usageCount == 0}">
+	                    		（未销售）
+	                    	</c:if>
+	                    	<c:if test="${usageCount > 0}">
+	                    		（已销售）
+	                    	</c:if>
+	                    	</label>
+	                    </td>
+	                </tr>
+	                <tr>
+	                	<td>库存状态</td>
+	                	<td>
+	                		<div class="stock_status_line">
+	                			<ul>
+	                				<c:forEach items="${listUsageStatus}" var="data" >
+		                				<li>
+		                					<i></i>
+		                					<label>
+		                						<fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+		                						${data.factoryName} 进行了查询
+		                					</label>
+		                				</li>
+	                				</c:forEach>
+	                				<c:forEach items="${listStockStatus}" var="data" >
+		                				<li>
+		                					<i></i>
+		                					<label>
+		                						<fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+		                						<c:if test="${data.stockType ==1}">
+		                							扫描入库
+		                						</c:if>
+		                						<c:if test="${data.stockType ==0}">
+		                							扫描出库
+		                						</c:if>&nbsp;&nbsp;
+		                						<c:if test="${data.bookformCode != null}">
+		                						订单编号：${data.bookformCode}
+		                						</c:if>
+		                						<c:if test="${data.factoryName != null}">
+		                						</br>购买门店：${data.factoryName}
+		                						</c:if>
+		                					</label>
+		                				</li>
+	                				</c:forEach>
+	                				<li>
+	                					<i></i>
+	                					<label>生产</label>
+	                				</li>
+	                			</ul>
+	                		</div>
+	                	</td>
 	                </tr>
 	            </tbody>
 	        </table>

@@ -28,11 +28,13 @@ import com.sys.entity.Factory;
 import com.sys.entity.Product;
 import com.sys.entity.ProductItem;
 import com.sys.entity.StockRecord;
+import com.sys.entity.UsageRecord;
 import com.sys.service.BookformService;
 import com.sys.service.FactoryService;
 import com.sys.service.ProductItemService;
 import com.sys.service.ProductService;
 import com.sys.service.StockRecordService;
+import com.sys.service.UsageRecordService;
 import com.web.pmanager.PManagerAction;
 
 @Controller
@@ -45,10 +47,13 @@ public class ProductAction extends PManagerAction<Product>{
 		int pageNo=this.getIntegerParam("pn", 1);
 		
 		// @1：获取前端json查询条件,请求页数
-		String queryCondition = request.getParameter("condition");
+		String queryCondition = request.getParameter("condition")==null 
+				?"{}":request.getParameter("condition");
+		
 		QueryResult queryResult = productService.query(queryCondition, PageSettings.of(pageNo));
 		
 		request.setAttribute("queryResult", queryResult);
+		request.setAttribute("queryCondition", queryCondition);
 		return "/pmanager/product/query";
 	}
 	
@@ -133,15 +138,35 @@ public class ProductAction extends PManagerAction<Product>{
 		//2. 获取商品信息
 		Product product = productService.get(productItem.getProductId());
 		
+		//3. 获取出入库记录
 		List<StockRecord> stockRecords = stockRecordService.getStockRecordBySecurityCode(securityCode);
-		
 		List<StockStatus> listStockStatus = this.getData(stockRecords);
 		
+		//4. 获取查询记录
+		int usageCount = usageRecordService.countUsageQuery(securityCode);
+		List<UsageRecord> listUsageRecord = usageRecordService.getUsageByCode(securityCode);
+
 		request.setAttribute("product", product);
 		request.setAttribute("productItem", productItem);
 		request.setAttribute("listStockStatus", listStockStatus);
+		request.setAttribute("listUsageStatus", this.getDataUsage(listUsageRecord));
+		request.setAttribute("usageCount", usageCount);
 		
 		return url;
+	}
+	
+	private List<UsageStatus> getDataUsage(List<UsageRecord> listUsageRecord){
+		List<UsageStatus> list =new LinkedList<UsageStatus>();
+		for (UsageRecord usageRecord : listUsageRecord) {
+			UsageStatus status  = new UsageStatus();
+			status.createTime = usageRecord.getCreateTime();
+			
+			Factory factory = factoryService.get(usageRecord.getFactoryId());
+			status.factoryName = factory.getName();
+			
+			list.add(status);
+		}
+		return list;
 	}
 	
 	
@@ -155,6 +180,8 @@ public class ProductAction extends PManagerAction<Product>{
 			status.stockType = stockRecord.getType();
 			status.createTime = stockRecord.getCreateTime();
 			
+			list.add(status);
+			
 			if(StrFuncs.isEmpty(stockRecord.getBookId()))
 				continue;
 			
@@ -165,7 +192,6 @@ public class ProductAction extends PManagerAction<Product>{
 			status.factoryName = factory.getName();
 			status.factoryMobile = factory.getMobile();
 			
-			list.add(status);
 		}
 		
 		return list;
@@ -173,18 +199,65 @@ public class ProductAction extends PManagerAction<Product>{
 	
 	public static class StockStatus{
 		
-		public Date createTime;
-		
-		public String factoryName;
-		
-		public String bookformCode;
+		private Date createTime;
+		private String factoryName;
+		private String bookformCode;
+		private int stockType;
+		private String factoryMobile;
 
-		public int stockType;
-		
-		public String factoryMobile;
+		public Date getCreateTime() {
+			return createTime;
+		}
+		public void setCreateTime(Date createTime) {
+			this.createTime = createTime;
+		}
+		public String getFactoryName() {
+			return factoryName;
+		}
+		public void setFactoryName(String factoryName) {
+			this.factoryName = factoryName;
+		}
+		public String getBookformCode() {
+			return bookformCode;
+		}
+
+		public void setBookformCode(String bookformCode) {
+			this.bookformCode = bookformCode;
+		}
+
+		public int getStockType() {
+			return stockType;
+		}
+
+		public void setStockType(int stockType) {
+			this.stockType = stockType;
+		}
+
+		public String getFactoryMobile() {
+			return factoryMobile;
+		}
+
+		public void setFactoryMobile(String factoryMobile) {
+			this.factoryMobile = factoryMobile;
+		}
 	}
 	
-	
+	public static class UsageStatus{
+		private String factoryName;
+		private Date createTime;
+		public String getFactoryName() {
+			return factoryName;
+		}
+		public void setFactoryName(String factoryName) {
+			this.factoryName = factoryName;
+		}
+		public Date getCreateTime() {
+			return createTime;
+		}
+		public void setCreateTime(Date createTime) {
+			this.createTime = createTime;
+		}
+	}
 	
 	@Autowired
 	private ProductService productService;
@@ -196,4 +269,6 @@ public class ProductAction extends PManagerAction<Product>{
 	private FactoryService factoryService;
 	@Autowired
 	private BookformService bookformService;
+	@Autowired
+	private UsageRecordService usageRecordService;
 }

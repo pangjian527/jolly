@@ -13,6 +13,8 @@
 	<script type="text/javascript" src="${home}/script/haux.dom.form.js"></script>
 	<script type="text/javascript" src="${home}/script/haux.component.date.js"></script>
 	<script type="text/javascript" src="${home}/script/haux.component.dialog.js"></script>
+		<script type="text/javascript" src="${home}/script/manage.query.js"></script>
+	
 	<style type="text/css">
 		.col0{width: 40px;}
 		.col1{width:200px}
@@ -22,9 +24,10 @@
 	</style>
 	
 	<script type="text/javascript">
-		
+		var queryCondition = ${queryCondition};	
+	
 		function effective(productId){
-			if(confim("确定下架吗？")){
+			if(confirm("确定下架吗？")){
 				$.ajax({
 					type:"post",
 					url:"${home}/pmanager/product/product.do?op=effective",
@@ -43,7 +46,7 @@
 		
 		function distable(productId){
 		
-			if(confim("确定下架吗？")){
+			if(confirm("确定下架吗？")){
 				$.ajax({
 					type:"post",
 					url:"${home}/pmanager/product/product.do?op=distable",
