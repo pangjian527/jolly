@@ -86,20 +86,32 @@ public class ProductAction extends PManagerAction<Product>{
 		String securityCode = request.getParameter("securityCode");
 		String productId = request.getParameter("productId");
 		
-		ProductItem productItem = productItemService.getBySecurityCode(securityCode);
-		
-		if(productItem != null){
-			this.writeErrorJson("防伪码已经存在，请重新输入！");
-			return;
+		String result = productItemService.inStock(productId,securityCode);
+		if(result == null){
+			this.writeJson(true);
+		}else{
+			this.writeErrorJson(result);
 		}
+	}
+	
+	@RequestMapping
+	public String outStockExecute(HttpServletRequest request,ModelMap model){
+		model.put("bookId", request.getParameter("bookId"));
+		return "/pmanager/order/outstock";
+	}
+	
+	@RequestMapping
+	public void outStock(HttpServletRequest request, HttpServletResponse response){
 		
-		ProductItem item = new ProductItem();
-		item.setProductId(productId);
-		item.setSecurityCode(securityCode);
-		item.setStatus(ProductItem.STATUS_EFFECTIVE);
+		String securityCode = request.getParameter("securityCode");
+		String bookId = request.getParameter("bookId");
 		
-		productItemService.save(item);
-		this.writeJson(true);
+		String result = productItemService.outStock(bookId,securityCode);
+		if(result == null){
+			this.writeJson(true);
+		}else{
+			this.writeErrorJson(result);
+		}
 	}
 	
 	@RequestMapping

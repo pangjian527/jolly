@@ -95,3 +95,8 @@ CHANGE COLUMN `describe` `description`  varchar(500) CHARACTER SET utf8 COLLATE 
 2017-02-14 pj add
 alter table `jolly`.`t_stock_record` 
    change `type` `type` int(11) NULL  comment '出库还是入库(1:入库，0出库）'
+   
+   2017-02-16 pj add
+   ALTER TABLE `jolly`.`t_product` 
+CHANGE COLUMN `content` `content` TEXT CHARACTER SET 'utf8' NULL DEFAULT NULL COMMENT '商品详情' ;
+   

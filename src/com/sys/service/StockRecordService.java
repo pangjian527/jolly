@@ -10,12 +10,11 @@ import pub.dao.query.QueryResult;
 import pub.dao.query.QuerySettings;
 
 import com.sys.dao.StockRecordDao;
-import com.sys.entity.Score;
 import com.sys.entity.StockRecord;
 
 @Service
 @Transactional(readOnly = true)
-public class StockRecordService extends BaseService<Score>{
+public class StockRecordService extends BaseService<StockRecord>{
 
 	@Override
 	public QueryResult query(String condition, QuerySettings settings) {

@@ -81,8 +81,8 @@ public class StockRecord implements Serializable {
 		this.updateTime = updateTime;
 	}
 
-	public void setSecurityCode(String securitCode) {
-		this.securityCode = securitCode;
+	public void setSecurityCode(String securityCode) {
+		this.securityCode = securityCode;
 	}
 
 	public void setType(Integer type) {

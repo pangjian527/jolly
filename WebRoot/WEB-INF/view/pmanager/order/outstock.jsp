@@ -36,7 +36,7 @@
 		function saveObject(){
 		
 			var securityCode = document.getElementById("securityCode").value;
-			var productId = document.getElementById("productId").value;
+			var bookId = document.getElementById("bookId").value;
 			
 			if(securityCode.length < 10){
 				alert("防伪码错误，请重新输入");
@@ -45,16 +45,16 @@
 		
 			$.ajax({
 				type:"post",
-				url:"${home}/pmanager/product/product.do?op=inStock",
-				data:{securityCode:securityCode,productId:productId},
+				url:"${home}/pmanager/product/product.do?op=outStock",
+				data:{securityCode:securityCode,bookId:bookId},
 				success:function(data){
 					if(data.error){
 						document.getElementById("code_desc").innerHTML=securityCode;
-						document.getElementById("code_result").innerHTML= "入库失败";
+						document.getElementById("code_result").innerHTML= "出库失败";
 						alert("失败");
 					}else{
 						document.getElementById("code_desc").innerHTML=securityCode;
-						document.getElementById("code_result").innerHTML= "入库成功";
+						document.getElementById("code_result").innerHTML= "出库成功";
 					}
 				}
 			});
@@ -69,7 +69,7 @@
 	        <span id="code_result" style="color:green;font-size:50px;">请扫描防伪码</span>
 	    </div>
 	    <div class="stock_scan_panel">
-	    	<input type="hidden" name="productId" id="productId" value="${productId}"/>
+	    	<input type="hidden" name="bookId" id="bookId" value="${bookId}"/>
 	        <input placeholder="请输入或扫描防伪码" name="securityCode" id="securityCode" style="height:50px;width:470px;text-indent:10px;font-size:18px;"/>
 	        <button onclick="saveObject()" style="vertical-align: top;height:55px;width:120px;font-size:18px;border:1px solid red;background:red;color:white;">入库</button>
 	    </div>
