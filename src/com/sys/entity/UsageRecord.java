@@ -25,7 +25,7 @@ public class UsageRecord implements Serializable {
 	// 唯一标识
 	private String id;
 	
-	private String securitCode;
+	private String securityCode;
 	private String factoryId;//
 	// 创建时间（触发器维护）
 	private Date createTime;
@@ -38,9 +38,9 @@ public class UsageRecord implements Serializable {
 		return id;
 	}
 
-	@Column(name = "SECURIT_CODE")
+	@Column(name = "SECURITY_CODE")
 	public String getSecuritCode() {
-		return securitCode;
+		return securityCode;
 	}
 
 
@@ -66,7 +66,7 @@ public class UsageRecord implements Serializable {
 
 
 	public void setSecuritCode(String securitCode) {
-		this.securitCode = securitCode;
+		this.securityCode = securitCode;
 	}
 
 	public void setFactoryId(String factoryId) {

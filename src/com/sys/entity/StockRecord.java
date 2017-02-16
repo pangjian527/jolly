@@ -25,7 +25,8 @@ public class StockRecord implements Serializable {
 	// 唯一标识
 	private String id;
 	
-	private String securitCode;
+	private String securityCode;
+	//1:入库， 0：出库
 	private Integer type;
 	// 创建时间（触发器维护）
 	private Date createTime;
@@ -41,9 +42,9 @@ public class StockRecord implements Serializable {
 		return id;
 	}
 
-	@Column(name = "SECURIT_CODE")
-	public String getSecuritCode() {
-		return securitCode;
+	@Column(name = "SECURITY_CODE")
+	public String getSecurityCode() {
+		return securityCode;
 	}
 
 	@Column(name = "TYPE")
@@ -80,8 +81,8 @@ public class StockRecord implements Serializable {
 		this.updateTime = updateTime;
 	}
 
-	public void setSecuritCode(String securitCode) {
-		this.securitCode = securitCode;
+	public void setSecurityCode(String securitCode) {
+		this.securityCode = securitCode;
 	}
 
 	public void setType(Integer type) {
