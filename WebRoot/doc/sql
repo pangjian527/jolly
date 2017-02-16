@@ -67,3 +67,31 @@ ADD COLUMN `tracking_info`  text CHARACTER SET utf8  NULL AFTER `tracking_number
 ADD COLUMN `tracking_status`  tinyint NULL AFTER `tracking_info`;
 ADD COLUMN `delivery_time`  datetime NULL AFTER `tracking_status`;
 ADD COLUMN `confirm_time`  datetime NULL AFTER `delivery_time`;
+
+
+2017-02-13 22:04 csx add
+ALTER TABLE `t_bill`
+ADD COLUMN `factory_user_Id`  varchar(32) CHARACTER SET utf8 NULL AFTER `status`;
+ALTER TABLE `t_bill_detail`
+CHANGE COLUMN `pricePay` `price_pay`  double NULL DEFAULT NULL COMMENT '金额，正数代表公司收款，负数代表付款' AFTER `id`;
+ADD COLUMN `book_id`  varchar(32) CHARACTER SET utf8 NULL AFTER `bill_id`,
+ADD COLUMN `bookform_detail_id`  varchar(32) CHARACTER SET utf8 NULL AFTER `book_id`;
+
+2017-02-14 22:04 csx add
+ALTER TABLE `t_bill`
+CHANGE COLUMN `factory_user_Id` `sys_user_Id`  varchar(32) CHARACTER SET utf8 NULL DEFAULT NULL AFTER `status`;
+
+ALTER TABLE `t_bill_detail`
+MODIFY COLUMN `status`  tinyint(4) NULL DEFAULT NULL COMMENT '状态（结算，未结算）' AFTER `describe`;
+ALTER TABLE `t_bill_detail`
+CHANGE COLUMN `Factory_Id` `factory_Id`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `update_time`;
+
+ALTER TABLE `t_bill_detail`
+CHANGE COLUMN `describe` `description`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注说明' AFTER `factory_Id`;
+
+
+
+
+
+
+

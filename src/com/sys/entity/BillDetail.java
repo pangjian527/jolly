@@ -45,7 +45,7 @@ public class BillDetail implements Serializable {
 	// 修改时间（触发器维护）
 	private Date updateTime;
 	// 商家id
-	private String serviceFactoryId;
+	private String factoryId;
 	// 备注
 	//private String remark;
 	//状态，0：未结算，1：已结算 ,2:申请结算中
@@ -53,7 +53,12 @@ public class BillDetail implements Serializable {
 	//商品名称
 	//private String productName;
 	
-	private String describe;
+	private String description;
+	
+	// 订单ID
+	private String bookId;
+	// 订单明细ID
+	private String bookformDetailId;
 	
 
 	@GenericGenerator(name = "generator", strategy = "uuid.hex")
@@ -85,18 +90,28 @@ public class BillDetail implements Serializable {
 		return updateTime;
 	}
 	
-	@Column(name = "SERVICE_FACTORY_ID")
-	public String getServiceFactoryId() {
-		return serviceFactoryId;
+	@Column(name = "FACTORY_ID")
+	public String getFactoryId() {
+		return factoryId;
 	}
 	@Column(name = "STATUS")
 	public int getStatus() {
 		return status;
 	}
 	
-	@Column(name = "DESCRIBE")
-	public String getDescribe() {
-		return describe;
+	@Column(name = "DESCRIPTION")
+	public String getDescription() {
+		return description;
+	}
+
+	@Column(name = "BOOK_ID")
+	public String getBookId() {
+		return bookId;
+	}
+
+	@Column(name = "BOOKFORM_DETAIL_ID")
+	public String getBookformDetailId() {
+		return bookformDetailId;
 	}
 
 	public void setId(String id) {
@@ -119,15 +134,24 @@ public class BillDetail implements Serializable {
 		this.updateTime = updateTime;
 	}
 
-	public void setServiceFactoryId(String serviceFactoryId) {
-		this.serviceFactoryId = serviceFactoryId;
+	public void setFactoryId(String factoryId) {
+		this.factoryId = factoryId;
 	}
 	public void setStatus(int status) {
 		this.status = status;
 	}
 
-	public void setDescribe(String describe) {
-		this.describe = describe;
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setBookId(String bookId) {
+		this.bookId = bookId;
+	}
+
+	public void setBookformDetailId(String bookformDetailId) {
+		this.bookformDetailId = bookformDetailId;
 	}
 
 	

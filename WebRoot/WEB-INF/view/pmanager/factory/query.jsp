@@ -76,6 +76,24 @@
 			window.location = src;
 		}
 		
+		//申请结算
+		function submitBill(factoryId){
+			var url = '${home}/pmanager/billdetail/bill_detail.do?op=checkout&factoryId='+factoryId;
+			haux.component.Dialog.confirm({content :"您正在发起商家账单结算",
+				title : "结算申请",
+				ok:function(){
+					Dialog.open({url : url, 
+						title : "操作结果", 
+						width : 600, 
+						height : 400,
+						onClose : function(){
+							window.location.reload();
+						}
+					});
+				}
+			});
+		}
+		
 	</script>
 		
 </head>
@@ -179,7 +197,7 @@
 						<p>${data.areaname }</p>
 					</td>
 					<td>${data.referee_name }</td>
-					<td>${data.sys_user_id }</td>
+					<td>${data.sys_user_name }</td>
 					<td>
 						<!-- 
 						<c:if test='${data.status == 0}'>未上架</c:if>
@@ -246,6 +264,7 @@
 								onclick="deleteObject('${data.id}', '删除门店', '删除门店${data.name}，数据删除后将不可恢复！');">删除</a>
 						</c:if>
 						<a href="${home}/pmanager/factory/factory.do?op=factoryScore&id=${data.id}">积分</a>
+						<a href="javascript:submitBill('${data.id}')">账单结算</a>
 					</td>
 				</tr>
 			</c:forEach>

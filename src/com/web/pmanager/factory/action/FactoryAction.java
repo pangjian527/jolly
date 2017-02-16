@@ -22,10 +22,12 @@ import pub.types.IdText;
 
 import com.sys.entity.Area;
 import com.sys.entity.Factory;
+import com.sys.entity.SysUser;
 import com.sys.service.AreaService;
 import com.sys.service.FactoryService;
 import com.sys.service.FileService;
 import com.sys.service.ScoreService;
+import com.sys.service.SysUserService;
 import com.web.pmanager.PManagerAction;
 
 /**
@@ -266,6 +268,21 @@ public class FactoryAction extends PManagerAction<Factory>{
 		return "/pmanager/factory/score";
 	}
 	
+	@RequestMapping
+	public String edit(HttpServletRequest request, ModelMap model, String id) throws Exception{
+		model.put( "readonly", false);
+		Factory bean = getService().get(id);
+		//System.out.println("bean的值"+bean);
+		model.put( "bean", bean);
+		
+		Factory refereeFactory = factoryService.get(bean.getRefereeId());
+		model.put("refereeFactoryName", refereeFactory==null?"":refereeFactory.getName());//推荐商家
+		
+		SysUser sysUser = sysUserService.get(bean.getSysUserId());
+		model.put("sysUserName", sysUser == null?"":sysUser.getName());//推荐职员
+		return getJspFolderPath() + "/show";
+	}
+	
 	@Autowired
 	private FactoryService factoryService;
 	@Autowired
@@ -275,4 +292,7 @@ public class FactoryAction extends PManagerAction<Factory>{
 	
 	@Autowired
 	private ScoreService scoreService;
+	
+	@Autowired
+	private SysUserService sysUserService;
 }

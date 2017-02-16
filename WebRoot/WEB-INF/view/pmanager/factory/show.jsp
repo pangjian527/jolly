@@ -113,7 +113,7 @@
 			initAreaBox(document.getElementById("province"), document.getElementById("city"), 
 				document.getElementById("district"), "${bean.provinceId}", "${bean.cityId}", "${bean.countyId}");
 			
-			var srcPrefix = "/pmanager/factory/factory.do";
+			/* var srcPrefix = "/pmanager/factory/factory.do";
 			var queryAjaxUrl = srcPrefix + "?op=queryForSelect";
 			var getAjaxUrl = srcPrefix + "?op=get";
 			var config = {targetElement : document.getElementsByName("refereeId")[0], 
@@ -123,7 +123,7 @@
 					inputPrompt : "请选择"
 				};
 				
-			new haux.component.Select2(config);
+			new haux.component.Select2(config); */
 			/* <c:if test="${readonly == true}">
 			haux.dom.form.toView();
 			</c:if> */
@@ -185,12 +185,15 @@
 					<li class="mandatory">
 						<label>推荐商家：</label>
 						
-						<form:input path="refereeId" cssClass="required text" style="width:250px;"/>
+						<form:input path="refereeId" cssClass="required text" type = "hidden"/>
+						<input id="refereeFactoryName" name="refereeFactoryName" value="${refereeFactoryName }" class="required text" disabled="disabled">
+						
 					</li>
 					<li class="mandatory">
 						<label>地推人员：</label>
 						
-						<form:input path="sysUserId" cssClass="required text" style="width:250px;"/>
+						<form:input path="sysUserId" cssClass="required text" type = "hidden"/>
+						<input id="sysUserName" name="sysUserName" value="${sysUserName }" class="required text" disabled="disabled">
 					</li>
 					<li class="colspan_3 mandatory detail_address">
 						<label>
