@@ -118,6 +118,27 @@ ALTER TABLE `t_product`
 CHANGE COLUMN `content` `content_photo_ids`  varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品详情' AFTER `quick_charge`;
 
 
+SET FOREIGN_KEY_CHECKS=0;
+-- ----------------------------
+-- Table structure for t_express_fee
+-- ----------------------------
+DROP TABLE IF EXISTS `t_express_fee`;
+CREATE TABLE `t_express_fee` (
+  `id` varchar(32) NOT NULL,
+  `express_company_id` varchar(100) DEFAULT NULL COMMENT '快递公司ID',
+  `fee` double DEFAULT NULL COMMENT '邮费',
+  `amount_for_free` varchar(255) DEFAULT NULL COMMENT '订单总额满多少可免费',
+  `area_id` text,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_express_fee
+-- ----------------------------
+
+
 
 
 

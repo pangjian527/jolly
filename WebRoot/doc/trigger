@@ -287,3 +287,18 @@ FOR EACH ROW
 BEGIN
 SET new.create_time = SYSDATE();
 END;
+
+DROP TRIGGER IF EXISTS t_create_on_express_fee;
+CREATE TRIGGER t_create_on_express_fee 
+BEFORE INSERT ON t_express_fee
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_express_fee;
+CREATE TRIGGER t_update_on_express_fee 
+BEFORE UPDATE ON t_express_fee
+FOR EACH ROW
+SET new.update_time = SYSDATE();
