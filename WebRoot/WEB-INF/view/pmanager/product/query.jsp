@@ -17,10 +17,12 @@
 	
 	<style type="text/css">
 		.col0{width: 40px;}
-		.col1{width:200px}
-		.col2{width: auto;}
+		.col1{width:auto}
+		.col2{width: 80px;}
 		.col3{width: 80px}
-		
+		.col6{width: 80px}
+		.col8{width: 80px}
+		.col9{width: 120px}
 	</style>
 	
 	<script type="text/javascript">
@@ -107,6 +109,7 @@
 			<col class="col6" />
 			<col class="col7" />
 			<col class="col8" />
+			<col class="col9" />
 		<thead>
 			<tr>
 			    <th>No.</th>
@@ -147,12 +150,16 @@
 						</c:if>
 					</td>
 					<td>
-						<a href="javascript:void(0)" onclick="effective('${data.id }');">
-							上架
-						</a>
-						<a href="javascript:void(0)" onclick="distable('${data.id }');">
-							下架
-						</a>
+						<c:if test="${data.status == 1}">
+							<a href="javascript:void(0)" onclick="distable('${data.id }');">
+								下架
+							</a>
+						</c:if>
+						<c:if test="${data.status != 1}">
+							<a href="javascript:void(0)" onclick="effective('${data.id }');">
+								上架
+							</a>
+						</c:if>
 						<a href="${home}/pmanager/product/product.do?op=inStockExecute&productId=${data.id }">
 							入库
 						</a>

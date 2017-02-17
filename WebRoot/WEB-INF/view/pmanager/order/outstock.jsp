@@ -71,7 +71,7 @@
 	    <div class="stock_scan_panel">
 	    	<input type="hidden" name="bookId" id="bookId" value="${bookId}"/>
 	        <input placeholder="请输入或扫描防伪码" name="securityCode" id="securityCode" style="height:50px;width:470px;text-indent:10px;font-size:18px;"/>
-	        <button onclick="saveObject()" style="vertical-align: top;height:55px;width:120px;font-size:18px;border:1px solid red;background:red;color:white;">入库</button>
+	        <button onclick="saveObject()" style="vertical-align: top;height:55px;width:120px;font-size:18px;border:1px solid red;background:red;color:white;">出库</button>
 	    </div>
 	</div>
 </body>
