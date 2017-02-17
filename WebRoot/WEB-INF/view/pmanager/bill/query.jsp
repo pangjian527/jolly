@@ -5,7 +5,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>资金来往</title>
+	<title>账单结算</title>
 	<link rel="stylesheet" type="text/css" href="${home}/style/global.css" />
 	<link rel="stylesheet" type="text/css" href="${home}/style/popbox.css" />
 	<script type="text/javascript" src="${home}/script/jquery-1.10.2.min.js"></script>
@@ -130,8 +130,8 @@
 		<div class="query" >
 			<ul class="input three_col">
 				<li>
-					<label>商户门店：</label>
-					<input placeholder="商户门店" type="text" id="factoryName"  name="factoryName"/>
+					<label>商家名称：</label>
+					<input placeholder="商家名称" type="text" id="factoryName"  name="factoryName"/>
 				</li>
 				<li>
 					<label>所在地：</label>
@@ -175,7 +175,7 @@
 	<div class="query_result">
 		<h1>
 			<b></b>
-			<label>资金来往记录</label>
+			<label>账单结算记录</label>
 			<span>共有${queryResult.rowCount}条数据</span>
 			
 		</h1>

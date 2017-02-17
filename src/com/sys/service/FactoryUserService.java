@@ -21,7 +21,7 @@ import com.sys.entity.Factory;
 import com.sys.entity.FactoryUser;
 
 /**
- * 商家门店账号
+ * 商家商家账号
  * @author zhangz
  *
  */
@@ -171,10 +171,10 @@ public class FactoryUserService  extends BaseService<FactoryUser>{
 			throw new Exception("账户已被冻结"); 
 		}
 		
-		//5.检查门店有效性
+		//5.检查商家有效性
 		Factory factory = factoryService.get(user.getFactoryId());
 		if(factory.getStatus() != 1){
-			throw new Exception("门店尚未开通"); 
+			throw new Exception("商家尚未开通"); 
 		}
 		
 		

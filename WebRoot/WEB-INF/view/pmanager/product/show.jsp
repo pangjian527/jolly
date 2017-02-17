@@ -17,6 +17,8 @@
 	<script type="text/javascript" src="${home}/script/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="${home}/script/haux.js"></script>
 	<script type="text/javascript" src="${home}/script/haux.dom.form.js"></script>
+	<script type="text/javascript" src="${home}/script/jquery.ajaxfileupload.js"></script>
+	<script type="text/javascript" src="${home}/script/haux.component.file.js"></script>
 	
 	<style type="text/css">
 		ul.three_col li.detail_address select{
@@ -65,6 +67,31 @@
 				document.forms[0].submit();;
 			}
 		}
+		haux.dom.addEventHandler(window, "load", function(){
+			
+			//0.初始化商品图片文件上传附件
+			var hiddenElement = document.getElementById("photoIds");
+			var fileObj = new haux.component.File({display : "big-icon",
+				hiddenElement : hiddenElement,
+				containerElement : hiddenElement.parentNode,
+				fileElement : document.getElementsByName("uploadFile")[0],
+				maxCount : 5, 
+				fileType : "image", 
+				maxFileSize : 1*1024
+			});
+			
+			//0.初始化详情图片文件上传附件
+			var hiddenElement = document.getElementById("contentPhotoIds");
+			var fileObj = new haux.component.File({display : "big-icon",
+				hiddenElement : hiddenElement,
+				containerElement : hiddenElement.parentNode,
+				fileElement : document.getElementsByName("uploadFile")[0],
+				maxCount : 5, 
+				fileType : "image", 
+				maxFileSize : 1*1024
+			});
+			
+		});
 	</script>		
 	
 </head>
@@ -150,10 +177,26 @@
 						<label>快充功能：</label>
 						<form:input path="quickCharge" cssClass="text required form-input" class="required" />
 					</li>
+					
+					<li class="mandatory">
+						<label>商品库存：</label>
+						<form:input path="stockCount" cssClass="text required form-input" class="required" disabled="true"/>
+					</li>
 				</ul>
 				<div class="clear"></div>
 			</div>
-			
+			<div class="box_title">
+				<h3>商品图片</h3>
+				<div>
+					<form:input path="photoIds" id="photoIds" type="hidden"/>
+				</div>
+			</div>
+			<div class="box_title">
+				<h3>详情图片</h3>
+				<div>
+					<form:input path="contentPhotoIds" id="contentPhotoIds" type="hidden"/>
+				</div>
+			</div>
 		</form:form>
 	</div>
 </body>

@@ -43,7 +43,7 @@ public class BookformService extends BaseService<Bookform>{
 		
 		Query query = new PagedQuery(settings);
 		StringBuilder select = new StringBuilder();
-		select.append( " t.id,t.code,t.contact_man,t.contact_tel,t.status,t.create_time,t.PAY_TYPE," +
+		select.append( " t.*," +
 				" (select count(1) from log_payment l where l.id = t.payment_Id and l.status = 1) " +
 				"as online_payment, f.name as factoryname,a.full_name as areaname");
 		
@@ -443,7 +443,7 @@ public class BookformService extends BaseService<Bookform>{
 		
 		bookformStockConsultDao.finishAllByBookId(bookform.getId());
 		
-		draftService.saveLog(Bookform.TABLE_NAME, bookform.getId(), user, "确定轮胎加急安装门店",
+		draftService.saveLog(Bookform.TABLE_NAME, bookform.getId(), user, "确定轮胎加急安装商家",
 				"serviceFactoryId", factoryId, "");
 	}
 	
@@ -463,7 +463,7 @@ public class BookformService extends BaseService<Bookform>{
 			bookformStockConsult.setStatus(0);
 			bookformStockConsultDao.save(bookformStockConsult);
 		}
-		draftService.saveLog(Bookform.TABLE_NAME, bookform.getId(), user, "发起加急安装咨询，共" + factoryIds.length + "家门店");
+		draftService.saveLog(Bookform.TABLE_NAME, bookform.getId(), user, "发起加急安装咨询，共" + factoryIds.length + "家商家");
 		return true;
 	}
 	
@@ -509,7 +509,7 @@ public class BookformService extends BaseService<Bookform>{
 		return true;
 	}
 	
-	 管理台直接拒绝该门店
+	 管理台直接拒绝该商家
 	@Transactional
 	public boolean rejectUrgentInstallConsult(String bookId,String factoryId,SysUser sysUser) throws Exception{
 		BookformStockConsult consult = bookformStockConsultDao.get(bookId, factoryId);
@@ -524,7 +524,7 @@ public class BookformService extends BaseService<Bookform>{
 		
 		consult.setStockStatus(0);
 		consult.setReplyTime(new Date());
-		consult.setReply("经过客服电话沟通，确认该门店无法安装！");
+		consult.setReply("经过客服电话沟通，确认该商家无法安装！");
 		consult.setSysUserId(sysUser.getId());
 		
 		bookformStockConsultDao.save(consult);
@@ -1222,7 +1222,7 @@ public class BookformService extends BaseService<Bookform>{
 		bookform.setTrackingStatus(useFactoryTyre? 1 : 0 );
 		save(bookform);
 		
-		String action = "门店确认" + (useFactoryTyre ? "使用自有轮胎" : "使用好胎屋货源");
+		String action = "商家确认" + (useFactoryTyre ? "使用自有轮胎" : "使用好胎屋货源");
 		draftService.saveLog(Bookform.TABLE_NAME, id, user, action, 
 				"trackingType", "w", bookform.getTrackingType());
 		
@@ -1242,7 +1242,7 @@ public class BookformService extends BaseService<Bookform>{
 		bookform.setTrackingStatus(useFactoryTyre? 1 : 0 );
 		save(bookform);
 		
-		String action = "商城管理员强制指定货源：" + (useFactoryTyre ? "使用门店自有轮胎" : "使用好胎屋货源");
+		String action = "商城管理员强制指定货源：" + (useFactoryTyre ? "使用商家自有轮胎" : "使用好胎屋货源");
 		draftService.saveLog(Bookform.TABLE_NAME, id, user, action, 
 				"trackingType", "w", bookform.getTrackingType());
 		
@@ -1337,7 +1337,7 @@ public class BookformService extends BaseService<Bookform>{
 		}
 		
 		if(bookform.getIsSelf() == 1 && bookform.getTrackingStatus() != 2){
-			return result.element("success", false).element("describe", "轮胎尚未抵达安装门店");
+			return result.element("success", false).element("describe", "轮胎尚未抵达安装商家");
 		}
 
 		if(detail.getVerificationStatus() == 1){
@@ -1589,7 +1589,7 @@ public class BookformService extends BaseService<Bookform>{
 		return null;
 	}
 	
-	 20151016 更换订单服务门店 
+	 20151016 更换订单服务商家 
 	@Transactional
 	public void resetFactory(String bookformId, String factoryId) throws Exception{
 		
@@ -1597,21 +1597,21 @@ public class BookformService extends BaseService<Bookform>{
 		Factory factory = factoryService.get(factoryId);
 		
 		if(bookform.getIsSelf() ==0 )
-			throw new Exception("服务订单不能更换门店");
+			throw new Exception("服务订单不能更换商家");
 		if(bookform.getStatus() != 0)
-			throw new Exception("此状态下不能更换门店");
+			throw new Exception("此状态下不能更换商家");
 		
 		if(factory.getStatus() != 1)
-			throw new Exception("服务门店无效");
+			throw new Exception("服务商家无效");
 		if(factory.getErectility() ==0)
-			throw new Exception("服务门店无安装能力");
+			throw new Exception("服务商家无安装能力");
 		
 		Factory oldFactory = factoryService.get(bookform.getServiceFactoryId());
 		
 		bookform.setServiceFactoryId(factory.getId());
 		bookformDao.save(bookform);
 		
-		draftService.saveLog(Bookform.TABLE_NAME, bookformId, SysUser.SYSTEM,"服务门店由"+oldFactory.getName()+"更换为"+factory.getName(),
+		draftService.saveLog(Bookform.TABLE_NAME, bookformId, SysUser.SYSTEM,"服务商家由"+oldFactory.getName()+"更换为"+factory.getName(),
 				"status", "1", "2");
 	}
 	
@@ -1776,7 +1776,7 @@ public class BookformService extends BaseService<Bookform>{
 		bookform.setPayType(StrFuncs.notEmpty(text) ? Integer.valueOf(text) : 0);
 		bookform.setInvoiceTitle(postData.get("invoiceTitle"));
 		bookform.setRemark(postData.get("remark"));
-		//无需发货 ，使用门店货源
+		//无需发货 ，使用商家货源
 		bookform.setTrackingType("w");
 		// 轮胎订单
 		bookform.setIsSelf(1);

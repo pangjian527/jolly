@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>店主账号</title>
+	<title>订单信息</title>
 	<link rel="stylesheet" type="text/css" href="${home}/style/global.css" />
 	<link rel="stylesheet" type="text/css" href="${home}/style/popbox.css" />
 	
@@ -22,11 +22,13 @@
 	
 	<style type="text/css">
 		.col0{width: 40px;}
-		.col1{width: 150px}
-		.col2{width: 160px}
-		.col3{width: 120px}
+		.col1{width: 200px}
+		.col2{width: 200px}
+		.col3{width: 200px}
 		.col4{width: auto}
-		.col5{width: 60px}
+		.col5{width: 150px}
+		.col6{width: 150px}
+		.col7{width: 80px}
 
 		
 		table em{
@@ -92,14 +94,22 @@
 					<input placeholder="订单号" type="text" class="text form-input" name="code"/>
 				</li>
 				<li>
-					<label>订单状态：</label>
-					<select name="status" class="text form-input">
-						<option value="">-不限-</option>
-						<option value="0">待确认</option>
-						<option value="1">已确认</option>
-						<option value="2">已完成</option>
-						<option value="3">撤销</option>
-					</select>
+					<label>状态：</label>
+					<span class="radio">
+						<input type="radio" class="radio" name="status" checked="checked" value=""/>全部
+					</span>
+					<span class="radio">
+						<input type="radio" class="radio" name="status" value="0"/>待确认
+					</span>
+					<span class="radio">
+						<input type="radio" class="radio"  name="status" value="1"/>已确认
+					</span>
+					<span class="radio">
+						<input type="radio" class="radio"  name="status" value="2"/>已完成
+					</span>
+					<span class="radio">
+						<input type="radio" class="radio"  name="status" value="3"/>已撤销
+					</span>
 				</li>
 				<li class="">
 					<label>所在地：</label>
@@ -133,7 +143,7 @@
 	<div class="query_result">
 		<h1>
 			<b></b>
-			<label>订单数据记录</label>
+			<label>订单信息记录</label>
 			<span>共有${queryResult.rowCount}条数据</span>
 			
 		</h1>
@@ -144,6 +154,8 @@
 			<col class="col3" />
 			<col class="col4" />
 			<col class="col5" />
+			<col class="col6" />
+			<col class="col7" />
 		<thead>
 			<tr>
 			    <th>No.</th>
@@ -152,6 +164,7 @@
 				<th>联系方式</th>
 				<th>商家名称</th>	
 				<th>状态</th>
+				<th>付款类型</th>
 				<th>操作</th>
 			</tr>
 		</thead>
@@ -181,9 +194,17 @@
 						<c:if test='${data.status == 2}'>已完成</c:if>
 						<c:if test='${data.status == 3}'>撤销</c:if>
 					</td>
+					
+					<td>
+						<c:if test='${data.pay_type == 0}'>在线支付</c:if>
+						<c:if test='${data.pay_type == 1}'>货到付款</c:if>
+						<c:if test='${data.pay_type == 2}'>预发货后付款</c:if>
+					</td>
 					<td>
 						<a href="javascript:void(0)" onclick="viewObject('${data.id }');">查看</a>
-						<a href="${home}/pmanager/product/product.do?op=outStockExecute&bookId=${data.id }">出库</a>
+						<c:if test='${data.status == 1&&data.tracking_status == 0}'>
+							<a href="${home}/pmanager/product/product.do?op=outStockExecute&bookId=${data.id }">出库</a>
+						</c:if>
 					</td>
 				</tr>
 			</c:forEach>

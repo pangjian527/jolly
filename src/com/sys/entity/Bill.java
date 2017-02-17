@@ -24,7 +24,7 @@ public class Bill implements Serializable {
 	//public static final int STATUS_AUDIT_THROUGH = 1;	//审核通过，等待总店付款
 	public static final int STATUS_AUDIT_SUCCESS = 2;    //付款完成
 	public static final int STATUS_CANCEL = -1;			//人为撤销
-	//public static final int STATUS_WAIT_FACTORY = 4;	//等待门店在线支付欠款
+	//public static final int STATUS_WAIT_FACTORY = 4;	//等待商家在线支付欠款
 	//public static final int PROCESS_RETURN = 5 ;		//驳回
 	//public static final int STATUS_ABNORMAL_PAYMENT_REQUEST = 6;	//请款异常
 

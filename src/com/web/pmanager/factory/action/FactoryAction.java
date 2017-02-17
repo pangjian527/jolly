@@ -31,7 +31,7 @@ import com.sys.service.SysUserService;
 import com.web.pmanager.PManagerAction;
 
 /**
- * 后台门店商户管理
+ * 后台商家商户管理
  * @author zhangz
  */
 @Controller
@@ -74,7 +74,7 @@ public class FactoryAction extends PManagerAction<Factory>{
 	
 	/**
 	 * jmj 2015-05-20 
-	 * 复制功能 :让用户更方便添加新的门店
+	 * 复制功能 :让用户更方便添加新的商家
 	 * @param request
 	 * @param model
 	 * @param id
@@ -131,7 +131,7 @@ public class FactoryAction extends PManagerAction<Factory>{
 	public View delete(HttpServletRequest request, String id) throws Exception{
 		boolean success = factoryService.delete(id, getUser(request));
 		if(success){
-			return ActionResult.ok( "门店已被删除，如需恢复请联系系统管理员", "/pmanager/factory/factory.do?op=query");
+			return ActionResult.ok( "商家已被删除，如需恢复请联系系统管理员", "/pmanager/factory/factory.do?op=query");
 		}
 		else{
 			return ActionResult.error("非法操作");
@@ -163,7 +163,7 @@ public class FactoryAction extends PManagerAction<Factory>{
 	public View submit(HttpServletRequest request,String id, String auditCheck) throws Exception{
 		boolean success = factoryService.submit(id, getUser(request));
 		if(success){
-			return ActionResult.ok( "门店已申请，请等待审核通过", "/pmanager/factory/factory.do?op=query");
+			return ActionResult.ok( "商家已申请，请等待审核通过", "/pmanager/factory/factory.do?op=query");
 		}
 		else{
 			return ActionResult.error("非法操作");
@@ -220,7 +220,7 @@ public class FactoryAction extends PManagerAction<Factory>{
 	public View disable(HttpServletRequest request, String id) throws Exception{
 		boolean success = factoryService.disable(id, getUser(request));
 		if(success){
-			return ActionResult.ok( "门店已下架，无法继续销售产品", "/pmanager/factory/factory.do?op=query");
+			return ActionResult.ok( "商家已下架，无法继续销售产品", "/pmanager/factory/factory.do?op=query");
 		}
 		else{
 			return ActionResult.error("非法操作");
@@ -251,7 +251,7 @@ public class FactoryAction extends PManagerAction<Factory>{
 		
 		int pageNo=this.getIntegerParam("pn", 1);
 		
-		//获取门店积分列表
+		//获取商家积分列表
 		JSONObject object = new JSONObject();
 		object.element("factoryId", id);
 		QueryResult queryResult = scoreService.query(object.toString(), PageSettings.of(pageNo));

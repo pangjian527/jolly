@@ -5,7 +5,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>财务账单</title>
+	<title>账单明细</title>
 	<link rel="stylesheet" type="text/css" href="${home}/style/global.css" />
 	<link rel="stylesheet" type="text/css" href="${home}/style/popbox.css" />
 	
@@ -21,13 +21,12 @@
 	
 	<style type="text/css">
 		.col0{width: 40px;}
-		.col1{width: 100px}
-		.col2{width: 220px}
-		.col3{width: auto}
-		.col4{width: 60px;}
-		.col5{width: 60px}
-		.col6{width: 380px}
-		
+		.col1{width: 20%}
+		.col2{width: 200px}
+		.col3{width: 200px}
+		.col4{width: auto;}
+		.col5{width: 150px}
+		.col6{width: 150px}
 
 		
 		label.receivables{
@@ -120,8 +119,8 @@
 		<div class="query" >
 			<ul class="input three_col">
 				<li>
-					<label>商户门店：</label>
-					<input placeholder="商户门店" type="text" id="factoryName"  name="factoryName"/>
+					<label>商家名称：</label>
+					<input placeholder="商家名称" type="text" id="factoryName"  name="factoryName"/>
 				</li>
 
 				<li>
@@ -158,7 +157,7 @@
 	<div class="query_result">
 		<h1>
 			<b></b>
-			<label>交易记录</label>
+			<label>账单明细记录</label>
 			<span>共有${queryResult.rowCount}条数据</span>
 			
 		</h1>
@@ -173,12 +172,12 @@
 		<thead>
 			<tr>
 			    <th>No.</th>
+			    <th>商家名称</th>
 				<th>时间</th>
 				<th>来自</th>
 				<th>交易说明</th>
 				<th>状态</th>
 				<th id="amount">金额</th>
-				<th>明细</th>
 				
 				
 			</tr>
@@ -187,23 +186,17 @@
 			<c:forEach items="${queryResult.rows}" var="data" varStatus="idx">
 				<tr  alt="${data.remark }" >
 					<td>${idx.index+1 }</td>
+					<td>${data.factory_name }</td>
 					<td>
-						<fmt:formatDate value="${data.create_time}" pattern="yyyy-MM-dd"/>
-						<p>
-							<fmt:formatDate value="${data.create_time}" pattern="HH:mm:ss"/>
-						</p>
+						<fmt:formatDate value="${data.create_time}" pattern="yyyy-MM-dd HH:mm:ss"/>
 					</td>
 					<td>
-						<a href="${home}/shop${data.ID}.html" target="_blank">${data.factory_name}</a>
-						<p>
-							<a href="${home}/pmanager/order/bookform.do?op=view&id=${data.book_id}" target="_blank">
-								查看订单
-							</a>
-						</p>
+						<a href="${home}/pmanager/order/bookform.do?op=view&id=${data.book_id}" target="_blank">
+							查看订单
+						</a>
 					</td>
 					<td>
-						${data.type}
-						<p>${data.description}</p>
+						${data.description}
 					</td>
 					<td>
 						<c:if test='${data.status == 0}'>未结算</c:if>
@@ -217,9 +210,6 @@
 						<c:if test="${data.price_pay<=0}">
 							<label class="payment">${data.price_pay }</label>
 						</c:if>
-					</td>
-					<td>
-
 					</td>
 
 					

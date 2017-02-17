@@ -134,7 +134,7 @@ public class BillService extends BaseService<Bill>{
 		}
 		//1.变更数据状态
 		bill.setStatus(Bill.STATUS_AUDIT_SUCCESS);
-		//bill.setRemark(user.getName() + "已向门店完成付款：" + detail);
+		//bill.setRemark(user.getName() + "已向商家完成付款：" + detail);
 		String text = DateFuncs.toString(new Date()) + " " + user.getCode() 
 			+ "确认已付款，详情：" + detail;
 		bill.setRemark(bill.getRemark() + "\n" + text);
@@ -258,7 +258,7 @@ public class BillService extends BaseService<Bill>{
 //	    if(queryData!=null){
 //	    	
 //	    }
-	    //门店取自己与总店的资金来往
+	    //商家取自己与总店的资金来往
 	    if(StrFuncs.notEmpty(factoryId)){
 	    	where.append( " and t.factory_id =:factoryId");
 			query.put( "factoryId", factoryId);
@@ -274,13 +274,13 @@ public class BillService extends BaseService<Bill>{
 	
 	
 	
-	 * @功能说明：门店发起付款流程
+	 * @功能说明：商家发起付款流程
 	 * 
 	 * @版本信息：2014-11-14 pj add
 	 
 	@Transactional
 	public void payMent(String factoryId,String factoryUserId) throws Exception{
-		//门店发起付款流程，不需要总店审核，状态直接等待门店付款
+		//商家发起付款流程，不需要总店审核，状态直接等待商家付款
 		createBill(factoryId,factoryUserId,4);
 	}
 	
@@ -385,7 +385,7 @@ public class BillService extends BaseService<Bill>{
 	
 	
 	*//**
-	 * 门店在线支付成功后，系统自动回调该方法，将欠款Bill状态置为已完成，并记录logPaymentId
+	 * 商家在线支付成功后，系统自动回调该方法，将欠款Bill状态置为已完成，并记录logPaymentId
 	 * @param id
 	 * @param logId
 	 *//*
@@ -400,7 +400,7 @@ public class BillService extends BaseService<Bill>{
 		//1.更新bill数据，并记录logpayment id；
 		bill.setPaymentId(logId);
 		bill.setStatus(Bill.STATUS_AUDIT_SUCCESS);//付完钱就表示完成了
-		String text = DateFuncs.toString(new Date()) + " 门店欠款在线支付成功，结算完成";
+		String text = DateFuncs.toString(new Date()) + " 商家欠款在线支付成功，结算完成";
 		bill.setRemark(bill.getRemark() + "\n" + text);
 		save(bill);
 		
@@ -413,7 +413,7 @@ public class BillService extends BaseService<Bill>{
 		
 		//3.记录操作日志
 		try{
-			String action = "门店欠款在线支付成功，结算单自动转为已完成状态";
+			String action = "商家欠款在线支付成功，结算单自动转为已完成状态";
 			draftService.saveLog(Bill.TABLE_NAME, id, SysUser.SYSTEM, action,
 				"status", "0", "1");
 		}
@@ -425,7 +425,7 @@ public class BillService extends BaseService<Bill>{
 	}
 	
 	
-	 * @功能说明：门店收回付款请求
+	 * @功能说明：商家收回付款请求
 	 * 
 	 * @版本信息：2015-3-14 myq add
 	 
@@ -455,7 +455,7 @@ public class BillService extends BaseService<Bill>{
 	}
 	
 	*//**
-	 * myq add 2015-3-11，根据计算单id，检验&生成门店欠款的相关信息 
+	 * myq add 2015-3-11，根据计算单id，检验&生成商家欠款的相关信息 
 	 * @param id
 	 * @return
 	 *//*
@@ -466,7 +466,7 @@ public class BillService extends BaseService<Bill>{
 			throw new Exception("该订单无法在线支付!");
 		}
 		
-		return new PayInfo("门店支付欠款", - bill.getAmount(),
+		return new PayInfo("商家支付欠款", - bill.getAmount(),
 				BillPaymentCallbackUtils.class.getName(), id);
 		//return result;
 	}

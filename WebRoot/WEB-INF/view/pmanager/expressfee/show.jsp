@@ -97,56 +97,12 @@
 			}
 		}
 		
-		haux.dom.addEventHandler(window, "load", function(){
-			
-			//初始化商家图片文件上传附件
-			var hiddenElement = document.getElementById("photoIds");
-			var fileObj = new haux.component.File({display : "big-icon",
-				hiddenElement : hiddenElement,
-				containerElement : hiddenElement.parentNode,
-				fileElement : document.getElementsByName("uploadFile")[0],
-				maxCount : 5, 
-				fileType : "image", 
-				maxFileSize : 1*1024
-			});
-			
-			//初始化营业执照文件上传附件
-			var hiddenElement = document.getElementById("licenseFileIds");
-			var fileObj = new haux.component.File({display : "big-icon",
-				hiddenElement : hiddenElement,
-				containerElement : hiddenElement.parentNode,
-				fileElement : document.getElementsByName("uploadFile")[0],
-				maxCount : 5, 
-				fileType : "image", 
-				maxFileSize : 1*1024
-			});
-			
-			
-			initAreaBox(document.getElementById("province"), document.getElementById("city"), 
-				document.getElementById("district"), "${bean.provinceId}", "${bean.cityId}", "${bean.countyId}");
-			
-			/* var srcPrefix = "/pmanager/factory/factory.do";
-			var queryAjaxUrl = srcPrefix + "?op=queryForSelect";
-			var getAjaxUrl = srcPrefix + "?op=get";
-			var config = {targetElement : document.getElementsByName("refereeId")[0], 
-					queryAjaxUrl : queryAjaxUrl,
-					getAjaxUrl : getAjaxUrl,
-					textProperty : ["name", "TITLE", "factoryName"], 
-					inputPrompt : "请选择"
-				};
-				
-			new haux.component.Select2(config); */
-			/* <c:if test="${readonly == true}">
-			haux.dom.form.toView();
-			</c:if> */
-			
-		});
 	</script>		
 	
 </head>
 <body >
 	<div class="body_wrap">
-		<form:form action="${home}/pmanager/factory/factory.do" modelAttribute="bean" 
+		<form:form action="${home}/pmanager/expressfee/express_fee.do" modelAttribute="bean" 
 			id="form" class="theme" name="basic" method="post">
 			<input type="hidden" name="id" value="${bean.id}"/>
 			<input type="hidden" name="op" value="save"/>
@@ -171,76 +127,21 @@
 				<ul class="input two_col">
 					<li class="mandatory">
 						<label>
-							商家名称：
+							邮费：
 						</label>
-						<form:input path="name" cssClass="text required form-input"/>
+						<form:input path="fee" cssClass="text form-input real required" min="0" />
 					</li>
 					<li class="mandatory">
 						<label>
-							商家联系人：
+							免邮费总额：
 						</label>
-						<form:input path="man" cssClass="text required form-input"/>
+						<form:input path="amountForFree" cssClass="text form-input real required" min="0"/>
 					</li>
-					<li class="mandatory">
-						<label>
-							移动电话：
-						</label>
-						<form:input path="mobile" cssClass="text required form-input"/>
-					</li>
-
-					<li class="mandatory">
-						<label>
-							营业执照店名：
-						</label>
-						<form:input  path="licenseName" cssClass="text required form-input"/>
-					</li>
-					<li class="mandatory">
-						<label>推荐商家：</label>
-						
-						<form:input path="refereeId" cssClass="required text" type = "hidden"/>
-						<input id="refereeFactoryName" name="refereeFactoryName" value="${refereeFactoryName }" class="required text" disabled="disabled">
-						
-					</li>
-					<li class="mandatory">
-						<label>地推人员：</label>
-						
-						<form:input path="sysUserId" cssClass="required text" type = "hidden"/>
-						<input id="sysUserName" name="sysUserName" value="${sysUserName }" class="required text" disabled="disabled">
-					</li>
-					<li class="mandatory detail_address">
-						<label>
-							所在区域：
-						</label>
-						<select name="provinceId" class="required" id="province">
-						</select>
-						<select name="cityId" class="required" id="city">
-						</select>
-						<select name="countyId" class="required" id="district">
-						</select>
-					</li>
-					<li class="mandatory">
-						<label>
-							详细地址：
-						</label>
-						<form:input path="addr" cssClass="text required form-input"/>
-					</li>
-					
 				
 				</ul>
 				<div class="clear"></div>
 			</div>
-			<div class="box_title">
-				<h3>商家图片</h3>
-				<div>
-					<form:input path="photoIds" id="photoIds" type="hidden"/>
-				</div>
-			</div>
-			<div class="box_title">
-				<h3>营业执照图片</h3>
-				<div>
-					<form:input path="licenseFileIds" id="licenseFileIds" type="hidden"/>
-				</div>
-			</div>
+			
 			</div>
 		</form:form>
 		

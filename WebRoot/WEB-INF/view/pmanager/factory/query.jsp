@@ -7,7 +7,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>门店管理</title>
+	<title>商家管理</title>
 	<link rel="stylesheet" type="text/css" href="${home}/style/global.css" />
 	<link rel="stylesheet" type="text/css" href="${home}/style/popbox.css" />
 	
@@ -151,14 +151,8 @@
 	<div class="query_result">
 		<h1>
 			<b></b>
-			<label>门店记录</label>
+			<label>商家信息记录</label>
 			<span>共有${queryResult.rowCount}条数据</span>
-			<s>
-				<button type="button" class="add" id="add_factory" onclick="addObject(this)">
-					<i></i>
-					新增
-				</button>
-			</s>
 		</h1>
 		<table>
 			<col class="col0" />
@@ -210,11 +204,11 @@
 						</c:if>
 						<c:if test='${data.status == 1}'>
 							有效
-							<p>门店正常营业中</p>
+							<p>商家正常营业中</p>
 						</c:if>
 						<c:if test='${data.status == 2}'>
 							待审核
-							<p>请尽快完成审核,以便门店正常开业</p>
+							<p>请尽快完成审核,以便商家正常开业</p>
 						</c:if>
 						<c:if test="${data.status == 3 }">
 							草稿
@@ -236,21 +230,21 @@
 						<a href="javascript:void(0)" onclick="locateObject('${data.id}');">定位</a>
 						</c:if>
 						<c:if test="${data.status == 2 }">
-							<a href="javascript:void(0)" onclick="confirmObject('${data.id}', '审核通过', '批准门店  ${data.name}上架开业');">批准</a>
-							<a href="javascript:void(0)" onclick="rejectObject('${data.id}', '审核不通过', '驳回门店  ${data.name}的上架请求');">驳回</a>
+							<a href="javascript:void(0)" onclick="confirmObject('${data.id}', '审核通过', '批准商家  ${data.name}上架开业');">批准</a>
+							<a href="javascript:void(0)" onclick="rejectObject('${data.id}', '审核不通过', '驳回商家  ${data.name}的上架请求');">驳回</a>
 						</c:if>
 						<c:if test='${data.status == 3}'>
-							<a href="javascript:void(0)" onclick="submitObject('${data.id}', '上架', '批准门店上架，${data.name}能够开始在商城销售服务');">
+							<a href="javascript:void(0)" onclick="submitObject('${data.id}', '上架', '批准商家上架，${data.name}能够开始在商城销售服务');">
 								申请上架
 							</a>
 						</c:if>
 						<c:if test='${data.status == 4}'><!-- 已下架的商品 ,允许重新 申请上架 -->
-							<a href="javascript:void(0)" onclick="submitObject('${data.id}', '上架', '申请门店上架，${data.name}申请在商城进行销售服务');">
+							<a href="javascript:void(0)" onclick="submitObject('${data.id}', '上架', '申请商家上架，${data.name}申请在商城进行销售服务');">
 								申请上架
 							</a>
 						</c:if>
 						<c:if test='${data.status == 1}'>
-							<a href="javascript:void(0)" onclick="disableObject('${data.id}', '上架', '门店下架，停止${data.name}在好胎屋商城的销售权利');">
+							<a href="javascript:void(0)" onclick="disableObject('${data.id}', '上架', '商家下架，停止${data.name}在好胎屋商城的销售权利');">
 								直接下架
 							</a>
 						</c:if>
@@ -261,7 +255,7 @@
 						</c:if>
 						<c:if test='${data.status != 0}'>
 							<a href="javascript:void(0)" 
-								onclick="deleteObject('${data.id}', '删除门店', '删除门店${data.name}，数据删除后将不可恢复！');">删除</a>
+								onclick="deleteObject('${data.id}', '删除商家', '删除商家${data.name}，数据删除后将不可恢复！');">删除</a>
 						</c:if>
 						<a href="${home}/pmanager/factory/factory.do?op=factoryScore&id=${data.id}">积分</a>
 						<a href="javascript:submitBill('${data.id}')">账单结算</a>

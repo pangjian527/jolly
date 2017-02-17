@@ -23,7 +23,7 @@ import com.sys.entity.SysUser;
 import com.sys.utils.SqlUtils;
 
 /**
- * 服务门店
+ * 服务商家
  * @author Administrator
  *
  */
@@ -85,7 +85,7 @@ public class FactoryService extends BaseService<Factory>{
 		if(StrFuncs.isEmpty(factory.getId())){
 			factory.setStatus(Factory.STATUS_AUDITFAIL);  //草稿状态
 		}
-		factory.setUpdateTime(new Date());
+		//factory.setUpdateTime(new Date());
 		factoryDao.save(factory);
 		
 	}
@@ -585,7 +585,7 @@ public class FactoryService extends BaseService<Factory>{
 //		}
 //	}
 	/**
-	 * myq add @2015-2-3，根据车主轮胎安装要求，获得对应的安装门店，最多查询50家门店
+	 * myq add @2015-2-3，根据车主轮胎安装要求，获得对应的安装商家，最多查询50家商家
 	 * @param isSpecialTyre
 	 * @param countyId
 	 * @param lng
@@ -600,7 +600,7 @@ public class FactoryService extends BaseService<Factory>{
 		
 		StringBuffer select = new StringBuffer(" f.id, f.name, f.grade, f.comment_count, f.gps_x, f.gps_y, f.addr, f.photo_ids,f.mobile, a.name areaname ");
 		StringBuilder where = new StringBuilder(" f.status = 1 ");
-		//a.门店所在区/县
+		//a.商家所在区/县
 		if(StrFuncs.notEmpty(countyId)){
 			where.append(" and f.county_id = :countyId");
 			query.put("countyId", countyId);
@@ -645,7 +645,7 @@ public class FactoryService extends BaseService<Factory>{
 			generalDao.execute(query);
 		}
 		else{
-			//如果是按星级、点评数等其他非距离因素查询，则按照orderBy 条件查出结果后，再依次计算结果集中的门店距离
+			//如果是按星级、点评数等其他非距离因素查询，则按照orderBy 条件查出结果后，再依次计算结果集中的商家距离
 			query.select(select.toString())
 				.from(" t_factory f left join t_area a on f.county_id=a.id ")
 				.where(where.toString())
@@ -755,7 +755,7 @@ public class FactoryService extends BaseService<Factory>{
 			}
 		});
 	}
-	//计算某个门店与车主的匹配程度，目前级别、距离各占100分
+	//计算某个商家与车主的匹配程度，目前级别、距离各占100分
 	private Integer getDefaultGrade(Map row){
 		
 		int result = 0;
@@ -787,13 +787,13 @@ public class FactoryService extends BaseService<Factory>{
 	
 	
 	
-	//无具体的坐标，只按整个区来搜索门店。此方法不支持order by distance
+	//无具体的坐标，只按整个区来搜索商家。此方法不支持order by distance
 	public QueryResult queryByTyreInstall(boolean isSpecialTyre, String countyId, String orderBy){
 		Query query = new PagedQuery(PageSettings.of(1, 100));
 		
 		StringBuffer select = new StringBuffer(" f.*, a.full_name as areaname ");
 		StringBuilder where = new StringBuilder(" f.status = 1 ");
-		//a.门店所在区/县
+		//a.商家所在区/县
 		where.append(" and f.county_id = :countyId");
 		query.put("countyId", countyId);
 		//b.轮胎安装能力限制

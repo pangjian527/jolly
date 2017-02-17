@@ -16,7 +16,7 @@ import com.sys.service.FactoryUserService;
 import com.web.pmanager.PManagerAction;
 
 /**
- * 门店员工
+ * 商家员工
  * @author zhangz
  *
  */
@@ -71,7 +71,7 @@ public class FactoryUserAction extends PManagerAction<FactoryUser>{
 	
 	/*
 	 * jmj 2015-05-04
-	 * 门店账号 保存模块
+	 * 商家账号 保存模块
 	 * objectId:id
 	 */
 	@RequestMapping
@@ -117,7 +117,7 @@ public class FactoryUserAction extends PManagerAction<FactoryUser>{
 	
 	/*
 	 * jmj 2015-05-04
-	 * 门店账号增加模块 校验输入的账号是否存在
+	 * 商家账号增加模块 校验输入的账号是否存在
 	 * account :增加账号
 	 * objectId:id
 	 */
@@ -133,7 +133,7 @@ public class FactoryUserAction extends PManagerAction<FactoryUser>{
     
     /*
      * jmj 2015-05-04
-     * 门店账号增加模块 校验输入的手机号码是否存在
+     * 商家账号增加模块 校验输入的手机号码是否存在
      * mobile :增加的手机号码
      * objectId:id
      */

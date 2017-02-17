@@ -33,7 +33,7 @@ public class Score implements Serializable {
 	// 修改时间（触发器维护）
 	private Date updateTime;
 	private String source;//积分来源（第一下级推荐积分，下单积分，签到积分等）
-	private String relationId;//订单id或者下线的门店ID
+	private String relationId;//订单id或者下线的商家ID
 	private String sysUserId;//地推人员积分
 
 	@GenericGenerator(name = "generator", strategy = "uuid.hex")

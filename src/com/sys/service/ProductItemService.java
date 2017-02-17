@@ -44,6 +44,7 @@ public class ProductItemService extends BaseService<ProductItem>{
 		stockRecord.setType(1);
 		stockRecord.setSecurityCode(securityCode);
 		stockRecordService.save(stockRecord);
+		productService.addStockOut(productId,1);//增一个数量
 		
 		return null;
 	}
@@ -72,7 +73,7 @@ public class ProductItemService extends BaseService<ProductItem>{
 		stockRecord.setSecurityCode(securityCode);
 		stockRecord.setBookId(bookId);
 		stockRecordService.save(stockRecord);
-		
+		productService.addStockOut(productItem.getProductId(),-1);//减少一个数量
 		return null;
 	} 
 	
@@ -82,7 +83,7 @@ public class ProductItemService extends BaseService<ProductItem>{
 	private StockRecordService stockRecordService;
 	@Autowired
 	private BookformService bookformService;
-
-
+	@Autowired
+	private ProductService productService;
 	
 }
