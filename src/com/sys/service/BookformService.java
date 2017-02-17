@@ -240,13 +240,17 @@ public class BookformService extends BaseService<Bookform>{
 		bookform.setTrackingNumber(trackingNumber);
 		bookform.setDeliveryTime(new Date());
 		
-		/*draftService.saveLog(Bookform.TABLE_NAME, id, user, "轮胎发货",
-			"trackingStatus", String.valueOf(Bookform.TRACKING_SEND), "",
-			"deliveryFactory", deliveryFactory, "",
-			"trackingNumber", trackingNumber, "",
-			"deliveryTime", DateFuncs.toString(bookform.getDeliveryTime()), "");*/
+		//发货生成账单
+		billDetailService.deliverBillDetail(bookform);
 		
-		//3.return
+		int score = (int)Math.floor(bookform.getSales());
+		Factory factory = factoryService.get(bookform.getFactoryId());
+		//门店积分
+		scoreService.deliverFactoryScore(score, "下单积分", bookform.getFactoryId(), bookform.getId());
+		//地推积分，门店不递归
+		scoreService.sysUserScore(score, bookform.getFactoryId(), 
+				factory.getName()+"下单", factory.getSysUserId());
+		
 		return true;
 	}
 	
@@ -1840,4 +1844,8 @@ public class BookformService extends BaseService<Bookform>{
 	private FactoryService factoryService;
 	@Autowired
 	private LogPaymentService logPaymentService;
+	@Autowired
+	private BillDetailService billDetailService;
+	@Autowired
+	private ScoreService scoreService;
 }
