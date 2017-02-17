@@ -27,10 +27,10 @@ public class ExpressFee implements Serializable {
 	private String id;
 	// 快递公司ID
 	private String expressCompanyId;
-	// 区域名称
-	private String fee;
+	// 费用
+	private Double fee;
 	// 订单总额满多少可免费
-	private String amountForFree;
+	private Double amountForFree;
 	// 区域ID
 	private String areaId;
 	// 创建时间（触发器维护）
@@ -52,12 +52,12 @@ public class ExpressFee implements Serializable {
 	}
 
 	@Column(name = "FEE")
-	public String getFee() {
+	public Double getFee() {
 		return fee;
 	}
 
 	@Column(name = "AMOUNT_FOR_FREE")
-	public String getAmountForFree() {
+	public Double getAmountForFree() {
 		return amountForFree;
 	}
 
@@ -87,11 +87,11 @@ public class ExpressFee implements Serializable {
 		this.expressCompanyId = expressCompanyId;
 	}
 
-	public void setFee(String fee) {
+	public void setFee(Double fee) {
 		this.fee = fee;
 	}
 
-	public void setAmountForFree(String amountForFree) {
+	public void setAmountForFree(Double amountForFree) {
 		this.amountForFree = amountForFree;
 	}
 
