@@ -165,7 +165,6 @@
 			<col class="col0" />
 			<col class="col1" />
 			<col class="col2" />
-			<col class="col3" />
 			<col class="col4" />
 			<col class="col5" />
 			<col class="col6" />
@@ -174,12 +173,9 @@
 			    <th>No.</th>
 			    <th>商家名称</th>
 				<th>时间</th>
-				<th>来自</th>
 				<th>交易说明</th>
 				<th>状态</th>
 				<th id="amount">金额</th>
-				
-				
 			</tr>
 		</thead>
 		<tbody>
@@ -189,11 +185,6 @@
 					<td>${data.factory_name }</td>
 					<td>
 						<fmt:formatDate value="${data.create_time}" pattern="yyyy-MM-dd HH:mm:ss"/>
-					</td>
-					<td>
-						<a href="${home}/pmanager/order/bookform.do?op=view&id=${data.book_id}" target="_blank">
-							查看订单
-						</a>
 					</td>
 					<td>
 						${data.description}

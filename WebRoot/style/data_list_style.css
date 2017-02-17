@@ -26,8 +26,6 @@ div.m_data_panel table tbody td a{
 }
 
 div.m_data_panel table tbody td a:hover{
-    color:white;
-    background-color:#B1191A;
     text-decoration:none;
 }
 

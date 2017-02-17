@@ -1,11 +1,14 @@
 package com.sys.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pub.dao.query.QueryResult;
 import pub.dao.query.QuerySettings;
+import pub.functions.StrFuncs;
 
 import com.sys.dao.ProductItemDao;
 import com.sys.entity.Bookform;
@@ -77,6 +80,44 @@ public class ProductItemService extends BaseService<ProductItem>{
 		return null;
 	} 
 	
+	@Transactional
+	public String rejectProudct(String securityCode) {
+		
+		ProductItem productItem = this.getBySecurityCode(securityCode);
+		
+		int count = usageRecordService.countUsageQuery(securityCode);
+		if(count >0){
+			return "商家已经销售，不能退货！";
+		}
+		
+		//修改状态
+		productItem.setStatus(ProductItem.STATUS_EFFECTIVE);
+		productItemDao.save(productItem);
+		
+		//库存记录
+		StockRecord record = new StockRecord();
+		record.setSecurityCode(securityCode);
+		record.setType(1);
+		stockRecordService.save(record);
+		
+		//找到对应的订单记录
+		List<StockRecord> stockRecordBySecurityCode = 
+			stockRecordService.getStockRecordBySecurityCode(securityCode);
+		
+		String bookId = null;
+		for (StockRecord stockRecord : stockRecordBySecurityCode) {
+			if(stockRecord.getType() == 0&& StrFuncs.notEmpty(stockRecord.getBookId())){
+				bookId = stockRecord.getBookId();
+				break;
+			}
+		}
+		
+		Bookform bookform = bookformService.get(bookId);
+		billDetailService.rejectBillDetail(bookform,productItem);
+		
+		return null;
+	}
+	
 	@Autowired
 	private ProductItemDao productItemDao;
 	@Autowired
@@ -85,5 +126,10 @@ public class ProductItemService extends BaseService<ProductItem>{
 	private BookformService bookformService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private UsageRecordService usageRecordService;
+	@Autowired
+	private BillDetailService billDetailService;
+	
 	
 }
