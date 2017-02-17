@@ -22,14 +22,14 @@
 	
 	<style type="text/css">
 		.col0{width: 40px;}
-		.col1{width: 200px}
+		.col1{width: 150px}
 		.col2{width: 200px}
 		.col3{width: 200px}
 		.col4{width: auto}
 		.col5{width: 150px}
 		.col6{width: 150px}
 		.col7{width: 80px}
-
+		.col8{width: 80px}
 		
 		table em{
 			font-style:normal;
@@ -156,6 +156,7 @@
 			<col class="col5" />
 			<col class="col6" />
 			<col class="col7" />
+			<col class="col8" />
 		<thead>
 			<tr>
 			    <th>No.</th>
@@ -163,6 +164,7 @@
 				<th>下单时间</th>
 				<th>联系方式</th>
 				<th>商家名称</th>	
+				<th>物流状态</th>	
 				<th>状态</th>
 				<th>付款类型</th>
 				<th>操作</th>
@@ -187,7 +189,11 @@
 						${data.factoryname }
 						<p>${data.areaname}</p>
 					</td>
-					
+					<td>
+						<c:if test='${data.tracking_status == 0}'>未发货</c:if>
+						<c:if test='${data.tracking_status == 1}'>已发货</c:if>
+						<c:if test='${data.tracking_status == 2}'>已收货</c:if>
+					</td>
 					<td>
 						<c:if test='${data.status == 0}'>待确认</c:if>
 						<c:if test='${data.status == 1}'>已确认</c:if>

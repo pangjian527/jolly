@@ -206,21 +206,23 @@ public class FactoryUserService  extends BaseService<FactoryUser>{
 		return baseDao.getFactoryAllUser(factoryId);
 	}
 	/*
-	 * @功能说明：获取商家的所有用户
+	 * @功能说明：添加新用户
 	 * 
 	  * @版本说明：2014-11-17 pj
 	 */
 	@Transactional
-	public FactoryUser addFactoryUser(String account,String pwd,String factoryId)throws Exception{
+	public FactoryUser addFactoryUser(String mobileOrAccount,String pwd,String factoryId)throws Exception{
 		
-		FactoryUser factoryUser = baseDao.getByAccount(account);
+		FactoryUser factoryUser = baseDao.getByMobileOrAccount(mobileOrAccount);
 		if(factoryUser!=null){
 			throw new Exception("帐号已经存在");
 		}
 		factoryUser=new FactoryUser();
-		factoryUser.setAccount(account);
+		factoryUser.setAccount(mobileOrAccount);
+		factoryUser.setMobile(mobileOrAccount);
 		factoryUser.setPwd(pwd);
 		factoryUser.setFactoryId(factoryId);
+		factoryUser.setStatus(FactoryUser.STATUS_VALID);
 		
 		baseDao.save(factoryUser);
 		

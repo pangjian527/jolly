@@ -44,6 +44,18 @@ public class FactoryUserDao extends HibernateDao<FactoryUser> {
 		}
 	}
 	
+	public FactoryUser getByMobileOrAccount(String mobileOrAccount){
+		String sql= "select * from t_factory_user where account =:mobileOrAccount or mobile =:mobileOrAccount";
+		List<FactoryUser> check = this.getSession().createSQLQuery( sql).addEntity(FactoryUser.class)
+			.setString( "mobileOrAccount", mobileOrAccount)
+				.list();
+		if(check!=null && check.size()>0){
+			return (FactoryUser)check.get(0);
+		}else{
+			return null;
+		}
+	}
+	
 	/*
 	 * @功能说明：获取商家的所有用户
 	 * 

@@ -81,6 +81,12 @@ public class FactoryService extends BaseService<Factory>{
 	}
 	
 	@Transactional
+	public void saveFactoryAndCreateFactoryUser(Factory factory) throws Exception {
+		this.save(factory);
+		factoryUserService.addFactoryUser(factory.getMobile(), "123456", factory.getId());
+	}
+	
+	@Transactional
 	public void save(Factory factory){
 		if(StrFuncs.isEmpty(factory.getId())){
 			factory.setStatus(Factory.STATUS_AUDITFAIL);  //草稿状态
@@ -405,7 +411,7 @@ public class FactoryService extends BaseService<Factory>{
 	
 	
 	*//**
-	 * 申请上架
+	 * 上架
 	 * 
 	 * zhb 2015-05-06
 	 * 增加了第2步停用词检查，检查广告语和简介
@@ -436,7 +442,7 @@ public class FactoryService extends BaseService<Factory>{
 //			}
 //		}
 		//4.执行操作
-		factory.setStatus(Factory.STATUS_APPROVE);
+		factory.setStatus(Factory.STATUS_VALID);
 		factoryDao.save(factory);
 		
 //		//5.记日志了
@@ -836,4 +842,7 @@ public class FactoryService extends BaseService<Factory>{
 	private FactoryDao factoryDao;
 	@Autowired
 	private GeneralDao generalDao;
+	@Autowired
+	private FactoryUserService factoryUserService;
+	
 }

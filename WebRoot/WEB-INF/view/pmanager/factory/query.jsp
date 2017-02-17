@@ -153,6 +153,12 @@
 			<b></b>
 			<label>商家信息记录</label>
 			<span>共有${queryResult.rowCount}条数据</span>
+			<s>
+				<button type="button" class="add" id="add_factory" onclick="addObject(this)">
+					<i></i>
+					新增
+				</button>
+			</s>
 		</h1>
 		<table>
 			<col class="col0" />
@@ -206,10 +212,6 @@
 							有效
 							<p>商家正常营业中</p>
 						</c:if>
-						<c:if test='${data.status == 2}'>
-							待审核
-							<p>请尽快完成审核,以便商家正常开业</p>
-						</c:if>
 						<c:if test="${data.status == 3 }">
 							草稿
 							<p>商家尚未提交审核, 无需处理</p>
@@ -223,35 +225,19 @@
 					<td>
 						<a href="javascript:void(0)" onclick="showObject('${data.id}');">查看</a>
 						
-						<c:if test='${data.status != 2}'>
 						<a href="javascript:void(0)" onclick="editObject('${data.id}');">修改</a>
-						</c:if>
 						<c:if test="${data.status != 0 }">
 						<a href="javascript:void(0)" onclick="locateObject('${data.id}');">定位</a>
 						</c:if>
-						<c:if test="${data.status == 2 }">
-							<a href="javascript:void(0)" onclick="confirmObject('${data.id}', '审核通过', '批准商家  ${data.name}上架开业');">批准</a>
-							<a href="javascript:void(0)" onclick="rejectObject('${data.id}', '审核不通过', '驳回商家  ${data.name}的上架请求');">驳回</a>
-						</c:if>
-						<c:if test='${data.status == 3}'>
-							<a href="javascript:void(0)" onclick="submitObject('${data.id}', '上架', '批准商家上架，${data.name}能够开始在商城销售服务');">
-								申请上架
-							</a>
-						</c:if>
-						<c:if test='${data.status == 4}'><!-- 已下架的商品 ,允许重新 申请上架 -->
-							<a href="javascript:void(0)" onclick="submitObject('${data.id}', '上架', '申请商家上架，${data.name}申请在商城进行销售服务');">
-								申请上架
+						<c:if test='${data.status == 3||data.status == 4}'>
+							<a href="javascript:void(0)" onclick="submitObject('${data.id}', '上架', '批准商家上架，${data.name}能够开始在商城进货');">
+								上架
 							</a>
 						</c:if>
 						<c:if test='${data.status == 1}'>
-							<a href="javascript:void(0)" onclick="disableObject('${data.id}', '上架', '商家下架，停止${data.name}在好胎屋商城的销售权利');">
-								直接下架
+							<a href="javascript:void(0)" onclick="disableObject('${data.id}', '上架', '商家下架，停止${data.name}在商城进货');">
+								下架
 							</a>
-						</c:if>
-						<c:if test='${data.status == 2}'>
-							<hh:permission m='business'>
-								
-							</hh:permission>
 						</c:if>
 						<c:if test='${data.status != 0}'>
 							<a href="javascript:void(0)" 

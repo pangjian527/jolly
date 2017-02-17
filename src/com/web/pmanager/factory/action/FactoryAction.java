@@ -17,6 +17,7 @@ import org.springframework.web.servlet.View;
 
 import pub.dao.query.PageSettings;
 import pub.dao.query.QueryResult;
+import pub.functions.StrFuncs;
 import pub.spring.ActionResult;
 import pub.types.IdText;
 
@@ -137,19 +138,23 @@ public class FactoryAction extends PManagerAction<Factory>{
 			return ActionResult.error("非法操作");
 		}
 	}
-//	/*
-//	 * 保存
-//	 */
-//	@RequestMapping
-//	public View save(HttpServletRequest request, String id) throws Exception{		
-//		Factory factory = StrFuncs.isEmpty(id) ? new Factory() : factoryService.get(id);
-//		this.populate(factory);
-//		
-//		String[] brandIds = request.getParameterValues("brands");
-//		factoryService.save(factory,  brandIds, this.getUser(request));
-//		
-//		return ActionResult.ok("保存成功", "/pmanager/factory/factory.do?op=query&loadcache=1");
-//	}
+	/*
+	 * 保存
+	 */
+	@RequestMapping
+	public View save(HttpServletRequest request, String id) throws Exception{
+		if(StrFuncs.isEmpty(id)){
+			Factory factory =  new Factory();
+			this.populate(factory);
+			factoryService.saveFactoryAndCreateFactoryUser(factory);
+		}else{
+			Factory factory = factoryService.get(id);
+			this.populate(factory);
+			factoryService.save(factory);
+		}
+		
+		return ActionResult.ok("保存成功", "/pmanager/factory/factory.do?op=query&loadcache=1");
+	}
 	
 	/**
 	 * 申请上架功能
@@ -163,50 +168,13 @@ public class FactoryAction extends PManagerAction<Factory>{
 	public View submit(HttpServletRequest request,String id, String auditCheck) throws Exception{
 		boolean success = factoryService.submit(id, getUser(request));
 		if(success){
-			return ActionResult.ok( "商家已申请，请等待审核通过", "/pmanager/factory/factory.do?op=query");
+			return ActionResult.ok( "商家已上架，可在商城进货", "/pmanager/factory/factory.do?op=query");
 		}
 		else{
 			return ActionResult.error("非法操作");
 		}
 	}
 	
-	/**
-	 * 批准功能
-	 * @param request
-	 * @param id
-	 * @param auditCheck
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping
-	public View confirm(HttpServletRequest request,String id, String auditCheck) throws Exception{
-		boolean success = factoryService.confirm(id, getUser(request));
-		if(success){
-			return ActionResult.ok( "申请已批准，允许商家开始销售产品", "/pmanager/factory/factory.do?op=query");
-		}
-		else{
-			return ActionResult.error("非法操作");
-		}
-	}
-	
-	/**
-	 * 驳回
-	 * @param request
-	 * @param id
-	 * @param auditCheck
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping
-	public View reject(HttpServletRequest request,String id, String auditCheck) throws Exception{
-		boolean success = factoryService.reject(id, getUser(request));
-		if(success){
-			return ActionResult.ok( "申请被驳回", "/pmanager/factory/factory.do?op=query");
-		}
-		else{
-			return ActionResult.error("非法操作");
-		}
-	}
 	
 	/**
 	 * jmj 2015-05-20
@@ -220,7 +188,7 @@ public class FactoryAction extends PManagerAction<Factory>{
 	public View disable(HttpServletRequest request, String id) throws Exception{
 		boolean success = factoryService.disable(id, getUser(request));
 		if(success){
-			return ActionResult.ok( "商家已下架，无法继续销售产品", "/pmanager/factory/factory.do?op=query");
+			return ActionResult.ok( "商家已下架，无法在商城进货", "/pmanager/factory/factory.do?op=query");
 		}
 		else{
 			return ActionResult.error("非法操作");
