@@ -60,12 +60,37 @@
 		    border-radius: 10px;
 		    box-shadow: 0px 0px 17px red;
         }
+        div.m_data_panel table div.stock_status_line label a{
+        	background: #e77005;
+		    color: white;
+		    padding: 8px 10px;
+        }
 	</style>
 	<script type="text/javascript">
 		function queryObject(){
 			var securityCode = document.getElementById('securityCode').value;
 			window.location.href = "${home}/pmanager/product/product.do?op=securityInfo&securityCode="+securityCode;			
 		}
+		
+		function saveObject(securityCode){
+		
+			if(confirm("确定退货，操作不可恢复？")){
+				$.ajax({
+					type:"post",
+					url:"${home}/pmanager/product/product.do?op=rejectProudct",
+					data:{securityCode:securityCode},
+					success:function(data){
+						if(data.error){
+							alert(data.error);
+						}else{
+							alert("退货成功");
+							queryObject();
+						}
+					}
+				});
+			}
+		}
+		
 	</script>		
 	
 </head>
@@ -110,10 +135,10 @@
 	                    	${usageCount}
 	                    	<label style="color:red;font-weight:bold;">
 	                    	<c:if test="${usageCount == 0}">
-	                    		（未销售）
+	                    		（商家未销售）
 	                    	</c:if>
 	                    	<c:if test="${usageCount > 0}">
-	                    		（已销售）
+	                    		（商家已销售）
 	                    	</c:if>
 	                    	</label>
 	                    </td>
@@ -123,6 +148,17 @@
 	                	<td>
 	                		<div class="stock_status_line">
 	                			<ul>
+	                				<c:if test="${productItem.status == 2}">
+		                				<li>
+		                					<i></i>
+		                					<label>
+		                						<a href="javascript:saveObject('${securityCode}')">发起退货</a>
+		                					</label>
+		                					<label style="color:red;margin-left:5px;font-size: 14px;">
+		                						在这里可以发起退货哦！
+		                					</label>
+		                				</li>
+	                				</c:if>
 	                				<c:forEach items="${listUsageStatus}" var="data" >
 		                				<li>
 		                					<i></i>

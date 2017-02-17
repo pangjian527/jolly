@@ -209,6 +209,19 @@ public class ProductAction extends PManagerAction<Product>{
 		return list;
 	}
 	
+	@RequestMapping
+	public void rejectProudct(HttpServletRequest request, HttpServletResponse response){
+		//退货
+		String securityCode = request.getParameter("securityCode");
+		
+		String result = productItemService.rejectProudct(securityCode);
+		if(result == null){
+			this.writeJson(true);
+		}else{
+			this.writeErrorJson(result);
+		}
+	}
+	
 	public static class StockStatus{
 		
 		private Date createTime;

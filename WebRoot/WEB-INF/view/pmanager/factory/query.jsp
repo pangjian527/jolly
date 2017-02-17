@@ -21,14 +21,14 @@
 	<script type="text/javascript" src="${home}/script/manage.query.js"></script>
 	<style type="text/css">
 		.col0{width: 40px;}
-		.col1{width: 12%;}
+		.col1{width: auto;}
 		.col2{width: 140px}
-		.col3{width: 250px}
-		.col4{width: 130px}
+		.col3{width: auto}
+		.col4{width: auto}
 		.col5{width: 100px}
 		.col6{width: 200px}
 		.col7{width: 100px}
-		.col8{width: auto}
+		.col8{width: 250px}
 
 		div.body_wrap div.query ul li.colspan_2 div{
 			display: inline-block;
@@ -153,6 +153,12 @@
 			<b></b>
 			<label>商家信息记录</label>
 			<span>共有${queryResult.rowCount}条数据</span>
+			<s>
+				<button type="button" class="add" onclick="addObject(this)">
+					<i></i>
+					新增
+				</button>
+			</s>
 		</h1>
 		<table>
 			<col class="col0" />

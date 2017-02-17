@@ -67,7 +67,7 @@
 	            <td width="50">NO.</td>
 	            <td >积分</td>
 	            <td width="200">积分类型</td>
-	            <td width="180">积分时间</td>
+	            <td width="200">积分时间</td>
 	        </tr>
 	        </thead>
 	        <tbody>

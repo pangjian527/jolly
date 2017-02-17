@@ -18,6 +18,8 @@ import pub.functions.StrFuncs;
 import com.sys.dao.BillDetailDao;
 import com.sys.entity.BillDetail;
 import com.sys.entity.Bookform;
+import com.sys.entity.Product;
+import com.sys.entity.ProductItem;
 
 @Service
 @Transactional(readOnly = true)
@@ -397,7 +399,7 @@ public class BillDetailService extends BaseService<BillDetail> {
 		billDetail.setStatus(BillDetail.BILL_DETAIL_NOT_SETTLE);
 		
 		StringBuffer description = new StringBuffer("订单："+bookform.getCode());
-		description.append(" || 交易金额：￥"+bookform.getSales());
+		description.append(" || 交易金额：￥"+bookform.getSales()+"元");
 		
 		double amount = 0.0;
 		if(bookform.getPayType() == 0){
@@ -410,15 +412,38 @@ public class BillDetailService extends BaseService<BillDetail> {
 			amount = bookform.getSales();
 			description.append(" || 付款类型：预发货后付款");
 		}
+		description.append(" || 门店应付平台：￥"+amount+"元");
+		
 		
 		billDetail.setDescription(description.toString());
 		billDetail.setPricePay(amount);
 		billDetailDao.save(billDetail);
 	}
 	
+	@Transactional
+	public void rejectBillDetail(Bookform bookform, ProductItem productItem) {
+		BillDetail billDetail = new BillDetail();
+		billDetail.setBookId(bookform.getId());
+		billDetail.setFactoryId(bookform.getFactoryId());
+		billDetail.setStatus(BillDetail.BILL_DETAIL_NOT_SETTLE);
+		
+		StringBuffer description = new StringBuffer("订单："+bookform.getCode());
+		description.append(" || 防伪码："+productItem.getSecurityCode()+"退货");
+		
+		Product product = productService.get(productItem.getProductId());
+		description.append(" || 退款金额：￥"+product.getPrice()+"元");
+		
+		billDetail.setDescription(description.toString());
+		billDetail.setPricePay(-product.getPrice());
+		billDetailDao.save(billDetail);
+	}
 
 	@Autowired
 	private BillDetailDao billDetailDao;
 	@Autowired
 	private GeneralDao generalDao;
+	@Autowired
+	private ProductService productService;
+	
+	
 }
