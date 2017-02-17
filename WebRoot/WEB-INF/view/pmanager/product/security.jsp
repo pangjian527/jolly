@@ -147,7 +147,7 @@
 		                						订单编号：${data.bookformCode}
 		                						</c:if>
 		                						<c:if test="${data.factoryName != null}">
-		                						</br>购买门店：${data.factoryName}
+		                						</br>购买商家：${data.factoryName}
 		                						</c:if>
 		                					</label>
 		                				</li>

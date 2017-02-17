@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>门店服务/商品类型管理</title>
+	<title>系统账号</title>
 	<link rel="stylesheet" type="text/css" href="${home}/style/global.css" />
 	<script type="text/javascript" src="${home}/script/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="${home}/script/haux.js"></script>
@@ -77,7 +77,7 @@
 	<div class="query_result">
 		<h1>
 			<b></b>
-			<label>商城账号</label>
+			<label>系统账号记录</label>
 			<span>共有${queryResult.rowCount}条数据</span>
 			<s>
 				<button type="button" class="add" onclick="addObject(this)">

@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>门店积分</title>
+	<title>商家积分</title>
 	<script type="text/javascript" src="${home}/script/jquery-1.10.2.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="${home}/style/global.css" />
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>

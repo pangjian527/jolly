@@ -17,7 +17,7 @@ public class FactoryDao extends HibernateDao<Factory> {
 	}
 	
 	/**
-	 * 获取全部有效的商家/门店
+	 * 获取全部有效的商家/商家
 	 * @return
 	 */
 	public List<Factory> getAllByStatus(){

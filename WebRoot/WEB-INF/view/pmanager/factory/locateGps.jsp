@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>门店地图打点</title>
+	<title>商家地图打点</title>
 	<meta http-equiv="pragma" content="no-cache" />
 	<meta http-equiv="cache-control" content="no-cache" />
 	<meta http-equiv="expires" content="0" />
@@ -75,8 +75,8 @@
 			//1.
 			var src = home() + "/pmanager/factory/factory.do?op=saveGps&id=${bean.id}&gpsX=" + gpsX + "&gpsY=" + gpsY;
 			Dialog.confirm({
-				content: "确认提交门店GPS坐标", 
-				title : "提交门店坐标",
+				content: "确认提交商家GPS坐标", 
+				title : "提交商家坐标",
 				ok:function(){
 					window.location = src;
 				}

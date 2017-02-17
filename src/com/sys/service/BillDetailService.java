@@ -29,7 +29,7 @@ public class BillDetailService extends BaseService<BillDetail> {
 		JSONObject queryJson = StrFuncs.isEmpty(condition) ? new JSONObject() : JSONObject.fromObject(condition);
 		
 		Query query = new PagedQuery(settings);
-		StringBuilder select = new StringBuilder(" t.*, f.name as FACTORY_NAME ");
+		StringBuilder select = new StringBuilder(" t.*, f.name as factory_name ");
 		
 		StringBuilder where = new StringBuilder();
 		where.append( "1 = 1");
@@ -108,14 +108,14 @@ public class BillDetailService extends BaseService<BillDetail> {
 			if(bookform.getTrackingType().equals("s")){
 				
 				type = "轮胎安装费";
-				describe = "商城在线收款并提供轮胎，门店仅负责安装";
+				describe = "商城在线收款并提供轮胎，商家仅负责安装";
 				int installCharge = getInstallCharge(bookformDetail.getProductId());
 				pricePay = installCharge;
 				detail.element("公式", "轮胎安装费(" + pricePay + ")");
 			}
 			else{
 				type = "商城代收轮胎款(扣除佣金)";
-				describe = "商城在线收款，门店提供轮胎+安装";
+				describe = "商城在线收款，商家提供轮胎+安装";
 				double charge1 = bookformDetail.getPrice() * COMISSION_PERCENTAGE;
 				double charge2 = bookformDetail.getPrice() * PAYMENT_PERCENTAGE;
 				double priorityAmount = StrFuncs.notEmpty(bookformDetail
@@ -130,16 +130,16 @@ public class BillDetailService extends BaseService<BillDetail> {
 		}
 		else{
 			if(bookform.getTrackingType().equals("s")){
-				//3.车主到店支付，且使用商城轮胎，此时门店欠商城费用，金额=轮胎费-80元轮胎安装费
-				type = "门店代收轮胎款(扣除轮胎安装费)";
-				describe = "商城提供轮胎，门店负责安装并代收货款";
+				//3.车主到店支付，且使用商城轮胎，此时商家欠商城费用，金额=轮胎费-80元轮胎安装费
+				type = "商家代收轮胎款(扣除轮胎安装费)";
+				describe = "商城提供轮胎，商家负责安装并代收货款";
 				int installCharge = getInstallCharge(bookformDetail.getProductId());
 				pricePay = installCharge - bookformDetail.getPrice();
 				detail.element("公式", "轮胎安装费(" + installCharge + ") - 轮胎货款(" + bookformDetail.getPrice() + ")");
 			}
 			else{
 				type = "交易佣金";
-				describe = "门店提供轮胎并收款";
+				describe = "商家提供轮胎并收款";
 				pricePay = - bookformDetail.getPrice() * PAYMENT_PERCENTAGE;
 				detail.element("公式", "轮胎货款(" + bookformDetail.getPrice() + ") × " + PAYMENT_PERCENTAGE);
 			}
@@ -209,7 +209,7 @@ public class BillDetailService extends BaseService<BillDetail> {
 		String factoryVoucherDescribe = "";
 		double htwVoucherAmount =0;// 代金券扣减金额
 		String htwVoucherDescribe = "";
-		double deduct = 0.0 ;// 优惠直减暂时都认为是门店补贴，暂时没有好胎屋补贴 
+		double deduct = 0.0 ;// 优惠直减暂时都认为是商家补贴，暂时没有好胎屋补贴 
 		String deductDescribe = "";
 		
 		//2015-07-17 add 
@@ -253,11 +253,11 @@ public class BillDetailService extends BaseService<BillDetail> {
 		if (bookformDetail.getDeduct() !=null ) {
 			deduct = bookformDetail.getDeduct();
 		}
-		deductDescribe = "  -门店补贴优惠直减(" + deduct + ")";
+		deductDescribe = "  -商家补贴优惠直减(" + deduct + ")";
 		
 		if(bookform.getPayType() == 0){
 			type = "服务费用";
-			describe = "商城在线代收费用，门店提供服务";
+			describe = "商城在线代收费用，商家提供服务";
 			
 			double sales = StrFuncs.isEmpty(bookformDetail.getPriceType())
 			|| BookformDetail.HTW_PRICE.equals(bookformDetail.getPriceType()) ? bookformDetail.getPrice(): bookformDetail.getPriceMart();
@@ -271,7 +271,7 @@ public class BillDetailService extends BaseService<BillDetail> {
 		}
 		else{
 			type = "交易佣金";
-			describe = "门店提供服务并收款";
+			describe = "商家提供服务并收款";
 			pricePay = - bookformDetail.getPrice() * PAYMENT_PERCENTAGE + subsidyMoney+voucherSubsidyMoney +htwCouponAmout+htwVoucherAmount;
 			detail.element("公式", "服务费(" + bookformDetail.getPrice() + ") × " + PAYMENT_PERCENTAGE +subsidy+voucherSubsidy +htwCouponDescribe+htwVoucherDescribe);
 		}
@@ -313,8 +313,8 @@ public class BillDetailService extends BaseService<BillDetail> {
 			// 商城发货
 			remark.append(",该商品属于商城发货");
 		} else if (bookform.getTrackingType().equals("n")) {
-			// 门店货源
-			remark.append(",该商品使用的是门店货源");
+			// 商家货源
+			remark.append(",该商品使用的是商家货源");
 		}
 		return remark.toString();
 	}
@@ -334,7 +334,7 @@ public class BillDetailService extends BaseService<BillDetail> {
 					// 商城发货
 					return -JsonConfigUtils.installationPrice;
 				} else if (bookform.getTrackingType().equals("n")) {
-					// 门店货源
+					// 商家货源
 					return -bookformDetail.getPrice();
 				}
 			} else {
@@ -344,7 +344,7 @@ public class BillDetailService extends BaseService<BillDetail> {
 					return bookformDetail.getPrice()
 							- JsonConfigUtils.installationPrice;
 				} else if (bookform.getTrackingType().equals("n")) {
-					// 门店货源
+					// 商家货源
 					return 0.0;
 				}
 			}

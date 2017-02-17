@@ -61,7 +61,7 @@ public class Product implements Serializable {
 	private String quickCharge;
 	
 	// 商品详情
-	private String content;
+	private String contentPhotoIds;
 	// 生成时间
 	private Date createTime;
 	// 更新时间
@@ -72,6 +72,8 @@ public class Product implements Serializable {
 	private String photoIds;
 
 	private Integer status;
+	
+	private Integer stockCount;
 	
 	@GenericGenerator(name = "generator", strategy = "uuid.hex")
 	@Id
@@ -96,15 +98,16 @@ public class Product implements Serializable {
 		return price == null ? 0.0 : price;
 	}
 
-	@Column(name = "CONTENT")
-	public String getContent() {
-		return content;
+	@Column(name = "CONTENT_PHOTO_IDS")
+	public String getContentPhotoIds() {
+		return contentPhotoIds;
 	}
-
+	
 	@Column(name = "CREATE_TIME", updatable = false)
 	public Date getCreateTime() {
 		return createTime;
 	}
+	
 
 	@Column(name = "UPDATE_TIME", updatable = false)
 	public Date getUpdateTime() {
@@ -177,6 +180,11 @@ public class Product implements Serializable {
 	public Integer getStatus() {
 		return status;
 	}
+	
+	@Column(name = "STOCK_COUNT")
+	public Integer getStockCount() {
+		return stockCount;
+	}
 
 	public void setId(String id) {
 		this.id = id;
@@ -197,10 +205,9 @@ public class Product implements Serializable {
 	}
 
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setContentPhotoIds(String contentPhotoIds) {
+		this.contentPhotoIds = contentPhotoIds;
 	}
-
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
@@ -261,6 +268,10 @@ public class Product implements Serializable {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public void setStockCount(Integer stockCount) {
+		this.stockCount = stockCount;
 	}
 
 

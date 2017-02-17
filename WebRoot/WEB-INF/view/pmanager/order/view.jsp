@@ -629,7 +629,7 @@
 					<dt>联系方式</dt>
 					<dd>${data.factory.man}，${data.factory.mobile}</dd>
 					</c:if>
-					<dt>门店地址</dt>
+					<dt>商家地址</dt>
 					<dd class="shop-address">${data.factoryAddr}</dd>
 					
 					<dt>商家留言</dt>
@@ -671,7 +671,11 @@
 					</c:if>
 					<c:if test="${data.bookform.payType == 1}">
 						<dt>付款方式</dt>
-						<dd>先拿货后付款</dd>
+						<dd>货到付款</dd>
+					</c:if>
+					<c:if test="${data.bookform.payType == 2}">
+						<dt>付款方式</dt>
+						<dd>预发货后付款</dd>
 					</c:if>
 	
 				</dl>

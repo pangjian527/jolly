@@ -1,0 +1,289 @@
+ 2017-02-17 15:31 csx add
+
+DROP TRIGGER IF EXISTS t_create_on_log_payment;
+CREATE TRIGGER t_create_on_log_payment 
+BEFORE INSERT ON log_payment
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_log_payment;
+CREATE TRIGGER t_update_on_log_payment 
+BEFORE UPDATE ON log_payment
+FOR EACH ROW
+SET new.update_time = SYSDATE();
+
+
+
+DROP TRIGGER IF EXISTS t_create_on_sys_module;
+CREATE TRIGGER t_create_on_sys_module 
+BEFORE INSERT ON sys_module
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_sys_module;
+CREATE TRIGGER t_update_on_sys_module 
+BEFORE UPDATE ON sys_module
+FOR EACH ROW
+SET new.update_time = SYSDATE();
+
+
+
+DROP TRIGGER IF EXISTS t_create_on_sys_modulerole;
+CREATE TRIGGER t_create_on_sys_modulerole 
+BEFORE INSERT ON sys_modulerole
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_sys_modulerole;
+CREATE TRIGGER t_update_on_sys_modulerole 
+BEFORE UPDATE ON sys_modulerole
+FOR EACH ROW
+SET new.update_time = SYSDATE();
+
+
+DROP TRIGGER IF EXISTS t_create_on_sys_role;
+CREATE TRIGGER t_create_on_sys_role 
+BEFORE INSERT ON sys_role
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_sys_role;
+CREATE TRIGGER t_update_on_sys_role 
+BEFORE UPDATE ON sys_role
+FOR EACH ROW
+SET new.update_time = SYSDATE();
+
+
+
+DROP TRIGGER IF EXISTS t_create_on_sys_user;
+CREATE TRIGGER t_create_on_sys_user 
+BEFORE INSERT ON sys_user
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_sys_user;
+CREATE TRIGGER t_update_on_sys_user 
+BEFORE UPDATE ON sys_user
+FOR EACH ROW
+SET new.update_time = SYSDATE();
+
+
+
+DROP TRIGGER IF EXISTS t_create_on_sys_userrole;
+CREATE TRIGGER t_create_on_sys_userrole 
+BEFORE INSERT ON sys_userrole
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_sys_userrole;
+CREATE TRIGGER t_update_on_sys_userrole 
+BEFORE UPDATE ON sys_userrole
+FOR EACH ROW
+SET new.update_time = SYSDATE();
+
+
+
+DROP TRIGGER IF EXISTS t_create_on_area;
+CREATE TRIGGER t_create_on_area 
+BEFORE INSERT ON t_area
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_area;
+CREATE TRIGGER t_update_on_area 
+BEFORE UPDATE ON t_area
+FOR EACH ROW
+SET new.update_time = SYSDATE();
+
+
+DROP TRIGGER IF EXISTS t_create_on_bill;
+CREATE TRIGGER t_create_on_bill 
+BEFORE INSERT ON t_bill
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_bill;
+CREATE TRIGGER t_update_on_bill 
+BEFORE UPDATE ON t_bill
+FOR EACH ROW
+SET new.update_time = SYSDATE();
+
+
+DROP TRIGGER IF EXISTS t_create_on_bill_detail;
+CREATE TRIGGER t_create_on_bill_detail 
+BEFORE INSERT ON t_bill_detail
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_bill_detail;
+CREATE TRIGGER t_update_on_bill_detail 
+BEFORE UPDATE ON t_bill_detail
+FOR EACH ROW
+SET new.update_time = SYSDATE();
+
+
+DROP TRIGGER IF EXISTS t_create_on_bookform;
+CREATE TRIGGER t_create_on_bookform 
+BEFORE INSERT ON t_bookform
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_bookform;
+CREATE TRIGGER t_update_on_bookform 
+BEFORE UPDATE ON t_bookform
+FOR EACH ROW
+SET new.update_time = SYSDATE();
+
+
+
+DROP TRIGGER IF EXISTS t_create_on_bookform_detail;
+CREATE TRIGGER t_create_on_bookform_detail 
+BEFORE INSERT ON t_bookform_detail
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_bookform_detail;
+CREATE TRIGGER t_update_on_bookform_detail 
+BEFORE UPDATE ON t_bookform_detail
+FOR EACH ROW
+SET new.update_time = SYSDATE();
+
+
+
+
+DROP TRIGGER IF EXISTS t_create_on_factory;
+CREATE TRIGGER t_create_on_factory 
+BEFORE INSERT ON t_factory
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_factory;
+CREATE TRIGGER t_update_on_factory 
+BEFORE UPDATE ON t_factory
+FOR EACH ROW
+SET new.update_time = SYSDATE();
+
+
+DROP TRIGGER IF EXISTS t_create_on_factory_user;
+CREATE TRIGGER t_create_on_factory_user 
+BEFORE INSERT ON t_factory_user
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_factory_user;
+CREATE TRIGGER t_update_on_factory_user 
+BEFORE UPDATE ON t_factory_user
+FOR EACH ROW
+SET new.update_time = SYSDATE();
+
+
+
+DROP TRIGGER IF EXISTS t_create_on_product;
+CREATE TRIGGER t_create_on_product 
+BEFORE INSERT ON t_product
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_product;
+CREATE TRIGGER t_update_on_product 
+BEFORE UPDATE ON t_product
+FOR EACH ROW
+SET new.update_time = SYSDATE();
+
+
+DROP TRIGGER IF EXISTS t_create_on_product_item;
+CREATE TRIGGER t_create_on_product_item 
+BEFORE INSERT ON t_product_item
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_product_item;
+CREATE TRIGGER t_update_on_product_item 
+BEFORE UPDATE ON t_product_item
+FOR EACH ROW
+SET new.update_time = SYSDATE();
+
+
+DROP TRIGGER IF EXISTS t_create_on_score;
+CREATE TRIGGER t_create_on_score 
+BEFORE INSERT ON t_score
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_score;
+CREATE TRIGGER t_update_on_score 
+BEFORE UPDATE ON t_score
+FOR EACH ROW
+SET new.update_time = SYSDATE();
+
+
+DROP TRIGGER IF EXISTS t_create_on_stock_record;
+CREATE TRIGGER t_create_on_stock_record 
+BEFORE INSERT ON t_stock_record
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_stock_record;
+CREATE TRIGGER t_update_on_stock_record 
+BEFORE UPDATE ON t_stock_record
+FOR EACH ROW
+SET new.update_time = SYSDATE();
+
+DROP TRIGGER IF EXISTS t_create_on_usage_record;
+CREATE TRIGGER t_create_on_usage_record 
+BEFORE INSERT ON t_usage_record
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+END;

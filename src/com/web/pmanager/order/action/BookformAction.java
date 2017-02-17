@@ -153,7 +153,7 @@ public class BookformAction extends PManagerAction<Bookform>{
 		//BookformData data = baseService.getBookformData(id);	
 		Boolean success = baseService.enableUrgentInstallConsult(consultId, this.getUser(request));
 		if(success){
-			return ActionResult.ok("您已选择加急安装门店！", null);
+			return ActionResult.ok("您已选择加急安装商家！", null);
 		}
 		else{
 			return ActionResult.error("无效操作", null);
@@ -174,7 +174,7 @@ public class BookformAction extends PManagerAction<Bookform>{
 		}
 	}
 	
-	 2015-10-19 add  从列表移除门店 
+	 2015-10-19 add  从列表移除商家 
 	@RequestMapping
 	public void rejectUrgentInstallConsult(HttpServletRequest request,
 			HttpServletResponse response, String bookId, String factoryId)
@@ -200,7 +200,7 @@ public class BookformAction extends PManagerAction<Bookform>{
 		boolean success = baseService.confirmTyreSupply(id, this.getUser(request), useFactoryTyre);
 		if(success){
 			String text = "您已选择" + 
-				(useFactoryTyre ? "使用门店轮胎，好胎屋无需发货" : "使用好胎轮胎，请注意收货 ");
+				(useFactoryTyre ? "使用商家轮胎，好胎屋无需发货" : "使用好胎轮胎，请注意收货 ");
 			return ActionResult.ok(text, null);
 		}
 		else{
@@ -242,7 +242,7 @@ public class BookformAction extends PManagerAction<Bookform>{
 			String id)throws Exception {
 		boolean success = baseService.receiveTyre(id, this.getUser(request));
 		if(success){
-			return ActionResult.ok("您已代替门店完成确认轮胎到店!", "/pmanager/order/bookform.do?op=query");
+			return ActionResult.ok("您已代替商家完成确认轮胎到店!", "/pmanager/order/bookform.do?op=query");
 		}
 		else{
 			return ActionResult.error("非法数据操作");

@@ -50,7 +50,7 @@ public class BookformDetailDao extends HibernateDao<BookformDetail> {
 	}
 	
 	/**
-	 * 门店获取所有未结算的订单数据 发起收款申请
+	 * 商家获取所有未结算的订单数据 发起收款申请
 	 * @param factoryId
 	 * @return
 	 * @throws Exception

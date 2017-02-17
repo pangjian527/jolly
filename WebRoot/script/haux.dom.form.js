@@ -406,7 +406,7 @@ haux.dom.form._validText = function(target){
 		//2.如果文本框数据类型是浮点数，依次检验数据有效性、最大值、最小值
 		var realReg = /^(-?\d+)(\.\d+)?$/;
 		if(!realReg.test(value)){
-			return "请输入整数";
+			return "请输入数字";
 		}
 		var intValue = parseInt(value);
 		

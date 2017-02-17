@@ -28,6 +28,6 @@
         <mapping class="com.sys.entity.StockRecord"/>
         <mapping class="com.sys.entity.UsageRecord"/>
         <mapping class="com.sys.entity.LogPayment"/>
-        
+        <mapping class="com.sys.entity.ExpressFee"/>
     </session-factory>
 </hibernate-configuration>

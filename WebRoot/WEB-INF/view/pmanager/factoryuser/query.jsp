@@ -79,7 +79,7 @@
 	<div class="query_result">
 		<h1>
 			<b></b>
-			<label>门店账号记录</label>
+			<label>商家账号记录</label>
 			<span>共有${queryResult.rowCount}条数据</span>
 			<s>
 				<button type="button" class="add" onclick="addObject(this)">
@@ -122,7 +122,7 @@
 					<td>
 						<a href="javascript:void(0)" onclick="editObject('${data.id }');">编辑</a>&nbsp;
 						<a href="javascript:void(0)" 
-								onclick="deleteObject('${data.id}', '确认', '删除门店${data.factoryname}');">删除</a>
+								onclick="deleteObject('${data.id}', '确认', '删除商家${data.factoryname}');">删除</a>
 					</td>
 				</tr>
 			</c:forEach>

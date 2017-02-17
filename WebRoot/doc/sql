@@ -100,3 +100,25 @@ alter table `jolly`.`t_stock_record`
    ALTER TABLE `jolly`.`t_product` 
 CHANGE COLUMN `content` `content` TEXT CHARACTER SET 'utf8' NULL DEFAULT NULL COMMENT '商品详情' ;
    
+   
+ 2017-02-17 12:16 csx add
+ALTER TABLE `t_product`
+ADD COLUMN `stock_count`  int NULL AFTER `status`;
+
+ALTER TABLE `t_bookform`
+CHANGE COLUMN `contact_Man` `contact_man`  varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `factory_id`,
+CHANGE COLUMN `contact_Province_Id` `contact_province_id`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `contact_man`,
+CHANGE COLUMN `contact_City_Id` `contact_city_id`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `contact_province_id`,
+CHANGE COLUMN `contact_County_Id` `contact_county_id`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `contact_city_id`,
+CHANGE COLUMN `contact_Addr` `contact_addr`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '地址' AFTER `contact_county_id`,
+CHANGE COLUMN `delivery_Cost` `delivery_cost`  double NULL DEFAULT NULL COMMENT '运费' AFTER `sales`,
+CHANGE COLUMN `pay_Type` `pay_type`  varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '付款类型（在线支付、到店支付、货物预付）' AFTER `delivery_cost`;
+
+ALTER TABLE `t_product`
+CHANGE COLUMN `content` `content_photo_ids`  varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品详情' AFTER `quick_charge`;
+
+
+
+
+
+   
