@@ -53,11 +53,35 @@ public class ScoreService extends BaseService<Score>{
 		return scoreDao.getFactoryConsumeScore(factoryId);
 	}
 	
+	@Transactional
+	public void deliverFactoryScore(int score,String source,String factoryId,String bookId) {
+		Score scoreObj = new Score();
+		scoreObj.setFactoryId(factoryId);
+		scoreObj.setScore(score);
+		scoreObj.setSource(source);
+		//订单发货积分
+		scoreObj.setRelationId(bookId);
+		scoreDao.save(scoreObj);
+	}
+	
+	//门店下单，地推人员所得积分
+	@Transactional
+	public void sysUserScore(int score,String factoryId,String source,String sysUserId) {
+		Score scoreObj = new Score();
+		scoreObj.setSysUserId(sysUserId);
+		scoreObj.setScore(score);
+		scoreObj.setSource(source);
+		//订单发货积分
+		scoreObj.setRelationId(factoryId);
+		scoreDao.save(scoreObj);
+	}
 	
 	@Autowired
 	private GeneralDao generalDao;
 	
 	@Autowired
 	private ScoreDao scoreDao;
+
+	
 	
 }

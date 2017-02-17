@@ -17,23 +17,13 @@ import org.hibernate.annotations.GenericGenerator;
 public class BillDetail implements Serializable {
 
 
-/*	public BillDetail(String bookId, String bookformDetailId, Double pricePay, String productId, 
-			String serviceFactoryId, String type, String describe, String detail) {
-		super();
-		this.bookId = bookId;
-		this.bookformDetailId = bookformDetailId;
-		this.pricePay = pricePay;
-		this.productId = productId;
-		this.serviceFactoryId = serviceFactoryId;
-		this.type = type;
-		this.describe = describe;
-		this.detail = detail;
-	}*/
-
 	private static final long serialVersionUID = -2372294715215866068L;
 
 	public static String TABLE_NAME = "T_BILL_DETAIL";
 
+	public final static int BILL_DETAIL_NOT_SETTLE = 0;
+	public final static int BILL_DETAIL_YES_SETTLE = 1;
+	
 	// 主键
 	private String id;
 	// T_BILL.ID

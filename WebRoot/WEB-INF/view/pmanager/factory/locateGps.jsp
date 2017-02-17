@@ -25,15 +25,47 @@
 			left:0;
 			right:0;
 			bottom:0;
-			top:155px
+			top:0px;
+			margin:10px;
 		}
-		.search_box{display: block;left: 15px;position: absolute;top: 170px;z-index: 200;}
+		.search_box{display: block;left: 15px;position: absolute;top: 10px;z-index: 200;}
     	.search_box .icon{background: url('${home}/image/select2.png') no-repeat -40px -20px;display: block;position: absolute;width:22px;height:22px;top:5px;left:4px;}
     	.input-plain{border: 1px solid #c9c9c9;border-radius: 2px;
     		box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);padding-left: 30px;width: 285px;
     		color: #333;height: 23px;line-height: 17px;margin: 5px 0;}
     	.btn-default{ background-color: #ff7e28;font-weight: bold;min-width: 54px;border: 1px solid #ff7617;
     		border-radius: 2px;box-sizing: border-box;color: #fff;cursor: pointer;height: 27px;}
+    		
+    		
+    	.gps_panel{
+    		position: absolute;
+		    z-index: 1;
+		    height: 150px;
+		    width: 300px;
+		    background: white;
+		    padding: 10px;
+		    box-shadow: 0px 0px 20px #101010;
+		    top: 58px;
+    		left: 15px;
+    	}
+    	.gps_panel dt{
+    		width: 40px;
+    		float: left;
+    		margin:5px 0;
+    	}
+    	.gps_panel dd{
+    		width: 240px;
+		    float: left;
+		    margin:5px 0;
+    	}
+    	.save_btn{
+    		margin-left: 100px;
+		    width: 100px;
+		    margin-top: 10px;
+    	}
+    	.tangram-suggestion-main{
+    		z-index:2;
+    	}
 	</style>
 	<script type="text/javascript">
 		function saveObject(){
@@ -183,44 +215,27 @@
 			<c:if test='${readonly == false}'>
 				<input type="hidden" name="id" value="${factory.id}"/>
 			</c:if>
-			<div class="tool_bar">
-				<button type="button" onclick="history.back()" class="return">
-					<i></i>
-					返回
-				</button>
-				<button type="button" onclick="saveObject()" class="ok">
-					<i></i>
-					保存
-				</button>
-			</div>
-			<div class="box" style="position: relative;">
-				<h3>
-					${bean.name}
-					
-				</h3>
-				<p style="padding-left: 10px;">${fullAddress}</p>
-				<ul class="input two_col">
-					<li class="mandatory">
-						<label>
-							GPS-X：
-						</label>
-						<input id="gpsX" type="input" name="gpsX" cssClass="text required form-input" value="${bean.gpsX}" />
-					</li>
-					<li class="mandatory">
-						<label>
-							GPS-Y：
-						</label>
-						<input id="gpsY" type="input" name="gpsY" cssClass="text required form-input" value="${bean.gpsY}" />
-					</li>
-				</ul>
+			<div class="gps_panel">
+				<dl>
+					<dt>名称:</dt>
+					<dd>${bean.name}</dd>
+					<dt>地址:</dt>
+					<dd>${fullAddress}</dd>
+					<dt>gps：</dt>
+					<dd>
+						<input id="gpsX" style="width:80px" placeholder="gpsX" type="input" name="gpsX" value="${bean.gpsX}" />
+						<input id="gpsY" style="width:80px" placeholder="gpsY" type="input" name="gpsY" value="${bean.gpsY}" />
+					</dd>
+				</dl>
 				<div class="clear"></div>
+				<input type="button" class="btn-default save_btn" onclick="saveObject()" value="保存">
 			</div>
 			<div id="search" class="search_box">
 				<span class="icon"></span>
 		         <input type="text" placeholder="请输入你的大概位置找附近店铺" class="input-plain" id="location_text">
 		         <input type="button" class="btn-default" value="搜索" onclick="theLocation();">&nbsp;
 		         <input type="button" class="btn-default" value="描点" onclick="addPoint();">
-		      	 <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+		      	 <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;z-index: 10;"></div>
 		    </div>
 			<div class="gis-box" id="allmap">
 				百度地图操作DIV
