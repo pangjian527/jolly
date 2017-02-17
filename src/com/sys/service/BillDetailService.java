@@ -397,18 +397,18 @@ public class BillDetailService extends BaseService<BillDetail> {
 		billDetail.setStatus(BillDetail.BILL_DETAIL_NOT_SETTLE);
 		
 		StringBuffer description = new StringBuffer("订单："+bookform.getCode());
-		description.append("交易金额：￥"+bookform.getSales());
+		description.append(" || 交易金额：￥"+bookform.getSales());
 		
 		double amount = 0.0;
 		if(bookform.getPayType() == 0){
-			description.append("付款类型：在线付款");
+			description.append(" || 付款类型：在线付款");
 		}else if (bookform.getPayType() == 1){
-			description.append("付款类型：快递货到付款");
+			description.append(" || 付款类型：快递货到付款");
 		}
 		if(bookform.getPayType() == 2){
 			//预发货，后付款
 			amount = bookform.getSales();
-			description.append("付款类型：预发货后付款");
+			description.append(" || 付款类型：预发货后付款");
 		}
 		
 		billDetail.setDescription(description.toString());
