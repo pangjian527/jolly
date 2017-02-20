@@ -2,5 +2,5 @@
 /bin/
 *.svn-base
 WebRoot/WEB-INF/classes/
-*.classpath
-*.project
+./.classpath
+./.project
