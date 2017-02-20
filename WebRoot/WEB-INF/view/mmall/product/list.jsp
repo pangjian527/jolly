@@ -94,7 +94,7 @@
 			<ul>
 				<li>
 					<a href="">
-						<div class="pro-img"ext-decoration:line-through>
+						<div class="pro-img">
 							<img src="${home}/image/23456.jpg"/>
 						</div>
 						<div class="pro-info-box">
@@ -111,7 +111,7 @@
 				</li>
 				<li>
 					<a href="">
-						<div class="pro-img"ext-decoration:line-through>
+						<div class="pro-img">
 							<img src="${home}/image/23456.jpg"/>
 						</div>
 						<div class="pro-info-box">
@@ -128,7 +128,7 @@
 				</li>
 				<li>
 					<a href="">
-						<div class="pro-img"ext-decoration:line-through>
+						<div class="pro-img">
 							<img src="${home}/image/23456.jpg"/>
 						</div>
 						<div class="pro-info-box">
@@ -145,7 +145,7 @@
 				</li>
 				<li>
 					<a href="">
-						<div class="pro-img"ext-decoration:line-through>
+						<div class="pro-img">
 							<img src="${home}/image/23456.jpg"/>
 						</div>
 						<div class="pro-info-box">
