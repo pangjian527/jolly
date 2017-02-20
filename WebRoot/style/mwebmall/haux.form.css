@@ -1,0 +1,73 @@
+div.login-module{
+	background-color:white;
+	padding-left: 15px;
+	border-bottom: 1px solid #dcdcdc;
+	border-top: 1px solid #dcdcdc;
+}
+div.login-module dl dd{
+	margin: 0;
+	height: 40px;
+	line-height: 40px;
+	vertical-align: middle;
+	border-bottom: 1px solid #dcdcdc;
+	position: relative;
+}
+div.login-module dl dd:last-child{
+	border: none;
+}
+div.login-module dl dd i{
+	display: inline-block;
+	height: 23px;
+	width: 22px;
+	vertical-align: -5px;
+	background-repeat: no-repeat;
+}
+div.login-module dl dd i.name-icon{
+	background-image: url("../images/add_fellow.png");
+	background-size:25px;
+}
+div.login-module dl dd i.pwd-icon{
+	background-image: url("../images/wm_icon_password_press.png");
+	background-size:25px;
+	background-position: -2px 0;
+}
+div.login-module dl dd i.regist-icon{
+	background-image: url("../images/navibar_icon_qr.png");
+	background-size:20px;
+}
+div.login-module dl dd label{
+	font-size: 12px;
+	display: inline-block;
+	width: 50px;
+}
+
+div.login-module dl dd input{
+	height: 30px;
+	width: 200px;
+	border: none
+}
+div.login-btn{
+	padding: 10px;
+}
+div.login-btn .icon-btn{
+	display: block;
+	border: 1px solid #e36009;
+	height: 42px;
+	line-height: 42px;
+	background: -webkit-gradient(linear, 0 0, 0 78%, from(#ff9518), to(#fc7a0c));
+	text-align: center;
+	color: #fff;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-box-shadow: 0px 1px 1px 0px #FFF inset;
+	box-shadow: 0px 1px 1px 0px #FFF inset;
+	width:100%;
+}
+p.forget{
+	margin: 0;
+	font-size: 14px;
+	text-indent: 10px;
+}
+p.forget a{
+	color: #5b6add;
+}

@@ -40,7 +40,7 @@ public class FactoryService extends BaseService<Factory>{
 	public QueryResult query(String condition,QuerySettings settings){
 		JSONObject queryJson = StrFuncs.isEmpty(condition) ? new JSONObject() : JSONObject.fromObject(condition);
 		Query query = new PagedQuery(settings);
-		StringBuffer select = new StringBuffer(" f.*,a.full_name as areaname ,(select name from t_factory where id= f.id) referee_name "
+		StringBuffer select = new StringBuffer(" f.*,a.full_name as areaname ,(select name from t_factory where id= f.referee_id) referee_name "
 				+ " ,(select name from SYS_USER where id= f.sys_user_id) sys_user_name");
 		StringBuilder where = new StringBuilder(" 1=1 ");
 		StringBuilder orderBy = new StringBuilder();

@@ -1,0 +1,50 @@
+div.item-contain{
+	position: absolute;
+	top:46px;
+	bottom:0;
+	left: 0;
+	right:0;
+	background-color: white;
+	overflow:hidden;
+}
+div.item-contain div.left{
+	width:50%;
+	background-color: #F2F2F2;
+	float: left;
+	height: 100%;
+	overflow-x: none;
+	position: absolute;
+	z-index: 998;
+	overflow-y: scroll;
+}
+div.item-contain div.left ul li{
+	height: 40px;
+	line-height: 40px;
+	font-size:14px;
+	text-indent: 10px;
+}
+div.item-contain div.left ul li.active{
+	background-color: white;
+}
+div.item-contain div.right{
+	overflow-y:scroll;
+	overflow-x: none;
+	height:100%;
+	position: absolute;
+	left:40%;
+	right:-10px;
+	z-index: 999;
+	background-color: white;
+}
+div.item-contain div.right ul {
+	padding-left:10px;
+	height: 100%;
+}
+
+div.item-contain div.right ul li{
+	height: 40px;
+	line-height: 40px;
+	border-bottom: 1px solid #ECE9E9;
+	font-size:14px;
+	text-indent: 10px;
+}

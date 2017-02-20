@@ -117,8 +117,6 @@
 			</div>
 			<div id="foot">
 				<span>倬利后台管理系统
-				<br />
-				广州市皓轩科技有限公司技术支持
 				</span>
 			</div>
 		</form>

@@ -1,0 +1,20 @@
+div.filter-view {
+	position: absolute;
+	top: 92px;
+	background: white;
+	bottom:0px;
+	width: 100%;
+}
+div.filter-view div.left{
+	height: 100%;
+	overflow-y: auto; 
+	overflow-x:hidden
+}
+div.filter-view ul li {
+	margin: 0px;
+	height: 50px;
+	line-height: 50px;
+	border-bottom: 1px solid #EAEAEA;
+	font-size: 14px;
+	text-indent: 10px;
+}
