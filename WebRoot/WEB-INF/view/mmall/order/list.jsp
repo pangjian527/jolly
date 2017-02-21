@@ -145,6 +145,13 @@
 		    width: 70px;
 		    height: 70px;
 		}
+		a.order-pay{
+			padding: 5px 15px;
+		    background: red;
+		    color: white;
+		    border-radius: 5px;
+		    margin-left: 10px;
+		}
 		
 	</style>
 	
@@ -210,7 +217,7 @@
 				
 				<li>
 					<div class="order-status-box">
-						<label>已完成</label>
+						<label>代付款</label>
 						<label class="order-time">2017-01-10 10:30:28</label>
 						<i class="direction"></i>
 					</div>
@@ -240,8 +247,8 @@
 					</div>
 					<div class="order-price-box">
 						实际付款：￥198.00
+						<a class="order-pay" href="">付款</a>
 					</div>
-					<i class="order-status-image"></i>
 				</li>
 			</ul>
 		</div>
