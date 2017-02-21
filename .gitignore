@@ -5,3 +5,5 @@ WebRoot/WEB-INF/classes/
 ./.classpath
 ./.project
 src/rebel.xml
+.project
+.settings/org.eclipse.core.resources.prefs

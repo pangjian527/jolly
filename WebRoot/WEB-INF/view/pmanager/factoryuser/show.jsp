@@ -168,7 +168,7 @@
 					
 					<li class="mandatory colspan_2">
 						<label>账号：</label>
-						<form:input path="account" onblur="checkAccount();" id="account" cssClass="text required form-input"/>
+						<form:input path="account" onblur="checkAccount();" id="account" cssClass="text required form-input" disabled="true"/>
 						<p6 id="accountMessage" ></p6>
 					</li>
 					<li class="mandatory colspan_2">
@@ -177,7 +177,7 @@
 					</li>
 					<li class="mandatory colspan_2">
 						<label>手机号码：</label>
-						<form:input path="mobile" id="mobile" onblur="checkMobile()" cssClass="text required form-input"/>
+						<form:input path="mobile" id="mobile" onblur="checkMobile()" cssClass="text required form-input" disabled="true"/>
 						<p6 id="mobileMessage" ></p6>
 					</li>
 					

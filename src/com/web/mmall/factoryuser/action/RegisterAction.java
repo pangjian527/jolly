@@ -1,4 +1,4 @@
-package com.web.mwebmall.action;
+package com.web.mmall.factoryuser.action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import pub.functions.StrFuncs;
 
+import com.sys.entity.Factory;
 import com.sys.entity.FactoryUser;
+import com.sys.service.FactoryService;
 import com.sys.service.FactoryUserService;
 import com.sys.service.SmsService;
 import com.sys.service.TempVerifycodeService;
@@ -19,7 +21,7 @@ import com.web.common.action.BaseAction;
 public class RegisterAction extends BaseAction{
 	@RequestMapping
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception { 
-		return "wechat/register";
+		return "mmall/factoryuser/register";
 	}
 	
 	/*
@@ -63,10 +65,43 @@ public class RegisterAction extends BaseAction{
 		}	
 	}
 	
+	@RequestMapping
+	public void register(HttpServletRequest request,HttpServletResponse response){
+		try {
+			//TODO 注册商家信息
+			String mobile = this.getParam("mobile");
+			String verifycode = this.getParam("verifycode");
+			String password = this.getParam("password");
+			String factoryName = this.getParam("factoryName");
+			String provinceId = this.getParam("provinceId");
+			String cityId = this.getParam("cityId");
+			String countyId = this.getParam("countyId");
+			String addr = this.getParam("addr");
+			if(!tempVerifycodeService.verify(mobile, verifycode)){
+				//throw new Exception("请输入正确的验证码");
+			}
+			
+			Factory  factory = new Factory();
+			factory.setMobile(mobile);
+			factory.setName(factoryName);
+			factory.setProvinceId(provinceId);
+			factory.setCityId(cityId);
+			factory.setCountyId(countyId);
+			factory.setAddr(addr);
+			factoryService.saveFactoryAndCreateFactoryUser(factory, password);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			this.writeJson("{error:'"+e.getMessage()+"'}");
+		}
+	}
+	
 	@Autowired
 	private TempVerifycodeService tempVerifycodeService;
 	@Autowired
 	private SmsService smsService;
+	@Autowired
+	private FactoryService factoryService;
 	@Autowired
 	private FactoryUserService factoryUserService;
 }

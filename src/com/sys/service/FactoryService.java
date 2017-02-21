@@ -1,8 +1,5 @@
 package com.sys.service;
 
-import java.util.Date;
-import java.util.List;
-
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +15,7 @@ import pub.functions.StrFuncs;
 
 import com.sys.dao.FactoryDao;
 import com.sys.entity.Factory;
-import com.sys.entity.FactoryUser;
 import com.sys.entity.SysUser;
-import com.sys.utils.SqlUtils;
 
 /**
  * 服务商家
@@ -81,9 +76,9 @@ public class FactoryService extends BaseService<Factory>{
 	}
 	
 	@Transactional
-	public void saveFactoryAndCreateFactoryUser(Factory factory) throws Exception {
+	public void saveFactoryAndCreateFactoryUser(Factory factory,String password) throws Exception {
 		this.save(factory);
-		factoryUserService.addFactoryUser(factory.getMobile(), "123456", factory.getId());
+		factoryUserService.addFactoryUser(factory.getMobile(), password, factory.getId());
 	}
 	
 	@Transactional

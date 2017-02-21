@@ -146,7 +146,7 @@ public class FactoryAction extends PManagerAction<Factory>{
 		if(StrFuncs.isEmpty(id)){
 			Factory factory =  new Factory();
 			this.populate(factory);
-			factoryService.saveFactoryAndCreateFactoryUser(factory);
+			factoryService.saveFactoryAndCreateFactoryUser(factory,"123456");
 		}else{
 			Factory factory = factoryService.get(id);
 			this.populate(factory);
