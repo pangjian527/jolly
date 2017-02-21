@@ -21,6 +21,11 @@
 		    padding: 10px 0;
 		}
 		
+		div.head-box{
+			height:280px;
+			background-image: url("${home}/image/h_bg.png");
+			width:100%;
+		}
 		
 	</style>
 	
