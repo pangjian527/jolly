@@ -111,6 +111,90 @@
 			font-size:25px;
 		}
 		
+		div.user-score-box{
+			margin:10px 0;
+			background:white;
+		}
+		
+		div.user-score-box ul li{
+			height:45px;
+			line-height:45px;
+			border-bottom:1px solid #f1f1f1;
+			margin-left:15px;
+			color: #232326;
+			font-size:14px;
+			position:relative;
+		}
+		div.user-score-box ul li i.direction{
+			position: absolute;
+		    background-image: url("${home}/image/direction.png");
+		    right: 18px;
+   			 top: 15px;
+		    background-size: 100% auto;
+		    width: 9px;
+		    height: 16px;
+		}
+		
+		div.user-score-box ul li span.desc {
+			position: absolute;
+    		right: 35px;
+    		font-size: 14px;
+    		color:red;
+		}
+		
+		div.order-price-box{
+			margin:10px 0;
+			background:white;		
+			font-size:15px;
+			color:#262629;
+			padding:5px 15px;
+		}
+		
+		div.order-price-box dl dt{
+			float:left;
+			width:50%;
+			height:30px;
+			line-height:30px;
+		}
+		div.order-price-box dl dd{
+			float:left;
+			width:50%;
+			height:30px;
+			line-height:30px;
+			text-align:right;
+			color:#f23030;
+		}
+		
+		div.order-submit-box{
+			height: 50px;
+		    background: white;
+		    line-height: 50px;
+		    color: red;
+		    text-align: right;
+		    padding-right: 110px;
+		    position: fixed;
+		    bottom: 0;
+		    width: 100%;
+		    border-top: 1px solid #e4e4e4;
+		}
+		
+		div.order-submit-box a{
+			width: 100px;
+		    text-align: center;
+		    color: white;
+		    background: #f23030;
+		    height: 50px;
+		    display: block;
+    		float: right;
+		}
+		
+		div.order-submit-box label{
+			display:inline-block;
+			height:50px;
+			font-size:25px;
+			margin-right: 10px;
+		}
+		
 	</style>
 	
 	<script type="text/javascript">
@@ -173,6 +257,35 @@
 					</div>
 				</li>
 			</ul>
+		</div>
+		<div class="user-score-box">
+			<ul>
+				<li>
+					<label>优惠劵</label>
+					<span class="desc">无可用</span>
+					<i class="direction"></i>
+				</li>
+				<li>
+					<label>积分 共1000积分，可低10元。</label>
+					<i></i>
+				</li>
+			</ul>
+		</div>
+		<div class="order-price-box">
+			<dl>
+				<dt>商品金额</dt>
+				<dd>￥799.00</dd>
+				<dt>积分抵扣</dt>
+				<dd>-￥0.00</dd>
+				<dt>运费</dt>
+				<dd>+￥15.00</dd>
+			</dl>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="order-submit-box">
+			<span>合计：</span>
+			<label>￥399.00</label>
+			<a href="">提交订单</a>
 		</div>
 	</div>
 </body>
