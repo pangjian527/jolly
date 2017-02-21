@@ -171,11 +171,11 @@
 		    line-height: 50px;
 		    color: red;
 		    text-align: right;
-		    padding-right: 110px;
 		    position: fixed;
 		    bottom: 0;
 		    width: 100%;
 		    border-top: 1px solid #e4e4e4;
+		    max-width: 640px;
 		}
 		
 		div.order-submit-box a{
