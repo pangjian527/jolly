@@ -14,4 +14,13 @@ public class OrderAction extends PManagerAction<Bookform>{
 		return "/mmall/order/submit";
 	}
 	
+	@RequestMapping
+	public String list(){
+		return "/mmall/order/list";
+	}
+	
+	@RequestMapping
+	public String detail(){
+		return "/mmall/order/detail";
+	}
 }

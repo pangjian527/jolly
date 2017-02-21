@@ -7,7 +7,7 @@
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	<title>订单确认</title>
+	<title>订单详情</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
 	
 	<style type="text/css">
@@ -18,7 +18,6 @@
 		    max-width: 640px;
 		    margin: 0 auto;
 		    background-color: #f3f3f3;
-		    padding: 10px 0;
 		}
 		
 		div.user-info-box{
@@ -27,6 +26,7 @@
     		background-size: 50px 5px;
     		padding: 5px 0;
     		background-position: -10px 0;
+    		margin:10px 0;
 		}
 		
 		div.user-info-box ul {
@@ -35,31 +35,13 @@
 		}
 		
 		div.user-info-box ul li{
-			height:40px;
-			line-height:40px;
+			height:30px;
+			line-height:30px;
 			color:#232326;
-		}
-		div.user-info-box ul li label{
-			display:inline-block;
-			width:80px;
-			text-align: right;
-		}
-		div.user-info-box ul li input[type="text"]{
-			height:25px;
-			text-indent:5px;
-			width:calc(100% - 110px);
-			border:0;
-			border-bottom:1px solid #e4e4e4;
-			-webkit-appearance:none;
-			border-radius:0;
-		}
-		div.user-info-box ul li select{
-			height:25px;
-			width:calc((100% - 130px)/3);
-			border:1px solid #e4e4e4;
-			-webkit-appearance:none;
-			border-radius:0;
-			background:white;
+			padding-left:15px;
+			white-space:nowrap;/* 不换行 */
+		    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+		    text-overflow:ellipsis
 		}
 		
 		div.pro-list-box{
@@ -111,36 +93,6 @@
 			font-size:25px;
 		}
 		
-		div.user-score-box{
-			margin:10px 0;
-			background:white;
-		}
-		
-		div.user-score-box ul li{
-			height:45px;
-			line-height:45px;
-			border-bottom:1px solid #f1f1f1;
-			margin-left:15px;
-			color: #232326;
-			font-size:14px;
-			position:relative;
-		}
-		div.user-score-box ul li i.direction{
-			position: absolute;
-		    background-image: url("${home}/image/direction.png");
-		    right: 18px;
-   			 top: 15px;
-		    background-size: 100% auto;
-		    width: 9px;
-		    height: 16px;
-		}
-		
-		div.user-score-box ul li span.desc {
-			position: absolute;
-    		right: 35px;
-    		font-size: 14px;
-    		color:red;
-		}
 		
 		div.order-price-box{
 			margin:10px 0;
@@ -150,7 +102,6 @@
 			padding:5px 15px;
 			margin-bottom: 50px;
 		}
-		
 		div.order-price-box dl dt{
 			float:left;
 			width:50%;
@@ -165,6 +116,7 @@
 			text-align:right;
 			color:#f23030;
 		}
+		
 		
 		div.order-submit-box{
 			height: 50px;
@@ -208,31 +160,23 @@
 		<div class="user-info-box">
 			<ul>
 				<li>
-					<label>收货人：</label>
-					<input type="text" name=""/>
+					<label>收货人：隔壁老王</label>
 				</li>
 				<li>
-					<label>电 &nbsp;&nbsp; 话：</label>
-					<input type="text" name=""/>
+					<label>电 &nbsp;&nbsp; 话：18922368587</label>
 				</li>
 				<li>
-					<label>区 &nbsp;&nbsp; 域：</label>
-					<select>
-						<option>广东省</option>
-					</select>
-					<select>
-						<option>广州市</option>
-					</select>
-					<select>
-						<option>天河区</option>
-					</select>
+					<label>地 &nbsp;&nbsp; 址：广东省广州市海珠区昌岗东路527号</label>
 				</li>
 				<li>
-					<label>街 &nbsp;&nbsp; 道：</label>
-					<input type="text" name=""/>
+					<label>状 &nbsp;&nbsp; 态：已完成</label>
+				</li>
+				<li>
+					<label>物 &nbsp;&nbsp; 流：已发货</label>
 				</li>
 			</ul>
 		</div>
+		
 		<div class="pro-list-box">
 			<ul>
 				<li>
@@ -259,19 +203,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="user-score-box">
-			<ul>
-				<li>
-					<label>优惠劵</label>
-					<span class="desc">无可用</span>
-					<i class="direction"></i>
-				</li>
-				<li>
-					<label>积分 共1000积分，可低10元。</label>
-					<i></i>
-				</li>
-			</ul>
-		</div>
+		
 		<div class="order-price-box">
 			<dl>
 				<dt>商品金额</dt>
