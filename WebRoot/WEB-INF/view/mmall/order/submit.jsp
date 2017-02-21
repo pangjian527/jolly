@@ -148,6 +148,7 @@
 			font-size:15px;
 			color:#262629;
 			padding:5px 15px;
+			margin-bottom: 50px;
 		}
 		
 		div.order-price-box dl dt{
