@@ -41,13 +41,13 @@
 		}
 		div.user-info-box ul li label{
 			display:inline-block;
-			width:100px;
+			width:80px;
 			text-align: right;
 		}
 		div.user-info-box ul li input[type="text"]{
 			height:25px;
 			text-indent:5px;
-			width:calc(100% - 130px);
+			width:calc(100% - 110px);
 			border:0;
 			border-bottom:1px solid #e4e4e4;
 			-webkit-appearance:none;
@@ -55,7 +55,7 @@
 		}
 		div.user-info-box ul li select{
 			height:25px;
-			width:calc((100% - 150px)/3);
+			width:calc((100% - 130px)/3);
 			border:1px solid #e4e4e4;
 			-webkit-appearance:none;
 			border-radius:0;
@@ -86,14 +86,14 @@
 		
 		div.pro-list-box ul li div.pro-info-box{
 				float:left;
-				width:calc(100% - 150px);
+				width:calc(100% - 120px);
 				padding:0 10px;
 		}
 		div.pro-info-title{
 			color: #232326;
 		    font-size: 15px;
 		    line-height: 20px;
-		    height: 70px;
+		    height: 60px;
 		    overflow: hidden;
 		    text-overflow: ellipsis;
 		    display: -webkit-box;
@@ -103,8 +103,8 @@
 		    word-break: break-word;		
 		}
 		div.pro-price{
-			height: 35px;
-    		line-height: 35px;
+			height: 45px;
+    		line-height: 45px;
 		}
 		div.pro-price label.price{
 			color:#f23030;
