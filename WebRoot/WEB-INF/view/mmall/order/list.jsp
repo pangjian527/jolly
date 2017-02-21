@@ -7,7 +7,7 @@
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	<title>前台商品列表</title>
+	<title>我的订单</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
 	
 	<style type="text/css">
@@ -217,7 +217,7 @@
 				
 				<li>
 					<div class="order-status-box">
-						<label>代付款</label>
+						<label>待付款</label>
 						<label class="order-time">2017-01-10 10:30:28</label>
 						<i class="direction"></i>
 					</div>
