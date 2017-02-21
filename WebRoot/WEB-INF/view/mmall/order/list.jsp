@@ -136,6 +136,16 @@
 		    height: 16px;
 		}
 		
+		i.order-status-image{
+			position: absolute;
+		    background-image: url("${home}/image/finish.png");
+		    right: 18px;
+		    top: 8px;
+		    background-size: 100%;
+		    width: 70px;
+		    height: 70px;
+		}
+		
 	</style>
 	
 	<script type="text/javascript">
@@ -194,6 +204,7 @@
 					<div class="order-price-box">
 						实际付款：￥198.00
 					</div>
+					<i class="order-status-image"></i>
 				</li>
 				
 				
@@ -230,6 +241,7 @@
 					<div class="order-price-box">
 						实际付款：￥198.00
 					</div>
+					<i class="order-status-image"></i>
 				</li>
 			</ul>
 		</div>
