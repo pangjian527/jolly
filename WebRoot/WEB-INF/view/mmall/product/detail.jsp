@@ -40,6 +40,7 @@
 		  	background-color: #f3f3f3;
 		  	padding: 10px 15px;
 	  	  	font-size: 15px;
+	  	  	margin-bottom: 50px;
 		}
 		div.extra-info-wrapper ul li{
 			height:30px;
