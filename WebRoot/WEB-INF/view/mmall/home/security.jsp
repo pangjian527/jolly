@@ -55,11 +55,11 @@
 		}
 		
 		div.secutiry-box input{
-			width: 100%;
+			width: 90%;
 		    border: 0;
 		    border-bottom: 1px dashed #e4e4e4;
 		    height: 60px;
-		    font-size:20px;
+		    font-size:22px;
 		    text-indent: 10px;
 		    letter-spacing: 2px;
 		    border-radius:0;
@@ -68,23 +68,22 @@
 		
 		div.secutiry-box a{
 			display: inline-block;
-		    height: 40px;
-		    line-height: 40px;
+		    height: 35px;
+		    line-height: 35px;
 		    width: 120px;
 		    text-align: center;
 		    margin: 20px 0;
-		    background: #3caf36;
+		    background: #e4393c;
 		    border-radius:5px;
 		    margin-left: 10px;
 		    font-family: "Microsoft YaHei";
 		    font-size: 14px;
-		    font-weight: 700;
 		    color: #fff;
+		    border: 1px solid #e4393c;
 		}
 		div.secutiry-box a.scan{
-			  color: #e4393c;
-			  border:1px solid #e4393c;
-			  background:white;
+			color: #e4393c;
+		    background: white;
 		}
 		
 	</style>
