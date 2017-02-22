@@ -140,6 +140,53 @@ CREATE TABLE `t_express_fee` (
 
 
 
+ 2017-02-23 02:31 csx add
+ 
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for t_cart
+-- ----------------------------
+DROP TABLE IF EXISTS `t_cart`;
+CREATE TABLE `t_cart` (
+  `id` varchar(32) NOT NULL,
+  `user_id` varchar(32) DEFAULT NULL,
+  `product_id` varchar(32) DEFAULT NULL,
+  `count` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `t_sms`;
+CREATE TABLE `t_sms` (
+  `id` varchar(32) NOT NULL,
+  `obj_mobile` varchar(20) DEFAULT NULL,
+  `content` text,
+  `pre_send_time` datetime DEFAULT NULL,
+  `final_send_time` datetime DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `ip_addr` varchar(255) DEFAULT NULL,
+  `remark` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `t_temp_verifycode`;
+CREATE TABLE `t_temp_verifycode` (
+  `id` varchar(32) NOT NULL,
+  `type` tinyint(4) DEFAULT NULL,
+  `code_key` varchar(255) DEFAULT NULL,
+  `code_value` varchar(255) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `deadline` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
 
 
    

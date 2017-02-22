@@ -273,6 +273,14 @@ public class Product implements Serializable {
 	public void setStockCount(Integer stockCount) {
 		this.stockCount = stockCount;
 	}
-
+	
+	//photos_ids转为list
+	public List<String> imgIds(){
+		if(StrFuncs.notEmpty(getPhotoIds())){
+			return Arrays.asList(getPhotoIds().split(","));
+		}else{
+			return new ArrayList<String>();
+		}
+	}
 
 }

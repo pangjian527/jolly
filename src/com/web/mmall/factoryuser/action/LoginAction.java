@@ -14,6 +14,7 @@ import pub.functions.StrFuncs;
 import com.sys.entity.FactoryUser;
 import com.sys.service.FactoryUserService;
 import com.web.common.action.BaseAction;
+import com.web.mmall.consts.Consts;
 
 @Controller 
 public class LoginAction extends BaseAction{
@@ -34,7 +35,8 @@ public class LoginAction extends BaseAction{
 				throw new Exception("用户名或密码不能为空!");
 			}
 			logger.info("页面登录");
-			factoryUserService.login(account.trim(), password.trim());
+			FactoryUser factoryUser = factoryUserService.login(account.trim(), password.trim());
+			request.getSession().setAttribute(Consts.FACTORY_USER_SESSION_KEY, factoryUser);	
 			logger.info("页面登录成功");
 			
 			/*String redirectUrl=this.getParam("redirectUrl");
