@@ -13,4 +13,12 @@ public class IndexAction  extends PManagerAction<FactoryUser>{
 	public String execute(){
 		return "/mmall/home/index";
 	}
+	@RequestMapping
+	public String security(){
+		return "/mmall/home/security";
+	}
+	@RequestMapping
+	public String securityDetail(){
+		return "/mmall/home/security_detail";
+	}
 }
