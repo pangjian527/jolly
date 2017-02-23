@@ -7,7 +7,7 @@
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	<title>订单详情</title>
+	<title>购物车</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" src="${home}/script/jquery.js"></script>	
 	<script type="text/javascript" src="${home}/script/mwebmall//haux.mobile.js"></script>
@@ -20,30 +20,6 @@
 		    margin: 0 auto;
 		}
 		
-		div.user-info-box{
-			background:white;
-			background-image: url("${home}/image/line.png") ;
-    		background-size: 50px 5px;
-    		padding: 5px 0;
-    		background-position: -10px 0;
-    		margin:10px 0;
-		}
-		
-		div.user-info-box ul {
-			background:white;
-			padding: 10px 0;
-		}
-		
-		div.user-info-box ul li{
-			height:30px;
-			line-height:30px;
-			color:#232326;
-			padding-left:15px;
-			white-space:nowrap;/* 不换行 */
-		    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
-		    text-overflow:ellipsis
-		}
-		
 		div.cart-list-box{
 			margin:10px 0;
 		}
@@ -53,7 +29,7 @@
 			background-color:white;
 			padding:10px 10px;
 			font-size:14px;
-			border-bottom: 2px solid #e4e4e4;
+			border-bottom: 1px solid #e4e4e4;
 		}
 		
 		div.cart-list-box ul li div.pro-img{
@@ -92,31 +68,6 @@
 			color:#f23030;
 			font-size:25px;
 		}
-		
-		
-		div.order-price-box{
-			margin:10px 0;
-			background:white;		
-			font-size:15px;
-			color:#262629;
-			padding:5px 15px;
-			margin-bottom: 50px;
-		}
-		div.order-price-box dl dt{
-			float:left;
-			width:50%;
-			height:30px;
-			line-height:30px;
-		}
-		div.order-price-box dl dd{
-			float:left;
-			width:50%;
-			height:30px;
-			line-height:30px;
-			text-align:right;
-			color:#f23030;
-		}
-		
 		
 		div.cart-balance-box{
 			height: 50px;

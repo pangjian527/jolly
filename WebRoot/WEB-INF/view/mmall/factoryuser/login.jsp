@@ -7,7 +7,7 @@
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	<title>倬利商家注册</title>
+	<title>密码登录</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
 	
 	<script type="text/javascript" src="${home}/script/jquery.js"></script>	
@@ -48,6 +48,7 @@
 		display:inline-block;
 		width:100px;
 		text-align: right;
+		letter-spacing: 10px;
 	}
 	div.scwrapper ul li input[type="text"]{
 		height:25px;
@@ -70,6 +71,20 @@
 		  font-size: 18px;
 		  font-family: 微软雅黑;
 		  clear: both;
+		  letter-spacing: 10px;
+	}
+	div.forward-menu{
+		  position: relative;
+  		margin-top: 20px;
+	}
+	div.forward-menu a.register-href {
+		 margin-left: 15px;
+  		color: #F04E4E;
+	}
+	div.forward-menu a.sms-login-href {
+		  position: absolute;
+		  right: 15px;
+		  color: #F04E4E;
 	}
 </style>
 <script type="text/javascript">
@@ -89,7 +104,12 @@
 		
 		document.loginform.submit();
 	}
-	
+	function toRegister(){
+		window.location="${home}/mmall/factoryuser/register.do";
+	}
+	function toSmsLogin(){
+		window.location="${home}/mmall/factoryuser/login.do?op=toLoginSms";
+	}
 </script>
 </head>
 <body>
@@ -99,17 +119,21 @@
   				<input type="hidden" name="op" value="login">
 	  			<ul>
 	  				<li>
-	  					<label>账&nbsp;&nbsp;&nbsp;&nbsp;号：</label>
+	  					<label>账号：</label>
 	  					<input type="text" name="account" id="account"/>
 	  				</li>
 	  				<li>
-	  					<label>密&nbsp;&nbsp;&nbsp;&nbsp;码：</label>
+	  					<label>密码：</label>
 	  					<input type="text" name="password" id="password"/>
 	  				</li>
 	  			</ul>
   			</form>
   		</div>
-  		<a class="login" onclick="loginSubmit();" >登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</a>
+  		<a class="login" onclick="loginSubmit();" >登录</a>
+  		<div class="forward-menu">
+  			<a class="register-href" href="javascript:toRegister()">快速注册>></a>
+  			<a class="sms-login-href" href="javascript:toSmsLogin()">短信登录>></a>
+  		</div>
   	</div>
 </body>
 </html>
