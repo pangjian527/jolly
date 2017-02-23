@@ -29,6 +29,7 @@ import com.web.pmanager.PManagerAction;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import pub.functions.JsonFuncs;
 
 @Controller
 public class OrderAction extends PManagerAction<Bookform>{
@@ -63,6 +64,8 @@ public class OrderAction extends PManagerAction<Bookform>{
 		request.setAttribute("cartData", cartData);
 		request.setAttribute("factory",factory);
 		request.setAttribute("score", totalScore - consumeScore);
+		System.out.println(cartDatas.toString());
+		request.setAttribute("items", cartDatas.toString());
 		return "/mmall/order/submit";
 	}
 	
@@ -70,20 +73,21 @@ public class OrderAction extends PManagerAction<Bookform>{
 	@RequestMapping
 	public void submit(HttpServletRequest request,HttpServletResponse response){
 		
-		Object object = request.getAttribute(Consts.FACTORY_USER_SESSION_KEY);
+		Object object = request.getSession().getAttribute(Consts.FACTORY_USER_SESSION_KEY);
 		String man = request.getParameter("man");
 		String provinceId = request.getParameter("provinceId");
 		String cityId = request.getParameter("cityId");
 		String countyId = request.getParameter("countyId");
 		String addr = request.getParameter("addr");
 		int payType = Integer.valueOf(request.getParameter("payType"));
+		String cartDatas = request.getParameter("cartDatas");
 		
 		if(object == null){
 			this.writeErrorJson("未登录，请先登录");
 			return ;
 		}
 		//2. 获取到商品
-		CartData cartData = cartService.getCartData(cartDatas.toString());
+		CartData cartData = cartService.getCartData(cartDatas);
 		
 		FactoryUser factoryUser = (FactoryUser) object;
 		OrderEntity entity = new OrderEntity(man,provinceId,cityId,countyId,addr,payType);

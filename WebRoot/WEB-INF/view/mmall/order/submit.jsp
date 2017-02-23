@@ -9,6 +9,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<title>订单确认</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
+	<script type="text/javascript" src="${home}/script/jquery-1.10.2.min.js"></script>
+	
 	
 	<style type="text/css">
 	
@@ -227,6 +229,83 @@
 	
 	<script type="text/javascript">
 		
+		function switchObject(tarValue){
+			var payElement = document.getElementById("paytype-box");
+			var spansElement = payElement.getElementsByTagName("span");
+			
+			for(var i=0;i<spansElement.length;i++){
+				if(spansElement[i].getAttribute("value") == tarValue){
+					spansElement[i].className = "active";
+				}else{
+					spansElement[i].className = "";
+				}
+			}
+		}
+		
+		function getSelectObjectValue(){
+			var payElement = document.getElementById("paytype-box");
+			var spansElement = payElement.getElementsByTagName("span");
+			
+			for(var i=0;i<spansElement.length;i++){
+				if(spansElement[i].className == "active"){
+					return spansElement[i].getAttribute("value");
+				}
+			}
+		}
+		
+		window.onload = function (){
+			var payElement = document.getElementById("paytype-box");
+			var spansElement = payElement.getElementsByTagName("span");
+			
+			for(var i=0;i<spansElement.length;i++){
+				spansElement[i].onclick= function(tarValue){
+					return function(){
+						switchObject(tarValue);
+					}
+				}(spansElement[i].getAttribute("value"))
+			};
+		}
+		
+		function submitObject(){
+					var cartData = document.getElementById("cartData").value;
+					var orderObj =getOrder();
+					orderObj.cartDatas = cartData;
+					
+					$.ajax({
+						type:"post",
+						url:"${home}/mmall/order/order.do?op=submit",
+						data:orderObj,
+						success:function(data){
+							if(data.error){
+								alert(data.error);
+							}else{
+								alert("成功");
+							}
+						}
+					});
+		}
+		
+		
+		function getOrder(){
+			var order = new Object();
+			var man =document.getElementById("man").value;
+			var mobile =document.getElementById("mobile").value;
+			var addr =document.getElementById("addr").value;
+			var provinceId = $('#provinceId').val();
+			var cityId = $('#cityId').val();
+			var countyId = $('#countyId').val();
+			var payType = getSelectObjectValue();
+			order.man = man ;
+			order.mobile = mobile;
+			order.addr = addr;
+			order.provinceId = provinceId;
+			order.cityId = cityId;
+			order.countyId = countyId;
+			order.payType = payType;
+			
+			return order;
+		}
+		
 	</script>
 		
 </head>
@@ -236,27 +315,28 @@
 			<ul>
 				<li>
 					<label>收货人：</label>
-					<input type="text" value="${factory.man }" name=""/>
+					<input type="text" value="${factory.man }"  id="man" name="man"/>
 				</li>
 				<li>
 					<label>电 &nbsp;&nbsp; 话：</label>
-					<input type="text" value="${factory.mobile }" name=""/>
+					<input type="text" value="${factory.mobile }" id="mobile" name=""/>
+					<input type="hidden" id="cartData" value='${items }'/>
 				</li>
 				<li>
 					<label>区 &nbsp;&nbsp; 域：</label>
-					<select>
+					<select id="provinceId">
 						<option value="2250">广东省</option>
 					</select>
-					<select>
+					<select id="cityId">
 						<option value="2251">广州市</option>
 					</select>
-					<select>
+					<select id="countyId">
 						<option  value="2270">天河区</option>
 					</select>
 				</li>
 				<li>
 					<label>街 &nbsp;&nbsp; 道：</label>
-					<input type="text" value="${factory.addr }" name=""/>
+					<input type="text" id="addr" value="${factory.addr }" name=""/>
 				</li>
 			</ul>
 		</div>
@@ -290,11 +370,11 @@
 				</li>
 			</ul>
 		</div>
-		<div class="paytype-box">
+		<div class="paytype-box" id="paytype-box">
 			<label>付款类型</label>
-			<span class="active">在线付款</span>
-			<span>货到付款</span>
-			<span>预发货后付款</span>
+			<span  class="active" value="0">在线付款</span>
+			<span  value="1">货到付款</span>
+			<span  value="2">预发货后付款</span>
 		</div>
 		<div class="order-price-box">
 			<dl>
@@ -310,7 +390,7 @@
 		<div class="order-submit-box">
 			<span>合计：</span>
 			<label>￥ <fmt:formatNumber value="${cartData.allPrice }" pattern="#,#00.00#"/></label>
-			<a href="">提交订单</a>
+			<a href="javascript:submitObject()">提交订单</a>
 		</div>
 	</div>
 </body>
