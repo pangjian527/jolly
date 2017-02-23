@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.sys.entity.Product;
 import com.sys.service.BookformDetailService;
 import com.sys.service.ProductService;
+import com.web.mmall.consts.Consts;
 import com.web.mmall.entity.ProductEntity;
 import com.web.pmanager.PManagerAction;
 
@@ -31,6 +32,14 @@ public class ProductAction extends PManagerAction<Product>{
 			int realSalesCount = bookformDetailService.getCountByProductId(product.getId());
 			entity.setRealSalesCount(realSalesCount);
 			entityResult.add(entity);
+		}
+		
+		Object object = request.getSession().getAttribute(Consts.FACTORY_USER_SESSION_KEY);
+		
+		if(object == null){
+			request.setAttribute("islogin", false);
+		}else{
+			request.setAttribute("islogin", true);
 		}
 		
 		request.setAttribute("lists", entityResult);
