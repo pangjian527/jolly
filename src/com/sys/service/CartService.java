@@ -1,5 +1,6 @@
 package com.sys.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pub.dao.GeneralDao;
+import pub.functions.JsonFuncs;
 
 import com.sys.dao.CartDao;
 import com.sys.data.cart.CartData;
@@ -15,6 +17,9 @@ import com.sys.data.cart.CartItem;
 import com.sys.entity.Cart;
 import com.sys.entity.FactoryUser;
 import com.sys.entity.Product;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Service
 @Transactional(readOnly = true)
@@ -107,6 +112,30 @@ public class CartService {
 			item.copyProperties(product);
 			
 		}
+	}
+	
+	public CartData getCartData(String jsonArrData){
+		
+		JSONArray cartDatas = JsonFuncs.toJsonArray(jsonArrData);
+		
+		List<CartItem> itemList = new ArrayList<CartItem>();
+		for(int i=0 ;i<cartDatas.size();i++){
+			JSONObject jsonObject = cartDatas.getJSONObject(i);
+			
+			CartItem cartItem = new CartItem();
+			String productId = jsonObject.getString("productId");
+			int count = jsonObject.getInt("count");
+			Product product = productService.get(productId);
+			
+			cartItem.copyProperties(product);;
+			cartItem.setCount(count);
+			itemList.add(cartItem);
+		}
+		
+		CartData cartData = new CartData();
+		cartData.setItems(itemList);
+		
+		return cartData;
 	}
 	
 	

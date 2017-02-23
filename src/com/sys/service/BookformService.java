@@ -22,14 +22,17 @@ import com.sys.dao.BookformDao;
 import com.sys.dao.BookformDetailDao;
 import com.sys.data.book.BookformData;
 import com.sys.data.book.BookformProductData;
+import com.sys.data.cart.CartData;
 import com.sys.data.cart.CartItem;
 import com.sys.entity.Area;
 import com.sys.entity.Bookform;
 import com.sys.entity.BookformDetail;
 import com.sys.entity.Factory;
+import com.sys.entity.FactoryUser;
 import com.sys.entity.LogPayment;
 import com.sys.entity.Product;
 import com.sys.entity.SysUser;
+import com.web.mmall.entity.OrderEntity;
 
 @Service
 @Transactional(readOnly = true)
@@ -1323,10 +1326,41 @@ public class BookformService extends BaseService<Bookform>{
 		return bookformDao.getCurrentDayBookformCount(factoryId , startDate ,endDate);
 	}
 	*/
-	
-	public String createBookform(List<CartItem> items,BookformData bookformData){
+	@Transactional
+	public String submitBookform(CartData cartData,FactoryUser factoryUser,OrderEntity data){
+		
+		Bookform bookform = new Bookform();
+		
+		bookform.setFactoryId(factoryUser.getFactoryId());;
+		bookform.setContactProvinceId(data.getProvinceId());
+		bookform.setContactCityId(data.getCityId());
+		bookform.setContactCountyId(data.getCountyId());
+		bookform.setSales(cartData.getAllPrice());
+		bookform.setCode(StrFuncs.createTimeUID());
+		bookform.setContactTel(data.getMobile());
+		bookform.setStatus(Bookform.STATUS_CONFIRM_WAIT);
+		bookform.setPayType(data.getPayType());
+		
+		bookformDao.save(bookform);
+
+		createBookformDetail(cartData,bookform);
+		
 		return null;
 	}
+	
+	private void createBookformDetail(CartData cartData,Bookform bookform){
+		for (CartItem cartItem : cartData.getItems()) {
+			BookformDetail  detail  = new BookformDetail();
+			detail.setBookId(bookform.getId());
+			detail.setCount(cartItem.getCount());
+			detail.setProductId(cartItem.getProductId());;
+			detail.setPrice(cartItem.getPrice());
+			detail.setPriceMart(cartItem.getPriceMart());
+			
+			bookformDetailDao.save(detail);
+		}
+	}
+	
 	
 	@Autowired
 	private BookformDao bookformDao;

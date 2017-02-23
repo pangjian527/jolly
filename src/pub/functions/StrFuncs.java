@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -552,5 +553,19 @@ public class StrFuncs {
 			e.printStackTrace(); 
 		} 
 		return null;
+	}
+	
+	public static String createTimeUID(){
+		
+		long t = System.currentTimeMillis();//获得当前时间的毫秒数
+		System.out.println(t);
+		String millis = StrFuncs.valueOf(t).substring(5);
+		
+		String time = DateFuncs.toString(new Date(), "yyyyMMdd");
+        Random rd = new Random(t);
+        int nextInt = rd.nextInt(100);
+        
+        return time+millis+nextInt;
+		
 	}
 }

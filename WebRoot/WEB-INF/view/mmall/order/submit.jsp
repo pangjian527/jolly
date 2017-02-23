@@ -195,7 +195,34 @@
 			font-size:25px;
 			margin-right: 10px;
 		}
-		
+		div.paytype-box{
+			margin: 10px 0;
+		    background: white;
+		    padding: 10px;
+		}
+		div.paytype-box label{
+			display: block;
+		    height: 35px;
+		    line-height: 35px;
+		    border-bottom: 1px solid #f1f1f1;
+		    margin-left: 10px;
+		    font-size: 14px;
+		    color: #232326;
+		}
+		div.paytype-box span{
+			display: inline-block;
+		    margin-left: 5px;
+		    font-size: 14px;
+		    padding: 10px 8px;
+		    border: 1px solid #ff8400;
+		    margin-top: 10px;
+		    border-radius: 10px;
+		    color: #ff8400;
+		}
+		div.paytype-box span.active{
+			color:white;
+			background:#ff8400;
+		}
 	</style>
 	
 	<script type="text/javascript">
@@ -262,6 +289,12 @@
 					<i></i>
 				</li>
 			</ul>
+		</div>
+		<div class="paytype-box">
+			<label>付款类型</label>
+			<span class="active">在线付款</span>
+			<span>货到付款</span>
+			<span>预发货后付款</span>
 		</div>
 		<div class="order-price-box">
 			<dl>

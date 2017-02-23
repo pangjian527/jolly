@@ -18,10 +18,13 @@ import com.sys.entity.Factory;
 import com.sys.entity.FactoryUser;
 import com.sys.entity.Product;
 import com.sys.service.AreaService;
+import com.sys.service.BookformService;
+import com.sys.service.CartService;
 import com.sys.service.FactoryService;
 import com.sys.service.ProductService;
 import com.sys.service.ScoreService;
 import com.web.mmall.consts.Consts;
+import com.web.mmall.entity.OrderEntity;
 import com.web.pmanager.PManagerAction;
 
 import net.sf.json.JSONArray;
@@ -49,22 +52,7 @@ public class OrderAction extends PManagerAction<Bookform>{
 		Factory factory = factoryService.get(factoryUser.getFactoryId());
 		
 		//2. 获取到商品
-		List<CartItem> itemList = new ArrayList<CartItem>();
-		for(int i=0 ;i<cartDatas.size();i++){
-			JSONObject jsonObject = cartDatas.getJSONObject(i);
-			
-			CartItem cartItem = new CartItem();
-			String productId = jsonObject.getString("productId");
-			int count = jsonObject.getInt("count");
-			Product product = productService.get(productId);
-			
-			cartItem.copyProperties(product);;
-			cartItem.setCount(count);
-			itemList.add(cartItem);
-		}
-		
-		CartData cartData = new CartData();
-		cartData.setItems(itemList);
+		CartData cartData = cartService.getCartData(cartDatas.toString());
 		
 		//3.获取积分
 		int totalScore = scoreService.getFactoryHistoryScore(factory.getId());
@@ -82,6 +70,27 @@ public class OrderAction extends PManagerAction<Bookform>{
 	@RequestMapping
 	public void submit(HttpServletRequest request,HttpServletResponse response){
 		
+		Object object = request.getAttribute(Consts.FACTORY_USER_SESSION_KEY);
+		String man = request.getParameter("man");
+		String provinceId = request.getParameter("provinceId");
+		String cityId = request.getParameter("cityId");
+		String countyId = request.getParameter("countyId");
+		String addr = request.getParameter("addr");
+		int payType = Integer.valueOf(request.getParameter("payType"));
+		
+		if(object == null){
+			this.writeErrorJson("未登录，请先登录");
+			return ;
+		}
+		//2. 获取到商品
+		CartData cartData = cartService.getCartData(cartDatas.toString());
+		
+		FactoryUser factoryUser = (FactoryUser) object;
+		OrderEntity entity = new OrderEntity(man,provinceId,cityId,countyId,addr,payType);
+		//3. 提交订单
+		bookformService.submitBookform(cartData, factoryUser, entity);
+		
+		this.writeJson(true);
 	}
 	
 	/*订单列表*/
@@ -103,4 +112,8 @@ public class OrderAction extends PManagerAction<Bookform>{
 	private ScoreService scoreService;
 	@Autowired
 	private AreaService areaService;
+	@Autowired
+	private BookformService bookformService;
+	@Autowired
+	private CartService cartService;
 }
