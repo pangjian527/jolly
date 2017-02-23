@@ -2,6 +2,7 @@ package com.sys.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import pub.dao.hibernate.HibernateDao;
@@ -98,5 +99,11 @@ public class BookformDetailDao extends HibernateDao<BookformDetail> {
 		return Integer.valueOf(this.getSession().createSQLQuery(sql)
 				.setParameter("customerId", customerId).uniqueResult()
 				.toString());
+	}
+
+	public int getCountByProductId(String productId) {
+		StringBuffer sql = new StringBuffer("select IFNULL(sum(count),0) from t_bookform_detail d where d.product_id = :productId");
+		Query query = this.getSession().createSQLQuery(sql.toString()).setParameter("productId", productId);
+		return Integer.valueOf(query.uniqueResult().toString());
 	}
 }

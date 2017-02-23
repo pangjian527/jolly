@@ -92,23 +92,25 @@
 		</div>
 		<div class="product-wrapper">
 			<ul>
-				<li>
-					<a href="">
-						<div class="pro-img">
-							<img src="${home}/image/23456.jpg"/>
-						</div>
-						<div class="pro-info-box">
-							<div class="pro-info-title">苹果原装手机内置电池iPhone4/4s/5/5s/6/7iPhone6s/6plus电池 苹果6专用电池</div>
-							<div class="pro-price">
-								<b>批发价:</b><label class="price">？</label>&nbsp;&nbsp;
-								<b>市场价:</b><label class="price_mart">￥199.00</label>
-							</div>
-							<div class="pro-sale">
-								销量：10000件
-							</div>
-						</div>
-					</a>
-				</li>
+				<c:forEach items="${lists }" var="product">
+						<li>
+							<a href="">
+								<div class="pro-img">
+									<img src="${home}/img-${product.firstPhotoId}.do">	
+								</div>
+								<div class="pro-info-box">
+									<div class="pro-info-title">${product.name }</div>
+									<div class="pro-price">
+										<b>批发价:</b><label class="price">？</label>&nbsp;&nbsp;
+										<b>市场价:</b><label class="price_mart">￥${product.priceMart }</label>
+									</div>
+									<div class="pro-sale">
+										销量：${product.salesScount }件
+									</div>
+								</div>
+							</a>
+						</li>
+				</c:forEach>
 				<li>
 					<a href="">
 						<div class="pro-img">
