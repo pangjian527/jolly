@@ -93,7 +93,7 @@
 			<ul>
 				<c:forEach items="${lists }" var="product">
 						<li>
-							<a href="">
+							<a href="${home }/mmall/product/product.do?op=viewDetail&productId=${product.id}">
 								<div class="pro-img">
 									<img src="${home}/img-${product.firstPhotoId}.do">	
 								</div>

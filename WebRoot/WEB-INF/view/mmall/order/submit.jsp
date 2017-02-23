@@ -209,54 +209,45 @@
 			<ul>
 				<li>
 					<label>收货人：</label>
-					<input type="text" name=""/>
+					<input type="text" value="${factory.man }" name=""/>
 				</li>
 				<li>
 					<label>电 &nbsp;&nbsp; 话：</label>
-					<input type="text" name=""/>
+					<input type="text" value="${factory.mobile }" name=""/>
 				</li>
 				<li>
 					<label>区 &nbsp;&nbsp; 域：</label>
 					<select>
-						<option>广东省</option>
+						<option value="2250">广东省</option>
 					</select>
 					<select>
-						<option>广州市</option>
+						<option value="2251">广州市</option>
 					</select>
 					<select>
-						<option>天河区</option>
+						<option  value="2270">天河区</option>
 					</select>
 				</li>
 				<li>
 					<label>街 &nbsp;&nbsp; 道：</label>
-					<input type="text" name=""/>
+					<input type="text" value="${factory.addr }" name=""/>
 				</li>
 			</ul>
 		</div>
 		<div class="pro-list-box">
 			<ul>
+				<c:forEach items="${cartData.items }" var="item">
 				<li>
 					<div class="pro-img">
-						<img src="${home}/image/23456.jpg"/>
+						<img src="${home}/img-${item.imageId }.do">	
 					</div>
 					<div class="pro-info-box">
-						<div class="pro-info-title">苹果原装手机内置电池iPhone4/4s/5/5s/6/7iPhone6s/6plus电池 苹果6专用电池</div>
+						<div class="pro-info-title">${item.productName }</div>
 						<div class="pro-price">
-							<label class="price">￥188.88</label>&nbsp;&nbsp;x 10
+							<label class="price">￥<fmt:formatNumber value="${item.price }" pattern="#,#00.00#"/></label>&nbsp;&nbsp;x ${item.count }
 						</div>
 					</div>
 				</li>
-				<li>
-					<div class="pro-img">
-						<img src="${home}/image/23456.jpg"/>
-					</div>
-					<div class="pro-info-box">
-						<div class="pro-info-title">苹果原装手机内置电池iPhone4/4s/5/5s/6/7iPhone6s/6plus电池 苹果6专用电池</div>
-						<div class="pro-price">
-							<label class="price">￥188.88</label>&nbsp;&nbsp;x 10
-						</div>
-					</div>
-				</li>
+				</c:forEach>
 			</ul>
 		</div>
 		<div class="user-score-box">
@@ -267,7 +258,7 @@
 					<i class="direction"></i>
 				</li>
 				<li>
-					<label>积分 共1000积分，可低10元。</label>
+					<label>积分 共${score }积分，可低￥${score/10 }元。</label>
 					<i></i>
 				</li>
 			</ul>
@@ -275,17 +266,17 @@
 		<div class="order-price-box">
 			<dl>
 				<dt>商品金额</dt>
-				<dd>￥799.00</dd>
+				<dd>￥ <fmt:formatNumber value="${cartData.allPrice }" pattern="#,#00.00#"/></dd>
 				<dt>积分抵扣</dt>
 				<dd>-￥0.00</dd>
 				<dt>运费</dt>
-				<dd>+￥15.00</dd>
+				<dd>+￥0.00</dd>
 			</dl>
 			<div style="clear:both;"></div>
 		</div>
 		<div class="order-submit-box">
 			<span>合计：</span>
-			<label>￥399.00</label>
+			<label>￥ <fmt:formatNumber value="${cartData.allPrice }" pattern="#,#00.00#"/></label>
 			<a href="">提交订单</a>
 		</div>
 	</div>

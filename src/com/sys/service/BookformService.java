@@ -22,6 +22,7 @@ import com.sys.dao.BookformDao;
 import com.sys.dao.BookformDetailDao;
 import com.sys.data.book.BookformData;
 import com.sys.data.book.BookformProductData;
+import com.sys.data.cart.CartItem;
 import com.sys.entity.Area;
 import com.sys.entity.Bookform;
 import com.sys.entity.BookformDetail;
@@ -751,35 +752,6 @@ public class BookformService extends BaseService<Bookform>{
 			}
 		}
 		
-		ThreadPoolTaskExecutor threadPoolTaskExecutor=BeanUtils.getBean(ThreadPoolTaskExecutor.class);
-		threadPoolTaskExecutor.execute(new Thread(){
-			public void run(){
-				try {
-					ClickFarmingMongoService clickFarmingMongoService=BeanUtils.getBean(ClickFarmingMongoService.class);	
-					for(Bookform subBookform : bookForms){
-						//System.out.println(Thread.currentThread().getName()+"--"+discountIdMap.get(subBookform.getId()));
-						// 采集所有数据
-						MongodbClickFarming clickFarmingData = new MongodbClickFarming(
-								customer.getId(), jsonData.get("hardKey"),
-								jsonData.get("softKey"), null, null,
-								subBookform.getId(), discountIdMap.get(subBookform.getId()), jsonData
-								.get("clientPlatform"), ipAddr,
-								jsonData.get("gpsX"), jsonData.get("gpsY"),
-								jsonData.get("version"), customer
-								.getMobile(), subBookform
-								.getDiscountAmount(), subBookform
-								.getServiceFactoryId(), subBookform
-								.getCode(), new Date());
-						clickFarmingMongoService.save(clickFarmingData);
-					}
-					
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-				}
-			}
-		});
-	}
-	
 
 	private Bookform create(String uId, String customerId, String factoryId, Map<String, String> postData){
 		Bookform bookform = new Bookform();
@@ -919,13 +891,6 @@ public class BookformService extends BaseService<Bookform>{
 		return bookform;
 	}
 
-	private double getVoucherAmount(List<CartItem> items) {
-		double voucherAmount=0.0;
-		for(CartItem item : items){
-			voucherAmount=NumberUtil.add(voucherAmount, item.getVoucherAmount());
-		}
-		return voucherAmount;
-	}
 
 	private List<BookformDetail> createDetails(List<CartItem> items){
 		//double subAmount = 0.0;
@@ -962,61 +927,6 @@ public class BookformService extends BaseService<Bookform>{
 		
 		return details;
 	}
-	
-	
-	public void matchDiscount(Map<String, String> bookData, CartData cartData, Customer user){
-		//2015-12-17
-		String voucherId = bookData.get("voucherId");
-		if(StrFuncs.notEmpty(voucherId)){
-			voucherService.reduce(bookData,cartData,user.getId());
-		}else{
-			List<DiscountRule> validRules = new ArrayList<DiscountRule>();
-			
-			List<DiscountRule> discountRules = discountRuleService.getValidRules();
-			
-			for(DiscountRule rule : discountRules){
-				if(discountRuleService.match(rule, bookData, cartData, user)){
-					validRules.add(rule);
-				}
-				boolean match = discountRuleService.match(rule, bookData, cartData, user);
-				//2015-8-20 add 
-				
-				if (match) {
-					match = clickFarmingMongoService.countCurrentMonthItems(bookData.get("softKey"),bookData.get("hardKey"),rule.getId()) >= rule
-							.getRepeatCount() ? false : true;
-				}
-				if(match){
-					validRules.add(rule);
-				}else{
-					JSONObject object = JsonFuncs.toJsonObject(bookData);
-					object.element("customerId", user.getId());
-					object.element("time", new Date());
-					logger.info(object.toString());
-				}
-			}
-			
-			for(DiscountRule rule : validRules){
-				discountRuleService.reduce(rule, cartData, user);
-			}
-		}
-		
-		//2015-10-18 add 轮胎加急安装费用
-		String text = bookData.get("priority");
-		int priority = StrFuncs.notEmpty(text) ? Integer.valueOf(text) : -1;
-		
-		if(priority == 1){
-			List<CartItem> items = cartData.getItems();
-			for (CartItem item : items) {
-				// 计算轮胎加急安装费用
-				if(item.getCategory()==0){//轮胎产品
-					tyreUrgentService.reduce(bookData, item);
-				}
-			}
-		}
-		
-	}
-	
-	
 	
 	public List<BookformProductData> getProductDatas(String bookformId) throws Exception {
 		List<BookformDetail> bookDetails = bookformDetailDao.getAllByBookId(bookformId);
@@ -1295,78 +1205,6 @@ public class BookformService extends BaseService<Bookform>{
 		System.out.println("end finishPayment");
 	}
 	
-	
-	private JSONObject testVerifyCode(String code, FactoryUser user) throws Exception{
-		BookformDetail detail = bookformDetailDao.getByVerifyCode(code.trim());
-		JSONObject result = new JSONObject();
-		result.element("success", true);
-		result.element("code", code);
-	
-		if(detail == null){
-			return result.element("success", false).element("describe", "无效的验证码");
-		}
-
-		Bookform bookform = bookformDao.get(detail.getBookId());
-		if(!user.getFactoryId().equals(bookform.getServiceFactoryId())){
-			return result.element("success", false).element("describe", "非本店验证码");
-		}
-		if(bookform.getStatus() != 1){
-			return result.element("success", false).element("describe", "订单不可用");
-		}
-		Coupon coupon = couponService.getCouponByBookDetail(detail.getId());
-		if(coupon !=null){//是否使用红包
-			CouponConfig couponConfig = couponConfigService.getActiveConfig(coupon.getCouponConfigId(), true);
-			if(couponConfig==null){//是否在活动时间段内
-				
-				//单纯获取时间用于提示
-				couponConfig = couponConfigService.getActiveConfig(coupon.getCouponConfigId(),false);
-				if(couponConfig==null){
-					//return result.element("success", false).element("describe", "该活动已经过期");
-				}else{
-					return result.element("success", false).element("describe", "当前不是在活动时间，请在" + couponConfig.getUseStartTime() + "-" + couponConfig.getUseEndTime() + "内消费");
-				}
-			}
-		}
-		Voucher voucher = voucherService.getVoucherByBookId(bookform.getId());
-		if(voucher !=null){//是否使用代金券
-			VoucherConfig voucherConfig = voucherConfigService.getActiveConfig(voucher.getVoucherConfigId(), true);
-			if(voucherConfig==null){//不在验券时间段内
-				voucherConfig = voucherConfigService.getActiveConfig(voucher.getVoucherConfigId(), false);
-				if(voucherConfig==null){
-					//return result.element("success", false).element("describe", "该代金券已经过期");
-				}else{
-					return result.element("success", false).element("describe", "当前不是在验券时间内，请在" + voucherConfig.getUseStartTime() + "-" + voucherConfig.getUseEndTime() + "内消费");
-				}
-			}
-		}
-		
-		if(bookform.getIsSelf() == 1 && bookform.getTrackingStatus() != 2){
-			return result.element("success", false).element("describe", "轮胎尚未抵达安装商家");
-		}
-
-		if(detail.getVerificationStatus() == 1){
-			return result.element("success", false)
-				.element("describe", "已于" + DateFuncs.toString(detail.getVerificationTime()) + "使用！");
-		}
-
-		if(detail.getVerificationDeadline().before(new Date())){
-			return result.element("success", false)
-				.element("describe", "已于" + DateFuncs.toString(detail.getVerificationDeadline()) + "经过期！");
-		}
-		
-		
-		
-		
-		double sales = StrFuncs.isEmpty(detail.getPriceType())
-		|| BookformDetail.HTW_PRICE.equals(detail.getPriceType()) ? detail.getPrice(): (detail.getPriceMart() -detail.getDeduct());
-		
-		return result.element("productId", detail.getProductId())
-			.element("productName", detail.getProductName())
-			.element("price", String.format("%.2f", sales))
-			.element("onlinePay", bookform.getPayType() == 0 )
-			.element("isTyre", bookform.getIsSelf() == 1);
-	}
-	
 
 	public JSONArray identifyVerifyCode(String[] codes, FactoryUser user) throws Exception{	
 		JSONArray result = new JSONArray();
@@ -1378,148 +1216,6 @@ public class BookformService extends BaseService<Bookform>{
 		return result;
 	}
 
-	@Transactional
-	public boolean consumeVerifyCode(String code, FactoryUser user, String ipAddr) throws Exception {
-
-		JSONObject result = testVerifyCode(code, user);
-		
-		if(result.getBoolean("success") == true){
-
-			BookformDetail detail = bookformDetailDao.getByVerifyCode(code);
-			detail.setVerificationStatus(1);
-			detail.setVerificationTime(new Date());
-			bookformDetailDao.save(detail);
-			
-
-			draftService.saveLog(Bookform.TABLE_NAME, detail.getBookId(), user, "验证并使用消费券" + code);
-			
-	
-			Bookform bookform = bookformDao.get(detail.getBookId());
-			billDetailService.create(bookform, detail);
-			
-	
-			scoreService.create(detail);
-			
-
-			draftService.saveLog2(BookformDetail.TABLE_NAME, detail.getId(), user, "用卷", ipAddr);
-			
-			if(bookformDetailDao.getAllByBookId(bookform.getId(), 0).size() == 0){
-				bookform.setStatus(2);
-				bookformDao.save(bookform);
-				draftService.saveLog(Bookform.TABLE_NAME, detail.getBookId(), SysUser.SYSTEM, "订单项目全部完成消费",
-					"status", "1", "2");
-			}
-			
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
-	
-	
-	public QueryResult queryDetail(String condition, QuerySettings settings) {
-		JSONObject queryJson = StrFuncs.isEmpty(condition) ? new JSONObject() : JSONObject.fromObject(condition);
-		
-		Query query = new PagedQuery(settings);
-		
-		StringBuilder where = new StringBuilder(
-				" t.product_id = p.id and t.book_id = b.id and b.customer_id = c.id and b.service_factory_id = f.id and b.status in(1, 2)");
-		String select = " t.*, b.code bookform_code, b.id bookform_id, b.contact_man, b.contact_tel, f.name factory_name";
-		String from = " t_bookform_detail t, t_product p, t_bookform b, t_customer c, t_factory f";
-		
-		this.addQueryEqualFilter(queryJson, where, query, "productId", 
-				" and t.product_id = :productId");
-		
-		this.addQueryEqualFilter(queryJson, where, query, "status", 
-			" and t.verification_status = :status");
-		this.addQueryEqualFilter(queryJson, where, query, "productTypeId", 
-			" and p.product_type_id = :productTypeId");
-		this.addQueryLikeFilter(queryJson, where, query, "factory", 
-			" and (f.name like :factory or f.man like :factory or f.tel like :factory or f.mobile like :factory)");
-		this.addQueryLikeFilter(queryJson, where, query, "product", 
-			" and (p.name like :product or t.product_name like :product)");
-		this.addQueryLikeFilter(queryJson, where, query, "code", 
-			" and b.code like :code");
-		this.addQueryLikeFilter(queryJson, where, query, "customer", 
-			" and (c.name like :customer or c.mobile like :customer or c.account like :customer or b.contact_man like :customer or b.contact_tel like :customer)");
-		
-		query.select(select.toString())
-				.from(from)
-				.where(where)
-				.orderBy(" t.create_time desc ");
-		
-		generalDao.execute(query);
-		return query.getResult();
-	}
-	
-
-	public QueryResult queryDetailForMall(String condition, QuerySettings settings) throws Exception {
-		Query query = new ListQuery(settings);
-		
-		JSONObject queryJson = StrFuncs.isEmpty(condition) ? new JSONObject() : JSONObject.fromObject(condition);
-		String select = "t.*, f.name factory_name, b.code,b.status,b.PAY_TYPE,b.customer_id,b.service_factory_id,"
-				+ SqlUtils.getFileId("p.photo_ids");
-		String from ="t_bookform_detail t, t_bookform b, t_factory f, t_product p";
-		
-		StringBuilder where = new StringBuilder("t.book_id = b.id and t.product_id = p.id and b.status in(1, 2) and f.id = b.service_factory_id");
-		
-		this.addQueryEqualFilter(queryJson, where, query, "factory", 
-				" and b.service_factory_id = :factoryId");
-
-		this.addQueryEqualFilter(queryJson, where, query, "verificationStatus", 
-				" and t.verification_Status = :verificationStatus");
-		
-		this.addQueryEqualFilter(queryJson, where, query, "customerId", 
-				" and b.customer_id = :customerId");
-		
-		query.select(select).from(from).where(where).orderBy(
-				" b.create_time desc ");
-		
-		generalDao.execute(query);
-		
-		//2015-7-16 update 所有的验证码不显示明文
-		encryptVerificationCode(query.getResult().getRows());
-		
-		return query.getResult();
-	}
-	
-	*//**
-	 * 分页查询
-	 * @param condition
-	 * @param settings
-	 * @return
-	 * @throws Exception
-	 *//*
-	public QueryResult queryDetailForMallByPage(String condition, QuerySettings settings) throws Exception {
-		Query query = new PagedQuery(settings);
-		
-		JSONObject queryJson = StrFuncs.isEmpty(condition) ? new JSONObject() : JSONObject.fromObject(condition);
-		String select = "t.*, f.name factory_name, b.code,b.status,b.PAY_TYPE,b.customer_id,b.service_factory_id,"
-				+ SqlUtils.getFileId("p.photo_ids");
-		String from ="t_bookform_detail t, t_bookform b, t_factory f, t_product p";
-		
-		StringBuilder where = new StringBuilder("t.book_id = b.id and t.product_id = p.id and b.status in(1, 2) and f.id = b.service_factory_id");
-		
-		this.addQueryEqualFilter(queryJson, where, query, "factory", 
-				" and b.service_factory_id = :factoryId");
-
-		this.addQueryEqualFilter(queryJson, where, query, "verificationStatus", 
-				" and t.verification_Status = :verificationStatus");
-		
-		this.addQueryEqualFilter(queryJson, where, query, "customerId", 
-				" and b.customer_id = :customerId");
-		
-		query.select(select).from(from).where(where).orderBy(
-				" b.create_time desc ");
-		
-		generalDao.execute(query);
-		
-		//2015-7-16 update 所有的验证码不显示明文
-		encryptVerificationCode(query.getResult().getRows());
-		
-		return query.getResult();
-	}
 	//2015-7-16 update 所有的验证码不显示明文
 	private void encryptVerificationCode(List<Map<String, Object>> list) {
 		for (Map<String, Object> map : list) {
@@ -1593,82 +1289,6 @@ public class BookformService extends BaseService<Bookform>{
 		return null;
 	}
 	
-	 20151016 更换订单服务商家 
-	@Transactional
-	public void resetFactory(String bookformId, String factoryId) throws Exception{
-		
-		Bookform bookform = bookformDao.get(bookformId);
-		Factory factory = factoryService.get(factoryId);
-		
-		if(bookform.getIsSelf() ==0 )
-			throw new Exception("服务订单不能更换商家");
-		if(bookform.getStatus() != 0)
-			throw new Exception("此状态下不能更换商家");
-		
-		if(factory.getStatus() != 1)
-			throw new Exception("服务商家无效");
-		if(factory.getErectility() ==0)
-			throw new Exception("服务商家无安装能力");
-		
-		Factory oldFactory = factoryService.get(bookform.getServiceFactoryId());
-		
-		bookform.setServiceFactoryId(factory.getId());
-		bookformDao.save(bookform);
-		
-		draftService.saveLog(Bookform.TABLE_NAME, bookformId, SysUser.SYSTEM,"服务商家由"+oldFactory.getName()+"更换为"+factory.getName(),
-				"status", "1", "2");
-	}
-	
-	修改订单来源，用于区分淘宝订单和京东订单
-	@Transactional
-	public void resetSaleSource(String bookformId, String jsonObjects) throws Exception{
-		
-		JSONArray jsonArray = JsonFuncs.toJsonArray(jsonObjects);
-		
-		Bookform bookform = bookformDao.get(bookformId);
-		
-		if(bookform.getStatus() == 2 || bookform.getStatus() ==3 ){
-			throw new Exception("该状态下不能修改订单来源！");
-		}
-		if(bookform.getSaleSource()!= null && bookform.getSaleSource() !=0  ){
-			//throw new Exception("该订单已经修改，不能再次修改！");
-		}
-		
-		double newPrice = 0.0;
-		
-		for (int i = 0; i < jsonArray.size(); i++) {
-			
-			JSONObject jsonObject = jsonArray.getJSONObject(i);
-			
-			String[] verifyCodes = jsonObject.getString("verifyCodes").split(",");
-			
-			for (String verifyCode : verifyCodes) {
-				BookformDetail bookformDetail = bookformDetailDao.getByVerifyCode(verifyCode);
-				
-				bookformDetail.setOriginalPrice(bookformDetail.getPrice());
-				
-				bookformDetail.setPrice(Double.valueOf(jsonObject.getString("price")));
-				
-				newPrice += Double.valueOf(jsonObject.getString("price"));
-			}
-			
-			
-			BookformDetail bookformDetail = bookformDetailDao.get(jsonObject.getString("bookDetalId"));
-			
-			bookformDetail.setOriginalPrice(bookformDetail.getPrice());
-			
-			bookformDetail.setPrice(Double.valueOf(jsonObject.getString("price")));
-			
-			newPrice += Double.valueOf(jsonObject.getString("price"));
-		}
-			
-		//淘宝订单
-		bookform.setSaleSource(1);
-		bookform.setSales(newPrice);
-		
-		this.bookformDao.save(bookform);
-	}
-	
 	//根据用户获取订单列表
 	public List<Bookform> getBookform(CustomerInfo customerInfo) {
 		// TODO Auto-generated method stub
@@ -1689,28 +1309,6 @@ public class BookformService extends BaseService<Bookform>{
 		return Integer.valueOf(row.get("COUNT").toString());
 	}
 	
-	*//**
-	 * 把状态修改为已回访
-	 * @param id
-	 *//*
-	@Transactional
-	public void returnVisit(String id){
-		Bookform bookform = get(id);
-		bookform.setReturnVisit(Bookform.IS_VISIT);
-		save(bookform);
-	}
-	
-	*//**
-	 * 指派客服
-	 * @param id
-	 *//*
-	@Transactional
-	public void sendCustomerService(String id,String sysUserCode){
-		Bookform bookform = get(id);
-		bookform.setCustomerService(sysUserCode);
-		save(bookform);
-	}
-	
 	 统计商家已经确认的订单数量 
 	public int getFactoryBookformCount(String factoryId){
 		return bookformDao.getFactoryBookformCount(factoryId);
@@ -1724,112 +1322,12 @@ public class BookformService extends BaseService<Bookform>{
 		
 		return bookformDao.getCurrentDayBookformCount(factoryId , startDate ,endDate);
 	}
-	
-	 创建虚拟订单  注意：虚拟订单暂时只支持轮胎订单  
-	@Transactional
-	public List<Bookform> createVirtualBookforms(Map<String, String> postData, CartData cartData, 
-			Customer customer, String ipAddr) throws Exception{
-		
-		//0.初始化
-		List<Bookform> result = new ArrayList<Bookform>();
-		String uId = generateIdDao.generateUserBookId();
-		
-		
-		Map<String, List<CartItem>> groupItems = cartData.groupByFactory();
-		for(String factoryId : groupItems.keySet()){
-			List<CartItem> groupItem = groupItems.get(factoryId);
-			
-			Bookform bookform = createVirtualBookform(uId,customer,postData, groupItem);
-			
-			result.add(bookform);
-		}
-		
-		for(Bookform subBookform : result){
-			//4.1记日志，关键是IP信息，以便事后追查同IP下多个马甲下单的行为
-			draftService.saveLog2(Bookform.TABLE_NAME, subBookform.getId(), customer, "下单", ipAddr);	
-		}
-		
-		return result;
-	}
-	
-	private Bookform createVirtualBookform(String uId,Customer customer ,Map<String, String> postData,List<CartItem> groupItem){
-		
-		double price = 0;//原价 
-		double discountAmount = 0;//折扣金额
-		//double couponAmount = 0;//红包抵扣金额，预留
-		double deliveryCost = 0;//运费，预留
-		double priorityInstallAmount =0 ;//加急安装
-		double voucherAmount=0 ;//代金券
-		double deduct = 0;//直接扣减
-		
-		Bookform bookform = new Bookform();
-		bookform.setTrackingStatus(2);//无需发货
-		bookform.setUserBookid(uId);
-		bookform.setCode(generateIdDao.generateUserBookId());
-		bookform.setCustomerId(customer.getId());
-		bookform.setContactMan(postData.get("contactMan"));
-		bookform.setContactTel(postData.get("contactTel"));
-		// 虚拟订单已经确认
-		bookform.setStatus(0);
-		String text = postData.get("priority");
-		bookform.setPriority(StrFuncs.notEmpty(text) ? Integer.valueOf(text) : -1);
-		bookform.setServiceFactoryId(postData.get("serviceFactoryId"));
-		bookform.setOrderSource(1);//订单来源
-		
-		text = postData.get("payType");
-		bookform.setPayType(StrFuncs.notEmpty(text) ? Integer.valueOf(text) : 0);
-		bookform.setInvoiceTitle(postData.get("invoiceTitle"));
-		bookform.setRemark(postData.get("remark"));
-		//无需发货 ，使用商家货源
-		bookform.setTrackingType("w");
-		// 轮胎订单
-		bookform.setIsSelf(1);
-		text = postData.get("serviceTime");
-		String serviceFactoryId = postData.get("serviceFactoryId");
-		Factory factory = factoryService.get(serviceFactoryId);
-		bookform.setServiceFactoryId(factory.getId());
-		bookform.setContactProvinceId(factory.getProvinceId());
-		bookform.setContactCityId(factory.getCityId());
-		bookform.setContactCountyId(factory.getCountyId());
-		
-		List<BookformDetail> details = this.createDetails(groupItem);
-		
-		// 计算价格
-		for(BookformDetail detail : details){
-			
-			double detailPrice = 0.0;
-			if(postData.containsKey("price")){
-				detailPrice = Double.parseDouble(postData.get("price"));
-			}
-			detail.setPrice(detailPrice);
-			detail.setPriceMart(detailPrice);
-			
-			price += detailPrice;
-		}
-		
-		bookform.setSales(price);
-		bookform.setDiscountAmount(discountAmount);
-		bookform.setPrice(price);
-		bookform.setDeliveryCost(deliveryCost);
-		bookform.setCouponAmount(0.0);
-		bookform.setVoucherAmount(voucherAmount);
-		bookform.setPriorityAmount(priorityInstallAmount);
-		
-		//配合做数据停触发器
-		bookform.setCreateTime(new Date());
-		bookform.setUpdateTime(new Date());
-		
-		bookformDao.save(bookform);
-		
-		
-		for (BookformDetail bookformDetail : details) {
-			bookformDetail.setBookId(bookform.getId());
-			
-			bookformDetailDao.save(bookformDetail);
-		}
-		return bookform;
-	}
 	*/
+	
+	public String createBookform(List<CartItem> items,BookformData bookformData){
+		return null;
+	}
+	
 	@Autowired
 	private BookformDao bookformDao;
 	@Autowired

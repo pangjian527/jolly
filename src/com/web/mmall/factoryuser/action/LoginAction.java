@@ -39,17 +39,13 @@ public class LoginAction extends BaseAction{
 			request.getSession().setAttribute(Consts.FACTORY_USER_SESSION_KEY, factoryUser);	
 			logger.info("页面登录成功");
 			
-			/*String redirectUrl=this.getParam("redirectUrl");
-			if(StrFuncs.notEmpty(redirectUrl)){
-				return "redirect:"+redirectUrl;
-			}*/
 		} catch (Exception e) {
 			e.printStackTrace();
 			errorMsg = e.getMessage();
 			request.setAttribute("errorMsg", errorMsg);
 			return "mmall/factoryuser/login";
 		}
-		return "redirect:index.html";
+		return "redirect:/mmall/product/product.do";
 	}
 	
 	@Autowired

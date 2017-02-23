@@ -35,28 +35,8 @@ public class BookformProductData implements Serializable{
 	private Integer isSettlement = 0;
 	//商品图片ID
 	private String imageId;
-	// 速度符号
-	private String speedSymbol;
-	// 载重指数
-	private String loadIndex;
-	// 花纹
-	private String pattern;
-	// 胎面宽
-	private String tread;
-	// 扁平比
-	private String flatRate;
-	// 直径
-	private String diameter;
-	
-	private Integer category; 
-	
 	///订单详情id
 	private String id;
-	//截止日期
-	//private Date verificationDeadline;
-	
-	//获得有没有已经消费的券号,判断是否可以评价 true:已经有消费的了
-	//private boolean checkAlreadyUseCode = false;
 	
 	public BookformProductData(BookformDetail detail){
 		try{
@@ -127,66 +107,9 @@ public class BookformProductData implements Serializable{
 	public void setImageId(String imageId) {
 		this.imageId = imageId;
 	}
-
 	
 	public String getImageId() {
 		return imageId;
-	}
-	
-	public Integer getCategory() {
-		return category;
-	}
-
-	public void setCategory(Integer category) {
-		this.category = category;
-	}
-	
-	public String getSpeedSymbol() {
-		return speedSymbol;
-	}
-
-	public void setSpeedSymbol(String speedSymbol) {
-		this.speedSymbol = speedSymbol;
-	}
-
-	public String getLoadIndex() {
-		return loadIndex;
-	}
-
-	public void setLoadIndex(String loadIndex) {
-		this.loadIndex = loadIndex;
-	}
-
-	public String getPattern() {
-		return pattern;
-	}
-
-	public void setPattern(String pattern) {
-		this.pattern = pattern;
-	}
-
-	public String getTread() {
-		return tread;
-	}
-
-	public void setTread(String tread) {
-		this.tread = tread;
-	}
-
-	public String getFlatRate() {
-		return flatRate;
-	}
-
-	public void setFlatRate(String flatRate) {
-		this.flatRate = flatRate;
-	}
-
-	public String getDiameter() {
-		return diameter;
-	}
-
-	public void setDiameter(String diameter) {
-		this.diameter = diameter;
 	}
 
 	public String getId() {
