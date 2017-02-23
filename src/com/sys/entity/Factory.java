@@ -1,7 +1,10 @@
 package com.sys.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import pub.functions.StrFuncs;
 
 @Entity
 @Table(name = "t_factory")
@@ -245,5 +250,4 @@ public class Factory implements Serializable {
 		this.licenseFileIds = licenseFileIds;
 	}
 
-	
 }

@@ -302,3 +302,39 @@ CREATE TRIGGER t_update_on_express_fee
 BEFORE UPDATE ON t_express_fee
 FOR EACH ROW
 SET new.update_time = SYSDATE();
+
+
+ 2017-02-23 11:14 csx add
+
+DROP TRIGGER IF EXISTS t_create_on_sms;
+CREATE TRIGGER t_create_on_sms 
+BEFORE INSERT ON t_sms
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_sms;
+CREATE TRIGGER t_update_on_sms 
+BEFORE UPDATE ON t_sms
+FOR EACH ROW
+SET new.update_time = SYSDATE();
+
+
+
+
+DROP TRIGGER IF EXISTS t_create_on_cart;
+CREATE TRIGGER t_create_on_cart 
+BEFORE INSERT ON t_cart
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_cart;
+CREATE TRIGGER t_update_on_cart 
+BEFORE UPDATE ON t_cart
+FOR EACH ROW
+SET new.update_time = SYSDATE();

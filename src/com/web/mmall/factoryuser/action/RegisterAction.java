@@ -28,8 +28,7 @@ public class RegisterAction extends BaseAction{
 	 * 	新用户注册时，根据用户输入的注册手机号，发送短信验证码
 	 * */
 	@RequestMapping
-	public void sendRegistVerifycode(HttpServletRequest request, HttpServletResponse response,
-			String cityId, String callbackMethod, String mobile,String imgcode) {
+	public void sendRegistVerifycode(HttpServletRequest request, HttpServletResponse response, String mobile,String imgcode) {
 		try{
 			if(!tempVerifycodeService.verify(request.getSession().getId(), imgcode)){
 				this.writeErrorJson("请输入正确的图形验证码");

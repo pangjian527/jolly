@@ -1,12 +1,14 @@
 package com.sys.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import pub.dao.hibernate.HibernateDao;
 
+import com.sys.entity.Factory;
 import com.sys.entity.Score;
 
 @Repository

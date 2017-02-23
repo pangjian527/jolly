@@ -20,7 +20,6 @@ public class CartData implements Serializable {
  
 	private static final long serialVersionUID = 2485790010938002286L;
 	
-	public static final int MAX_ITEM_COUNT = 50;
 	private List<CartItem> items;
 	//标识是否有无效商品
 	//false: 没有  true:有
@@ -76,15 +75,6 @@ public class CartData implements Serializable {
 		return total;
 	}
 	
-	public double getAllPrice() {
-		double total = 0d;
-		for (CartItem item : items) {
-			if(item.getPrice()!=null){
-				total =NumberUtil.add(total,NumberUtil.mul(item.getPrice(), item.getCount()));
-			}
-		}
-		return total;
-	}
 	
 	//判断指定的productId是否已经在购物车中,已经存在:true  没有:false
 	public boolean checkProductIdInCartData(String productId){
@@ -139,20 +129,6 @@ public class CartData implements Serializable {
 	}
 	
 
-	private void merge(CartData cartData){
-		for(CartItem targetItem : cartData.getItems()){
-			String productId = targetItem.getProductId();
-			CartItem myItem = this.getItem(productId);
-			if(myItem != null){
-				//双方都有，取最大数量
-				myItem.setCount(Math.max(myItem.getCount(), targetItem.getCount()));
-			}
-			else if(this.items.size() < CartData.MAX_ITEM_COUNT){
-				this.addItem(productId, targetItem.getCount());
-			}
-		}
-	}
-	
 	public void clearInvalidItems(){
 		//2.从data中找出全部的无效数据
 		for(int i = items.size() - 1; i >= 0; i--){
@@ -173,20 +149,6 @@ public class CartData implements Serializable {
 			}
 		}
 		return false;
-	}
-	/**
-	 * myq add 2015-4-23，返回手机客户端、pc浏览器存储的json格式文本串 
-	 * @return
-	 */
-	public String describe(){
-		JSONArray jsonArr = new JSONArray();
-		for(CartItem item : items){
-			JSONObject jsonObj = new JSONObject();
-			jsonObj.element("p", item.getProductId());
-			jsonObj.element("c", item.getCount());
-			jsonArr.add(jsonObj);
-		}
-		return jsonArr.toString();
 	}
 	//获取所有商品
 	public String[] getAllProductIds() {

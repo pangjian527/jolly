@@ -7,7 +7,7 @@
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	<title>商家注册</title>
+	<title>短信登录</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
 	
 	<script type="text/javascript" src="${home}/script/jquery.js"></script>	
@@ -26,14 +26,12 @@
 	    padding: 10px 0;
 	}
 	
-	div.factory-user-box,div.factory-box{
+	div.factory-user-box{
 		background:white;
    		background-size: 50px 5px;
    		padding: 5px 0;
    		background-position: -10px 0;
-	}
-	div.factory-box{
-		margin:20px 0;
+   		  margin: 40px 0;
 	}
 	
 	div.scwrapper ul {
@@ -50,9 +48,6 @@
 		display:inline-block;
 		width:100px;
 		text-align: right;
-	}
-	div.factory-user-box ul li  label{
-		  color: rgb(236, 75, 75);
 	}
 	div.scwrapper ul li input[type="text"]{
 		height:25px;
@@ -104,6 +99,34 @@
 		  color: #f23030;
 		  box-shadow: 0 0 0 1px #f23030;
 	}
+	
+	
+	a.login{
+		  background-color: #f23030;
+		  color: white;
+		  display: block;
+		  padding: 10px 0;
+		  margin: 10px 5px;
+		  text-align: center;
+		  border-radius: 3px;
+		  font-size: 18px;
+		  font-family: 微软雅黑;
+		  clear: both;
+		  letter-spacing: 10px;
+	}
+	div.forward-menu{
+		  position: relative;
+  		margin-top: 20px;
+	}
+	div.forward-menu a.register-href {
+		 margin-left: 15px;
+  		color: #F04E4E;
+	}
+	div.forward-menu a.sms-login-href {
+		  position: absolute;
+		  right: 15px;
+		  color: #F04E4E;
+	}
 </style>
 <script type="text/javascript">
 
@@ -123,7 +146,7 @@
 		cutdown(60);
 		
 		haux.getData({
-			url:home()+'/mmall/register.do?op=sendRegistVerifycode',
+			url:home()+'/mmall/factoryuser/login.do?op=sendLoginVerifycode',
 			data:{mobile:mobileInput.value,imgcode:imgcodeInput.value},
 			showProgress:false,
 			success:function(data){
@@ -138,7 +161,7 @@
 	}
 	function cutdown(seconds){
 		var buttonElement = document.getElementById("verifyCode").parentNode.getElementsByTagName("button")[0];
-		buttonElement.className = "disabled";
+		buttonElement.className = "verify-code-btn";
 		buttonElement.disabled = true;
 		buttonElement.innerHTML = "重新获取(" + seconds + "秒)";
 		//启动渐变动画
@@ -157,7 +180,7 @@
 		}, 1000);
 		
 	}
-	function registSubmit(){
+	function loginSubmit(){
 		//1.检查用户输入有效性
 		var inputElements = document.getElementsByTagName("input");
 		var mobileInput = inputElements[0];
@@ -178,39 +201,20 @@
 			return;
 		}
 		
-		var passwordInput = inputElements[3];
-		if(passwordInput.value.length == 0){
-			haux.showToast("请输入新密码");
-			return;
-		}
-		if(passwordInput.value != inputElements[4].value){
-			haux.showToast("两次输入的密码不相同");
-			return;
-		}
-
-		var factoryName = document.getElementById("factoryName").value;
-		var addr = document.getElementById("addr").value;
-		var provinceId = getSelectValue("provinceId");
-		var cityId = getSelectValue("cityId");
-		var countyId = getSelectValue("countyId");
-		
 		//2.提交
-		var postData = {op:"register", 
-			mobile:mobileInput.value,
-			verifycode:verifyInput.value, 
-			password:passwordInput.value,
-			factoryName:factoryName,
-			addr:addr};
 			
-		haux.getData({url:home() + '/mmall/factoryuser/register.do',
-			data:postData,
+		haux.getData({
+			url:home() + '/mmall/factoryuser/login.do',
+			data:{op:"loginSms", 
+				mobile:mobileInput.value,
+				verifycode:verifyInput.value},
+			showProgress:false,
 			success:function(data){
 				if(data.error){
-					haux.showToast(data.error);
-				}
-				else{
-					haux.showToast("注册成功，欢迎您来到倬利商城", 1, function(){
-						window.location=home()+"/factoryuser/index.html";
+					haux.showToast( data.error);
+				}else{
+					haux.showToast("登录成功，欢迎您来到倬利商城", 1, function(){
+						window.location=home()+"/mmall/home/index.html";
 					});
 				}
 			}
@@ -235,6 +239,13 @@
 			document.getElementById("verify-code-btn").disabled="disabled";
 		}
 	}
+	
+	function toRegister(){
+		window.location="${home}/mmall/factoryuser/register.do";
+	}
+	function toSmsLogin(){
+		window.location="${home}/mmall/factoryuser/login.do";
+	}
 </script>
 </head>
 <body>
@@ -242,7 +253,7 @@
   		<div class="factory-user-box">
   			<ul>
   				<li>
-  					<label>手机号码：</label>
+  					<label>账&nbsp;&nbsp;号：</label>
   					<input type="text" name="mobile" id="mobile"/>
   				</li>
   				<li>
@@ -255,41 +266,13 @@
   					<input type="text" name="verifyCode" id="verifyCode" onkeyup="checkBtnActive(this)"/>
   					<button type="button" onclick="sendVerifycode()" class="verify-code-btn" id="verify-code-btn">获取验证码</button>
   				</li>
-  				<li>
-  					<label>密&nbsp;&nbsp;&nbsp;&nbsp;码：</label>
-  					<input type="text" name="password" id="password"/>
-  				</li>
-  				<li>
-  					<label>重复密码：</label>
-  					<input type="text" name="repeat_password" id="repeat_password"/>
-  				</li>
   			</ul>
   		</div>
-  		<div class="factory-box">
-  			<ul>
-  				<li>
-  					<label>商家名称：</label>
-  					<input type="text" name="factoryName" id="factoryName"/>
-  				</li>
-  				<li>
-  					<label>商家区域：</label>
-  					<select name="provinceId" id="provinceId">
-  						<option value="2250">广东省</option>
-  					</select>
-  					<select name="cityId" id="cityId">
-  						<option value="2251">广州市</option>
-  					</select>
-  					<select name="countyId" id ="countyId">
-  						<option value="2257">海珠区</option>
-  					</select>
-  				</li>
-  				<li>
-  					<label>详细地址：</label>
-  					<input type="text" name="addr" id="addr"/>
-  				</li>
-  			</ul>
+  		<a class="login" onclick="loginSubmit();" >登录</a>
+  		<div class="forward-menu">
+  			<a class="register-href" href="javascript:toRegister()">快速注册>></a>
+  			<a class="sms-login-href" href="javascript:toSmsLogin()">短信登录>></a>
   		</div>
-  		<a class="register" onclick="registSubmit();" id="sjzhuce">注册</a>
   	</div>
 </body>
 </html>

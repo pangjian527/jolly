@@ -7,3 +7,4 @@ WebRoot/WEB-INF/classes/
 src/rebel.xml
 .project
 .settings/org.eclipse.core.resources.prefs
+WebRoot/sysfile/
