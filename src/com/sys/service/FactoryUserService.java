@@ -221,7 +221,7 @@ public class FactoryUserService  extends BaseService<FactoryUser>{
 		factoryUser=new FactoryUser();
 		factoryUser.setAccount(mobileOrAccount);
 		factoryUser.setMobile(mobileOrAccount);
-		factoryUser.setPwd(pwd);
+		factoryUser.setPwd(CryptFuncs.getMd5(pwd));
 		factoryUser.setFactoryId(factoryId);
 		factoryUser.setStatus(FactoryUser.STATUS_VALID);
 		
@@ -318,7 +318,8 @@ public class FactoryUserService  extends BaseService<FactoryUser>{
 		}
 		
 		//3.密码对不对
-		if(!user.getPwd().equals(password)){
+		String md5Pwd = CryptFuncs.getMd5(password); 
+		if(!user.getPwd().equals(md5Pwd)){
 			throw new Exception("密码错误"); 
 		}
 		
@@ -330,11 +331,11 @@ public class FactoryUserService  extends BaseService<FactoryUser>{
 			throw new Exception("账户已被冻结"); 
 		}
 		
-		//5.检查门店有效性
+		/*//5.检查门店有效性
 		Factory factory = factoryService.get(user.getFactoryId());
 		if(factory.getStatus() != 1){
 			throw new Exception("门店尚未开通"); 
-		}
+		}*/
 		
 		return user;
 	}

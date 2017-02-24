@@ -37,12 +37,9 @@ public class OrderAction extends PManagerAction<Bookform>{
 	public static JSONArray cartDatas = null;
 	static{
 		JSONObject object = new JSONObject();
-		object.element("productId", "ff8081815a45acd6015a45afc17e0001").element("count", 2);
-		JSONObject object1= new JSONObject();
-		object1.element("productId", "ff8081815a6911e6015a6969e0e30004").element("count", 2);
+		object.element("productId", "4028ad815a4ff856015a5001111e000b").element("count", 2);
 		cartDatas = new JSONArray();
 		cartDatas.add(object);
-		cartDatas.add(object1);
 	}
 	
 	/*下单加载页面*/

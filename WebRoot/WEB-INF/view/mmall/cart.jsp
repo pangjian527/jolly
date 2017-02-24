@@ -9,8 +9,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<title>购物车</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
+		<link href="${home}/style/m_dialog.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" src="${home}/script/jquery.js"></script>	
-	<script type="text/javascript" src="${home}/script/mwebmall//haux.mobile.js"></script>
+	<script type="text/javascript" src="${home}/script/mwebmall/haux.mobile.js"></script>
+	<script type="text/javascript" src="${home}/script/m_dialog.js"></script>
 	<style type="text/css">
 	
 		div.scwrapper{
@@ -290,7 +292,7 @@
 			var inputElement = obj.parentNode.getElementsByTagName("input")[0];
 			var count = parseInt(inputElement.value)-1;
 			if(count <= 0){
-				haux.showToast("商品数量不能少于1");
+				dialogAlert("温馨提示","商品数量不能少于1");
 				return;
 			}
 			setItemCount(inputElement,productId,count);
@@ -305,7 +307,7 @@
 					if(dataJsonObj.error){
 						//失败了，可能商品超限额、下架等原因
 						//alert(data.error);
-						haux.showToast(dataJsonObj.error);
+						dialogAlert("温馨提示",dataJsonObj.error);
 						window.location.reload();
 					}
 					else{
@@ -328,7 +330,7 @@
 			}
 			//2.判断有没有选择至少1份商品
 			if(itemIds.length == 0){
-				haux.showToast("请选择需要删除的商品");
+				dialogAlert("温馨提示","请选择需要删除的商品");
 				return;
 			}
 			
@@ -343,14 +345,14 @@
 				success:function(data){
 					if(data.error){
 						//3.失败了，可能商品超限额、下架等原因
-						haux.showToast(data.error);
+						dialogAlert("温馨提示",data.error);
 						if(data.reload){//如果服务器强制要求页面刷新，说明本页面内容已严重过时了
 							window.location.reload();
 						}
 					}
 					else{
 						//a.告知用户
-						haux.showToast("删除成功！");
+						dialogAlert("温馨提示","删除成功！");
 						//b.更新界面，删除目标数据，这里直接利用闭包访问之前的数组即可
 						for(var i = iElements.length - 1; i >= 0; i--){
 							var iElement = iElements[i];

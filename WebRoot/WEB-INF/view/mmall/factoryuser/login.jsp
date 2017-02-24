@@ -9,9 +9,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<title>密码登录</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
-	
+	<link href="${home}/style/m_dialog.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" src="${home}/script/jquery.js"></script>	
 	<script type="text/javascript" src="${home}/script/mwebmall/haux.mobile.js"></script>
+	<script type="text/javascript" src="${home}/script/m_dialog.js"></script>
 
 <style type="text/css">
 	body{
@@ -95,10 +96,10 @@
 		var password=document.getElementsByName("password")[0].value;
 		
 		if(account==""){
-			haux.showToast("账号不能为空！", 1, function(){});
+			dialogAlert("温馨提示","账号不能为空！");
 			return ;
 		}else if(password==""){
-			haux.showToast("密码不能为空！", 1, function(){});
+			dialogAlert("温馨提示","密码不能为空！");
 			return null;
 		}
 		
@@ -110,11 +111,9 @@
 			showProgress:false,
 			success:function(data){
 				if(data.error){
-					haux.showToast( data.error);
+					dialogAlert("温馨提示", data.error);
 				}else{
-					haux.showToast("登录成功，欢迎您来到倬利商城", 1, function(){
-						window.location=home()+"/mmall/product/product.do";
-					});
+					window.location=home()+"/mmall/product/product.do";
 				}
 			}
 		});

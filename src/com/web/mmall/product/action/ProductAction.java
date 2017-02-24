@@ -14,17 +14,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import pub.functions.StrFuncs;
 
+import com.sys.entity.Area;
 import com.sys.entity.ExpressFee;
+import com.sys.entity.Factory;
+import com.sys.entity.FactoryUser;
 import com.sys.entity.Product;
+import com.sys.service.AreaService;
 import com.sys.service.BookformDetailService;
 import com.sys.service.ExpressFeeService;
+import com.sys.service.FactoryService;
 import com.sys.service.ProductService;
+import com.web.mmall.MMallActon;
 import com.web.mmall.consts.Consts;
 import com.web.mmall.entity.ProductEntity;
-import com.web.pmanager.PManagerAction;
 
 @Controller
-public class ProductAction extends PManagerAction<Product>{
+public class ProductAction extends MMallActon{
 	@RequestMapping
 	public String execute(HttpServletRequest request,HttpServletResponse response){
 		List<Product> lists = productService.getAllByStatus(Product.STATUS_VALID);
@@ -62,6 +67,13 @@ public class ProductAction extends PManagerAction<Product>{
 		ExpressFee expressFee = expressFeeList.size()==0?null:expressFeeList.get(0);
 		request.setAttribute("expressFee", expressFee);
 		
+		FactoryUser user = this.getUser();
+		if(user!=null){
+			Factory factory = factoryService.get(user.getFactoryId());
+			Area area = areaService.get(factory.getCountyId());
+			request.setAttribute("area", area);
+		}
+		
 		return "/mmall/product/detail";
 	}
 	
@@ -78,5 +90,8 @@ public class ProductAction extends PManagerAction<Product>{
 	private BookformDetailService bookformDetailService;
 	@Autowired
 	private ExpressFeeService expressFeeService;
-
+	@Autowired
+	private AreaService areaService;
+	@Autowired 
+	private FactoryService factoryService;
 }

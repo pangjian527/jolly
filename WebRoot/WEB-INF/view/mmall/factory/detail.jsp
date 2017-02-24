@@ -10,17 +10,21 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<title>商家认证</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
-	
-	<script type="text/javascript" src="${home}/script/jquery.js"></script>	
+	<link href="${home}/style/m_dialog.css" rel="stylesheet" type="text/css"/>
+	<script type="text/javascript" src="${home}/script/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="${home}/script/mwebmall/haux.mobile.js"></script>
+	<script type="text/javascript" src="${home}/script/m_dialog.js"></script>
+	<script type="text/javascript" src="${home}/script/mwebmall/manage.area.js"></script>
 
 <style type="text/css">
+	body{
+		background-color: #f3f3f3;
+	}
 	div.scwrapper{
 		position: relative;
 	    min-width: 320px;
 	    max-width: 640px;
 	    margin: 0 auto;
-	    background-color: #f3f3f3;
 	    padding: 10px 0;
 	}
 	
@@ -91,13 +95,13 @@
 	div.factory-img-box label{
 		  display: block;
 		  border-bottom: 1px solid #e4e4e4;
-		  width: 100%;
 		  height: 40px;
 		  line-height: 40px;
 		  padding-left: 20px;
 	}
 	div.factory-img{
   		padding: 20px 20px;
+  		min-height:110px;
 	}
 	
 	div.factory-img img{
@@ -147,6 +151,11 @@
 	}
 </style>
 <script type="text/javascript">
+	window.onload=function(){
+		initAreaBox(document.getElementById("provinceId"), document.getElementById("cityId"), 
+				document.getElementById("countyId"), "${factory.provinceId}", "${factory.cityId}", "${factory.countyId}");
+		
+	}
 	function submitFactory(){
 		var name=document.getElementById("name").value;
 		var man=document.getElementById("man").value;
@@ -154,26 +163,26 @@
 		var licenseName=document.getElementById("licenseName").value;
 		var gps=document.getElementById("gps").value;
 		if(name==""){
-			haux.showToast("商家名称不能为空！", 1, function(){});
+			dialogAlert("温馨提示","商家名称不能为空！");
 			return ;
 		}
 		if(man==""){
-			haux.showToast("联系人不能为空！", 1, function(){});
+			dialogAlert("温馨提示","联系人不能为空！");
 			return;
 		}
 		if(addr==""){
-			haux.showToast("详细地址不能为空！", 1, function(){});
+			dialogAlert("温馨提示","详细地址不能为空！");
 			return;
 		}
 		if(licenseName==""){
-			haux.showToast("营业执照名不能为空！", 1, function(){});
+			dialogAlert("温馨提示","营业执照名不能为空！");
 			return;
 		}
 		
 		if(gps){
 			var gpsArr = gps.split(',');
 			if(gpsArr.length!=2||isNaN(gpsArr[0])||isNaN(gpsArr[1])){
-				haux.showToast("gps位置格式不正确！", 1, function(){});
+				dialogAlert("温馨提示","gps位置格式不正确！");
 				return
 			}
 			document.getElementById("gpsX").value=gpsArr[0];
@@ -206,13 +215,10 @@
 	  				<li>
 	  					<label>商家区域：</label>
 	  					<select name="provinceId" id="provinceId">
-	  						<option value="2250">广东省</option>
 	  					</select>
 	  					<select name="cityId" id="cityId">
-	  						<option value="2251">广州市</option>
 	  					</select>
 	  					<select name="countyId" id ="countyId">
-	  						<option value="2257">海珠区</option>
 	  					</select>
 	  				</li>
 	  				<li>
@@ -259,10 +265,6 @@
 	  			<div class="factory-img">
 	  				<c:forEach items="${factoryImgIds }" var="imgId">
 	  					<img alt="" src="${home}/img-${imgId}_100x100.do"/>
-	  					<img alt="" src="${home}/img-${imgId}_100x100.do"/>
-	  					<img alt="" src="${home}/img-${imgId}_100x100.do"/>
-	  					<img alt="" src="${home}/img-${imgId}_100x100.do"/>
-	  					<img alt="" src="${home}/img-${imgId}_100x100.do"/>
 	  				</c:forEach>
 	  				<div class="add-file" id="add-file">
 	  					<a>+</a>
@@ -274,4 +276,5 @@
   		<a class="submit-btn" onclick="submitFactory();" id="submitFctory">提交申请</a>
   	</div>
 </body>
+
 </html>

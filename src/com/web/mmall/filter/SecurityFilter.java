@@ -1,6 +1,8 @@
 package com.web.mmall.filter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -28,10 +30,9 @@ public class SecurityFilter implements Filter{
 			return;
 		}
 		
-		//如果打开登陆页面，不需要做什么处理
-		String loginUrl = request.getContextPath() + "/mmall/factoryuser/login.do";
-		String registerUrl = request.getContextPath() + "/mmall/factoryuser/register.do";
-		if (request.getRequestURI().equals(loginUrl)||request.getRequestURI().equals(registerUrl)) {
+		//如果打开登陆或注册页面，不需要做什么处理
+		List<String> filterUrlList = this.getfilterUrlList(request.getContextPath());
+		if (filterUrlList.contains(request.getRequestURI())) {
 			filterChain.doFilter(servletRequest, servletResponse);
 			return;
 		}
@@ -51,9 +52,17 @@ public class SecurityFilter implements Filter{
 		
 		//如果未登陆客户试图通过直接输url的方式来强制访问PIM非公开页面，拒绝并转入PIM登陆页面
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
+		String loginUrl = request.getContextPath() + "/mmall/factoryuser/login.do";
 		response.sendRedirect(loginUrl);
 	}
 
+	private List<String> getfilterUrlList(String contextPath) {
+		List<String> filterUrlList = new ArrayList<String>();
+		filterUrlList.add(contextPath+"/mmall/factoryuser/login.do");
+		filterUrlList.add(contextPath+"/mmall/factoryuser/register.do");
+		filterUrlList.add(contextPath+ "/mmall/area/area.do");
+		return filterUrlList;
+	}
 	public void destroy() {
 		//do nothing
 	}

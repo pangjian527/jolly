@@ -10,9 +10,11 @@
 	<title>商品详情</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
 	<link rel="stylesheet" type="text/css" href="${home}/style/swipe.css">
+	<link href="${home}/style/m_dialog.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" src="${home}/script/jquery.js"></script>	
 	<script type="text/javascript" src="${home}/script/mwebmall/haux.mobile.js"></script>
 	<script type="text/javascript" src="${home}/script/mwebmall/swipe.min.js"></script>
+	<script type="text/javascript" src="${home}/script/m_dialog.js"></script>
 	<style type="text/css">
 		body{
 			  background-color: #f3f3f3;
@@ -160,10 +162,9 @@
 					var dataJsonObj=JSON.parse(data);
 					if(dataJsonObj.error){
 						//失败了，可能商品超限额、下架等原因
-						haux.showToast(dataJsonObj.error);
+						dialogAlert("温馨提示",dataJsonObj.error);
 					}else{
-						alert("加入购物车成功");
-						haux.showToast("加入购物车成功");
+						dialogAlert("温馨提示","加入购物车成功");
 					}
 				}
 			});
@@ -219,9 +220,11 @@
 			</div>
 			<div class="extra-info-wrapper">
 				<ul>
-					<li>
-						<label>送至：广东省 广州市 天河区</label>
-					</li>
+					<c:if test="${area!=null }">
+						<li>
+							<label>送至：${area.fullName }</label>
+						</li>
+					</c:if>
 					<c:if test="${expressFee!=null }">
 						<li>
 							<label>运费：满${expressFee.amountForFree }免运费</label>

@@ -160,7 +160,18 @@
 	</style>
 	
 	<script type="text/javascript">
-		
+		function toScoreList(){
+			window.location="${home}/mmall/home/index.do?op=scoreList";
+		}
+		function toRecommendList(){
+			window.location="${home}/mmall/home/index.do?op=recommendList";
+		}
+		function toAuthorize(){
+			window.location="${home}/mmall/factory/factory.do";
+		}
+		function logout(){
+			window.location="${home}/mmall/factoryuser/login.do?op=logout";
+		}
 	</script>
 		
 </head>
@@ -192,12 +203,12 @@
 						<label>我的订单</label>
 						<i class="direction"></i>
 					</li>
-					<li>
+					<li onclick="toScoreList()">
 						<i class="icon icon_score"></i>
 						<label>我的积分</label>
 						<i class="direction"></i>
 					</li>
-					<li>
+					<li onclick="toRecommendList()">
 						<i class="icon icon_tuijian"></i>
 						<label>我的推荐</label>
 						<i class="direction"></i>
@@ -207,7 +218,7 @@
 			
 			<div class="nav-menu-box">
 				<ul>
-					<li>
+					<li onclick="toAuthorize()">
 						<i class="icon icon_factory"></i>
 						<label>店铺信息</label>
 						<i class="direction"></i>
@@ -227,7 +238,7 @@
 					</li>
 				</ul>
 			</div>
-			<a href="" class="logout">退出系统</a>
+			<a href="javascript:logout()" class="logout">退出系统</a>
 	</div>
 </body>
 </html>

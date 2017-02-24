@@ -9,9 +9,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<title>短信登录</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
-	
+	<link href="${home}/style/m_dialog.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" src="${home}/script/jquery.js"></script>	
 	<script type="text/javascript" src="${home}/script/mwebmall/haux.mobile.js"></script>
+	<script type="text/javascript" src="${home}/script/m_dialog.js"></script>
 
 <style type="text/css">
 	body{
@@ -134,13 +135,13 @@
 	function sendVerifycode(){
 		var mobileInput = document.getElementById("mobile");
 		if(! /^1\d{10}$/.test(mobileInput.value)){ 
-			haux.showToast("请输入正确的手机号码！",2);
+			dialogAlert("温馨提示","请输入正确的手机号码！");
 			return ;
 		}
 		
 		var imgcodeInput = document.getElementById("imgcode");
 		if(imgcodeInput.value.length == 0){
-			haux.showToast("请输入图形验证");
+			dialogAlert("温馨提示","请输入图形验证");
 			return;
 		}
 		
@@ -150,10 +151,10 @@
 			showProgress:false,
 			success:function(data){
 				if(data.error){
-					haux.showToast( data.error);
+					dialogAlert("温馨提示", data.error);
 				}else{
 					//将“发送验证码”按钮禁止，并启动倒计时，120秒之后允许重新获取，
-					haux.showToast("验证码已发送至" + mobileInput.value);
+					dialogAlert("温馨提示","验证码已发送至" + mobileInput.value);
 					cutdown(5);
 				}
 			}
@@ -185,19 +186,19 @@
 		var inputElements = document.getElementsByTagName("input");
 		var mobileInput = inputElements[0];
 		if(! /^1[3|4|5|6|7|8|9][0-9]\d{4,8}$/.test(mobileInput.value)){ 
-			haux.showToast("请输入正确的手机号码");
+			dialogAlert("温馨提示","请输入正确的手机号码");
 	        return false; 
 	    };
 	    
 	    var imgcodeInput = document.getElementById("imgcode");
 		if(imgcodeInput.value==""){
-			haux.showToast("请输入图形验证");
+			dialogAlert("温馨提示","请输入图形验证");
 			return;
 		}
 	    
 		var verifyInput = inputElements[2];
 		if(! /\d{6}/.test(verifyInput.value)){
-			haux.showToast("请输入6位手机验证码");
+			dialogAlert("温馨提示","请输入6位手机验证码");
 			return;
 		}
 		
@@ -211,11 +212,9 @@
 			showProgress:false,
 			success:function(data){
 				if(data.error){
-					haux.showToast( data.error);
+					dialogAlert("温馨提示", data.error);
 				}else{
-					haux.showToast("登录成功，欢迎您来到倬利商城", 1, function(){
-						window.location=home()+"/mmall/product/product.do";
-					});
+					window.location=home()+"/mmall/product/product.do";
 				}
 			}
 		});

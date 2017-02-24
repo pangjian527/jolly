@@ -16,9 +16,10 @@ import com.sys.service.FactoryUserService;
 import com.sys.service.SmsService;
 import com.sys.service.TempVerifycodeService;
 import com.web.common.action.BaseAction;
+import com.web.mmall.MMallActon;
 
 @Controller
-public class RegisterAction extends BaseAction{
+public class RegisterAction extends MMallActon{
 	@RequestMapping
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception { 
 		return "mmall/factoryuser/register";
@@ -87,6 +88,8 @@ public class RegisterAction extends BaseAction{
 			factory.setCountyId(countyId);
 			factory.setAddr(addr);
 			factoryService.saveFactoryAndCreateFactoryUser(factory, password);
+			FactoryUser user = factoryUserService.getByMobile(mobile);//获取用户
+			this.setUser(user);
 			this.writeErrorJson("");
 		}
 		catch (Exception e) {

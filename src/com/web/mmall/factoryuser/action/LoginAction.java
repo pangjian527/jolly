@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import pub.functions.CryptFuncs;
 import pub.functions.StrFuncs;
 
 import com.sys.entity.FactoryUser;
@@ -16,10 +17,11 @@ import com.sys.service.FactoryUserService;
 import com.sys.service.SmsService;
 import com.sys.service.TempVerifycodeService;
 import com.web.common.action.BaseAction;
+import com.web.mmall.MMallActon;
 import com.web.mmall.consts.Consts;
 
 @Controller 
-public class LoginAction extends BaseAction{
+public class LoginAction extends MMallActon{
 	Logger logger = LoggerFactory.getLogger(LoginAction.class);
 	@RequestMapping
 	public String execute(HttpServletRequest request,
@@ -43,8 +45,9 @@ public class LoginAction extends BaseAction{
 				throw new Exception("用户名或密码不能为空!");
 			}
 			logger.info("页面登录");
+			
 			FactoryUser factoryUser = factoryUserService.login(account.trim(), password.trim());
-			request.getSession().setAttribute(Consts.FACTORY_USER_SESSION_KEY, factoryUser);	
+			this.setUser(factoryUser);
 			logger.info("页面登录成功");
 			
 			/*String redirectUrl=this.getParam("redirectUrl");
@@ -68,7 +71,7 @@ public class LoginAction extends BaseAction{
 			}
 			logger.info("页面登录");
 			FactoryUser factoryUser = factoryUserService.getByMobile(mobile);
-			request.getSession().setAttribute(Consts.FACTORY_USER_SESSION_KEY, factoryUser);	
+			this.setUser(factoryUser);	
 			logger.info("页面登录成功");
 			
 			/*String redirectUrl=this.getParam("redirectUrl");
@@ -122,6 +125,11 @@ public class LoginAction extends BaseAction{
 		}	
 	}
 	
+	@RequestMapping
+	public String logout(HttpServletRequest request,HttpServletResponse response) {
+		this.removeUser();
+		return "redirect:/mmall/product/product.do";
+	}
 	@Autowired
 	private FactoryUserService factoryUserService;
 	@Autowired
