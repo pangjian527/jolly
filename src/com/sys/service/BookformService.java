@@ -1335,7 +1335,7 @@ public class BookformService extends BaseService<Bookform>{
 		bookform.setContactProvinceId(data.getProvinceId());
 		bookform.setContactCityId(data.getCityId());
 		bookform.setContactCountyId(data.getCountyId());
-		bookform.setSales(cartData.getAllPrice());
+		bookform.setSales(cartData.getAllTotal());
 		bookform.setCode(StrFuncs.createTimeUID());
 		bookform.setContactTel(data.getMobile());
 		bookform.setStatus(Bookform.STATUS_CONFIRM_WAIT);
