@@ -9,7 +9,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<title>商品详情</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" type="text/css" href="${home}/style/swipe.css">
+	<script type="text/javascript" src="${home}/script/jquery.js"></script>	
+	<script type="text/javascript" src="${home}/script/mwebmall/haux.mobile.js"></script>
+	<script type="text/javascript" src="${home}/script/mwebmall/swipe.min.js"></script>
 	<style type="text/css">
+		body{
+			  background-color: #f3f3f3;
+		}
 		div.scwrapper {
 		  position: relative;
 		  min-width: 320px;
@@ -32,12 +39,12 @@
 		}
 		div.base-info-wrapper{
 			margin: 10px 0;
-		  	background-color: #f3f3f3;
+		  	background-color: #fff;
 		  	padding: 10px 15px;
 		}
 		div.extra-info-wrapper{
 			margin: 10px 0;
-		  	background-color: #f3f3f3;
+		  	background-color: #fff;
 		  	padding: 10px 15px;
 	  	  	font-size: 15px;
 	  	  	margin-bottom: 50px;
@@ -104,6 +111,25 @@
 		
 	</style>
 	<script type="text/javascript">
+	function initBody(){
+		_imagefalsh();
+	}
+	//设置图片滚动
+	function _imagefalsh(){
+	   var bullets = document.getElementById('position').getElementsByTagName('li');
+	   var banner = Swipe(document.getElementById('mySwipe'), {
+	   	auto: 2000,
+	   	continuous: true,
+	   	disableScroll:false,
+	   	callback: function(pos) {
+	   		var i = bullets.length;
+	   		while (i--) {
+	   		  bullets[i].className = ' ';
+	   		}
+	   		bullets[pos].className = 'cur';
+	   	}
+	   });
+	}
 		function showContentDiv(obj,contentDivIndex){
 			var ulEle = obj.parentNode;
 			var labelEles=ulEle.getElementsByTagName("label");
@@ -124,6 +150,24 @@
 			}
 			
 		}
+		function toCart(){
+			window.location="${home}/mmall/cart.do";
+		}
+		function addToCart(productId){
+			$.ajax({url: home()+'/mmall/cart.do?op=setItemCount',
+				data:{productId:productId,addCount:1},
+				success:function(data){
+					var dataJsonObj=JSON.parse(data);
+					if(dataJsonObj.error){
+						//失败了，可能商品超限额、下架等原因
+						haux.showToast(dataJsonObj.error);
+					}else{
+						alert("加入购物车成功");
+						haux.showToast("加入购物车成功");
+					}
+				}
+			});
+		}
 	</script>
 </head>
 <body>
@@ -143,11 +187,27 @@
 		</div>
 		<div class="product-info-wrapper" id="contentDiv-1">
 			<div class="slider-wrapper">
-				<ul>
+				<%-- <ul>
 					<li>
-						<img width="100%" src="${home}/image/p123.jpg"/>
+						<img width="100%" src="${home}/img-${product.photoIds }_400X300.do"/>
 					</li>
-				</ul>
+				</ul> --%>
+				<div class="addWrap">
+	   					<div class="swipe" id="mySwipe">
+							<div class="swipe-wrap">
+								<c:forEach items="${productPhotoIds}" var="field"  >
+									<div>
+			   							<img id="factory-img" src="${home}/img-${field }_400X300.do">
+			   						</div>
+			   					</c:forEach>
+							</div>
+						</div>
+						<ul id="position">
+							<c:forEach items="${productPhotoIds}" var="field" varStatus="num">
+								<li class="<c:if test="${num.index==0 }">cur</c:if>"></li>
+							</c:forEach>
+						</ul>
+	   				</div>
 			</div>
 			<div class="base-info-wrapper">
 				<div class="product-name">${product.name }</div>
@@ -155,16 +215,18 @@
 					<span class="discount-price">¥${product.price }</span>
 					<label>原价：</label><span>¥${product.priceMart }</span>
 				</div>
-				<div class="express-remark">包退、包换、包邮</div>
+				<div class="express-remark">包退、包换</div>
 			</div>
 			<div class="extra-info-wrapper">
 				<ul>
 					<li>
 						<label>送至：广东省 广州市 天河区</label>
 					</li>
-					<li>
-						<label>运费：满299免运费</label>
-					</li>
+					<c:if test="${expressFee!=null }">
+						<li>
+							<label>运费：满${expressFee.amountForFree }免运费</label>
+						</li>
+					</c:if>
 					<li>
 						<label>提示：支持退换</label>
 					</li>
@@ -219,11 +281,13 @@
 			</table>
 		</div>
 		<div class="product-content-wrapper" id="contentDiv-3" style="display:none">
-			<img width="100%" src="${home}/image/content-example.jpg"/>
+			<c:forEach items="${contentPhotoIds }" var="contentPhotoId">
+				<img width="100%" src="${home}/img-${contentPhotoId }_400X300.do"/>
+			</c:forEach>
 		</div>
 		<div class="bottom-menu">
-			<a class="cart">购物车</a>
-			<a class="add-cart">加入购物车</a>
+			<a class="cart" href="javascript:toCart()">购物车</a>
+			<a class="add-cart" href="javascript:addToCart('${product.id }')">加入购物车</a>
 			<a class="buy-now">立即购买</a>
 		</div>
 	</div>

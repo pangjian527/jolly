@@ -24,15 +24,6 @@
 	    padding: 10px 0;
 	}
 	
-	div.factory-base-box,div.license-box,div.factory-img-box{
-		background:white;
-   		background-size: 50px 5px;
-   		padding: 5px 0;
-   		background-position: -10px 0;
-	}
-	div.license-box{
-		margin:20px 0;
-	}
 	
 	div.scwrapper ul {
 		background:white;
@@ -67,66 +58,14 @@
 		background:white;
 	}
 	
-	div.pro-list-box{
-		margin:10px 0;
+	div.factory-base-box,div.license-box,div.factory-img-box{
+		background:white;
+   		background-size: 50px 5px;
+   		padding: 5px 0;
+   		background-position: -10px 0;
 	}
-	
-	div.pro-list-box ul li{
-		height:100px;
-		background-color:white;
-		padding:10px 10px;
-		font-size:14px;
-		border-bottom: 2px dashed #e4e4e4;
-	}
-	
-	div.pro-list-box ul li div.pro-img{
-		height:100px;
-		width:100px;
-		float:left;
-	}
-	div.pro-list-box ul li div.pro-img img{
-		height:100px;
-		width:100px;
-	}
-	
-	div.pro-list-box ul li div.pro-info-box{
-			float:left;
-			width:calc(100% - 150px);
-			padding:0 10px;
-	}
-	div.pro-info-title{
-		color: #232326;
-	    font-size: 15px;
-	    line-height: 20px;
-	    height: 70px;
-	    overflow: hidden;
-	    text-overflow: ellipsis;
-	    display: -webkit-box;
-	    display: box;
-	    -webkit-line-clamp: 2;
-	    -webkit-box-orient: vertical;
-	    word-break: break-word;		
-	}
-	div.pro-price{
-		height: 35px;
-   		line-height: 35px;
-	}
-	div.pro-price label.price{
-		color:#f23030;
-		font-size:25px;
-	}
-	a.submit-btn{
-		  background-color: #f23030;
-		  color: white;
-		  display: block;
-		  padding: 10px 0;
-		  margin: 20px 5px;
-		  text-align: center;
-		  border-radius: 3px;
-		  font-size: 18px;
-		  font-family: 微软雅黑;
-		  clear: both;
-	    	letter-spacing: 10px;
+	div.license-box{
+		margin:20px 0;
 	}
 	
 	div.license-box ul li.licensename-row{
@@ -192,9 +131,55 @@
 		  height: 100px;
 		  width: 100px;
 	}
+	
+	a.submit-btn{
+		  background-color: #f23030;
+		  color: white;
+		  display: block;
+		  padding: 10px 0;
+		  margin: 20px 5px;
+		  text-align: center;
+		  border-radius: 3px;
+		  font-size: 18px;
+		  font-family: 微软雅黑;
+		  clear: both;
+	    	letter-spacing: 10px;
+	}
 </style>
 <script type="text/javascript">
 	function submitFactory(){
+		var name=document.getElementById("name").value;
+		var man=document.getElementById("man").value;
+		var addr=document.getElementById("addr").value;
+		var licenseName=document.getElementById("licenseName").value;
+		var gps=document.getElementById("gps").value;
+		if(name==""){
+			haux.showToast("商家名称不能为空！", 1, function(){});
+			return ;
+		}
+		if(man==""){
+			haux.showToast("联系人不能为空！", 1, function(){});
+			return;
+		}
+		if(addr==""){
+			haux.showToast("详细地址不能为空！", 1, function(){});
+			return;
+		}
+		if(licenseName==""){
+			haux.showToast("营业执照名不能为空！", 1, function(){});
+			return;
+		}
+		
+		if(gps){
+			var gpsArr = gps.split(',');
+			if(gpsArr.length!=2||isNaN(gpsArr[0])||isNaN(gpsArr[1])){
+				haux.showToast("gps位置格式不正确！", 1, function(){});
+				return
+			}
+			document.getElementById("gpsX").value=gpsArr[0];
+			document.getElementById("gpsY").value=gpsArr[1];
+		}
+		
 		document.detailInfoForm.submit();
 	}
 	
@@ -270,7 +255,7 @@
 	  		</div>
 	  		<div class="factory-img-box">
 	  			<input type="hidden" name="photoIds" id="photoIds" value="${factory.photoIds }"/>
-	  			<label>商家图片：</label>
+	  			<label>商家图片（至少三张）：</label>
 	  			<div class="factory-img">
 	  				<c:forEach items="${factoryImgIds }" var="imgId">
 	  					<img alt="" src="${home}/img-${imgId}_100x100.do"/>

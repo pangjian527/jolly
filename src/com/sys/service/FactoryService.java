@@ -87,7 +87,7 @@ public class FactoryService extends BaseService<Factory>{
 	@Transactional
 	public void save(Factory factory){
 		if(StrFuncs.isEmpty(factory.getId())){
-			factory.setStatus(Factory.STATUS_AUDITFAIL);  //草稿状态
+			factory.setStatus(Factory.STATUS_DRAFT);  //草稿状态
 		}
 		//factory.setUpdateTime(new Date());
 		factoryDao.save(factory);
@@ -127,7 +127,7 @@ public class FactoryService extends BaseService<Factory>{
 			return false;
 		}
 		//2.若状态码不为 草稿 或 下架状态 不准申请上架
-		if(oldStatus == Factory.STATUS_AUDITFAIL || oldStatus ==Factory.STATUS_OUT_OF_STOCK ){
+		if(oldStatus == Factory.STATUS_DRAFT || oldStatus ==Factory.STATUS_OUT_OF_STOCK ){
 		}else{
 			return false;
 		}
@@ -211,7 +211,7 @@ public class FactoryService extends BaseService<Factory>{
 //			}
 //		}
 		//3.执行操作
-		factory.setStatus(Factory.STATUS_AUDITFAIL);
+		factory.setStatus(Factory.STATUS_DRAFT);
 		factoryDao.save(factory);
 		
 //		//4.记日志了

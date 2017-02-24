@@ -73,7 +73,7 @@
 	}
 	
 	input#imgcode,input#verifyCode{
-		width: calc(100% - 210px);
+		  width: calc(100% - 220px);
 	}
 	a.register{
 		  background-color: #f23030;
@@ -104,6 +104,19 @@
 		  color: #f23030;
 		  box-shadow: 0 0 0 1px #f23030;
 	}
+	div.forward-menu{
+		  position: relative;
+  		margin-top: 20px;
+	}
+	div.forward-menu a.register-href {
+		 margin-left: 15px;
+  		color: #F04E4E;
+	}
+	div.forward-menu a.sms-login-href {
+		  position: absolute;
+		  right: 15px;
+		  color: #F04E4E;
+	}
 </style>
 <script type="text/javascript">
 
@@ -120,10 +133,9 @@
 			haux.showToast("请输入图形验证");
 			return;
 		}
-		cutdown(60);
 		
 		haux.getData({
-			url:home()+'/mmall/register.do?op=sendRegistVerifycode',
+			url:home()+'/mmall/factoryuser/register.do?op=sendRegistVerifycode',
 			data:{mobile:mobileInput.value,imgcode:imgcodeInput.value},
 			showProgress:false,
 			success:function(data){
@@ -132,13 +144,14 @@
 				}else{
 					//将“发送验证码”按钮禁止，并启动倒计时，120秒之后允许重新获取，
 					haux.showToast("验证码已发送至" + mobileInput.value);
+					cutdown(60);
 				}
 			}
 		});
 	}
 	function cutdown(seconds){
 		var buttonElement = document.getElementById("verifyCode").parentNode.getElementsByTagName("button")[0];
-		buttonElement.className = "disabled";
+		buttonElement.className = "verify-code-btn";
 		buttonElement.disabled = true;
 		buttonElement.innerHTML = "重新获取(" + seconds + "秒)";
 		//启动渐变动画
@@ -151,7 +164,7 @@
 			else{
 				buttonElement.innerHTML = "重新获取";
 				buttonElement.disabled = false;
-				buttonElement.className = "";
+				buttonElement.className = "verify-code-btn active";
 			}
 		
 		}, 1000);
@@ -210,7 +223,7 @@
 				}
 				else{
 					haux.showToast("注册成功，欢迎您来到倬利商城", 1, function(){
-						window.location=home()+"/factoryuser/index.html";
+						window.location=home()+"/mmall/product/product.do";
 					});
 				}
 			}
@@ -235,6 +248,9 @@
 			document.getElementById("verify-code-btn").disabled="disabled";
 		}
 	}
+	function toPwdLogin(){
+		window.location="${home}/mmall/factoryuser/login.do";
+	}
 </script>
 </head>
 <body>
@@ -247,13 +263,13 @@
   				</li>
   				<li>
   					<label>图形验证码：</label>
-  					<input type="text" name="imgcode" id="imgcode"/>
+  					<input type="text" name="imgcode" id="imgcode" onkeyup="checkBtnActive(this)"/>
   					<img  onclick="reloadVerifyimage(this)" src='${home}/file/verifyimage.do'/>
   				</li>
   				<li>
   					<label>短信验证码：</label>
-  					<input type="text" name="verifyCode" id="verifyCode" onkeyup="checkBtnActive(this)"/>
-  					<button type="button" onclick="sendVerifycode()" class="verify-code-btn" id="verify-code-btn">获取验证码</button>
+  					<input type="text" name="verifyCode" id="verifyCode"/>
+  					<button type="button" onclick="sendVerifycode()" class="verify-code-btn" id="verify-code-btn" disabled="disabled">获取验证码</button>
   				</li>
   				<li>
   					<label>密&nbsp;&nbsp;&nbsp;&nbsp;码：</label>
@@ -290,6 +306,9 @@
   			</ul>
   		</div>
   		<a class="register" onclick="registSubmit();" id="sjzhuce">注册</a>
+  		<div class="forward-menu">
+  			<a class="sms-login-href" href="javascript:toPwdLogin()">去登录>></a>
+  		</div>
   	</div>
 </body>
 </html>

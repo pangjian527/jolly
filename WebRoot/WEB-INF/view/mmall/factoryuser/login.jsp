@@ -102,7 +102,22 @@
 			return null;
 		}
 		
-		document.loginform.submit();
+		haux.getData({
+			url:home() + '/mmall/factoryuser/login.do',
+			data:{op:"login",
+				account:account,
+				password:password},
+			showProgress:false,
+			success:function(data){
+				if(data.error){
+					haux.showToast( data.error);
+				}else{
+					haux.showToast("登录成功，欢迎您来到倬利商城", 1, function(){
+						window.location=home()+"/mmall/product/product.do";
+					});
+				}
+			}
+		});
 	}
 	function toRegister(){
 		window.location="${home}/mmall/factoryuser/register.do";

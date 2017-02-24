@@ -31,8 +31,7 @@ public class RegisterAction extends BaseAction{
 	public void sendRegistVerifycode(HttpServletRequest request, HttpServletResponse response, String mobile,String imgcode) {
 		try{
 			if(!tempVerifycodeService.verify(request.getSession().getId(), imgcode)){
-				this.writeErrorJson("请输入正确的图形验证码");
-				return;
+				throw new Exception("请输入正确的图形验证码");
 			}
 			//1.有效性验证
 			if(!StrFuncs.IsMobile(mobile)){
@@ -51,10 +50,10 @@ public class RegisterAction extends BaseAction{
 			String content = "您的注册验证码为 " + code + "，请勿向他人透露";
 			
 			//3.发送短信
-			String errorInfo = smsService.sendSms(mobile, content, this.getIp(), "Mobile Regist");
+			/*String errorInfo = smsService.sendSms(mobile, content, this.getIp(), "Mobile Regist");
 			if(errorInfo != null){
 				throw new Exception(errorInfo);
-			}
+			}*/
 			this.writeErrorJson("");
 		}
 		catch (Exception e) {
@@ -88,6 +87,7 @@ public class RegisterAction extends BaseAction{
 			factory.setCountyId(countyId);
 			factory.setAddr(addr);
 			factoryService.saveFactoryAndCreateFactoryUser(factory, password);
+			this.writeErrorJson("");
 		}
 		catch (Exception e) {
 			e.printStackTrace();

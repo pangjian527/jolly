@@ -68,7 +68,7 @@
 	}
 	
 	input#imgcode,input#verifyCode{
-		width: calc(100% - 210px);
+		width: calc(100% - 220px);
 	}
 	a.register{
 		  background-color: #f23030;
@@ -143,7 +143,6 @@
 			haux.showToast("请输入图形验证");
 			return;
 		}
-		cutdown(60);
 		
 		haux.getData({
 			url:home()+'/mmall/factoryuser/login.do?op=sendLoginVerifycode',
@@ -155,6 +154,7 @@
 				}else{
 					//将“发送验证码”按钮禁止，并启动倒计时，120秒之后允许重新获取，
 					haux.showToast("验证码已发送至" + mobileInput.value);
+					cutdown(5);
 				}
 			}
 		});
@@ -174,7 +174,7 @@
 			else{
 				buttonElement.innerHTML = "重新获取";
 				buttonElement.disabled = false;
-				buttonElement.className = "";
+				buttonElement.className = "verify-code-btn active";
 			}
 		
 		}, 1000);
@@ -214,7 +214,7 @@
 					haux.showToast( data.error);
 				}else{
 					haux.showToast("登录成功，欢迎您来到倬利商城", 1, function(){
-						window.location=home()+"/mmall/home/index.html";
+						window.location=home()+"/mmall/product/product.do";
 					});
 				}
 			}
@@ -243,7 +243,7 @@
 	function toRegister(){
 		window.location="${home}/mmall/factoryuser/register.do";
 	}
-	function toSmsLogin(){
+	function toPwdLogin(){
 		window.location="${home}/mmall/factoryuser/login.do";
 	}
 </script>
@@ -258,20 +258,20 @@
   				</li>
   				<li>
   					<label>图形验证码：</label>
-  					<input type="text" name="imgcode" id="imgcode"/>
+  					<input type="text" name="imgcode" id="imgcode" onkeyup="checkBtnActive(this)"/>
   					<img  onclick="reloadVerifyimage(this)" src='${home}/file/verifyimage.do'/>
   				</li>
   				<li>
   					<label>短信验证码：</label>
-  					<input type="text" name="verifyCode" id="verifyCode" onkeyup="checkBtnActive(this)"/>
-  					<button type="button" onclick="sendVerifycode()" class="verify-code-btn" id="verify-code-btn">获取验证码</button>
+  					<input type="text" name="verifyCode" id="verifyCode" />
+  					<button type="button" onclick="sendVerifycode()" class="verify-code-btn" id="verify-code-btn" disabled="disabled">获取验证码</button>
   				</li>
   			</ul>
   		</div>
   		<a class="login" onclick="loginSubmit();" >登录</a>
   		<div class="forward-menu">
   			<a class="register-href" href="javascript:toRegister()">快速注册>></a>
-  			<a class="sms-login-href" href="javascript:toSmsLogin()">短信登录>></a>
+  			<a class="sms-login-href" href="javascript:toPwdLogin()">密码登录>></a>
   		</div>
   	</div>
 </body>

@@ -30,7 +30,8 @@ public class SecurityFilter implements Filter{
 		
 		//如果打开登陆页面，不需要做什么处理
 		String loginUrl = request.getContextPath() + "/mmall/factoryuser/login.do";
-		if (request.getRequestURI().equals(loginUrl)) {
+		String registerUrl = request.getContextPath() + "/mmall/factoryuser/register.do";
+		if (request.getRequestURI().equals(loginUrl)||request.getRequestURI().equals(registerUrl)) {
 			filterChain.doFilter(servletRequest, servletResponse);
 			return;
 		}

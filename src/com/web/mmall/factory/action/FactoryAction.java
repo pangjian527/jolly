@@ -83,6 +83,7 @@ public class FactoryAction extends MMallActon{
 		factory.setLicenseName(licenseName);
 		factory.setLicenseFileIds(licenseFileIds);
 		factory.setPhotoIds(photoIds);
+		factory.setStatus(Factory.STATUS_DRAFT);
 	}
 	
 	public List<String> SplitToList(String imgIds){

@@ -64,7 +64,7 @@ public class LoginAction extends BaseAction{
 		
 		try {
 			if(!tempVerifycodeService.verify(mobile, verifycode)){
-				//throw new Exception("请输入正确的验证码");
+				//throw new Exception("请输入正确的短信验证码");
 			}
 			logger.info("页面登录");
 			FactoryUser factoryUser = factoryUserService.getByMobile(mobile);
@@ -109,10 +109,10 @@ public class LoginAction extends BaseAction{
 			String content = "您的登录验证码为 " + code + "，请勿向他人透露";
 			
 			//3.发送短信
-			String errorInfo = smsService.sendSms(mobile, content, this.getIp(), "Mobile Login");
+			/*String errorInfo = smsService.sendSms(mobile, content, this.getIp(), "Mobile Login");
 			if(errorInfo != null){
 				throw new Exception(errorInfo);
-			}
+			}*/
 			this.writeErrorJson("");
 		}
 		catch (Exception e) {

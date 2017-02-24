@@ -42,17 +42,13 @@ public class CartAction  extends MMallActon {
 		return "mmall/cart";
 	}
 	
-	
-	
 	/**
-	 * myq add 2015-3-15，增加or减少购物车内的项目
 	 * @param productId
 	 * @param count
 	 * @param localCart
 	 */
 	@RequestMapping
-	public void setItemCount(HttpServletRequest request,HttpServletResponse response, 
-			String cityId, String productId, Integer count){
+	public void setItemCount(HttpServletRequest request,HttpServletResponse response, String productId, Integer count,Integer addCount){
 		FactoryUser user = this.getUser();
 		if(user==null){
 			this.writeJson("{error:\'请先登录\'}");
@@ -63,6 +59,7 @@ public class CartAction  extends MMallActon {
 		//3.新增项目
 		CartItem targetItem = cartData.getItem(productId);
 		if(targetItem == null){
+			count = addCount!=null?addCount:count;
 			//3.1新增购物车数据
 			String error = checkProduct(productId, count);
 			if(error != null){
@@ -72,6 +69,7 @@ public class CartAction  extends MMallActon {
 			cartData.addItem(productId, count);
 		}
 		else{
+			count = addCount!=null?targetItem.getCount()+addCount:count;
 			//3.2修改购物车项目的数量
 			String error = checkProduct(productId, count);
 			if(error != null){
@@ -87,7 +85,6 @@ public class CartAction  extends MMallActon {
 	}
 	
 	/**
-	 * myq add 2015-3-15，删除购物车内的项目
 	 * @param productId
 	 * @param count
 	 * @param localCart
