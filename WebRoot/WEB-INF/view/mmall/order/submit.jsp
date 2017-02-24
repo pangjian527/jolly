@@ -289,12 +289,15 @@
 						data:orderObj,
 						success:function(data){
 							if(data.code == "loginerr"){
-								alert(data.content);
-								alert(111);
+								dialogAlert("温馨提示",data.content,function(){
+									window.location = "${home}//mmall/factoryuser/login.do"
+								});
 							}else if(data.code == "dataerr"){
-								dialogAlert("温馨提示",data.content);
-							}else{
-								alert("提交成功");
+								dialogAlert("温馨提示",data.content,function(){
+									window.location = "${home}//mmall/order/order.do?op=pay"
+								});
+							}else if(data.code == "success"){
+								window.location = "${home}/mmall/order/order.do?op=result";
 							}
 						}
 					});
@@ -395,7 +398,7 @@
 		<div class="order-price-box">
 			<dl>
 				<dt>商品金额</dt>
-				<dd>￥ <fmt:formatNumber value="${cartData.allPrice }" pattern="#,#00.00#"/></dd>
+				<dd>￥ <fmt:formatNumber value="${cartData.allTotal }" pattern="#,#00.00#"/></dd>
 				<dt>积分抵扣</dt>
 				<dd>-￥0.00</dd>
 				<dt>运费</dt>
@@ -405,7 +408,7 @@
 		</div>
 		<div class="order-submit-box">
 			<span>合计：</span>
-			<label>￥ <fmt:formatNumber value="${cartData.allPrice }" pattern="#,#00.00#"/></label>
+			<label>￥ <fmt:formatNumber value="${cartData.allTotal }" pattern="#,#00.00#"/></label>
 			<a href="javascript:submitObject()">提交订单</a>
 		</div>
 		<div class="dialog-box-bg" style="display:none">

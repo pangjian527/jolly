@@ -107,6 +107,13 @@ public class OrderAction extends PManagerAction<Bookform>{
 		this.writeJson(resultObj);
 	}
 	
+	/*立即付款*/
+	@RequestMapping
+	public String pay(HttpServletRequest request,HttpServletResponse response){
+		
+		return "/mmall/order/pay";
+	}
+	
 	/*订单列表*/
 	@RequestMapping
 	public String list(){
