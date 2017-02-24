@@ -78,5 +78,13 @@ public class FactoryDao extends HibernateDao<Factory> {
 		
 		return Integer.valueOf(query.uniqueResult().toString());
 	}
+
+	public int countFactoryByRefereeId(String factoryId) {
+		String sql = "select count(1) from t_factory f where f.referee_id =:factoryId ";
+		Query query = this.getSession().createSQLQuery(sql)
+			.setParameter("factoryId", factoryId);
+		
+		return Integer.valueOf(query.uniqueResult().toString());
+	}
 	
 }

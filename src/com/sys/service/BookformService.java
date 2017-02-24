@@ -2,7 +2,9 @@ package com.sys.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.json.JSONObject;
 
@@ -13,15 +15,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import pub.dao.GeneralDao;
 import pub.dao.hibernate.PagedQuery;
+import pub.dao.query.PageSettings;
+import pub.dao.query.PagedQueryResult;
 import pub.dao.query.Query;
 import pub.dao.query.QueryResult;
 import pub.dao.query.QuerySettings;
 import pub.functions.StrFuncs;
+import pub.types.Pair;
 
 import com.sys.dao.BookformDao;
 import com.sys.dao.BookformDetailDao;
 import com.sys.data.book.BookformData;
 import com.sys.data.book.BookformProductData;
+import com.sys.data.book.OrderData;
 import com.sys.data.cart.CartData;
 import com.sys.data.cart.CartItem;
 import com.sys.entity.Area;
@@ -1340,7 +1346,14 @@ public class BookformService extends BaseService<Bookform>{
 		bookform.setSales(cartData.getAllTotal());
 		bookform.setCode(StrFuncs.createTimeUID());
 		bookform.setContactTel(data.getMobile());
-		bookform.setStatus(Bookform.STATUS_CONFIRM_WAIT);
+		if(data.getPayType() == 0){
+			//在线支付状态是待支付
+			bookform.setStatus(Bookform.STATUS_WAIT_PAY);
+		}else{
+			//否则就是代发货
+			bookform.setStatus(Bookform.STATUS_WAIT_SEND_DELIVERY);
+		}
+		
 		bookform.setPayType(data.getPayType());
 		
 		bookformDao.save(bookform);
@@ -1382,7 +1395,55 @@ public class BookformService extends BaseService<Bookform>{
 		}
 	}
 	
+	/*统计商家所有的订单数量*/
+	public int countBookformByFactory(String factoryId){
+		return bookformDao.countBookformByFactory(factoryId);
+	}
 	
+	
+	/* 分页获取商家的订单，方法不和后台的公用 */
+	public Pair<List<OrderData>, Integer> getBookformByFactory(String factoryId,int status,int pageNo) throws Exception{
+		
+		PagedQuery query  = new PagedQuery( PageSettings.of(pageNo));
+		
+		StringBuilder where = new StringBuilder(" 1=1 ");
+		
+		JSONObject queryJson = new JSONObject();
+		queryJson.element("factoryId", factoryId).element("status", status);
+		
+		this.addQueryEqualFilter(queryJson, where, query, "factoryId",
+				" and b.factory_id = :factoryId");
+		
+		this.addQueryEqualFilter(queryJson, where, query, "status",
+				" and b.status = :status");
+		
+		//1. 只返回ID
+		query.select(" b..id ").from(
+				" t_bookform b ").where(where.toString()).orderBy(" f.update_time desc ");
+		generalDao.execute(query);
+		
+		//2. 加载订单数据
+		List<OrderData> listOrderData = this.getOrderData(query.getRows());
+		
+		return new Pair<List<OrderData>, Integer>(listOrderData, query.getResult().getPageCount());
+	}
+	
+	private List<OrderData> getOrderData(List<Map<String, String>> rows)  throws Exception{
+	
+		List<OrderData> listResult= new LinkedList<OrderData>();
+		
+		for (Map<String, String> map : rows) {
+			
+			Bookform bookform = this.get(map.get("ID"));
+			List<BookformDetail> listDetails = bookformDetailDao.getAllByBookId(bookform.getId());
+			
+			OrderData data = new OrderData(bookform);
+			listResult.add(data);
+		}
+		
+		return null;
+	}
+
 	@Autowired
 	private BookformDao bookformDao;
 	@Autowired

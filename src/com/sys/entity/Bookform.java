@@ -21,9 +21,19 @@ public class Bookform implements Serializable {
 	/* 订单状态 */
 	public static int STATUS_CONFIRM_WAIT = 0;	//订单待确认
 	public static int STATUS_CONFIRMED = 1;		//订单已确认
-	public static int STATUS_FINISH = 2;		//订单已完成
-	public static int STATUS_CANCEL = 3;		//订单取消
-	//public static int STATUS_SHIPPED = 4;		//订单待发货
+	
+	
+	/*
+	 * 
+	 * 1、到店订单：代发货--》取消（发货前）--》待收货--》完成
+		2、在线订单：代付款--》取消（发货前）--》代发货--》带收货--》完成
+	 * */
+	public static int STATUS_WAIT_PAY = 0;	//代付款（针对在线付款的）
+	public static int STATUS_WAIT_SEND_DELIVERY = 1;	//代发货
+	public static int STATUS_WAIT_TAKE_DELIVERY = 2;	//代收货
+	public static int STATUS_CANCEL = 3;	//取消
+	public static int STATUS_FINISH = 4;	//完成
+	
 	
 	/* 配送状态 */
 	public static int TRACKING_WAIT = 0;		//未发货

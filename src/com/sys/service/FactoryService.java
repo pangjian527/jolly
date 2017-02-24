@@ -266,6 +266,11 @@ public class FactoryService extends BaseService<Factory>{
 		return factoryDao.getAllByProperty("refereeId", refereeId, "createTime desc");
 	}
 	
+	/* 统计某一商家的开店数量*/
+	public int countFactoryByRefereeId(String factoryId){
+		return factoryDao.countFactoryByRefereeId(factoryId);
+	}
+	
 
 	@Autowired
 	private FactoryDao factoryDao;

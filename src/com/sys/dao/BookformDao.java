@@ -122,4 +122,13 @@ public class BookformDao extends HibernateDao<Bookform> {
 						endDate).uniqueResult().toString());
 	}
 	
+	/* 统计商家的所有订单数 */
+	public int countBookformByFactory(String factoryId) {
+
+		String sql = "select count(1) from t_bookform b where  b.factory_id =:factoryId ";
+		
+		return Integer.valueOf(this.getSession().createSQLQuery(sql)
+				.setParameter("factoryId", factoryId).uniqueResult().toString());
+	}
+	
 }

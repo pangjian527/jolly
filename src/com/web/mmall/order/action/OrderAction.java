@@ -116,7 +116,7 @@ public class OrderAction extends PManagerAction<Bookform>{
 	
 	/*订单列表*/
 	@RequestMapping
-	public String list(){
+	public String list(HttpServletRequest request,HttpServletResponse response){
 		return "/mmall/order/list";
 	}
 	/*订单详情*/

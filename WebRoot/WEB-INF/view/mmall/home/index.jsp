@@ -174,13 +174,13 @@
 					</div>
 					<ul>
 						<li>
-							<div class="split-line">订单(1000)</div>
+							<div class="split-line">订单(${countBookform })</div>
 						</li>
 						<li>
-							<div class="split-line">推荐(100)</div>
+							<div class="split-line">推荐(${countFactory })</div>
 						</li>
 						<li>
-							<div>积分(5000)</div>
+							<div>积分(${score })</div>
 						</li>
 					</ul>
 			</div>

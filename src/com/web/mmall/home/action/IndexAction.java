@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.sys.entity.Factory;
 import com.sys.entity.FactoryUser;
 import com.sys.entity.Score;
+import com.sys.service.BookformService;
 import com.sys.service.FactoryService;
 import com.sys.service.ScoreService;
 import com.web.mmall.MMallActon;
@@ -22,7 +23,20 @@ import com.web.mmall.MMallActon;
 public class IndexAction  extends MMallActon{
 
 	@RequestMapping
-	public String execute(){
+	public String execute(HttpServletRequest request,HttpServletResponse response){
+		
+		FactoryUser user = this.getUser();
+		//1. 订单数量
+		int countBookform = bookformService.countBookformByFactory(user.getFactoryId());
+		//开店数量
+		int countFactory = factoryService.countFactoryByRefereeId(user.getFactoryId());
+		//总积分
+		int totalScore = scoreService.getFactoryHistoryScore(user.getFactoryId());
+		int useScore = scoreService.getFactoryConsumeScore(user.getFactoryId());
+		
+		request.setAttribute("countBookform", countBookform);
+		request.setAttribute("countFactory", countFactory);
+		request.setAttribute("score", totalScore - useScore );
 		return "/mmall/home/index";
 	}
 	@RequestMapping
@@ -66,4 +80,6 @@ public class IndexAction  extends MMallActon{
 	private ScoreService scoreService;
 	@Autowired
 	private FactoryService factoryService;
+	@Autowired
+	private BookformService bookformService;
 }
