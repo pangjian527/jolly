@@ -75,6 +75,7 @@ public class OrderAction extends PManagerAction<Bookform>{
 		
 		Object object = request.getSession().getAttribute(Consts.FACTORY_USER_SESSION_KEY);
 		String man = request.getParameter("man");
+		String mobile = request.getParameter("mobile");
 		String provinceId = request.getParameter("provinceId");
 		String cityId = request.getParameter("cityId");
 		String countyId = request.getParameter("countyId");
@@ -82,19 +83,28 @@ public class OrderAction extends PManagerAction<Bookform>{
 		int payType = Integer.valueOf(request.getParameter("payType"));
 		String cartDatas = request.getParameter("cartDatas");
 		
+		JSONObject resultObj = new JSONObject();
 		if(object == null){
-			this.writeErrorJson("未登录，请先登录");
+			resultObj.element("code", "loginerr").element("content","未登录，请先登录");
+			this.writeJson(resultObj);
 			return ;
 		}
 		//2. 获取到商品
 		CartData cartData = cartService.getCartData(cartDatas);
 		
 		FactoryUser factoryUser = (FactoryUser) object;
-		OrderEntity entity = new OrderEntity(man,provinceId,cityId,countyId,addr,payType);
+		OrderEntity entity = new OrderEntity(man,mobile,provinceId,cityId,countyId,payType,addr);
 		//3. 提交订单
-		bookformService.submitBookform(cartData, factoryUser, entity);
+		try {
+			bookformService.submitBookform(cartData, factoryUser, entity);
+		} catch (Exception e) {
+			resultObj.element("code", "dataerr").element("content",e.getMessage());
+			this.writeJson(resultObj);
+			return ;
+		}
 		
-		this.writeJson(true);
+		resultObj.element("code", "success");
+		this.writeJson(resultObj);
 	}
 	
 	/*订单列表*/

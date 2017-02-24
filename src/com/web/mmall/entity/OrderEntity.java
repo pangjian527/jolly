@@ -13,8 +13,10 @@ public class OrderEntity {
 	private String countyId;
 	
 	private int payType = 0;
+	
+	private String addr;
 
-	public OrderEntity(String man, String mobile, String provinceId, String cityId, String countyId, int payType) {
+	public OrderEntity(String man, String mobile, String provinceId, String cityId, String countyId, int payType,String addr) {
 		super();
 		this.man = man;
 		this.mobile = mobile;
@@ -22,6 +24,7 @@ public class OrderEntity {
 		this.cityId = cityId;
 		this.countyId = countyId;
 		this.payType = payType;
+		this.addr = addr;
 	}
 
 	public String getMan() {
@@ -71,6 +74,15 @@ public class OrderEntity {
 	public void setPayType(int payType) {
 		this.payType = payType;
 	}
+
+	public String getAddr() {
+		return addr;
+	}
+
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+	
 	
 	
 }

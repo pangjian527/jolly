@@ -9,7 +9,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<title>订单确认</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
+	<link href="${home}/style/m_dialog.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" src="${home}/script/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="${home}/script/m_dialog.js"></script>
 	
 	
 	<style type="text/css">
@@ -225,6 +227,16 @@
 			color:white;
 			background:#ff8400;
 		}
+		
+		div.dialog-box-bg{
+			background: rgba(0,0,0,0.6);
+		    position: fixed;
+		    top: 0;
+		    left: 0;
+		    right: 0;
+		    bottom: 0;
+		}
+		
 	</style>
 	
 	<script type="text/javascript">
@@ -276,10 +288,13 @@
 						url:"${home}/mmall/order/order.do?op=submit",
 						data:orderObj,
 						success:function(data){
-							if(data.error){
-								alert(data.error);
+							if(data.code == "loginerr"){
+								alert(data.content);
+								alert(111);
+							}else if(data.code == "dataerr"){
+								dialogAlert("温馨提示",data.content);
 							}else{
-								alert("成功");
+								alert("提交成功");
 							}
 						}
 					});
@@ -305,6 +320,7 @@
 			
 			return order;
 		}
+		
 		
 	</script>
 		
@@ -391,6 +407,14 @@
 			<span>合计：</span>
 			<label>￥ <fmt:formatNumber value="${cartData.allPrice }" pattern="#,#00.00#"/></label>
 			<a href="javascript:submitObject()">提交订单</a>
+		</div>
+		<div class="dialog-box-bg" style="display:none">
+			<div class="dialog-box">
+				<strong>温馨提示</strong>
+				<div class="content">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+				<a class="dialog-btn dialog-btn-left" href="">辅助操作</a>
+				<a class="dialog-btn dialog-btn-main" href="">主操作</a>
+			</div>
 		</div>
 	</div>
 </body>

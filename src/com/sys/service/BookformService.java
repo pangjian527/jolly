@@ -1327,10 +1327,12 @@ public class BookformService extends BaseService<Bookform>{
 	}
 	*/
 	@Transactional
-	public String submitBookform(CartData cartData,FactoryUser factoryUser,OrderEntity data){
+	public void submitBookform(CartData cartData,FactoryUser factoryUser,OrderEntity data) throws Exception{
+		//1. 数据验证
+		validBookform(cartData,data);
 		
+		//2. 创建订单
 		Bookform bookform = new Bookform();
-		
 		bookform.setFactoryId(factoryUser.getFactoryId());;
 		bookform.setContactProvinceId(data.getProvinceId());
 		bookform.setContactCityId(data.getCityId());
@@ -1343,9 +1345,28 @@ public class BookformService extends BaseService<Bookform>{
 		
 		bookformDao.save(bookform);
 
+		//3. 创建订单明细
 		createBookformDetail(cartData,bookform);
+	}
+	
+	private void validBookform(CartData cartData,OrderEntity data) throws Exception{
+		for(CartItem item :cartData.getItems()){
+			Product product = productService.get(item.getProductId());
+			
+			if(product ==null){
+				throw new Exception("商品不存在！");
+			}else if(product.getStatus() != Product.STATUS_VALID){
+				throw new Exception("商品未上架！");
+			}
+		}
 		
-		return null;
+		if(StrFuncs.isEmpty(data.getMobile())){
+			throw new Exception("请填写联系方式！");
+		}else if(StrFuncs.isEmpty(data.getMan())){
+			throw new Exception("请填写联系人！");
+		}else if (StrFuncs.isEmpty(data.getAddr())){
+			throw new Exception("请填写联系地址！");
+		}
 	}
 	
 	private void createBookformDetail(CartData cartData,Bookform bookform){
