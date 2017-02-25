@@ -15,6 +15,7 @@
 	<script type="text/javascript" src="${home}/script/mwebmall/haux.mobile.js"></script>
 	<script type="text/javascript" src="${home}/script/m_dialog.js"></script>
 	<script type="text/javascript" src="${home}/script/mwebmall/manage.area.js"></script>
+	<script type="text/javascript" src="${home}/script/jquery.ajaxfileupload.js"></script>
 
 <style type="text/css">
 	body{
@@ -86,12 +87,7 @@
 		  width: calc(100% - 100px);
 		  height: 100%;
 	}
-	li.licensename-row img{
-		  height: 95%;
-		  margin: 5px 20px;
-		  display: block;
-		  float: left;
-	}
+	
 	div.factory-img-box label{
 		  display: block;
 		  border-bottom: 1px solid #e4e4e4;
@@ -100,40 +96,39 @@
 		  padding-left: 20px;
 	}
 	div.factory-img{
-  		padding: 20px 20px;
-  		min-height:110px;
+  		  padding: 20px 20px;
+ 		 min-height: 110px;
 	}
 	
-	div.factory-img img{
-		  height: 100px;
-  		margin: 5px 20px;
-	}
-	div.add-file{
-		  height: 100px;
+		div.add-file {
 		  display: inline-block;
-		  width: 100px;
-		  border: 2px dashed #e4e4e4;
-		  padding: 0px;
+		  padding: 5px;
 		  text-align: center;
 		  line-height: 100px;
-		  position: absolute;
+		  position: relative;
 		  /* margin-top: 29px; */
 		  margin: 1 20px;
-		  margin-left: 23px;
-		  margin-top: 5px;
-	}
+		  /* margin-left: 23px; */
+		  /* margin-top: 5px; */
+		}
 	div.add-file a{
 		  font-size: 60px;
 		  font-family: arial;
 		  color: #999;
 		  font-weight: bold;
+		    width: 90px;
+		  height: 90px;
+		  display: block;
+		  line-height: 90px;
+	    	border: 2px dashed #e4e4e4;
 	}
 	div.add-file input{
-		    opacity: 0;
+		  opacity: 0;
 		  position: absolute;
-		  left: 0;
-		  height: 100px;
-		  width: 100px;
+		  left: 5px;
+		  height: 90px;
+		  width: 90px;
+		  top: 5px;
 	}
 	
 	a.submit-btn{
@@ -148,6 +143,28 @@
 		  font-family: 微软雅黑;
 		  clear: both;
 	    	letter-spacing: 10px;
+	}
+	div.img-show{
+		  position: relative;
+		  float: left;
+		  padding: 5px;
+	}
+	div.img-show img{
+		    float: left;
+		  width: 90px;
+		  height: 90px;
+	}
+	div.img-show a{
+		   position: absolute;
+		  right: 5px;
+		  color: white;
+		  font-size: 20px;
+		  height: 25px;
+		  width: 25px;
+		  top: 5px;
+		  line-height: 25px;
+		  /* padding: 0px; */
+		  text-align: center;
 	}
 </style>
 <script type="text/javascript">
@@ -188,10 +205,128 @@
 			document.getElementById("gpsX").value=gpsArr[0];
 			document.getElementById("gpsY").value=gpsArr[1];
 		}
+		document.getElementById("licenseFileIds").value = getPhotoIds("licensename-img-id");
+		
+		var photoIdsValue=getPhotoIds("factory-img-id");
+		if(photoIdsValue.split(',').length<3){
+			dialogAlert("温馨提示","商家图片至少上传三张！");
+			return;
+		}
+		document.getElementById("photoIds").value = photoIdsValue;
 		
 		document.detailInfoForm.submit();
 	}
 	
+	function getPhotoIds(typeId){
+		var photoIds="";
+		var imgObj=document.getElementById(typeId);
+		var imgEls = imgObj.getElementsByTagName("img");
+		if(imgEls&&imgEls.length>0){
+			for(var i=0;i<imgEls.length;i++){
+				if(i==imgEls.length-1){
+					photoIds=photoIds+imgEls[i].getAttribute("imgId");
+				}else{
+					photoIds=photoIds+imgEls[i].getAttribute("imgId")+",";
+				}
+				
+			}
+		}
+		return photoIds;
+	}
+	
+	function startUpload(fileId){
+		var fileEl=document.getElementById(fileId);
+		var fileSize = fileEl.files[0].size;
+        if(fileSize>4*1024*1024){   
+     		dialogAlert("温馨提示","图片大小不能大于4M");
+     		return;
+     	} 
+		$.ajaxFileUpload({
+	         url : home()+ "/common/file/upload.do?op=upload",           
+	         secureuri : false,
+	         fileElementId:fileId,
+	         dataType : "json",       
+	         success: function (data){
+	        	 insertImgEle(fileId,data.id);
+	         },
+	         error: function (data, status, e){
+	         	alert("上传图片出错");
+	         }
+	     });
+	}
+	
+	function insertImgEle(fileId,imgId){
+		var divEl=document.createElement("div");
+		divEl.className="img-show"; 
+		
+		var imgEle = document.createElement("img");
+		imgEle.src="${home}/img-"+imgId+"_100x100.do";
+		imgEle.setAttribute("imgId",imgId);
+		
+		var aEl=document.createElement("a");
+		aEl.innerHTML="x";
+		aEl.onclick=function(){
+			deleteImg(this,fileId);
+		}
+		divEl.appendChild(imgEle);
+		divEl.appendChild(aEl);
+		
+		
+		var fileEl=document.getElementById(fileId);
+		var targetParentNode = fileEl.parentNode.parentNode;
+		targetParentNode.insertBefore(divEl,fileEl.parentNode);
+		var imgEls=targetParentNode.getElementsByTagName("img");
+		if(fileId=='fileId-1'&&imgEls&&imgEls.length>=2){
+			targetParentNode.removeChild(fileEl.parentNode);
+		}
+		
+	}
+	
+	function deleteImg(obj,fileId){
+		var imgObj = obj.previousElementSibling;
+		var imgId=imgObj.getAttribute("imgId");
+		var targetParentNode=obj.parentNode.parentNode;
+		targetParentNode.removeChild(obj.parentNode);
+		deleteServerImg(imgId);//异步删除服务器图片
+		var imgEls=targetParentNode.getElementsByTagName("img");
+		if(fileId == 'fileId-1'&&imgEls&&imgEls.length==1){
+			var divEl=document.createElement("div");
+			divEl.id="add-file"; 
+			divEl.className="add-file"; 
+			
+			var aEl=document.createElement("a");
+			aEl.innerHTML="+";
+			
+			
+			/* 
+			此处也不明白为什么用JS方法绑定有时会失效
+			var fileEl = document.createElement("input");
+			fileEl.type="file";
+			fileEl.accept = "image/*";
+			fileEl.name = "fileUpload";
+			fileEl.id="fileId-1";
+			fileEl.setAttribute("capture","camera");
+			fileEl.onchange = function(){
+				startUpload(this.id);
+			}
+			 */
+			
+			divEl.appendChild(aEl);
+			//divEl.appendChild(fileEl);
+			divEl.innerHTML = divEl.innerHTML+"<input type='file' accept='image/*' name='fileUpload' capture='camera'  onchange='startUpload(this.id)' id='fileId-1'>";
+			targetParentNode.appendChild(divEl);
+		}
+	}
+	
+	function deleteServerImg(imgId){
+		$.ajax({url : home()+ "/common/file/upload.do?op=delete&fileId="+imgId,
+		    type:"get",
+		    error: function(){
+			}, 
+			success:function(){
+			}
+		});	
+	}
 </script>
 </head>
 <body>
@@ -244,14 +379,17 @@
 	  				<li class="licensename-row">
 	  					<input type="hidden" name="licenseFileIds" id="licenseFileIds" value="${factory.licenseFileIds }"/>
 	  					<label>执照图片：</label>
-	  					<div class="licensename-img">
+	  					<div class="licensename-img" id="licensename-img-id">
 	  						<c:forEach items="${licenseImgIds }" var="imgId">
-			  					<img alt="" src="${home}/img-${imgId}_100x100.do"/>
+	  							<div class="img-show">
+		  							<img   src="${home}/img-${imgId}_100x100.do" imgId="${imgId}"/>
+				  					<a href="javascript:;" onclick="deleteImg(this,'fileId-1')">x</a>
+	  							</div>
 			  				</c:forEach>
-			  				<c:if test="${fn:length(list)<2 }">
+			  				<c:if test="${fn:length(licenseImgIds)<2 }">
 			  					<div class="add-file" id="add-file">
 				  					<a>+</a>
-				  					<input type="file">
+				  					<input type="file" accept="image/*" name="fileUpload" capture="camera"  onchange="startUpload(this.id)" id="fileId-1">
 				  				</div>
 			  				</c:if>
 			  				
@@ -262,13 +400,16 @@
 	  		<div class="factory-img-box">
 	  			<input type="hidden" name="photoIds" id="photoIds" value="${factory.photoIds }"/>
 	  			<label>商家图片（至少三张）：</label>
-	  			<div class="factory-img">
+	  			<div class="factory-img" id="factory-img-id">
 	  				<c:forEach items="${factoryImgIds }" var="imgId">
-	  					<img alt="" src="${home}/img-${imgId}_100x100.do"/>
+	  					<div class="img-show">
+  							<img   src="${home}/img-${imgId}_100x100.do" imgId="${imgId}"/>
+		  					<a href="javascript:;" onclick="deleteImg(this,'fileId-2')">x</a>
+  						</div>
 	  				</c:forEach>
 	  				<div class="add-file" id="add-file">
 	  					<a>+</a>
-	  					<input type="file">
+	  					<input type="file" accept="image/*" name="fileUpload"  capture="camera"  onchange="startUpload(this.id)" id="fileId-2">
 	  				</div>
 				</div>
 	  		</div>

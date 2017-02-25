@@ -23,6 +23,7 @@ import com.sys.entity.FactoryUser;
 import com.sys.service.FactoryService;
 import com.sys.service.ScoreService;
 import com.web.mmall.MMallActon;
+import com.wxpay.util.WXConfigUtil;
 
 @Controller
 public class FactoryAction extends MMallActon{
@@ -37,7 +38,7 @@ public class FactoryAction extends MMallActon{
 		request.setAttribute("factory", factory);
 		request.setAttribute("factoryImgIds", this.SplitToList(factory.getPhotoIds()));
 		request.setAttribute("licenseImgIds", this.SplitToList(factory.getLicenseFileIds()));
-		
+		WXConfigUtil.createWXConfigParam(request);
 		return "mmall/factory/detail";
 	}
 	
@@ -68,7 +69,7 @@ public class FactoryAction extends MMallActon{
 		Double gpsX = this.getDoubleParam("gpsX");
 		Double gpsY = this.getDoubleParam("gpsY");
 		String licenseName = this.getParam("licenseName");
-		String licenseFileIds = this.getParam("licenseFieldIds");
+		String licenseFileIds = this.getParam("licenseFileIds");
 		String photoIds = this.getParam("photoIds");
 		
 		factory.setName(name);

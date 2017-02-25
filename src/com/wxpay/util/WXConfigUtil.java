@@ -4,6 +4,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+
 import pub.functions.JsonFuncs;
 import pub.functions.StrFuncs;
 import pub.spring.BeanUtils;
@@ -39,8 +41,11 @@ public class WXConfigUtil {
 		request.setAttribute("timeStamp", timestamp);        //时间戳
 		request.setAttribute("nonceStr", noncestr);            //随机字符串
 		
-		String url =  Consts.configs.get("server_url")+"/mwebmall/promote/receive.do"	//请求URL
-				+ "?" + request.getQueryString();//请求参数
+		String url = request.getRequestURL().toString();	//请求URL
+		if(StringUtils.isNotEmpty(request.getQueryString())){
+			url=url+ "?" + request.getQueryString();//请求参数
+		}
+				
 		if(StrFuncs.isEmpty(WXPayConfig.WX_TICKET)){//如果微信票据未取，手动进得获取
 			UpdateWXTicket updateWXTicket=BeanUtils.getBean(UpdateWXTicket.class);
 			updateWXTicket.execute();

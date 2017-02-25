@@ -91,6 +91,8 @@
      <task:scheduled-tasks>    
        <task:scheduled ref="calPrizeLeft" method="execute" cron="0 0 0 * * ?" /> 
     </task:scheduled-tasks>
+    <!-- 获取微信缓存ticket定时器-->
+     <bean id="updateWXTicket" class="com.web.timer.UpdateWXTicket"></bean> 
     <!-- 定时器 
     <bean id="synWendaTask" class="com.web.dingshi.action.WendaAction"></bean>  
     <bean id="synPageTask" class="com.web.dingshi.action.PageTongbuAction"></bean> 
