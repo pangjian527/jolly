@@ -213,6 +213,11 @@
 						<label>我的推荐</label>
 						<i class="direction"></i>
 					</li>
+					<li onclick="window.location='${home}/mmall/home/index.do?op=security'">
+						<i class="icon icon_code"></i>
+						<label>防伪码查询</label>
+						<i class="direction"></i>
+					</li>
 				</ul>
 			</div>
 			

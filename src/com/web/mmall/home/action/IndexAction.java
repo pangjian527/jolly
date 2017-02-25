@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
+import pub.types.Pair;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,10 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sys.entity.Factory;
 import com.sys.entity.FactoryUser;
+import com.sys.entity.Product;
+import com.sys.entity.ProductItem;
 import com.sys.entity.Score;
 import com.sys.service.BookformService;
 import com.sys.service.FactoryService;
+import com.sys.service.ProductItemService;
+import com.sys.service.ProductService;
 import com.sys.service.ScoreService;
+import com.sys.service.UsageRecordService;
 import com.web.mmall.MMallActon;
 
 @Controller
@@ -43,8 +49,20 @@ public class IndexAction  extends MMallActon{
 	public String security(){
 		return "/mmall/home/security";
 	}
+	/* 防伪码详情 */
 	@RequestMapping
-	public String securityDetail(){
+	public String securityDetail(HttpServletRequest request,HttpServletResponse response,String securityCode){
+		
+		FactoryUser factoryUser = this.getUser();
+		List<Pair<Long, String>> listResult = productItemService.getProeuctItemTimeLog(securityCode, factoryUser.getFactoryId());
+		
+		ProductItem productItem = productItemService.getBySecurityCode(securityCode);
+		Product product = productService.get(productItem.getProductId());
+		int countUsageQuery = usageRecordService.countUsageQuery(securityCode);
+		
+		request.setAttribute("listResult", listResult);
+		request.setAttribute("product", product);
+		request.setAttribute("countUsageQuery", countUsageQuery);
 		return "/mmall/home/security_detail";
 	}
 	
@@ -82,4 +100,10 @@ public class IndexAction  extends MMallActon{
 	private FactoryService factoryService;
 	@Autowired
 	private BookformService bookformService;
+	@Autowired
+	private ProductItemService productItemService;
+	@Autowired
+	private ProductService productService;
+	@Autowired
+	private UsageRecordService usageRecordService;
 }
