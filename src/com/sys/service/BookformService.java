@@ -28,6 +28,7 @@ import com.sys.dao.BookformDetailDao;
 import com.sys.data.book.BookformData;
 import com.sys.data.book.BookformProductData;
 import com.sys.data.book.OrderData;
+import com.sys.data.book.OrderDetailData;
 import com.sys.data.cart.CartData;
 import com.sys.data.cart.CartItem;
 import com.sys.entity.Area;
@@ -1333,7 +1334,7 @@ public class BookformService extends BaseService<Bookform>{
 	}
 	*/
 	@Transactional
-	public void submitBookform(CartData cartData,FactoryUser factoryUser,OrderEntity data) throws Exception{
+	public String submitBookform(CartData cartData,FactoryUser factoryUser,OrderEntity data) throws Exception{
 		//1. 数据验证
 		validBookform(cartData,data);
 		
@@ -1360,6 +1361,8 @@ public class BookformService extends BaseService<Bookform>{
 
 		//3. 创建订单明细
 		createBookformDetail(cartData,bookform);
+		
+		return bookform.getId();
 	}
 	
 	private void validBookform(CartData cartData,OrderEntity data) throws Exception{
@@ -1402,7 +1405,7 @@ public class BookformService extends BaseService<Bookform>{
 	
 	
 	/* 分页获取商家的订单，方法不和后台的公用 */
-	public Pair<List<OrderData>, Integer> getBookformByFactory(String factoryId,int status,int pageNo) throws Exception{
+	public Pair<List<OrderData>, Integer> getBookformByFactory(String factoryId,String[] status,int pageNo) throws Exception{
 		
 		PagedQuery query  = new PagedQuery( PageSettings.of(pageNo));
 		
@@ -1414,12 +1417,13 @@ public class BookformService extends BaseService<Bookform>{
 		this.addQueryEqualFilter(queryJson, where, query, "factoryId",
 				" and b.factory_id = :factoryId");
 		
-		this.addQueryEqualFilter(queryJson, where, query, "status",
-				" and b.status = :status");
-		
+		if(status !=null &&status.length > 0){
+			where.append(" and status in (:status)");
+			query.put("status", status);
+		}
 		//1. 只返回ID
-		query.select(" b..id ").from(
-				" t_bookform b ").where(where.toString()).orderBy(" f.update_time desc ");
+		query.select(" b.id ").from(
+				" t_bookform b ").where(where.toString()).orderBy(" b.update_time desc ");
 		generalDao.execute(query);
 		
 		//2. 加载订单数据
@@ -1431,17 +1435,24 @@ public class BookformService extends BaseService<Bookform>{
 	private List<OrderData> getOrderData(List<Map<String, String>> rows)  throws Exception{
 	
 		List<OrderData> listResult= new LinkedList<OrderData>();
-		
 		for (Map<String, String> map : rows) {
 			
-			Bookform bookform = this.get(map.get("ID"));
+			Bookform bookform = this.get(map.get("id"));
 			List<BookformDetail> listDetails = bookformDetailDao.getAllByBookId(bookform.getId());
 			
 			OrderData data = new OrderData(bookform);
+			for (BookformDetail bookformDetail : listDetails) {
+				OrderDetailData detailData = new OrderDetailData(bookformDetail);
+				
+				Product product = productService.get(bookformDetail.getProductId());
+				detailData.setProductName(product.getName());
+				detailData.setPhotoIds(product.getPhotoIds());
+				
+				data.addDetail(detailData);
+			}
 			listResult.add(data);
 		}
-		
-		return null;
+		return listResult;
 	}
 
 	@Autowired

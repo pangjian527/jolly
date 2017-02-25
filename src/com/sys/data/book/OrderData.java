@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.sys.entity.Bookform;
+import com.sys.entity.BookformDetail;
 
 public class OrderData {
 
@@ -124,4 +125,23 @@ public class OrderData {
 		this.details = details;
 	}
 	
+	public void addDetail(OrderDetailData detailData) {
+		this.details.add(detailData);
+	}
+	
+	public String getStatusLabel(){
+		if(this.status == 0){
+			return "代付款";
+		}else if (this.status == 1){
+			return "待发货";
+		}else if (this.status == 2){
+			return "待收货";
+		}else  if(this.status == 3){
+			return "取消";
+		}else if (this.status == 4){
+			return "完成";
+		}else {
+			return "待确认";
+		}
+	}
 }

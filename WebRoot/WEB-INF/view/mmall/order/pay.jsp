@@ -53,9 +53,14 @@
 			<label>提交成功</label>
 		</div>
 		<div class="order-info-box">
-			<label>订单号：236898564812</label>
-		</div>		
-		<a class="pay" href="">立即付款</a>
+			<label>订单号：${bookform.code }</label>
+		</div>
+		<c:if test="${bookform.status == 0 }">
+			<a class="pay" href="">立即付款</a>
+		</c:if>
+		<c:if test="${bookform.status != 0 }">
+			<a class="pay" href="${home }/mmall/product/product.do">返回首页</a>
+		</c:if>
 	</div>
 </body>
 </html>

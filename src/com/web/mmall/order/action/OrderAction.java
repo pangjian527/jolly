@@ -1,28 +1,28 @@
 package com.web.mmall.order.action;
 
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.sys.data.book.OrderData;
 import com.sys.data.cart.CartData;
-import com.sys.data.cart.CartItem;
 import com.sys.entity.Bookform;
 import com.sys.entity.Factory;
 import com.sys.entity.FactoryUser;
-import com.sys.entity.Product;
 import com.sys.service.AreaService;
 import com.sys.service.BookformService;
 import com.sys.service.CartService;
 import com.sys.service.FactoryService;
 import com.sys.service.ProductService;
 import com.sys.service.ScoreService;
+import com.web.mmall.MMallActon;
 import com.web.mmall.consts.Consts;
 import com.web.mmall.entity.OrderEntity;
 import com.web.pmanager.PManagerAction;
@@ -30,23 +30,28 @@ import com.web.pmanager.PManagerAction;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import pub.functions.JsonFuncs;
+import pub.functions.StrFuncs;
+import pub.types.Pair;
 
 @Controller
-public class OrderAction extends PManagerAction<Bookform>{
+public class OrderAction extends MMallActon{
 
 	public static JSONArray cartDatas = null;
 	static{
 		JSONObject object = new JSONObject();
-		object.element("productId", "4028ad815a4ff856015a5001111e000b").element("count", 2);
+		object.element("productId", "ff8081815a45acd6015a45afc17e0001").element("count", 2);
+		JSONObject object1 = new JSONObject();
+		object1.element("productId", "ff8081815a6911e6015a696742550002").element("count", 2);
 		cartDatas = new JSONArray();
 		cartDatas.add(object);
+		cartDatas.add(object1);
 	}
 	
 	/*下单加载页面*/
 	@RequestMapping
 	public String execute(HttpServletRequest request,HttpServletResponse response){
 		//1. 获取到商家
-		FactoryUser factoryUser = (FactoryUser)request.getSession().getAttribute(Consts.FACTORY_USER_SESSION_KEY);
+		FactoryUser factoryUser = this.getUser();
 		Factory factory = factoryService.get(factoryUser.getFactoryId());
 		
 		//2. 获取到商品
@@ -92,28 +97,50 @@ public class OrderAction extends PManagerAction<Bookform>{
 		FactoryUser factoryUser = (FactoryUser) object;
 		OrderEntity entity = new OrderEntity(man,mobile,provinceId,cityId,countyId,payType,addr);
 		//3. 提交订单
+		String bookformId = "";
 		try {
-			bookformService.submitBookform(cartData, factoryUser, entity);
+			bookformId = bookformService.submitBookform(cartData, factoryUser, entity);
 		} catch (Exception e) {
 			resultObj.element("code", "dataerr").element("content",e.getMessage());
 			this.writeJson(resultObj);
 			return ;
 		}
 		
-		resultObj.element("code", "success");
+		resultObj.element("code", "success").element("bookformId", bookformId);
 		this.writeJson(resultObj);
 	}
 	
 	/*立即付款*/
 	@RequestMapping
-	public String pay(HttpServletRequest request,HttpServletResponse response){
+	public String pay(HttpServletRequest request,HttpServletResponse response,String bookformId){
 		
+		Bookform bookform = bookformService.get(bookformId);
+		
+		request.setAttribute("bookform", bookform);
 		return "/mmall/order/pay";
 	}
 	
 	/*订单列表*/
 	@RequestMapping
-	public String list(HttpServletRequest request,HttpServletResponse response){
+	public String list(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		
+		FactoryUser user = this.getUser();
+		String status = request.getParameter("status");
+		String pn =  request.getParameter("pn");
+		int pageNo  = pn ==null ? 1:Integer.valueOf(pn); 
+		
+		String[] statusList =null ;
+		if(status!=null &&status.equals("uncomplete")){
+			statusList  = "0,1,2,3".split(",");
+		}else if (status!=null && status.equals("complete")){
+			statusList = new String[]{"4"};
+		}
+		
+		//1. 返回列表和总页数
+		Pair<List<OrderData>, Integer> pair = bookformService.getBookformByFactory(user.getFactoryId(), statusList, pageNo);
+		request.setAttribute("pair", pair);
+		request.setAttribute("status", status);
+		
 		return "/mmall/order/list";
 	}
 	/*订单详情*/

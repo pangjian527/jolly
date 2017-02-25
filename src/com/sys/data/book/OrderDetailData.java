@@ -1,5 +1,9 @@
 package com.sys.data.book;
 
+import com.sys.entity.BookformDetail;
+
+import pub.functions.StrFuncs;
+
 public class OrderDetailData {
 
 	//订单明细ID
@@ -9,13 +13,19 @@ public class OrderDetailData {
 	//商品名称
 	private String productName;
 	//图片ID
-	private String imageIds;
+	private String photoIds;
 	//购买的价格
 	private double price;
 	//市场价
 	private double priceMart;
 	//数量
 	private int count;
+	public OrderDetailData(BookformDetail bookformDetail) {
+		this.bookDetailId = bookformDetail.getId();
+		this.productId = bookformDetail.getProductId();
+		this.price = bookformDetail.getPrice();
+		this.priceMart = bookformDetail.getPriceMart();
+	}
 	public String getBookDetailId() {
 		return bookDetailId;
 	}
@@ -33,12 +43,6 @@ public class OrderDetailData {
 	}
 	public void setProductName(String productName) {
 		this.productName = productName;
-	}
-	public String getImageIds() {
-		return imageIds;
-	}
-	public void setImageIds(String imageIds) {
-		this.imageIds = imageIds;
 	}
 	public double getPrice() {
 		return price;
@@ -58,6 +62,18 @@ public class OrderDetailData {
 	public void setCount(int count) {
 		this.count = count;
 	}
+	public String getPhotoIds() {
+		return photoIds;
+	}
+	public void setPhotoIds(String photoIds) {
+		this.photoIds = photoIds;
+	}
 	
-	
+	public String getFirstPhotos(){
+		if(StrFuncs.notEmpty(this.photoIds)){
+			return this.photoIds.split(",")[0];
+		}else{
+			return "0";
+		}
+	}
 }

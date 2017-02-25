@@ -39,7 +39,7 @@
 		div.order-menu-box  dl dd label{
 			text-align: center;
 			color:#9a9a9a;
-			padding:7px 10px;			
+			display:block;		
 		}
 		
 		div.order-menu-box  dl dd label.active{
@@ -165,91 +165,62 @@
 		<div class="order-menu-box">
 			<dl>
 				<dd>
-					<label class="active">全部订单</label>
+					<a href="${home }/mmall/order/order.do?op=list">
+						<label <c:if test="${status ==null }">class="active"</c:if> >全部订单</label>
+					</a>
 				</dd>
 				<dd>
-					<label>已完成</label>
+					<a href="${home }/mmall/order/order.do?op=list&status=complete">
+						<label <c:if test='${status eq "complete" }'>class="active"</c:if> >已完成</label>
+					</a>
 				</dd>
 				<dd>
-					<label >未完成</label>
+					<a href="${home }/mmall/order/order.do?op=list&status=uncomplete">
+						<label <c:if test='${status eq "uncomplete" }'>class="active"</c:if> >未完成</label>
+					</a>
 				</dd>
 			</dl>
 			<div style="clear:both;"></div>
 		</div>
 		<div class="order-list-box">
 			<ul>
-				<li>
-					<div class="order-status-box">
-						<label>已完成</label>
-						<label class="order-time">2017-01-10 10:30:28</label>
-						<i class="direction"></i>
-					</div>
-					<div class="order-pro-box">
-						<div class="pro-img">
-							<img src="${home}/image/23456.jpg"/>
+				<c:forEach items="${pair.first }" var="data">
+					<li>
+						<a href="${home }/mmall/order/order.do?op=detail&bookId=${data.bookId}">
+						<div class="order-status-box">
+							<label>${data.statusLabel }</label>
+							<label class="order-time">
+								<fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+							</label>
+							<i class="direction"></i>
 						</div>
-						<div class="pro-info-box">
-							<div class="pro-info-title">苹果原装手机内置电池iPhone4/4s/5/5s/6/7iPhone6s/6plus电池 苹果6专用电池</div>
-							<div class="pro-price">
-								<label class="price">￥188.88</label>&nbsp;&nbsp;x 10
+						<c:forEach items="${data.details }" var="detail">
+						<div class="order-pro-box">
+							<div class="pro-img">
+								<img src="${home}/img-${detail.firstPhotos}.do">	
 							</div>
-						</div>
-						<div style="clear:both;"></div>
-					</div>
-					<div class="order-pro-box">
-						<div class="pro-img">
-							<img src="${home}/image/23456.jpg"/>
-						</div>
-						<div class="pro-info-box">
-							<div class="pro-info-title">苹果原装手机内置电池iPhone4/4s/5/5s/6/7iPhone6s/6plus电池 苹果6专用电池</div>
-							<div class="pro-price">
-								<label class="price">￥188.88</label>&nbsp;&nbsp;x 10
+							<div class="pro-info-box">
+								<div class="pro-info-title">${detail.productName }</div>
+								<div class="pro-price">
+									<label class="price">￥ <fmt:formatNumber value="${detail.price }" pattern="#,#00.00#"/></label>
+									&nbsp;&nbsp;x ${detail.count }
+								</div>
 							</div>
+							<div style="clear:both;"></div>
 						</div>
-						<div style="clear:both;"></div>
-					</div>
-					<div class="order-price-box">
-						实际付款：￥198.00
-					</div>
-					<i class="order-status-image"></i>
-				</li>
-				
-				
-				<li>
-					<div class="order-status-box">
-						<label>待付款</label>
-						<label class="order-time">2017-01-10 10:30:28</label>
-						<i class="direction"></i>
-					</div>
-					<div class="order-pro-box">
-						<div class="pro-img">
-							<img src="${home}/image/23456.jpg"/>
+						</c:forEach>
+						<div class="order-price-box">
+							实际付款：￥<fmt:formatNumber value="${data.sales }" pattern="#,#00.00#"/>
+							<c:if test="${data.status == 0 }">
+								<a class="order-pay" href="">付款</a>
+							</c:if>
 						</div>
-						<div class="pro-info-box">
-							<div class="pro-info-title">苹果原装手机内置电池iPhone4/4s/5/5s/6/7iPhone6s/6plus电池 苹果6专用电池</div>
-							<div class="pro-price">
-								<label class="price">￥188.88</label>&nbsp;&nbsp;x 10
-							</div>
-						</div>
-						<div style="clear:both;"></div>
-					</div>
-					<div class="order-pro-box">
-						<div class="pro-img">
-							<img src="${home}/image/23456.jpg"/>
-						</div>
-						<div class="pro-info-box">
-							<div class="pro-info-title">苹果原装手机内置电池iPhone4/4s/5/5s/6/7iPhone6s/6plus电池 苹果6专用电池</div>
-							<div class="pro-price">
-								<label class="price">￥188.88</label>&nbsp;&nbsp;x 10
-							</div>
-						</div>
-						<div style="clear:both;"></div>
-					</div>
-					<div class="order-price-box">
-						实际付款：￥198.00
-						<a class="order-pay" href="">付款</a>
-					</div>
-				</li>
+						<c:if test="${data.status == 4 }">
+							<i class="order-status-image"></i>
+						</c:if>
+						</a>
+					</li>
+				</c:forEach>
 			</ul>
 		</div>
 	</div>

@@ -293,11 +293,9 @@
 									window.location = "${home}//mmall/factoryuser/login.do"
 								});
 							}else if(data.code == "dataerr"){
-								dialogAlert("温馨提示",data.content,function(){
-									window.location = "${home}//mmall/order/order.do?op=pay"
-								});
+								dialogAlert("温馨提示",data.content);
 							}else if(data.code == "success"){
-								window.location = "${home}/mmall/order/order.do?op=result";
+								window.location = "${home}//mmall/order/order.do?op=pay&bookformId="+data.bookformId;
 							}
 						}
 					});
