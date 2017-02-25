@@ -1347,6 +1347,8 @@ public class BookformService extends BaseService<Bookform>{
 		bookform.setSales(cartData.getAllTotal());
 		bookform.setCode(StrFuncs.createTimeUID());
 		bookform.setContactTel(data.getMobile());
+		bookform.setContactMan(data.getMan());
+		bookform.setContactAddr(data.getAddr());
 		if(data.getPayType() == 0){
 			//在线支付状态是待支付
 			bookform.setStatus(Bookform.STATUS_WAIT_PAY);
@@ -1433,26 +1435,33 @@ public class BookformService extends BaseService<Bookform>{
 	}
 	
 	private List<OrderData> getOrderData(List<Map<String, String>> rows)  throws Exception{
-	
 		List<OrderData> listResult= new LinkedList<OrderData>();
 		for (Map<String, String> map : rows) {
+			String bookId = map.get("id");
 			
-			Bookform bookform = this.get(map.get("id"));
-			List<BookformDetail> listDetails = bookformDetailDao.getAllByBookId(bookform.getId());
-			
-			OrderData data = new OrderData(bookform);
-			for (BookformDetail bookformDetail : listDetails) {
-				OrderDetailData detailData = new OrderDetailData(bookformDetail);
-				
-				Product product = productService.get(bookformDetail.getProductId());
-				detailData.setProductName(product.getName());
-				detailData.setPhotoIds(product.getPhotoIds());
-				
-				data.addDetail(detailData);
-			}
-			listResult.add(data);
+			OrderData orderData = getOrderDataByBookId(bookId);
+			listResult.add(orderData);
 		}
 		return listResult;
+	}
+	
+	/*根据订单获取到订单详细数据*/
+	public OrderData getOrderDataByBookId(String bookId) throws Exception{
+		Bookform bookform = this.get(bookId);
+		List<BookformDetail> listDetails = bookformDetailDao.getAllByBookId(bookform.getId());
+		
+		OrderData data = new OrderData(bookform);
+		for (BookformDetail bookformDetail : listDetails) {
+			OrderDetailData detailData = new OrderDetailData(bookformDetail);
+			
+			Product product = productService.get(bookformDetail.getProductId());
+			detailData.setProductName(product.getName());
+			detailData.setPhotoIds(product.getPhotoIds());
+			
+			data.addDetail(detailData);
+		}
+		
+		return data;
 	}
 
 	@Autowired

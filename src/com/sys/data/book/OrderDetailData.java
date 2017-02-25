@@ -25,6 +25,7 @@ public class OrderDetailData {
 		this.productId = bookformDetail.getProductId();
 		this.price = bookformDetail.getPrice();
 		this.priceMart = bookformDetail.getPriceMart();
+		this.count = bookformDetail.getCount();
 	}
 	public String getBookDetailId() {
 		return bookDetailId;

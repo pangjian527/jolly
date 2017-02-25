@@ -131,7 +131,7 @@ public class OrderData {
 	
 	public String getStatusLabel(){
 		if(this.status == 0){
-			return "代付款";
+			return "待付款";
 		}else if (this.status == 1){
 			return "待发货";
 		}else if (this.status == 2){

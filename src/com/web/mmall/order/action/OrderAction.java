@@ -143,9 +143,14 @@ public class OrderAction extends MMallActon{
 		
 		return "/mmall/order/list";
 	}
+	
 	/*订单详情*/
 	@RequestMapping
-	public String detail(){
+	public String detail(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String bookId = request.getParameter("bookId");
+		OrderData orderData = bookformService.getOrderDataByBookId(bookId);
+		
+		request.setAttribute("orderData", orderData);
 		return "/mmall/order/detail";
 	}
 	
