@@ -29,5 +29,8 @@
         <mapping class="com.sys.entity.UsageRecord"/>
         <mapping class="com.sys.entity.LogPayment"/>
         <mapping class="com.sys.entity.ExpressFee"/>
+        <mapping class="com.sys.entity.TempVerifycode"/>
+        <mapping class="com.sys.entity.Sms"/>
+        <mapping class="com.sys.entity.Cart"/>
     </session-factory>
 </hibernate-configuration>

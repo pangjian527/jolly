@@ -81,6 +81,11 @@
         	color: green;
     		font-weight: bold;
         }
+        
+        label.use{
+        	color: green;
+    		font-weight: bold;
+        }
 		
 	</style>
 	
@@ -95,17 +100,20 @@
 				<h2 class="title">商品信息</h2>
 				<dl>
 					<dt>商品名称：</dt>
-					<dd>够尚 苹果iPhone 4/4s/5/5s/6/6P 电池/手机电池内置电池 iPhone 5s/5c(1570mAh)</dd>
+					<dd>${product.name }</dd>
 					<dt>电池容量：</dt>
-					<dd>2000mAh</dd>
+					<dd>${product.capacity }</dd>
 					<dt>电池型号：</dt>
-					<dd>iv36</dd>
+					<dd>${product.model }</dd>
 					<dt>适用品牌：</dt>
-					<dd>苹果</dd>
+					<dd>${product.applyBrand }</dd>
 					<dt>适用机型：</dt>
-					<dd>苹果iPhone 4/4s/5/5s/6/6P</dd>
+					<dd>${product.applyPhoneType }</dd>
 					<dt>使用次数：</dt>
-					<dd><label class="no_use">首次查询，未使用</label></dd>
+					<dd>
+						<c:if test="${countUsageQuery <=0 }"><label class="no_use">首次查询，未使用</label></c:if> 
+						<c:if test="${countUsageQuery >0 }"><label class="use">警告该电池已经使用</label></c:if> 
+					</dd>
 				</dl>
 				<div style="clear:both;"></div>
 		</div>
@@ -113,30 +121,12 @@
 				<h2 class="title">商品状态</h2>
 				<div class="sec-status-line-box">
 					<ul>
+						<c:forEach items="${listResult }" var="item" >
              			<li>
              				<i></i>
-             				<label>2017-01-20 10:30:52 广州市海珠区电脑城龙哥手机售后维修店 查询销售</label>
+             				<label>${item.second }</label>
              			</li>
-             			<li>
-             				<i></i>
-             				<label>2017-01-20 10:30:52 发货完成，</br>快递单号：6789783</label>
-             			</li>
-             			<li>
-             				<i></i>
-             				<label>2017-01-20 10:30:52 扫描出库</label>
-             			</li>
-             			<li>
-             				<i></i>
-             				<label>2017-01-20 10:30:52 支付完成</label>
-             			</li>
-             			<li>
-             				<i></i>
-             				<label>2017-01-20 10:30:52 广州市海珠区电脑城龙哥手机售后维修店下单完成</label>
-             			</li>
-             			<li>
-             				<i></i>
-             				<label>2017-01-20 10:30:52 扫描入库</label>
-             			</li>
+             			</c:forEach>
              			<li>
              				<i></i>
              				<label>生产</label>

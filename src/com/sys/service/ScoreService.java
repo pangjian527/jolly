@@ -1,6 +1,7 @@
 package com.sys.service;
 
 import java.util.Date;
+import java.util.List;
 
 import net.sf.json.JSONObject;
 
@@ -76,12 +77,24 @@ public class ScoreService extends BaseService<Score>{
 		scoreDao.save(scoreObj);
 	}
 	
+	
+	
+	/**
+	 * @param key
+	 * @param value
+	 * @param orderBy
+	 * @return
+	 */
+	public List<Score> getAllByFactoryId(String factoryId){
+		return scoreDao.getAllByProperty("factoryId", factoryId, "createTime desc");
+	}
 	@Autowired
 	private GeneralDao generalDao;
 	
 	@Autowired
 	private ScoreDao scoreDao;
 
+	
 	
 	
 }

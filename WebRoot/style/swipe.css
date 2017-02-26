@@ -1,0 +1,29 @@
+body{ margin:0; padding:0}
+.addWrap{ position:relative; width:100%;background:#fff;margin:0; padding:0;}
+.addWrap .swipe{overflow: hidden;position:relative;}
+.addWrap .swipe-wrap{overflow:hidden;position:relative;}
+.addWrap .swipe-wrap > div {float: left;width: 100%;position:relative;}
+
+.addWrap ul{
+	position: absolute;
+	bottom: 8px;
+	right: 5px;
+	padding: 4px;
+	margin: 0;
+	opacity: 0.5;
+	text-align: right;
+	background: #333;
+	border-radius: 10px;
+	line-height: 1px;
+}
+.addWrap li{
+	width: 8px;
+	height: 8px;
+	margin: 0 2px;
+	display: inline-block;
+	border-radius: 5px;
+	background-color: #f7f7f7;
+}
+.addWrap li.cur{background-color:#FF0000;}
+.img-responsive { display: block; max-width: 100%;  height: auto;}
+

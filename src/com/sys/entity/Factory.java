@@ -1,7 +1,10 @@
 package com.sys.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import pub.functions.StrFuncs;
 
 @Entity
 @Table(name = "t_factory")
@@ -31,7 +36,7 @@ public class Factory implements Serializable {
 	public static final int STATUS_INVALID =0 ;	//无效 删除
 	public static final int STATUS_VALID =1 ;	//有效 {审核通过}
 	public static final int STATUS_APPROVE =2 ;	//待审核
-	public static final int STATUS_AUDITFAIL =3 ;//草稿
+	public static final int STATUS_DRAFT =3 ;//草稿
 	public static final int STATUS_OUT_OF_STOCK=4;//被下架了
 	
 	// 主键
@@ -245,5 +250,4 @@ public class Factory implements Serializable {
 		this.licenseFileIds = licenseFileIds;
 	}
 
-	
 }

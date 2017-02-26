@@ -2,6 +2,9 @@ package com.sys.service;
 
 import net.sf.json.JSONObject;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +36,18 @@ public class ProductService extends BaseService<Product>{
 		where.toString()).orderBy(" p.update_time desc ");
 		generalDao.execute(query);
 		return query.getResult();
+	}
+	
+	public List<Product> getAllByStatus(int statusValid){
+		List<Product> products = productDao.getAll();
+		
+		List<Product> list = new LinkedList<Product>();
+		for (Product product : products) {
+			if(product.getStatus() == Product.STATUS_VALID){
+				list.add(product);
+			}
+		}
+		return list;
 	}
 	
 	public void addStockOut(String productId,int addCount) {

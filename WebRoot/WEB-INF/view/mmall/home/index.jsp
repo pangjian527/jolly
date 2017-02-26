@@ -160,7 +160,18 @@
 	</style>
 	
 	<script type="text/javascript">
-		
+		function toScoreList(){
+			window.location="${home}/mmall/home/index.do?op=scoreList";
+		}
+		function toRecommendList(){
+			window.location="${home}/mmall/home/index.do?op=recommendList";
+		}
+		function toAuthorize(){
+			window.location="${home}/mmall/factory/factory.do";
+		}
+		function logout(){
+			window.location="${home}/mmall/factoryuser/login.do?op=logout";
+		}
 	</script>
 		
 </head>
@@ -174,13 +185,13 @@
 					</div>
 					<ul>
 						<li>
-							<div class="split-line">订单(1000)</div>
+							<div class="split-line">订单(${countBookform })</div>
 						</li>
 						<li>
-							<div class="split-line">推荐(100)</div>
+							<div class="split-line">推荐(${countFactory })</div>
 						</li>
 						<li>
-							<div>积分(5000)</div>
+							<div>积分(${score })</div>
 						</li>
 					</ul>
 			</div>
@@ -192,14 +203,19 @@
 						<label>我的订单</label>
 						<i class="direction"></i>
 					</li>
-					<li>
+					<li onclick="toScoreList()">
 						<i class="icon icon_score"></i>
 						<label>我的积分</label>
 						<i class="direction"></i>
 					</li>
-					<li>
+					<li onclick="toRecommendList()">
 						<i class="icon icon_tuijian"></i>
 						<label>我的推荐</label>
+						<i class="direction"></i>
+					</li>
+					<li onclick="window.location='${home}/mmall/home/index.do?op=security'">
+						<i class="icon icon_code"></i>
+						<label>防伪码查询</label>
 						<i class="direction"></i>
 					</li>
 				</ul>
@@ -207,7 +223,7 @@
 			
 			<div class="nav-menu-box">
 				<ul>
-					<li>
+					<li onclick="toAuthorize()">
 						<i class="icon icon_factory"></i>
 						<label>店铺信息</label>
 						<i class="direction"></i>
@@ -227,7 +243,7 @@
 					</li>
 				</ul>
 			</div>
-			<a href="" class="logout">退出系统</a>
+			<a href="javascript:logout()" class="logout">退出系统</a>
 	</div>
 </body>
 </html>

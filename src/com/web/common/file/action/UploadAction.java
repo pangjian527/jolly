@@ -8,11 +8,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
 
 
 
@@ -44,10 +47,8 @@ public class UploadAction extends BaseAction{
 			files.setUploadTime(new Date());
 			files.setContentType(fileUpload.getContentType());
 			String fileId = baseInfo.save(files);
-			
-			List<File> info = new ArrayList<File>();
-			info.add(files);
-			this.writeJson(info.get(0));
+			File fileWithoutContent = baseInfo.getWithoutContent(fileId);
+			this.writeJson(fileWithoutContent);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

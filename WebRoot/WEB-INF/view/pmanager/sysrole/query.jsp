@@ -16,9 +16,9 @@
 	<script type="text/javascript" src="${home}/script/manage.query.js"></script>
 	<style type="text/css">
 		.col0{width: 40px;}
-		.col1{width:200px}
+		.col1{width:300px}
 		.col2{width: auto;}
-		.col3{width: 80px}
+		.col3{width: 150px}
 		
 	</style>
 	

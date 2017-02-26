@@ -146,8 +146,8 @@ public class BookformDetailService/* extends BaseService<BookformDetail>*/{
 		return bookformDetailDao.getAllByBookId(bookId);
 	}
 	
-	public BookformDetail getByVerificationCode(String verificationCode){
-		return bookformDetailDao.getByVerifyCode(verificationCode);
+	public int getCountByProductId(String productId) {
+		return bookformDetailDao.getCountByProductId(productId);
 	}
 	
 	@Autowired

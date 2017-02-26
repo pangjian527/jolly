@@ -51,7 +51,18 @@
         <url-pattern>*.do</url-pattern>
     </filter-mapping>
     
-   <!-- pmall filter  -->
+   <!-- mmall filter  -->
+	<filter>
+		<filter-name>mmallSecurityFilter</filter-name>
+		<filter-class>
+			com.web.mmall.filter.SecurityFilter
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>mmallSecurityFilter</filter-name>
+		<url-pattern>/mmall/*</url-pattern>		
+	</filter-mapping>
+	
 	
    <!-- pmanager filter  -->
    <filter>

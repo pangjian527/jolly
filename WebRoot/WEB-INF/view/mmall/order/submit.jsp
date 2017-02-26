@@ -9,6 +9,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<title>订单确认</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
+	<link href="${home}/style/m_dialog.css" rel="stylesheet" type="text/css"/>
+	<script type="text/javascript" src="${home}/script/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="${home}/script/m_dialog.js"></script>
+	
 	
 	<style type="text/css">
 	
@@ -195,10 +199,129 @@
 			font-size:25px;
 			margin-right: 10px;
 		}
+		div.paytype-box{
+			margin: 10px 0;
+		    background: white;
+		    padding: 10px;
+		}
+		div.paytype-box label{
+			display: block;
+		    height: 35px;
+		    line-height: 35px;
+		    border-bottom: 1px solid #f1f1f1;
+		    margin-left: 10px;
+		    font-size: 14px;
+		    color: #232326;
+		}
+		div.paytype-box span{
+			display: inline-block;
+		    margin-left: 5px;
+		    font-size: 14px;
+		    padding: 10px 8px;
+		    border: 1px solid #ff8400;
+		    margin-top: 10px;
+		    border-radius: 10px;
+		    color: #ff8400;
+		}
+		div.paytype-box span.active{
+			color:white;
+			background:#ff8400;
+		}
+		
+		div.dialog-box-bg{
+			background: rgba(0,0,0,0.6);
+		    position: fixed;
+		    top: 0;
+		    left: 0;
+		    right: 0;
+		    bottom: 0;
+		}
 		
 	</style>
 	
 	<script type="text/javascript">
+		
+		function switchObject(tarValue){
+			var payElement = document.getElementById("paytype-box");
+			var spansElement = payElement.getElementsByTagName("span");
+			
+			for(var i=0;i<spansElement.length;i++){
+				if(spansElement[i].getAttribute("value") == tarValue){
+					spansElement[i].className = "active";
+				}else{
+					spansElement[i].className = "";
+				}
+			}
+		}
+		
+		function getSelectObjectValue(){
+			var payElement = document.getElementById("paytype-box");
+			var spansElement = payElement.getElementsByTagName("span");
+			
+			for(var i=0;i<spansElement.length;i++){
+				if(spansElement[i].className == "active"){
+					return spansElement[i].getAttribute("value");
+				}
+			}
+		}
+		
+		window.onload = function (){
+			var payElement = document.getElementById("paytype-box");
+			var spansElement = payElement.getElementsByTagName("span");
+			
+			for(var i=0;i<spansElement.length;i++){
+				spansElement[i].onclick= function(tarValue){
+					return function(){
+						switchObject(tarValue);
+					}
+				}(spansElement[i].getAttribute("value"))
+			};
+		}
+		
+		function submitObject(){
+					var cartData = document.getElementById("cartData").value;
+					var orderObj =getOrder();
+					orderObj.cartDatas = cartData;
+					
+					$.ajax({
+						type:"post",
+						url:"${home}/mmall/order/order.do?op=submit",
+						data:orderObj,
+						success:function(data){
+							if(data.code == "loginerr"){
+								dialogAlert("温馨提示",data.content,function(){
+									window.location = "${home}//mmall/factoryuser/login.do"
+								});
+							}else if(data.code == "dataerr"){
+								dialogAlert("温馨提示",data.content);
+							}else if(data.code == "success"){
+								window.location = "${home}//mmall/order/order.do?op=pay&bookformId="+data.bookformId;
+							}
+						}
+					});
+		}
+		
+		
+		function getOrder(){
+			var order = new Object();
+			var man =document.getElementById("man").value;
+			var mobile =document.getElementById("mobile").value;
+			var addr =document.getElementById("addr").value;
+			var provinceId = $('#provinceId').val();
+			var cityId = $('#cityId').val();
+			var countyId = $('#countyId').val();
+			var payType = getSelectObjectValue();
+			order.man = man ;
+			order.mobile = mobile;
+			order.addr = addr;
+			order.provinceId = provinceId;
+			order.cityId = cityId;
+			order.countyId = countyId;
+			order.payType = payType;
+			
+			return order;
+		}
+		
 		
 	</script>
 		
@@ -209,54 +332,46 @@
 			<ul>
 				<li>
 					<label>收货人：</label>
-					<input type="text" name=""/>
+					<input type="text" value="${factory.man }"  id="man" name="man"/>
 				</li>
 				<li>
 					<label>电 &nbsp;&nbsp; 话：</label>
-					<input type="text" name=""/>
+					<input type="text" value="${factory.mobile }" id="mobile" name=""/>
+					<input type="hidden" id="cartData" value='${items }'/>
 				</li>
 				<li>
 					<label>区 &nbsp;&nbsp; 域：</label>
-					<select>
-						<option>广东省</option>
+					<select id="provinceId">
+						<option value="2250">广东省</option>
 					</select>
-					<select>
-						<option>广州市</option>
+					<select id="cityId">
+						<option value="2251">广州市</option>
 					</select>
-					<select>
-						<option>天河区</option>
+					<select id="countyId">
+						<option  value="2270">天河区</option>
 					</select>
 				</li>
 				<li>
 					<label>街 &nbsp;&nbsp; 道：</label>
-					<input type="text" name=""/>
+					<input type="text" id="addr" value="${factory.addr }" name=""/>
 				</li>
 			</ul>
 		</div>
 		<div class="pro-list-box">
 			<ul>
+				<c:forEach items="${cartData.items }" var="item">
 				<li>
 					<div class="pro-img">
-						<img src="${home}/image/23456.jpg"/>
+						<img src="${home}/img-${item.imageId }.do">	
 					</div>
 					<div class="pro-info-box">
-						<div class="pro-info-title">苹果原装手机内置电池iPhone4/4s/5/5s/6/7iPhone6s/6plus电池 苹果6专用电池</div>
+						<div class="pro-info-title">${item.productName }</div>
 						<div class="pro-price">
-							<label class="price">￥188.88</label>&nbsp;&nbsp;x 10
+							<label class="price">￥<fmt:formatNumber value="${item.price }" pattern="#,#00.00#"/></label>&nbsp;&nbsp;x ${item.count }
 						</div>
 					</div>
 				</li>
-				<li>
-					<div class="pro-img">
-						<img src="${home}/image/23456.jpg"/>
-					</div>
-					<div class="pro-info-box">
-						<div class="pro-info-title">苹果原装手机内置电池iPhone4/4s/5/5s/6/7iPhone6s/6plus电池 苹果6专用电池</div>
-						<div class="pro-price">
-							<label class="price">￥188.88</label>&nbsp;&nbsp;x 10
-						</div>
-					</div>
-				</li>
+				</c:forEach>
 			</ul>
 		</div>
 		<div class="user-score-box">
@@ -267,26 +382,40 @@
 					<i class="direction"></i>
 				</li>
 				<li>
-					<label>积分 共1000积分，可低10元。</label>
+					<label>积分 共${score }积分，可低￥${score/10 }元。</label>
 					<i></i>
 				</li>
 			</ul>
 		</div>
+		<div class="paytype-box" id="paytype-box">
+			<label>付款类型</label>
+			<span  class="active" value="0">在线付款</span>
+			<span  value="1">货到付款</span>
+			<span  value="2">预发货后付款</span>
+		</div>
 		<div class="order-price-box">
 			<dl>
 				<dt>商品金额</dt>
-				<dd>￥799.00</dd>
+				<dd>￥ <fmt:formatNumber value="${cartData.allTotal }" pattern="#,#00.00#"/></dd>
 				<dt>积分抵扣</dt>
 				<dd>-￥0.00</dd>
 				<dt>运费</dt>
-				<dd>+￥15.00</dd>
+				<dd>+￥0.00</dd>
 			</dl>
 			<div style="clear:both;"></div>
 		</div>
 		<div class="order-submit-box">
 			<span>合计：</span>
-			<label>￥399.00</label>
-			<a href="">提交订单</a>
+			<label>￥ <fmt:formatNumber value="${cartData.allTotal }" pattern="#,#00.00#"/></label>
+			<a href="javascript:submitObject()">提交订单</a>
+		</div>
+		<div class="dialog-box-bg" style="display:none">
+			<div class="dialog-box">
+				<strong>温馨提示</strong>
+				<div class="content">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+				<a class="dialog-btn dialog-btn-left" href="">辅助操作</a>
+				<a class="dialog-btn dialog-btn-main" href="">主操作</a>
+			</div>
 		</div>
 	</div>
 </body>

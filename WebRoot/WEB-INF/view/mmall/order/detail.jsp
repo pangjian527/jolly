@@ -11,7 +11,9 @@
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
 	
 	<style type="text/css">
-	
+		body{
+			background: #f3f3f3;
+		}
 		div.scwrapper{
 			position: relative;
 		    min-width: 320px;
@@ -95,7 +97,6 @@
 		
 		
 		div.order-price-box{
-			margin:10px 0;
 			background:white;		
 			font-size:15px;
 			color:#262629;
@@ -160,65 +161,56 @@
 		<div class="user-info-box">
 			<ul>
 				<li>
-					<label>收货人：隔壁老王</label>
+					<label>收货人：${orderData.man }</label>
 				</li>
 				<li>
-					<label>电 &nbsp;&nbsp; 话：18922368587</label>
+					<label>电 &nbsp;&nbsp; 话：${orderData.mobile }</label>
 				</li>
 				<li>
-					<label>地 &nbsp;&nbsp; 址：广东省广州市海珠区昌岗东路527号</label>
+					<label>地 &nbsp;&nbsp; 址：${orderData.addr }</label>
 				</li>
 				<li>
-					<label>状 &nbsp;&nbsp; 态：已完成</label>
-				</li>
-				<li>
-					<label>物 &nbsp;&nbsp; 流：已发货</label>
+					<label>状 &nbsp;&nbsp; 态：${orderData.statusLabel }</label>
 				</li>
 			</ul>
 		</div>
 		
 		<div class="pro-list-box">
 			<ul>
+				<c:forEach items="${orderData.details }" var="detail">
 				<li>
 					<div class="pro-img">
-						<img src="${home}/image/23456.jpg"/>
+						<img src="${home}/img-${detail.firstPhotos}.do">	
 					</div>
 					<div class="pro-info-box">
-						<div class="pro-info-title">苹果原装手机内置电池iPhone4/4s/5/5s/6/7iPhone6s/6plus电池 苹果6专用电池</div>
+						<div class="pro-info-title">${detail.productName }</div>
 						<div class="pro-price">
-							<label class="price">￥188.88</label>&nbsp;&nbsp;x 10
+							<label class="price">￥ <fmt:formatNumber value="${detail.price }" pattern="#,#00.00#"/></label>
+							&nbsp;&nbsp;x ${detail.count }
 						</div>
 					</div>
 				</li>
-				<li>
-					<div class="pro-img">
-						<img src="${home}/image/23456.jpg"/>
-					</div>
-					<div class="pro-info-box">
-						<div class="pro-info-title">苹果原装手机内置电池iPhone4/4s/5/5s/6/7iPhone6s/6plus电池 苹果6专用电池</div>
-						<div class="pro-price">
-							<label class="price">￥188.88</label>&nbsp;&nbsp;x 10
-						</div>
-					</div>
-				</li>
+				</c:forEach>
 			</ul>
 		</div>
 		
 		<div class="order-price-box">
 			<dl>
 				<dt>商品金额</dt>
-				<dd>￥799.00</dd>
+				<dd>￥<fmt:formatNumber value="${orderData.sales }" pattern="#,#00.00#"/></dd>
 				<dt>积分抵扣</dt>
 				<dd>-￥0.00</dd>
 				<dt>运费</dt>
-				<dd>+￥15.00</dd>
+				<dd>+￥0.00</dd>
+				<div style="clear:both;"></div>
 			</dl>
-			<div style="clear:both;"></div>
 		</div>
 		<div class="order-submit-box">
 			<span>合计：</span>
-			<label>￥399.00</label>
-			<a href="">提交订单</a>
+			<label>￥<fmt:formatNumber value="${orderData.sales }" pattern="#,#00.00#"/></label>
+			<c:if test="${orderData.status == 0 }">
+				<a href="">立即付款</a>
+			</c:if>
 		</div>
 	</div>
 </body>

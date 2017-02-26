@@ -14,6 +14,7 @@ import pub.dao.query.Query;
 import pub.dao.query.QueryResult;
 import pub.dao.query.QuerySettings;
 import pub.functions.ColFuncs;
+import pub.functions.CryptFuncs;
 import pub.functions.StrFuncs;
 
 import com.sys.dao.FactoryUserDao;
@@ -215,12 +216,12 @@ public class FactoryUserService  extends BaseService<FactoryUser>{
 		
 		FactoryUser factoryUser = baseDao.getByMobileOrAccount(mobileOrAccount);
 		if(factoryUser!=null){
-			throw new Exception("帐号已经存在");
+			throw new RuntimeException("账号已经存在");
 		}
 		factoryUser=new FactoryUser();
 		factoryUser.setAccount(mobileOrAccount);
 		factoryUser.setMobile(mobileOrAccount);
-		factoryUser.setPwd(pwd);
+		factoryUser.setPwd(CryptFuncs.getMd5(pwd));
 		factoryUser.setFactoryId(factoryId);
 		factoryUser.setStatus(FactoryUser.STATUS_VALID);
 		
@@ -307,6 +308,36 @@ public class FactoryUserService  extends BaseService<FactoryUser>{
 	public void modifyFactoryUserProtocol(FactoryUser factoryUser, int protocol){
 		factoryUser.setProtocol(protocol);
 		this.save(factoryUser);
+	}
+	
+	public FactoryUser login(String key,String password) throws Exception {
+		//2.是否有这个用户
+		FactoryUser user = getByKeyword(key);
+		if(user == null){
+			throw new Exception("不存在的用户"); 
+		}
+		
+		//3.密码对不对
+		String md5Pwd = CryptFuncs.getMd5(password); 
+		if(!user.getPwd().equals(md5Pwd)){
+			throw new Exception("密码错误"); 
+		}
+		
+		//4.检查账户有效性
+		if(user.getStatus() == 0){
+			throw new Exception("账户未激活"); 
+		}
+		if(user.getStatus() == 2){
+			throw new Exception("账户已被冻结"); 
+		}
+		
+		/*//5.检查门店有效性
+		Factory factory = factoryService.get(user.getFactoryId());
+		if(factory.getStatus() != 1){
+			throw new Exception("门店尚未开通"); 
+		}*/
+		
+		return user;
 	}
 	
 	@Autowired
