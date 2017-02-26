@@ -26,6 +26,10 @@ public class StockRecordService extends BaseService<StockRecord>{
 		return stockRecordDao.getAllByProperty("securityCode", securityCode, "createTime desc");
 	}
 	
+	public List<StockRecord> getStockRecordByBookIdAndType(String bookId,int type){
+		return stockRecordDao.getStockRecordByBookIdAndType(bookId, type);
+	}
+	
 	@Autowired
 	private StockRecordDao stockRecordDao;
 	

@@ -21,6 +21,9 @@ public class StockRecord implements Serializable {
 	private static final long serialVersionUID = 7565117654738910000L;
 
 	public static String TABLE_NAME = "T_STOCK_RECORD";
+	
+	public static int TYPE_IN_STOCK = 1;
+	public static int TYPE_OUT_STOCK = 0;
 
 	// 唯一标识
 	private String id;

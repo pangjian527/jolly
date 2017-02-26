@@ -269,7 +269,7 @@
 				var count = parseInt(iElement.parentNode.parentNode.getElementsByTagName("input")[0].value) || 0;
 				var price = iElement.parentNode.parentNode.getAttribute("price");
 				priceAmount += count * price;
-				productCount++;
+				productCount+=count;
 			}
 			priceAmount = Math.round(priceAmount * 100) /100;
 			document.getElementById("totalPrice").innerHTML = "￥"+priceAmount;
@@ -367,6 +367,30 @@
 			});
 			
 		}
+		function cartSubmit(){
+			//1.获取购买的对象
+			var iElements = document.getElementById("cartListId").getElementsByTagName("i");
+			var items = [];
+			for(var i = 0, len = iElements.length; i < len; i++){
+				var iElement = iElements[i];
+				if(iElement.className == "cart-checkbox checked"){
+					items.push({productId:iElement.parentNode.parentNode.getAttribute("productId"),
+						count:parseInt(iElement.parentNode.parentNode.getElementsByTagName("input")[0].value)}
+					);
+				}
+			}
+			//2.判断有没有选择至少1份商品
+			if(items.length == 0){
+				dialogAlert("温馨提示","请选择需要购买的商品！");
+				return;
+			}
+			
+			document.getElementById("cartItems").value=JSON.stringify(items);
+			document.bookform.submit();
+		}
+		function toProductDetail(productId){
+			window.location = "${home}/mmall/product/product.do?op=viewDetail&productId="+productId;
+		}
 	</script>
 		
 </head>
@@ -386,11 +410,11 @@
 							</i>	
 						</div>
 						<div class="cart-content">
-							<div class="pro-img">
-								<img src="${home}/image/23456.jpg"/>
+							<div class="pro-img" onclick = "toProductDetail('${cartItem.productId }')">
+								<img src="${home}/img-${cartItem.imageId}_100X100.do"/>
 							</div>
 							<div class="pro-info-box">
-								<div class="pro-info-title">${cartItem.productName }</div>
+								<div class="pro-info-title" onclick = "toProductDetail('${cartItem.productId }')">${cartItem.productName }</div>
 								<div class="pro-price">
 									<label class="price">￥${cartItem.price }</label>
 									<div class="edit-count">
@@ -416,9 +440,12 @@
 			<div class="btn-right-block">
 				<span>合计：</span>
 				<label id="totalPrice">￥0</label>
-				<a href="">去结算(<span id="allCount"></span>)</a>
+				<a href="javascript:cartSubmit()">去结算(<span id="allCount"></span>)</a>
 			</div>
 		</div>
+		<form action="${home}/mmall/order/order.do" method="post" name="bookform">
+			<input type="hidden" type="text" id="cartItems" name="cartItems"/>
+		</form>
 	</div>
 </body>
 </html>

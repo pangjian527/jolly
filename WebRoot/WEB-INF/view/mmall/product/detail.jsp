@@ -169,6 +169,20 @@
 				}
 			});
 		}
+		function buyNow(productId){
+			$.ajax({url: home()+'/mmall/cart.do?op=setItemCount',
+				data:{productId:productId,addCount:1},
+				success:function(data){
+					var dataJsonObj=JSON.parse(data);
+					if(dataJsonObj.error){
+						//失败了，可能商品超限额、下架等原因
+						dialogAlert("温馨提示",dataJsonObj.error);
+					}else{
+						toCart();
+					}
+				}
+			});
+		}
 	</script>
 </head>
 <body>
@@ -291,7 +305,7 @@
 		<div class="bottom-menu">
 			<a class="cart" href="javascript:toCart()">购物车</a>
 			<a class="add-cart" href="javascript:addToCart('${product.id }')">加入购物车</a>
-			<a class="buy-now">立即购买</a>
+			<a class="buy-now" href="javascript:buyNow('${product.id }')">立即购买</a>
 		</div>
 	</div>
 

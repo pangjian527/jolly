@@ -153,8 +153,9 @@
 		}
 		.col-0{width:70px;}
 		.col-1{width:auto}
-		.col-2,.col-3{width:60px;}
-		.col-4{width:240px}
+		.col-2,.col-3{width:200px;}
+		.col-4{width:200px}
+		.col-5{width:200px}
 		table td{
 			vertical-align: middle;
 			padding: 5px;
@@ -601,7 +602,7 @@
 			返回
 		</button>
 		
-		<c:if test="${data.bookform.status == 0 || data.bookform.status == 1}">
+		<c:if test="${data.bookform.status == 0 ||data.bookform.status == 1}">
 			<button type="button" class="cancel" onclick="disableObject()">
 				<i></i>
 				取消
@@ -691,31 +692,15 @@
 					<c:if test="${data.bookform.status == 0}">
 						<h4>
 							<i></i>
-							订单状态：待确认
+							订单状态：待付款
 						</h4>
-						<p class="describe">
-							商家尚未付款，请及时联系商家完成在线支付
-							<!-- <button class="fire reset" onclick="taobaoObject()">
-								<i></i>
-								淘宝订单
-							</button> -->
-						</p>
-						<c:if test="${data.requireFinishPayment == false}">
-							<p class="describe">
-								请尽快电话与商家确认订单
-								<button type="button" class="ok" onclick="confirmObject()">
-									<i></i>
-									确认
-								</button>
-							</p>
-						</c:if>
 						
 					</c:if>
 					
 					<c:if test="${data.bookform.status == 1}">
 						<h4>
 							<i></i>
-							订单状态：已确认
+							订单状态：待发货
 						</h4>
 						<p class="describe">
 							<c:if test="${data.bookform.trackingStatus == 0}">
@@ -748,8 +733,14 @@
 								</c:if>
 							</p>
 					</c:if>
-					
 					<c:if test="${data.bookform.status == 2}">
+						<h4>
+							<i></i>
+							订单状态：待收货
+						</h4>
+						<p class="describe">等待商家确认收货</p>
+					</c:if>
+					<c:if test="${data.bookform.status == 3}">
 						<h4>
 							<i></i>
 							订单状态：已完成
@@ -779,12 +770,14 @@
 					<col class="col-2">
 					<col class="col-3">
 					<col class="col-4">
+					<col class="col-5">
 					<thead>
 						<tr>
 							<th colspan="2">商品</th>
 							
 							<th>单价</th>
 							<th>数量</th>
+							<th>已出库数量</th>
 							<th>小计</th>
 						</tr>
 					</thead>
@@ -802,6 +795,9 @@
 							</td>
 							<td>
 								${item.count}
+							</td>
+							<td>
+								${item.outStockCount}
 							</td>
 							<td>
 								￥${item.price*item.count}
