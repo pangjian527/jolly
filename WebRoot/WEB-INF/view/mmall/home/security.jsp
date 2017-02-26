@@ -90,6 +90,10 @@
 	
 	<script type="text/javascript">
 		
+		function secutiryValid(){
+			var securityCode = document.getElementById("securityCode").value;
+			window.location.href = "${home}/mmall/home/index.do?op=securityDetail&securityCode="+securityCode;
+		}
 	</script>
 		
 </head>
@@ -101,8 +105,8 @@
 				<div style="clear:both;"></div>
 			</div>
 			<div class="secutiry-box">
-				<input type="text" placeholder="请扫描防伪码" />
-				<a class="scan" href="">查询</a>
+				<input type="text" id="securityCode" placeholder="请扫描防伪码" />
+				<a class="scan" href="javascript:secutiryValid()">查询</a>
 				<a  href="">扫码</a>
 			</div>
 	</div>

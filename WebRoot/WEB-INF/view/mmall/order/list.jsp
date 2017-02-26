@@ -11,7 +11,14 @@
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
 	
 	<style type="text/css">
-	
+		body{
+			background-color: #f3f3f3;
+		}
+		div.no-data-box{
+			text-align: center;
+		    margin-top: 50px;
+		    color: #ADADAD;
+		}
 		div.scwrapper{
 			position: relative;
 		    min-width: 320px;
@@ -223,6 +230,11 @@
 				</c:forEach>
 			</ul>
 		</div>
+		<c:if test="${ empty pair.first }">
+			<div class="no-data-box">
+				<h3>没有找到相关数据</h3>
+			</div>
+		</c:if>
 	</div>
 </body>
 </html>

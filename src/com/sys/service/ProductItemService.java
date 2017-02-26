@@ -196,7 +196,7 @@ public class ProductItemService extends BaseService<ProductItem>{
 		Collections.sort(lineResult, new Comparator<Pair<Long, String>>() {
 			@Override
 			public int compare(Pair<Long, String> o1, Pair<Long, String> o2) {
-				Long i = o1.first - o2.first;
+				Long i = o2.first - o1.first ;
 				return Integer.valueOf(i+"");
 			}
 		});

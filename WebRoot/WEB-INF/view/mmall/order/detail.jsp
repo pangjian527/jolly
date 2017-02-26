@@ -43,7 +43,8 @@
 			padding-left:15px;
 			white-space:nowrap;/* 不换行 */
 		    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
-		    text-overflow:ellipsis
+		    text-overflow:ellipsis;
+		    font-size: 14px;
 		}
 		
 		div.pro-list-box{
@@ -161,16 +162,19 @@
 		<div class="user-info-box">
 			<ul>
 				<li>
-					<label>收货人：${orderData.man }</label>
+					<label>收&nbsp;&nbsp;货&nbsp;人：${orderData.man }</label>
 				</li>
 				<li>
-					<label>电 &nbsp;&nbsp; 话：${orderData.mobile }</label>
+					<label>电 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 话：${orderData.mobile }</label>
 				</li>
 				<li>
-					<label>地 &nbsp;&nbsp; 址：${orderData.addr }</label>
+					<label>地 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 址：${orderData.addr }</label>
 				</li>
 				<li>
-					<label>状 &nbsp;&nbsp; 态：${orderData.statusLabel }</label>
+					<label>付款类型：${orderData.payTypeLabel }</label>
+				</li>
+				<li>
+					<label>状 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 态：${orderData.statusLabel }</label>
 				</li>
 			</ul>
 		</div>
