@@ -37,6 +37,8 @@ public class BookformProductData implements Serializable{
 	private String imageId;
 	///订单详情id
 	private String id;
+	// 数量
+	private Integer outStockCount ;
 	
 	public BookformProductData(BookformDetail detail){
 		try{
@@ -123,6 +125,16 @@ public class BookformProductData implements Serializable{
 
 	public void setCount(Integer count) {
 		this.count = count;
+	}
+
+
+	public Integer getOutStockCount() {
+		return outStockCount;
+	}
+
+
+	public void setOutStockCount(Integer outStockCount) {
+		this.outStockCount = outStockCount;
 	}
 	
 }

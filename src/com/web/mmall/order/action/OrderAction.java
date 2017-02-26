@@ -55,7 +55,7 @@ public class OrderAction extends MMallActon{
 		Factory factory = factoryService.get(factoryUser.getFactoryId());
 		
 		//2. 获取到商品
-		CartData cartData = cartService.getCartData(cartDatas.toString());
+		CartData cartData = cartService.getCartData(this.getParam("cartItems"));
 		
 		//3.获取积分
 		int totalScore = scoreService.getFactoryHistoryScore(factory.getId());

@@ -99,16 +99,19 @@
 						<input type="radio" class="radio" name="status" checked="checked" value=""/>全部
 					</span>
 					<span class="radio">
-						<input type="radio" class="radio" name="status" value="0"/>待确认
+						<input type="radio" class="radio" name="status" value="0"/>待付款
 					</span>
 					<span class="radio">
-						<input type="radio" class="radio"  name="status" value="1"/>已确认
+						<input type="radio" class="radio"  name="status" value="1"/>待发货
 					</span>
 					<span class="radio">
-						<input type="radio" class="radio"  name="status" value="2"/>已完成
+						<input type="radio" class="radio"  name="status" value="2"/>待收货
 					</span>
 					<span class="radio">
 						<input type="radio" class="radio"  name="status" value="3"/>已撤销
+					</span>
+					<span class="radio">
+						<input type="radio" class="radio"  name="status" value="4"/>已完成
 					</span>
 				</li>
 				<li class="">
@@ -194,11 +197,13 @@
 						<c:if test='${data.tracking_status == 1}'>已发货</c:if>
 						<c:if test='${data.tracking_status == 2}'>已收货</c:if>
 					</td>
+					
 					<td>
-						<c:if test='${data.status == 0}'>待确认</c:if>
-						<c:if test='${data.status == 1}'>已确认</c:if>
-						<c:if test='${data.status == 2}'>已完成</c:if>
-						<c:if test='${data.status == 3}'>撤销</c:if>
+						<c:if test='${data.status == 0}'>待付款</c:if>
+						<c:if test='${data.status == 1}'>待发货</c:if>
+						<c:if test='${data.status == 2}'>待收货</c:if>
+						<c:if test='${data.status == 3}'>已取消</c:if>
+						<c:if test='${data.status == 4}'>已完成</c:if>
 					</td>
 					
 					<td>
@@ -208,8 +213,8 @@
 					</td>
 					<td>
 						<a href="javascript:void(0)" onclick="viewObject('${data.id }');">查看</a>
-						<a href="${home}/pmanager/product/product.do?op=outStockExecute&bookId=${data.id }">出库</a>
-						<c:if test='${data.status == 1&&data.tracking_status == 0}'>
+						<c:if test='${data.status == 1}'>
+							<a href="${home}/pmanager/product/product.do?op=outStockExecute&bookId=${data.id }">出库</a>
 						</c:if>
 					</td>
 				</tr>
