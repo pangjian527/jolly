@@ -10,7 +10,7 @@
 	<title>我的推荐</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" src="${home}/script/jquery.js"></script>	
-	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=K476exN82oMUSjeBlUPRKoPN"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=2f0t0ylElcF05UYfrDgY8tGR55cAXtP6"></script>
 	<script type="text/javascript" src="${home}/script/mwebmall/haux.mobile.js"></script>
 	<style type="text/css">
 	

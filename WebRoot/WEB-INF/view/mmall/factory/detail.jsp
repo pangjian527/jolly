@@ -94,6 +94,7 @@
 		  height: 40px;
 		  line-height: 40px;
 		  padding-left: 20px;
+		    color: #232326;
 	}
 	div.factory-img{
   		  padding: 20px 20px;
@@ -157,7 +158,7 @@
 	div.img-show a{
 		   position: absolute;
 		  right: 5px;
-		  color: white;
+		  color: #C8B4B4;
 		  font-size: 20px;
 		  height: 25px;
 		  width: 25px;
@@ -250,7 +251,7 @@
 	        	 insertImgEle(fileId,data.id);
 	         },
 	         error: function (data, status, e){
-	         	alert("上传图片出错");
+	         	dialogAlert("温馨提示","上传图片出错");
 	         }
 	     });
 	}
@@ -327,6 +328,25 @@
 			}
 		});	
 	}
+	function getBaiduPosition(lng,lat) {
+        var url ="http://api.map.baidu.com/geoconv/v1/?coords="+lng+","+lat+"&from=1&to=5&ak=2f0t0ylElcF05UYfrDgY8tGR55cAXtP6";
+        $.ajax({
+            url: url,
+            type: 'GET',
+            contentType: "application/json",
+            dataType: 'jsonp',//这里要用jsonp的方式不然会报错
+            success: function(data) {
+            	if(data.status==0){
+            		document.getElementById("gps").value=data.result[0].x+","+data.result[0].y;
+            	}else{
+            		dialogAlert("温馨提示","获取gps出错，请稍后再试");
+            	}
+            },
+            error:function(){
+            	dialogAlert("温馨提示","获取gps出错，请稍后再试");
+			}
+        });
+    }
 </script>
 </head>
 <body>
@@ -417,5 +437,33 @@
   		<a class="submit-btn" onclick="submitFactory();" id="submitFctory">提交申请</a>
   	</div>
 </body>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
+<script type="text/javascript">
+wx.config({
+    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    appId: '${appId}', // 必填，公众号的唯一标识
+    timestamp: '${timeStamp}', // 必填，生成签名的时间戳
+    nonceStr: '${nonceStr}', // 必填，生成签名的随机串
+    signature: '${signature}',//
+    jsApiList: [
+    	"getLocation"
+    ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+});
+wx.error(function(res){
+	//alert(res.errMsg);
+	//alert(location.href.split('#')[0]);
+});
+var imUrl=window.location.href;
 
+wx.ready(function(){
+	wx.getLocation({
+	    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+	    success: function (res) {
+	        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+	        var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+	        getBaiduPosition(longitude,latitude);
+	    }
+	});
+});
+</script>
 </html>
