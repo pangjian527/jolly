@@ -602,7 +602,7 @@
 			返回
 		</button>
 		
-		<c:if test="${data.bookform.status == 0 ||(data.bookform.payType != 0&& data.bookform.status == 1)}">
+		<c:if test="${data.bookform.status == 0 ||data.bookform.status == 1}">
 			<button type="button" class="cancel" onclick="disableObject()">
 				<i></i>
 				取消
