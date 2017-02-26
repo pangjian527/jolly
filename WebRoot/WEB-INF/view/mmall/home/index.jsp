@@ -74,6 +74,9 @@
 			line-height:40px;
 			font-size:14px;
 		}
+		div.head-box ul li a{
+			color:white;
+		}
 		li div.split-line{
 			border-right: 1px solid red;
 		}
@@ -94,6 +97,9 @@
 			font-size:14px;
 			position: relative;
 			padding-left: 30px;
+		}
+		div.nav-menu-box ul li a{
+			display:block;
 		}
 		div.nav-menu-box ul li:last-child{
 			border-bottom:0;
@@ -185,7 +191,11 @@
 					</div>
 					<ul>
 						<li>
-							<div class="split-line">订单(${countBookform })</div>
+							<a href="${home}/mmall/order/order.do?op=list">
+							<div class="split-line">
+								订单(${countBookform })
+							</div>
+							</a>
 						</li>
 						<li>
 							<div class="split-line">推荐(${countFactory })</div>
@@ -199,9 +209,11 @@
 			<div class="nav-menu-box">
 				<ul>
 					<li>
+						<a href="${home}/mmall/order/order.do?op=list">
 						<i class="icon icon_order"></i>
 						<label>我的订单</label>
 						<i class="direction"></i>
+						</a>
 					</li>
 					<li onclick="toScoreList()">
 						<i class="icon icon_score"></i>

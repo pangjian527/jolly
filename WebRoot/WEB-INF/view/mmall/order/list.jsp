@@ -9,11 +9,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<title>我的订单</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
+	<script type="text/javascript" src="${home}/script/iscroll-probe.js"></script>
+	
 	
 	<style type="text/css">
-	
+		body{
+			background-color: #f3f3f3;
+		}
+		div.no-data-box{
+			text-align: center;
+		    margin-top: 50px;
+		    color: #ADADAD;
+		}
 		div.scwrapper{
-			position: relative;
 		    min-width: 320px;
 		    max-width: 640px;
 		    margin: 0 auto;
@@ -48,11 +56,14 @@
 		}
 		
 		div.order-list-box{
-			margin: 10px 0;
-		}
-		
-		div.order-list-box{
-			background: white;
+			position: absolute;
+		    z-index: 1;
+		    top: 45px;
+		    bottom: 0px;
+		    left: 0;
+		    width: 100%;
+		    background: #f3f3f3;
+		    overflow: hidden
 		}
 		div.order-status-box{
 			height: 45px;
@@ -153,14 +164,56 @@
 		    margin-left: 10px;
 		}
 		
+		#scroller {
+		    position: absolute;
+		    z-index: 1;
+		    -webkit-tap-highlight-color: rgba(0,0,0,0);
+		    width: 100%;
+		    background: white;
+		    overflow: hidden;
+	    }
+		
 	</style>
 	
 	<script type="text/javascript">
+		var myScroll;
+
+		function loaded () {
+			myScroll = new IScroll('#order-list-box', { 
+				mouseWheel: false ,
+				click: true ,
+				probeType: 2
+			});
+			
+			myScroll.on("scroll",function(){
+				alert(1212);
+			});
+			
+		}
 		
+		
+		document.addEventListener('touchmove', function (e) { e.preventDefault(); }, isPassive() ? {
+			capture: false,
+			passive: false
+		} : false);
+		
+		
+		function isPassive() {
+		    var supportsPassiveOption = false;
+		    try {
+		        addEventListener("test", null, Object.defineProperty({}, 'passive', {
+		            get: function () {
+		                supportsPassiveOption = true;
+		            }
+		        }));
+		    } catch(e) {}
+		    return supportsPassiveOption;
+		}
+		  	
 	</script>
 		
 </head>
-<body>
+<body onload="loaded()">
 	<div class="scwrapper">
 		<div class="order-menu-box">
 			<dl>
@@ -182,7 +235,9 @@
 			</dl>
 			<div style="clear:both;"></div>
 		</div>
-		<div class="order-list-box">
+		<c:if test="${!empty pair.first }">
+		<div class="order-list-box" id="order-list-box">
+			<div id="scroller">
 			<ul>
 				<c:forEach items="${pair.first }" var="data">
 					<li>
@@ -221,8 +276,205 @@
 						</a>
 					</li>
 				</c:forEach>
+				
+				
+				
+				
+				
+				<c:forEach items="${pair.first }" var="data">
+					<li>
+						<a href="${home }/mmall/order/order.do?op=detail&bookId=${data.bookId}">
+						<div class="order-status-box">
+							<label>${data.statusLabel }</label>
+							<label class="order-time">
+								<fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+							</label>
+							<i class="direction"></i>
+						</div>
+						<c:forEach items="${data.details }" var="detail">
+						<div class="order-pro-box">
+							<div class="pro-img">
+								<img src="${home}/img-${detail.firstPhotos}.do">	
+							</div>
+							<div class="pro-info-box">
+								<div class="pro-info-title">${detail.productName }</div>
+								<div class="pro-price">
+									<label class="price">￥ <fmt:formatNumber value="${detail.price }" pattern="#,#00.00#"/></label>
+									&nbsp;&nbsp;x ${detail.count }
+								</div>
+							</div>
+							<div style="clear:both;"></div>
+						</div>
+						</c:forEach>
+						<div class="order-price-box">
+							实际付款：￥<fmt:formatNumber value="${data.sales }" pattern="#,#00.00#"/>
+							<c:if test="${data.status == 0 }">
+								<a class="order-pay" href="">付款</a>
+							</c:if>
+						</div>
+						<c:if test="${data.status == 4 }">
+							<i class="order-status-image"></i>
+						</c:if>
+						</a>
+					</li>
+				</c:forEach>
+				<c:forEach items="${pair.first }" var="data">
+					<li>
+						<a href="${home }/mmall/order/order.do?op=detail&bookId=${data.bookId}">
+						<div class="order-status-box">
+							<label>${data.statusLabel }</label>
+							<label class="order-time">
+								<fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+							</label>
+							<i class="direction"></i>
+						</div>
+						<c:forEach items="${data.details }" var="detail">
+						<div class="order-pro-box">
+							<div class="pro-img">
+								<img src="${home}/img-${detail.firstPhotos}.do">	
+							</div>
+							<div class="pro-info-box">
+								<div class="pro-info-title">${detail.productName }</div>
+								<div class="pro-price">
+									<label class="price">￥ <fmt:formatNumber value="${detail.price }" pattern="#,#00.00#"/></label>
+									&nbsp;&nbsp;x ${detail.count }
+								</div>
+							</div>
+							<div style="clear:both;"></div>
+						</div>
+						</c:forEach>
+						<div class="order-price-box">
+							实际付款：￥<fmt:formatNumber value="${data.sales }" pattern="#,#00.00#"/>
+							<c:if test="${data.status == 0 }">
+								<a class="order-pay" href="">付款</a>
+							</c:if>
+						</div>
+						<c:if test="${data.status == 4 }">
+							<i class="order-status-image"></i>
+						</c:if>
+						</a>
+					</li>
+				</c:forEach>
+				<c:forEach items="${pair.first }" var="data">
+					<li>
+						<a href="${home }/mmall/order/order.do?op=detail&bookId=${data.bookId}">
+						<div class="order-status-box">
+							<label>${data.statusLabel }</label>
+							<label class="order-time">
+								<fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+							</label>
+							<i class="direction"></i>
+						</div>
+						<c:forEach items="${data.details }" var="detail">
+						<div class="order-pro-box">
+							<div class="pro-img">
+								<img src="${home}/img-${detail.firstPhotos}.do">	
+							</div>
+							<div class="pro-info-box">
+								<div class="pro-info-title">${detail.productName }</div>
+								<div class="pro-price">
+									<label class="price">￥ <fmt:formatNumber value="${detail.price }" pattern="#,#00.00#"/></label>
+									&nbsp;&nbsp;x ${detail.count }
+								</div>
+							</div>
+							<div style="clear:both;"></div>
+						</div>
+						</c:forEach>
+						<div class="order-price-box">
+							实际付款：￥<fmt:formatNumber value="${data.sales }" pattern="#,#00.00#"/>
+							<c:if test="${data.status == 0 }">
+								<a class="order-pay" href="">付款</a>
+							</c:if>
+						</div>
+						<c:if test="${data.status == 4 }">
+							<i class="order-status-image"></i>
+						</c:if>
+						</a>
+					</li>
+				</c:forEach>
+				<c:forEach items="${pair.first }" var="data">
+					<li>
+						<a href="${home }/mmall/order/order.do?op=detail&bookId=${data.bookId}">
+						<div class="order-status-box">
+							<label>${data.statusLabel }</label>
+							<label class="order-time">
+								<fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+							</label>
+							<i class="direction"></i>
+						</div>
+						<c:forEach items="${data.details }" var="detail">
+						<div class="order-pro-box">
+							<div class="pro-img">
+								<img src="${home}/img-${detail.firstPhotos}.do">	
+							</div>
+							<div class="pro-info-box">
+								<div class="pro-info-title">${detail.productName }</div>
+								<div class="pro-price">
+									<label class="price">￥ <fmt:formatNumber value="${detail.price }" pattern="#,#00.00#"/></label>
+									&nbsp;&nbsp;x ${detail.count }
+								</div>
+							</div>
+							<div style="clear:both;"></div>
+						</div>
+						</c:forEach>
+						<div class="order-price-box">
+							实际付款：￥<fmt:formatNumber value="${data.sales }" pattern="#,#00.00#"/>
+							<c:if test="${data.status == 0 }">
+								<a class="order-pay" href="">付款</a>
+							</c:if>
+						</div>
+						<c:if test="${data.status == 4 }">
+							<i class="order-status-image"></i>
+						</c:if>
+						</a>
+					</li>
+				</c:forEach>
+				<c:forEach items="${pair.first }" var="data">
+					<li>
+						<a href="${home }/mmall/order/order.do?op=detail&bookId=${data.bookId}">
+						<div class="order-status-box">
+							<label>${data.statusLabel }</label>
+							<label class="order-time">
+								<fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+							</label>
+							<i class="direction"></i>
+						</div>
+						<c:forEach items="${data.details }" var="detail">
+						<div class="order-pro-box">
+							<div class="pro-img">
+								<img src="${home}/img-${detail.firstPhotos}.do">	
+							</div>
+							<div class="pro-info-box">
+								<div class="pro-info-title">${detail.productName }</div>
+								<div class="pro-price">
+									<label class="price">￥ <fmt:formatNumber value="${detail.price }" pattern="#,#00.00#"/></label>
+									&nbsp;&nbsp;x ${detail.count }
+								</div>
+							</div>
+							<div style="clear:both;"></div>
+						</div>
+						</c:forEach>
+						<div class="order-price-box">
+							实际付款：￥<fmt:formatNumber value="${data.sales }" pattern="#,#00.00#"/>
+							<c:if test="${data.status == 0 }">
+								<a class="order-pay" href="">付款</a>
+							</c:if>
+						</div>
+						<c:if test="${data.status == 4 }">
+							<i class="order-status-image"></i>
+						</c:if>
+						</a>
+					</li>
+				</c:forEach>
 			</ul>
+			</div>
 		</div>
+		</c:if>
+		<c:if test="${empty pair.first }">
+			<div class="no-data-box">
+				<h3>没有找到相关数据</h3>
+			</div>
+		</c:if>
 	</div>
 </body>
 </html>

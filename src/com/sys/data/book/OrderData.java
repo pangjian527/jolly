@@ -144,4 +144,16 @@ public class OrderData {
 			return "待确认";
 		}
 	}
+	
+	public String getPayTypeLabel(){
+		if(this.payType == 0){
+			return "在线付款";
+		}else if (this.payType == 1){
+			return "货到付款";
+		}else if (this.payType == 2){
+			return "预发货后付款";
+		}else{
+			return "未知";
+		}
+	}
 }
