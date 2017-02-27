@@ -6,6 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import pub.dao.query.PageSettings;
+import pub.dao.query.QueryResult;
 import pub.types.Pair;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,13 +71,18 @@ public class IndexAction  extends MMallActon{
 	
 	@RequestMapping
 	public String scoreList(HttpServletRequest request,HttpServletResponse response){
+		String pn =  request.getParameter("pn");
+		int pageNo  = pn ==null ? 1:Integer.valueOf(pn); 
 		FactoryUser user = this.getUser();
 		if(user==null){
 			return "redirect:/mmall/factoryuser/login.do";	
 		}
-		List<Score> scoreList = scoreService.getAllByFactoryId(user.getFactoryId());
+		
+		JSONObject condition=new JSONObject();
+		condition.element("factoryId", user.getFactoryId());
+		QueryResult queryResult = scoreService.query(condition.toString(), PageSettings.of(pageNo));
 		Factory factory = factoryService.get(user.getFactoryId());
-		request.setAttribute("scoreList", scoreList);
+		request.setAttribute("queryResult", queryResult);
 		request.setAttribute("factory", factory);
 		return "/mmall/home/score_list";
 	}
@@ -86,9 +94,17 @@ public class IndexAction  extends MMallActon{
 			return "redirect:/mmall/factoryuser/login.do";	
 		}
 		Factory factory = factoryService.get(user.getFactoryId());
-		List<Factory> factoryList = factoryService.getAllByRefereeId(factory.getId());
+		
+		String pn =  request.getParameter("pn");
+		int pageNo  = pn ==null ? 1:Integer.valueOf(pn);
+		JSONObject condition=new JSONObject();
+		condition.element("refereeId", factory.getId());
+		QueryResult queryResult =factoryService.query(condition.toString(), PageSettings.of(pageNo));
+		
+		List<Factory> factoryList = factoryService.getAllByRefereeId( factory.getId());
+		
 		request.setAttribute("factory", factory);
-		request.setAttribute("factoryList", factoryList);
+		request.setAttribute("queryResult", queryResult);
 		request.setAttribute("factoryJsonArray", JSONArray.fromObject(factoryList));
 		return "/mmall/home/recommend_list";
 	}
