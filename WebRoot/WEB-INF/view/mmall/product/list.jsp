@@ -13,11 +13,11 @@
 	<style type="text/css">
 	
 		div.scwrapper{
-			position: relative;
 		    min-width: 320px;
 		    max-width: 640px;
 		    margin: 0 auto;
 		    background-color: #f3f3f3;
+		    margin-bottom:30px;
 		}
 		
 		div.product-wrapper{
@@ -73,6 +73,53 @@
 			height:30px;
 			line-height:30px;
 		}
+		
+		div.footer{
+			position: fixed;
+			bottom:0;
+			left:0;
+			right:0;
+			height:50px;
+			border-top: 1px solid #e4e4e4;
+    		box-shadow: 0px 0px 20px #888888;
+		}
+		div.footer ul li{
+			float: left;
+		    width: 33.3%;
+		    text-align: center;
+		    line-height: 50px;
+		    background: white;
+		    height:50px;
+		}
+		div.footer ul li a {
+			display: block;
+		    height: 100%;
+		    width: 100%;
+		}
+		div.footer ul li i{
+			display:block;
+			width:50px;
+			height:50px;
+			margin:auto;
+			background-position: -10px 0px;
+		}
+		div.footer ul li i.home{
+			background-image: url("${home}/image/a-home.png");
+		    background-size: 70px 50px;
+		    background-repeat: no-repeat;
+		}
+		div.footer ul li i.cart{
+			background-image: url("${home}/image/n-cart.png");
+		    background-size: 70px 50px;
+		    background-repeat: no-repeat;
+		}
+		
+		div.footer ul li i.me{
+			background-image: url("${home}/image/n-me.png");
+		    background-size: 70px 50px;
+		    background-repeat: no-repeat;
+		}
+		
 	</style>
 	
 	<script type="text/javascript">
@@ -116,6 +163,25 @@
 							</a>
 						</li>
 				</c:forEach>
+			</ul>
+		</div>
+		<div class="footer">
+			<ul>
+				<li >
+					<a href="">
+						<i class="home"></i>
+					</a>
+				</li>
+				<li >
+					<a href="${home }/mmall/cart.do">
+						<i class="cart"></i>
+					</a>
+				</li>
+				<li >
+					<a href="${home }/mmall/home/index.do">
+						<i class="me"></i>
+					</a>
+				</li>
 			</ul>
 		</div>
 	</div>
