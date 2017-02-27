@@ -818,3 +818,10 @@ function formatMoney(s, n)   {
    }   
    return t.split("").reverse().join("") + "." + r;   
 } 
+
+function urlencode (str) {  
+    str = (str + '').toString();   
+
+    return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').  
+    replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');  
+} 

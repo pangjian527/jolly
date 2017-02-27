@@ -56,23 +56,30 @@
 </head>
 <body>
 	<div class="scwrapper">
-		<ul>
-			<c:forEach items="${scoreList }" var="score">
-				<li>
-					<div class="base-info">
-						<label class="factory-name">${factory.name }</label>
-						<span class="achieve-time">
-						<fmt:formatDate value="${score.createTime}" pattern="yyyy-MM-dd"/>
-						${score.source}</span>
-					</div>
-					<div class="score">
-						<span>${score.score}</span>
-					</div>
-				</li>
+		<c:if test="${!empty queryResult.rows }">
+			<ul>
+				<c:forEach items="${queryResult.rows }" var="row">
+					<li>
+						<div class="base-info">
+							<label class="factory-name">${factory.name }</label>
+							<span class="achieve-time">
+							<fmt:formatDate value="${row.create_time}" pattern="yyyy-MM-dd"/>
+							${row.source}</span>
+						</div>
+						<div class="score">
+							<span>${row.score}</span>
+						</div>
+					</li>
+					
 				
-			
-			</c:forEach>
-		</ul>
+				</c:forEach>
+			</ul>
+		</c:if>
+		<c:if test="${empty queryResult.rows }">
+			<div class="no-data-box">
+				<h3>没有找到相关数据</h3>
+			</div>
+		</c:if>
 	</div>
 </body>
 </html>

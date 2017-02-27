@@ -27,6 +27,7 @@ import com.sys.service.ProductService;
 import com.web.mmall.MMallActon;
 import com.web.mmall.consts.Consts;
 import com.web.mmall.entity.ProductEntity;
+import com.wxpay.util.WXConfigUtil;
 
 @Controller
 public class ProductAction extends MMallActon{
@@ -51,7 +52,7 @@ public class ProductAction extends MMallActon{
 		}else{
 			request.setAttribute("islogin", true);
 		}
-		
+		WXConfigUtil.createWXConfigParam(request);
 		request.setAttribute("lists", entityResult);
 		return "/mmall/product/list";
 	}

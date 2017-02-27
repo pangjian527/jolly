@@ -16,10 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 import pub.dao.GeneralDao;
 import pub.dao.hibernate.PagedQuery;
 import pub.dao.query.PageSettings;
-import pub.dao.query.PagedQueryResult;
 import pub.dao.query.Query;
 import pub.dao.query.QueryResult;
 import pub.dao.query.QuerySettings;
+import pub.functions.JsonFuncs;
 import pub.functions.StrFuncs;
 import pub.types.Pair;
 
@@ -31,6 +31,7 @@ import com.sys.data.book.OrderData;
 import com.sys.data.book.OrderDetailData;
 import com.sys.data.cart.CartData;
 import com.sys.data.cart.CartItem;
+import com.sys.data.pay.PayInfo;
 import com.sys.entity.Area;
 import com.sys.entity.Bookform;
 import com.sys.entity.BookformDetail;
@@ -42,6 +43,7 @@ import com.sys.entity.ProductItem;
 import com.sys.entity.StockRecord;
 import com.sys.entity.SysUser;
 import com.web.mmall.entity.OrderEntity;
+import com.web.utils.BookformPaymentCallbackUtils;
 
 @Service
 @Transactional(readOnly = true)
@@ -390,6 +392,44 @@ public class BookformService extends BaseService<Bookform>{
 		}
 		
 		return data;
+	}
+	
+	public PayInfo getPayInfo(String orderId) throws Exception{
+
+		Bookform bookform = get(orderId);
+		if(bookform == null || bookform.getPayType() != 0){
+			throw new Exception("订单:" + bookform.getCode() + " 不支持在线付款!");
+		}
+		if(bookform.getPaymentId() != null){
+			throw new Exception("订单:" + bookform.getCode() + " 已完成付款!");
+		}
+		Double amount = bookform.getSales();
+		
+		List<BookformDetail> details = bookformDetailDao.getAllByProperty("bookId", bookform.getId());
+		Product product = productService.get(details.get(0).getProductId());
+		String title = product.getName();
+		if(title.length() >= 20){
+			title = title.substring(0, 20);
+		}
+		if(details.size() > 1 ){
+			title += "...等多项商品";
+		}
+
+		return new PayInfo(title, amount, BookformPaymentCallbackUtils.class.getName(),orderId);
+	}
+	
+	@Transactional
+	public void finishPayment(String orderId, String logId) throws Exception{
+		Bookform bookform = get(orderId);
+		if(bookform == null || bookform.getStatus() != 0 || bookform.getPayType() != 0){
+			return;
+		}
+			
+		bookform.setPaymentId(logId);
+		bookform.setStatus(Bookform.STATUS_WAIT_SEND_DELIVERY);
+		bookformDao.save(bookform);
+		
+		System.out.println("end finishPayment");
 	}
 
 	@Autowired

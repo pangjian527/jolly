@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<title>订单详情</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
-	
+	<script type="text/javascript" src="${home}/script/mwebmall/haux.mobile.js"></script>
 	<style type="text/css">
 		body{
 			background: #f3f3f3;
@@ -153,7 +153,12 @@
 	</style>
 	
 	<script type="text/javascript">
-		
+		function payNow(bookformId){
+			//通过授权页面获取CODE，获取OPENID
+			var redirectUrl="http://"+window.location.host+"${home}/mmall/order/order.do?op=pay&bookformId="+bookformId;
+			window.location="${oauthUrl}?appid=${appId}&redirect_uri="+urlencode(redirectUrl)
+	                          +"&response_type=code&scope=snsapi_base#wechat_redirect";
+		}
 	</script>
 		
 </head>
@@ -213,7 +218,7 @@
 			<span>合计：</span>
 			<label>￥<fmt:formatNumber value="${orderData.sales }" pattern="#,#00.00#"/></label>
 			<c:if test="${orderData.status == 0 }">
-				<a href="">立即付款</a>
+				<a href="javascript:payNow('${orderData.bookId }')">立即付款</a>
 			</c:if>
 		</div>
 	</div>

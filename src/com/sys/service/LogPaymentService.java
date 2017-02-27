@@ -1,5 +1,7 @@
 package com.sys.service;
 
+import java.util.List;
+
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +84,7 @@ public class LogPaymentService  extends BaseService<LogPayment>{
 	}
 	
 	@Transactional
-	public LogPayment createAndSave(double amount, Integer payType, String reqContent, String task, String config){
+	public LogPayment createAndSave(double amount, Integer payType, String reqContent, String task, String orderId){
 		
 		LogPayment logPayment = new LogPayment();
         logPayment.setAmount(amount);
@@ -90,10 +92,14 @@ public class LogPaymentService  extends BaseService<LogPayment>{
         logPayment.setReqContent(reqContent);
 //        logPayment.setTableName(Bookform.TABLE_NAME);
         logPayment.setCallbackTask(task);
-        logPayment.setCallbackConfig(config);
+        logPayment.setOrderId(orderId);
         
 		logPaymentDao.save(logPayment);
 		return logPayment;
+	}
+	
+	public List<LogPayment> getPaymentsByOrderId(String orderId) {
+		return logPaymentDao.getAllByProperty("orderId",orderId,"createTime desc");
 	}
 	
 	@Autowired
@@ -101,6 +107,8 @@ public class LogPaymentService  extends BaseService<LogPayment>{
 	
 	@Autowired
 	private LogPaymentDao logPaymentDao;
+
+	
 
 	
 }

@@ -2,8 +2,12 @@ package com.wxpay.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Random;
+
+import com.wxpay.config.WXPayConfig;
 
 /**
  * 请求校验工具类
@@ -132,5 +136,64 @@ public class SignUtil {
             sb.append(base.charAt(number));
         }
         return sb.toString();
+    }
+    
+    //公众号接口的签名
+    public static String getPublicSign(Map<String,Object> map){
+        ArrayList<String> list = new ArrayList<String>();
+        for(Map.Entry<String,Object> entry:map.entrySet()){
+            if(entry.getValue()!=""){
+                list.add(entry.getKey() + "=" + entry.getValue() + "&");
+            }
+        }
+        int size = list.size();
+        String [] arrayToSort = list.toArray(new String[size]);
+        Arrays.sort(arrayToSort, String.CASE_INSENSITIVE_ORDER);
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < size; i ++) {
+            sb.append(arrayToSort[i]);
+        }
+        String result = sb.toString();
+        
+        result += "key=" + WXPayConfig.PUBLIC_API_KEY;
+        result = MD5.MD5Encode(result).toUpperCase();
+        return result;
+    }
+    
+    /*
+     * map to xml
+     * */
+    public static String mapToXML(Map<String,Object> map){
+    	StringBuilder xml = new StringBuilder();
+    	xml.append("<xml>");
+    	for(Map.Entry<String,Object> entry:map.entrySet()){
+    		xml.append("<"+entry.getKey()+">");
+    		xml.append(entry.getValue());
+    		xml.append("</"+entry.getKey()+">");
+        }
+    	xml.append("</xml>");
+    	return xml.toString();
+    }
+    
+  //支付结果接口的签名验证
+    public static String getPublicResultSign(Map<String,String> map){
+        ArrayList<String> list = new ArrayList<String>();
+        for(Map.Entry<String,String> entry:map.entrySet()){
+            if(entry.getValue()!=""){
+                list.add(entry.getKey() + "=" + entry.getValue() + "&");
+            }
+        }
+        int size = list.size();
+        String [] arrayToSort = list.toArray(new String[size]);
+        Arrays.sort(arrayToSort, String.CASE_INSENSITIVE_ORDER);
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < size; i ++) {
+            sb.append(arrayToSort[i]);
+        }
+        String result = sb.toString();
+        
+        result += "key=" + WXPayConfig.PUBLIC_API_KEY;
+        result = MD5.MD5Encode(result).toUpperCase();
+        return result;
     }
 }

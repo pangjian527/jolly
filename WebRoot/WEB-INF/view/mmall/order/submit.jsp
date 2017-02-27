@@ -12,7 +12,7 @@
 	<link href="${home}/style/m_dialog.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" src="${home}/script/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="${home}/script/m_dialog.js"></script>
-	
+	<script type="text/javascript" src="${home}/script/mwebmall/haux.mobile.js"></script>
 	
 	<style type="text/css">
 	
@@ -295,7 +295,11 @@
 							}else if(data.code == "dataerr"){
 								dialogAlert("温馨提示",data.content);
 							}else if(data.code == "success"){
-								window.location = "${home}//mmall/order/order.do?op=pay&bookformId="+data.bookformId;
+								//通过授权页面获取CODE，获取OPENID
+								var redirectUrl="http://"+window.location.host+"${home}/mmall/order/order.do?op=pay&bookformId="+data.bookformId;
+								window.location="${oauthUrl}?appid=${appId}&redirect_uri="+urlencode(redirectUrl)
+		                                          +"&response_type=code&scope=snsapi_base#wechat_redirect";
+								
 							}
 						}
 					});

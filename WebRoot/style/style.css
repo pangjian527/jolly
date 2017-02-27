@@ -42,3 +42,8 @@ div.t_row_spit_panel{
     position:relative
 }
 
+div.no-data-box{
+	text-align: center;
+    margin-top: 50px;
+    color: #ADADAD;
+}

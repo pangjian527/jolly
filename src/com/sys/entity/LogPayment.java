@@ -55,7 +55,7 @@ public class LogPayment implements Serializable {
 	//回调函数的className,注意·是full class name，由业务模块负责写入
 	private String callbackTask;
 	//调用回掉函数(success/error)的参数，由业务模块负责写入
-	private String callbackConfig;
+	private String orderId;
 
 	@GenericGenerator(name = "generator", strategy = "uuid.hex")
 	@Id
@@ -113,10 +113,12 @@ public class LogPayment implements Serializable {
 		return callbackTask;
 	}
 	
-	@Column(name = "CALLBACK_CONFIG")
-	public String getCallbackConfig() {
-		return callbackConfig;
+	@Column(name = "ORDER_ID")
+	public String getOrderId() {
+		return orderId;
 	}
+
+	
 
 	public void setId(String id) {
 		this.id = id;
@@ -160,10 +162,9 @@ public class LogPayment implements Serializable {
 		this.callbackTask = callbackTask;
 	}
 
-	public void setCallbackConfig(String callbackConfig) {
-		this.callbackConfig = callbackConfig;
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
-	
 	
 	
 

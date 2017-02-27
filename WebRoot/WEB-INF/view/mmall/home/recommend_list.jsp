@@ -161,15 +161,22 @@
 		<div class="show-map-box" id="contentDiv-1">
 		</div>
 		<div class="show-table-box" id="contentDiv-2" style="display:none">
-			<ul>
-				<c:forEach items="${factoryList }" var="factory">
-					<li>
-						<label class="factory-name">${factory.name }</label>
-						<span><fmt:formatDate value="${factory.createTime}" pattern="yyyy-MM-dd"/></span>
-					</li>
-				
-				</c:forEach>
-			</ul>
+			<c:if test="${!empty queryResult.rows }">
+				<ul>
+					<c:forEach items="${queryResult.rows }" var="row">
+						<li>
+							<label class="factory-name">${row.name }</label>
+							<span><fmt:formatDate value="${row.create_time}" pattern="yyyy-MM-dd"/></span>
+						</li>
+					
+					</c:forEach>
+				</ul>
+			</c:if>
+			<c:if test="${empty queryResult.rows }">
+				<div class="no-data-box">
+					<h3>没有找到相关数据</h3>
+				</div>
+			</c:if>
 		</div>
 		
 	</div>

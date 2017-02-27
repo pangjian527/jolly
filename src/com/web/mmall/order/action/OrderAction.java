@@ -1,37 +1,44 @@
 package com.web.mmall.order.action;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.ArrayUtils;
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import pub.functions.JsonFuncs;
+import pub.functions.XmlFuncs;
+import pub.types.Pair;
+
 import com.sys.data.book.OrderData;
 import com.sys.data.cart.CartData;
+import com.sys.data.pay.PayInfo;
 import com.sys.entity.Bookform;
 import com.sys.entity.Factory;
 import com.sys.entity.FactoryUser;
+import com.sys.entity.LogPayment;
 import com.sys.service.AreaService;
 import com.sys.service.BookformService;
 import com.sys.service.CartService;
 import com.sys.service.FactoryService;
+import com.sys.service.LogPaymentService;
 import com.sys.service.ProductService;
 import com.sys.service.ScoreService;
 import com.web.mmall.MMallActon;
 import com.web.mmall.consts.Consts;
 import com.web.mmall.entity.OrderEntity;
-import com.web.pmanager.PManagerAction;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import pub.functions.JsonFuncs;
-import pub.functions.StrFuncs;
-import pub.types.Pair;
+import com.wxpay.config.WXPayConfig;
+import com.wxpay.util.HttpClientUtil;
+import com.wxpay.util.SignUtil;
+import com.wxpay.util.WXConfigUtil;
 
 @Controller
 public class OrderAction extends MMallActon{
@@ -68,6 +75,9 @@ public class OrderAction extends MMallActon{
 		request.setAttribute("factory",factory);
 		request.setAttribute("score", totalScore - consumeScore);
 		request.setAttribute("items",items);
+		
+		request.setAttribute("appId", WXPayConfig.PUBLIC_APP_ID);
+		request.setAttribute("oauthUrl", WXPayConfig.OAUTH2_URL);
 		return "/mmall/order/submit";
 	}
 	
@@ -117,7 +127,78 @@ public class OrderAction extends MMallActon{
 		Bookform bookform = bookformService.get(bookformId);
 		
 		request.setAttribute("bookform", bookform);
+		
+		WXConfigUtil.createWXConfigParam(request);//参数初始化
 		return "/mmall/order/pay";
+	}
+	
+	/*
+	 * @功能说明：微信付款之前创建logPayment记录
+	 * 
+	 */
+	@RequestMapping
+	public void preparePay(HttpServletRequest request, HttpServletResponse response) throws Exception{		
+		try {		
+			String orderId = request.getParameter("orderId");
+			PayInfo payInfo = bookformService.getPayInfo(orderId);
+			LogPayment logPayment = logPaymentService.createAndSave(payInfo.amount, payInfo.payChanel, 
+				null, payInfo.task, payInfo.orderId);
+			
+			JSONObject object=new JSONObject();
+			//调用微信统一支付接口
+			
+			
+			//下面就到了获取openid,这个代表用户id.
+			//获取openID
+			String openid =request.getParameter("openId");
+			String noncestr = SignUtil.getRandomStringByLength(32);//生成随机字符串
+			String timestamp = String.valueOf((System.currentTimeMillis()/1000));//生成1970年到现在的秒数.
+			
+			Map<String,Object> parameters=new HashMap<String, Object>();
+			parameters.put("appid", WXPayConfig.PUBLIC_APP_ID);
+			parameters.put("mch_id", WXPayConfig.PUBLIC_MCH_ID);
+			parameters.put("nonce_str", noncestr);
+			parameters.put("body", payInfo.title);
+			parameters.put("out_trade_no", logPayment.getId());
+			String total_fee=String.valueOf(payInfo.amount*100);
+			//parameters.put("total_fee", total_fee.substring(0, total_fee.indexOf(".")));
+			parameters.put("total_fee", 1);
+			parameters.put("spbill_create_ip",request.getRemoteAddr());
+			parameters.put("notify_url", WXPayConfig.NOTIFY_URL);
+			parameters.put("trade_type", "JSAPI");
+			parameters.put("openid", openid);
+			String sign = SignUtil.getPublicSign(parameters);
+			parameters.put("sign", sign);
+			
+			String result=HttpClientUtil.httpsRequest(WXPayConfig.WX_PREPAY_URL, "POST", SignUtil.mapToXML(parameters));
+			
+			Map<String, String> resultMap = XmlFuncs.xml2map(result);
+			//得到的预支付id
+			String prepay_id = resultMap.get("prepay_id");
+			
+			Map<String,Object> payParams = new HashMap<String,Object>();
+			payParams.put("appId", WXPayConfig.PUBLIC_APP_ID);
+			payParams.put("timeStamp",timestamp);
+			payParams.put("nonceStr", noncestr);
+			payParams.put("package", "prepay_id="+prepay_id);
+			payParams.put("signType", "MD5");
+			//生成支付签名,这个签名 给 微信支付的调用使用
+			String paySign =  SignUtil.getPublicSign(payParams); 
+			
+			object.element("timeStamp", timestamp);        //时间戳
+			object.element("nonceStr", noncestr);            //随机字符串
+			object.element("signType", "MD5");        //加密格式
+			object.put("packageValue", "prepay_id="+prepay_id);//这里用packageValue是预防package是关键字在js获取值出错
+			object.element("paySign", paySign); 
+			
+			
+			this.writeJson(object);
+		} 
+		catch (Exception e) {
+			//4.如果支付请求被拒绝，显示具体原因
+			e.printStackTrace();
+			this.writeErrorJson( e.getMessage());
+		}
 	}
 	
 	/*订单列表*/
@@ -133,6 +214,9 @@ public class OrderAction extends MMallActon{
 		Pair<List<OrderData>, Integer> pair =queryOrder(request,status,pageNo,user);
 		request.setAttribute("pair", pair);
 		request.setAttribute("status", status);
+		
+		WXConfigUtil.createWXConfigParam(request);//参数初始化
+		request.setAttribute("oauthUrl", WXPayConfig.OAUTH2_URL);
 		
 		return "/mmall/order/list";
 	}
@@ -170,6 +254,9 @@ public class OrderAction extends MMallActon{
 		OrderData orderData = bookformService.getOrderDataByBookId(bookId);
 		
 		request.setAttribute("orderData", orderData);
+		
+		WXConfigUtil.createWXConfigParam(request);//参数初始化
+		request.setAttribute("oauthUrl", WXPayConfig.OAUTH2_URL);
 		return "/mmall/order/detail";
 	}
 	
@@ -185,4 +272,6 @@ public class OrderAction extends MMallActon{
 	private BookformService bookformService;
 	@Autowired
 	private CartService cartService;
+	@Autowired
+	private LogPaymentService logPaymentService;
 }
