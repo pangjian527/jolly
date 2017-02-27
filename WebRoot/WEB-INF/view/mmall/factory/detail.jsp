@@ -446,6 +446,7 @@ wx.config({
     nonceStr: '${nonceStr}', // 必填，生成签名的随机串
     signature: '${signature}',//
     jsApiList: [
+		"checkJsApi",
     	"getLocation"
     ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 });
@@ -456,6 +457,14 @@ wx.error(function(res){
 var imUrl=window.location.href;
 
 wx.ready(function(){
+	wx.checkJsApi({
+	    jsApiList: ['getLocation'], //
+	    success: function(res) {
+	       if(res.errMsg=='checkJsApi:ok'&&!res.checkResult.getLocation){
+	        	alert("当前微信版本不支持获取地理位置");
+	       }
+	    }
+	});
 	wx.getLocation({
 	    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
 	    success: function (res) {

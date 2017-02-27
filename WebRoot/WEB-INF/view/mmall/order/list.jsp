@@ -10,7 +10,7 @@
 	<title>我的订单</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" src="${home}/script/iscroll-probe.js"></script>
-	
+	<script type="text/javascript" src="${home}/script/mwebmall/haux.mobile.js"></script>
 	
 	<style type="text/css">
 		body{
@@ -210,6 +210,12 @@
 		    return supportsPassiveOption;
 		}
 		  	
+		function pay(bookformId){
+			//通过授权页面获取CODE，获取OPENID
+			var redirectUrl="http://"+window.location.host+"${home}/mmall/order/order.do?op=pay&bookformId="+bookformId;
+			window.location="${oauthUrl}?appid=${appId}&redirect_uri="+urlencode(redirectUrl)
+                              +"&response_type=code&scope=snsapi_base#wechat_redirect";
+		}
 	</script>
 		
 </head>
@@ -267,7 +273,7 @@
 						<div class="order-price-box">
 							实际付款：￥<fmt:formatNumber value="${data.sales }" pattern="#,#00.00#"/>
 							<c:if test="${data.status == 0 }">
-								<a class="order-pay" href="">付款</a>
+								<a class="order-pay" href="javascript:pay('${data.bookId}')">付款</a>
 							</c:if>
 						</div>
 						<c:if test="${data.status == 4 }">
@@ -309,7 +315,7 @@
 						<div class="order-price-box">
 							实际付款：￥<fmt:formatNumber value="${data.sales }" pattern="#,#00.00#"/>
 							<c:if test="${data.status == 0 }">
-								<a class="order-pay" href="">付款</a>
+								<a class="order-pay" href="javascript:pay('${data.bookId}')">付款</a>
 							</c:if>
 						</div>
 						<c:if test="${data.status == 4 }">
@@ -346,7 +352,7 @@
 						<div class="order-price-box">
 							实际付款：￥<fmt:formatNumber value="${data.sales }" pattern="#,#00.00#"/>
 							<c:if test="${data.status == 0 }">
-								<a class="order-pay" href="">付款</a>
+								<a class="order-pay" href="javascript:pay('${data.bookId}')">付款</a>
 							</c:if>
 						</div>
 						<c:if test="${data.status == 4 }">
@@ -383,7 +389,7 @@
 						<div class="order-price-box">
 							实际付款：￥<fmt:formatNumber value="${data.sales }" pattern="#,#00.00#"/>
 							<c:if test="${data.status == 0 }">
-								<a class="order-pay" href="">付款</a>
+								<a class="order-pay" href="javascript:pay('${data.bookId}')">付款</a>
 							</c:if>
 						</div>
 						<c:if test="${data.status == 4 }">
@@ -420,7 +426,7 @@
 						<div class="order-price-box">
 							实际付款：￥<fmt:formatNumber value="${data.sales }" pattern="#,#00.00#"/>
 							<c:if test="${data.status == 0 }">
-								<a class="order-pay" href="">付款</a>
+								<a class="order-pay" href="javascript:pay('${data.bookId}')">付款</a>
 							</c:if>
 						</div>
 						<c:if test="${data.status == 4 }">
@@ -457,7 +463,7 @@
 						<div class="order-price-box">
 							实际付款：￥<fmt:formatNumber value="${data.sales }" pattern="#,#00.00#"/>
 							<c:if test="${data.status == 0 }">
-								<a class="order-pay" href="">付款</a>
+								<a class="order-pay" href="javascript:pay('${data.bookId}')">付款</a>
 							</c:if>
 						</div>
 						<c:if test="${data.status == 4 }">
