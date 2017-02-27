@@ -129,19 +129,38 @@ public class OrderAction extends MMallActon{
 		String pn =  request.getParameter("pn");
 		int pageNo  = pn ==null ? 1:Integer.valueOf(pn); 
 		
+		//1. 返回列表和总页数
+		Pair<List<OrderData>, Integer> pair =queryOrder(request,status,pageNo,user);
+		request.setAttribute("pair", pair);
+		request.setAttribute("status", status);
+		
+		return "/mmall/order/list";
+	}
+	
+	private Pair<List<OrderData>, Integer> queryOrder(HttpServletRequest request,String status,int pageNo,FactoryUser user) throws Exception{
 		String[] statusList =null ;
 		if(status!=null &&status.equals("uncomplete")){
 			statusList  = "0,1,2,3".split(",");
 		}else if (status!=null && status.equals("complete")){
 			statusList = new String[]{"4"};
 		}
-		
 		//1. 返回列表和总页数
 		Pair<List<OrderData>, Integer> pair = bookformService.getBookformByFactory(user.getFactoryId(), statusList, pageNo);
-		request.setAttribute("pair", pair);
-		request.setAttribute("status", status);
+		return pair;
+	}
+	
+	/* 异步加载列表 */
+	@RequestMapping
+	public void listAsync(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		FactoryUser user = this.getUser();
+		String status = request.getParameter("status");
+		String pn =  request.getParameter("pn");
+		int pageNo  = pn ==null ? 1:Integer.valueOf(pn); 
 		
-		return "/mmall/order/list";
+		//1. 返回列表和总页数
+		Pair<List<OrderData>, Integer> pair =queryOrder(request,status,pageNo,user);
+		
+		this.writeJson(JsonFuncs.toJsonObject(pair));
 	}
 	
 	/*订单详情*/
