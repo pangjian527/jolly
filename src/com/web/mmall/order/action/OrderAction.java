@@ -36,7 +36,7 @@ import pub.types.Pair;
 @Controller
 public class OrderAction extends MMallActon{
 
-	public static JSONArray cartDatas = null;
+	/*public static JSONArray cartDatas = null;
 	static{
 		JSONObject object = new JSONObject();
 		object.element("productId", "4028ad815a4f0157015a4f42f1060019").element("count", 2);
@@ -45,7 +45,7 @@ public class OrderAction extends MMallActon{
 		cartDatas = new JSONArray();
 		cartDatas.add(object);
 		cartDatas.add(object1);
-	}
+	}*/
 	
 	/*下单加载页面*/
 	@RequestMapping
@@ -54,8 +54,9 @@ public class OrderAction extends MMallActon{
 		FactoryUser factoryUser = this.getUser();
 		Factory factory = factoryService.get(factoryUser.getFactoryId());
 		
+		String items = this.getParam("cartItems");
 		//2. 获取到商品
-		CartData cartData = cartService.getCartData(this.getParam("cartItems"));
+		CartData cartData = cartService.getCartData(items);
 		
 		//3.获取积分
 		int totalScore = scoreService.getFactoryHistoryScore(factory.getId());
@@ -66,8 +67,7 @@ public class OrderAction extends MMallActon{
 		request.setAttribute("cartData", cartData);
 		request.setAttribute("factory",factory);
 		request.setAttribute("score", totalScore - consumeScore);
-		System.out.println(cartDatas.toString());
-		request.setAttribute("items", cartDatas.toString());
+		request.setAttribute("items",items);
 		return "/mmall/order/submit";
 	}
 	
