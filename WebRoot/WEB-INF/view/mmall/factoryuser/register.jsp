@@ -47,11 +47,21 @@
 		height:40px;
 		line-height:40px;
 		color:#232326;
+		position: relative;
+		border-bottom: 1px solid #e4e4e4;
+   	 	padding: 5px 10px;
+	}
+	
+	div.scwrapper img.valid{
+		position: absolute;
+	    right: 10px;
+	    top: 9px;
 	}
 	div.scwrapper ul li label{
 		display:inline-block;
 		width:100px;
 		text-align: right;
+		font-size:16px;
 	}
 	div.factory-user-box ul li  label{
 		  color: rgb(236, 75, 75);
@@ -61,13 +71,22 @@
 		text-indent:5px;
 		width:calc(100% - 130px);
 		border:0;
-		border-bottom:1px solid #e4e4e4;
+		-webkit-appearance:none;
+		border-radius:0;
+		font-size:16px;
+	}
+	div.scwrapper ul li input[type="password"]{
+		height:25px;
+		text-indent:5px;
+		width:calc(100% - 130px);
+		border:0;
 		-webkit-appearance:none;
 		border-radius:0;
 	}
+	
 	div.scwrapper ul li select{
 		height:25px;
-		width:calc((100% - 150px)/3);
+		width:calc((100% - 120px)/3);
 		border:1px solid #e4e4e4;
 		-webkit-appearance:none;
 		border-radius:0;
@@ -95,11 +114,13 @@
 	  color: #848689;
 	  border-radius: 3px;
 	  -webkit-box-shadow: 0 0 0 1px #eee;
-	  /* box-shadow: 0 0 0 1px #eee; */
 	  height: 30px;
 	  line-height: 30px;
 	  border: 0;
 	  font-size: 14px;
+	  position: absolute;
+      right: 10px;
+      top: 9px;
 	}
 	button.active{
 		background-color: #fff;
@@ -262,25 +283,25 @@
   			<ul>
   				<li>
   					<label>手机号码：</label>
-  					<input type="text" name="mobile" id="mobile"/>
+  					<input type="text" placeholder="手机号码" name="mobile" id="mobile"/>
   				</li>
   				<li>
   					<label>图形验证码：</label>
-  					<input type="text" name="imgcode" id="imgcode" onkeyup="checkBtnActive(this)"/>
-  					<img  onclick="reloadVerifyimage(this)" src='${home}/file/verifyimage.do'/>
+  					<input type="text" name="imgcode"  placeholder="图形验证码"  id="imgcode" onkeyup="checkBtnActive(this)"/>
+  					<img class="valid"  onclick="reloadVerifyimage(this)" src='${home}/file/verifyimage.do'/>
   				</li>
   				<li>
   					<label>短信验证码：</label>
-  					<input type="text" name="verifyCode" id="verifyCode"/>
+  					<input type="text" placeholder="短信验证码" name="verifyCode" id="verifyCode"/>
   					<button type="button" onclick="sendVerifycode()" class="verify-code-btn" id="verify-code-btn" disabled="disabled">获取验证码</button>
   				</li>
   				<li>
   					<label>密&nbsp;&nbsp;&nbsp;&nbsp;码：</label>
-  					<input type="text" name="password" id="password"/>
+  					<input type="password" placeholder="请输入密码" name="password" id="password"/>
   				</li>
   				<li>
   					<label>重复密码：</label>
-  					<input type="text" name="repeat_password" id="repeat_password"/>
+  					<input type="password"  placeholder="再次输入密码" name="repeat_password" id="repeat_password"/>
   				</li>
   			</ul>
   		</div>
@@ -288,7 +309,7 @@
   			<ul>
   				<li>
   					<label>商家名称：</label>
-  					<input type="text" name="factoryName" id="factoryName"/>
+  					<input type="text" placeholder="请输入店铺名称" name="factoryName" id="factoryName"/>
   				</li>
   				<li>
   					<label>商家区域：</label>
@@ -301,7 +322,7 @@
   				</li>
   				<li>
   					<label>详细地址：</label>
-  					<input type="text" name="addr" id="addr"/>
+  					<input type="text" placeholder="请输入店铺详细地址" name="addr" id="addr"/>
   				</li>
   			</ul>
   		</div>
