@@ -82,6 +82,21 @@ public class FactoryService extends BaseService<Factory>{
 	
 	@Transactional
 	public void saveFactoryAndCreateFactoryUser(Factory factory,String password) throws Exception {
+		
+		String describe = factory.getMobile() + "注册所得积分";
+		if(StrFuncs.notEmpty(factory.getSysUserId())){
+			//开店，地推积分
+			scoreService.sysUserScore(ScoreService.OPEN_FACTORY_SCORE, factory.getId(), describe, factory.getSysUserId());
+		}else if(StrFuncs.notEmpty(factory.getRefereeId())){
+			//门店推荐开店，推荐的门店的积分
+			scoreService.deliverFactoryScore(ScoreService.OPEN_FACTORY_SCORE, describe, factory.getRefereeId(), null);
+			
+			Factory parentFactory = factoryDao.get(factory.getRefereeId());
+			//找到父节点的sys_user增加积分
+			scoreService.sysUserScore(ScoreService.OPEN_FACTORY_SCORE, factory.getId(), describe, parentFactory.getSysUserId());
+			factory.setSysUserId(parentFactory.getSysUserId());
+		}
+		
 		this.save(factory);
 		factoryUserService.addFactoryUser(factory.getMobile(), password, factory.getId());
 	}
@@ -133,22 +148,11 @@ public class FactoryService extends BaseService<Factory>{
 		}else{
 			return false;
 		}
-//		//3.进行停用词检查，简介可能为空
-//		if(stopWordService.test(factory.getCharacteristic())!=null
-//				&&stopWordService.test(factory.getCharacteristic()).size() != 0){
-//			return false;
-//		}else if(factory.getIntroduction() != null){
-//			if(stopWordService.test(factory.getIntroduction()).size() != 0){
-//				return false;
-//			}
-//		}
+		
 		//4.执行操作
 		factory.setStatus(Factory.STATUS_VALID);
 		factoryDao.save(factory);
 		
-//		//5.记日志了
-//		draftService.saveLog(Factory.TABLE_NAME, id,  user, "上架",
-//				"status", factory.getStatus().toString(), oldStatus.toString());
 		return true;
 	}
 	
@@ -280,5 +284,7 @@ public class FactoryService extends BaseService<Factory>{
 	private GeneralDao generalDao;
 	@Autowired
 	private FactoryUserService factoryUserService;
+	@Autowired
+	private ScoreService scoreService;
 	
 }

@@ -9,15 +9,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<title>商家管理</title>
 	<link rel="stylesheet" type="text/css" href="${home}/style/global.css" />
-	<link rel="stylesheet" type="text/css" href="${home}/style/popbox.css" />
 	
 	<script type="text/javascript" src="${home}/script/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="${home}/script/haux.js"></script>
 	<script type="text/javascript" src="${home}/script/haux.dom.form.js"></script>
-	<script type="text/javascript" src="${home}/script/haux.component.date.js"></script>
 	<script type="text/javascript" src="${home}/script/haux.component.dialog.js"></script>
-	<script type="text/javascript" src="${home}/script/haux.component.popbox.js"></script>
-	<script type="text/javascript" src="${home}/script/manage.area.js"></script>
 	<script type="text/javascript" src="${home}/script/manage.query.js"></script>
 	<style type="text/css">
 		.col0{width: 40px;}

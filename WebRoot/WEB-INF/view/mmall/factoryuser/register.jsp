@@ -232,6 +232,8 @@
 		var provinceId = getSelectValue("provinceId");
 		var cityId = getSelectValue("cityId");
 		var countyId = getSelectValue("countyId");
+		var uid =  document.getElementById("uid").value;
+		var pid =  document.getElementById("pid").value;
 		
 		//2.提交
 		var postData = {op:"register", 
@@ -239,6 +241,11 @@
 			verifycode:verifyInput.value, 
 			password:passwordInput.value,
 			factoryName:factoryName,
+			provinceId:provinceId,
+			cityId:cityId,
+			countyId:countyId,
+			uid:uid,
+			pid:pid,
 			addr:addr};
 			
 		haux.getData({url:home() + '/mmall/factoryuser/register.do',
@@ -323,6 +330,8 @@
   				<li>
   					<label>详细地址：</label>
   					<input type="text" placeholder="请输入店铺详细地址" name="addr" id="addr"/>
+  					<input type="hidden" name="uid"  id="uid" value="${uid }" />
+  					<input type="hidden" name="pid"  id="pid" value="${pid }" />
   				</li>
   			</ul>
   		</div>

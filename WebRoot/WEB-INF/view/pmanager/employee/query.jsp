@@ -39,11 +39,11 @@
         }
 
         div.e_left_panel{
-            width:20%;
+            width:30%;
             float:left;
         }
         div.e_right_panel{
-            width:80%;
+            width:70%;
             float:left;
         }
         
@@ -70,6 +70,12 @@
 			window.location = "${home}/pmanager/employee/employee.do?sysUserId="+sysUserId;
 		}
 		
+		function copyClip (id,event){
+			var url  ="http://"+ window.location.host + "/jolly/mmall/factoryuser/register.do?uid="+id;
+			window.open(url, '_blank ' );
+		}
+		
+		
 	</script>
 		
 </head>
@@ -83,15 +89,20 @@
                         <td width="50" align="center">.NO</td>
                         <td>名字</td>
                         <td width="30%">开店总数</td>
+                        <td width="30%">操作</td>
                     </tr>
                 </thead>
                 <tbody>
                 	<c:forEach items="${result}" var="data" varStatus="idx">
-	                	<tr onclick="selectObject('${data.id }')" class="<c:if test='${sysUserId == data.id }'>active</c:if>">
+	                	<tr  class="<c:if test='${sysUserId == data.id }'>active</c:if>">
 	                        <td align="center">${idx.index+1}</td>
 	                        <td>${data.name}</td>
 	                        <td>
 	                            ${data.factoryCount}
+	                        </td>
+	                        <td>
+	                        	<a href="javascript:copyClip('${data.id }')">复制链接</a>
+	                        	<a href="javascript:void()" onclick="selectObject('${data.id }')">查看</a>
 	                        </td>
 	                    </tr>
                 	</c:forEach>

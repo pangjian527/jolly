@@ -198,10 +198,10 @@
 							</a>
 						</li>
 						<li>
-							<div class="split-line">推荐(${countFactory })</div>
+							<div  onclick="toRecommendList()" class="split-line">推荐(${countFactory })</div>
 						</li>
 						<li>
-							<div>积分(${score })</div>
+							<div  onclick="toScoreList()">积分(${score })</div>
 						</li>
 					</ul>
 			</div>
