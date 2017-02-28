@@ -703,13 +703,9 @@
 							订单状态：待发货
 						</h4>
 						<p class="describe">
-							<c:if test="${data.bookform.trackingStatus == 0}">
+							<c:if test="${data.bookform.trackingStatus == 0 }">
 								商城尚未向商家发货，请及时完成以下工作
 								<br/>
-								<!-- 
-								<button type="button">发货</button>
-								 -->
-								 
 								<button type="button" class="ok" onclick="openDeliveryBox()">
 									<i></i>
 									发货

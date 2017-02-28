@@ -30,14 +30,13 @@
 	div.factory-user-box{
 		background:white;
    		background-size: 50px 5px;
-   		padding: 5px 0;
-   		background-position: -10px 0;
-   		margin: 40px 0;
+   		padding: 15px 0;
+   		margin: 80px 0px 25px 0px;
 	}
 	
 	div.scwrapper ul {
 		background:white;
-		padding: 10px 0;
+		padding-bottom:15px;
 	}
 	
 	div.scwrapper ul li{
@@ -59,6 +58,20 @@
 		border-bottom:1px solid #e4e4e4;
 		-webkit-appearance:none;
 		border-radius:0;
+		font-size:16px;
+	}
+	div.scwrapper ul li input:-webkit-autofill {
+		-webkit-box-shadow: 0 0 0px 1000px white inset;
+	}
+	div.scwrapper ul li input[type="password"]{
+		height: 25px;
+	    text-indent: 5px;
+	    width: calc(100% - 130px);
+	    border: 0;
+	    border-bottom: 1px solid #e4e4e4;
+	    -webkit-appearance: none;
+	    border-radius: 0;
+	    font-size: 16px;
 	}
 	
 	a.login{
@@ -129,16 +142,16 @@
 <body>
   	<div class="scwrapper">
   		<div class="factory-user-box">
-  			<form action="${home}/mmall/factoryuser/login.do" method="post" name="loginform">
+  			<form action="${home}/mmall/factoryuser/login.do" method="post" name="loginform" autocomplete="off">
   				<input type="hidden" name="op" value="login">
 	  			<ul>
 	  				<li>
 	  					<label>账号：</label>
-	  					<input type="text" name="account" id="account"/>
+	  					<input type="text" placeholder="请输入账号"  autocomplete="off" name="account" id="account"/>
 	  				</li>
 	  				<li>
 	  					<label>密码：</label>
-	  					<input type="text" name="password" id="password"/>
+	  					<input type="password" placeholder="请输入密码" name="password" id="password"/>
 	  				</li>
 	  			</ul>
   			</form>

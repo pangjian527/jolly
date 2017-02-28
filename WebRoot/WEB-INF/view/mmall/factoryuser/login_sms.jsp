@@ -29,10 +29,8 @@
 	
 	div.factory-user-box{
 		background:white;
-   		background-size: 50px 5px;
-   		padding: 5px 0;
-   		background-position: -10px 0;
-   		  margin: 40px 0;
+   		padding: 5px 10px;
+   		margin: 80px 0px 25px 0px;
 	}
 	
 	div.scwrapper ul {
@@ -44,20 +42,30 @@
 		height:40px;
 		line-height:40px;
 		color:#232326;
+		position: relative;
+		border-bottom: 1px solid #e4e4e4;
+		padding:8px 0;
 	}
 	div.scwrapper ul li label{
 		display:inline-block;
 		width:100px;
 		text-align: right;
+		color: #6c6c6c;
+	}
+	
+	img.valid{
+		position: absolute;
+    	right: 10px;
+    	top:15px;
 	}
 	div.scwrapper ul li input[type="text"]{
 		height:25px;
 		text-indent:5px;
 		width:calc(100% - 130px);
 		border:0;
-		border-bottom:1px solid #e4e4e4;
 		-webkit-appearance:none;
 		border-radius:0;
+		font-size: 16px;
 	}
 	div.scwrapper ul li select{
 		height:25px;
@@ -68,7 +76,7 @@
 		background:white;
 	}
 	
-	input#imgcode,input#verifyCode{
+	input#imgcposition: relative;ode,input#verifyCode{
 		width: calc(100% - 220px);
 	}
 	a.register{
@@ -85,20 +93,20 @@
 		    letter-spacing: 10px;
 	}
 	button.verify-code-btn{
-		background-color: #eee;
-	  color: #848689;
-	  border-radius: 3px;
-	  -webkit-box-shadow: 0 0 0 1px #eee;
-	  /* box-shadow: 0 0 0 1px #eee; */
-	  height: 30px;
-	  line-height: 30px;
-	  border: 0;
-	  font-size: 14px;
+		background-color: white;
+	    height: 40px;
+	    line-height: 40px;
+	    border: 0;
+	    font-size: 16px;
+	    position: absolute;
+	    right: 10px;
+	    top: 10px;
+	    color: #f40;
 	}
 	button.active{
 		background-color: #fff;
-		  color: #f23030;
-		  box-shadow: 0 0 0 1px #f23030;
+		 color: #e4e4e4;
+		 font-size:14px;
 	}
 	
 	
@@ -155,14 +163,15 @@
 				}else{
 					//将“发送验证码”按钮禁止，并启动倒计时，120秒之后允许重新获取，
 					dialogAlert("温馨提示","验证码已发送至" + mobileInput.value);
-					cutdown(5);
+					reloadVerifyimage();
+					cutdown(60);
 				}
 			}
 		});
 	}
 	function cutdown(seconds){
 		var buttonElement = document.getElementById("verifyCode").parentNode.getElementsByTagName("button")[0];
-		buttonElement.className = "verify-code-btn";
+		buttonElement.className = "verify-code-btn active";
 		buttonElement.disabled = true;
 		buttonElement.innerHTML = "重新获取(" + seconds + "秒)";
 		//启动渐变动画
@@ -175,7 +184,7 @@
 			else{
 				buttonElement.innerHTML = "重新获取";
 				buttonElement.disabled = false;
-				buttonElement.className = "verify-code-btn active";
+				buttonElement.className = "verify-code-btn";
 			}
 		
 		}, 1000);
@@ -220,7 +229,7 @@
 		});
 	}
 	function reloadVerifyimage(obj){
-		obj.src = "${home}/file/verifyimage.do?" + Math.random();
+		document.getElementById("validImg").src = "${home}/file/verifyimage.do?" + Math.random();
 	}
 	function getSelectValue(selectId){
 		var  myselect=document.getElementById(selectId);
@@ -252,18 +261,18 @@
   		<div class="factory-user-box">
   			<ul>
   				<li>
-  					<label>账&nbsp;&nbsp;号：</label>
-  					<input type="text" name="mobile" id="mobile"/>
+  					<label>手&nbsp;机&nbsp;号&nbsp;码：</label>
+  					<input type="text" placeholder="请输入手机号码" name="mobile" id="mobile"/>
   				</li>
   				<li>
   					<label>图形验证码：</label>
-  					<input type="text" name="imgcode" id="imgcode" onkeyup="checkBtnActive(this)"/>
-  					<img  onclick="reloadVerifyimage(this)" src='${home}/file/verifyimage.do'/>
+  					<input type="text"  placeholder="图形验证码" name="imgcode" id="imgcode" />
+  					<img class="valid" id="validImg"  onclick="reloadVerifyimage(this)" src='${home}/file/verifyimage.do'/>
   				</li>
   				<li>
   					<label>短信验证码：</label>
-  					<input type="text" name="verifyCode" id="verifyCode" />
-  					<button type="button" onclick="sendVerifycode()" class="verify-code-btn" id="verify-code-btn" disabled="disabled">获取验证码</button>
+  					<input type="text"  placeholder="短信验证码"name="verifyCode" id="verifyCode" />
+  					<button type="button" onclick="sendVerifycode()" class="verify-code-btn" id="verify-code-btn">获取验证码</button>
   				</li>
   			</ul>
   		</div>

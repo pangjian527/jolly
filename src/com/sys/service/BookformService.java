@@ -246,6 +246,7 @@ public class BookformService extends BaseService<Bookform>{
 		bookform.setTrackingStatus(Bookform.TRACKING_SEND);
 		bookform.setDeliveryFactory(deliveryFactory);
 		bookform.setTrackingNumber(trackingNumber);
+		bookform.setStatus(Bookform.STATUS_WAIT_TAKE_DELIVERY);
 		bookform.setDeliveryTime(new Date());
 		
 		//发货生成账单
@@ -254,7 +255,7 @@ public class BookformService extends BaseService<Bookform>{
 		int score = (int)Math.floor(bookform.getSales());
 		Factory factory = factoryService.get(bookform.getFactoryId());
 		//门店积分
-		scoreService.deliverFactoryScore(score, "下单积分", bookform.getFactoryId(), bookform.getId());
+		scoreService.deliverFactoryScore(score, factory.getMobile()+"门店下单积分", bookform.getFactoryId(), bookform.getId());
 		//地推积分，门店不递归
 		scoreService.sysUserScore(score, bookform.getFactoryId(), 
 				factory.getName()+"下单", factory.getSysUserId());
@@ -279,6 +280,7 @@ public class BookformService extends BaseService<Bookform>{
 		bookform.setContactTel(data.getMobile());
 		bookform.setContactMan(data.getMan());
 		bookform.setContactAddr(data.getAddr());
+		bookform.setTrackingStatus(0);
 		if(data.getPayType() == 0){
 			//在线支付状态是待支付
 			bookform.setStatus(Bookform.STATUS_WAIT_PAY);

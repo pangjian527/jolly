@@ -23,6 +23,8 @@ import com.sys.entity.Score;
 @Transactional(readOnly = true)
 public class ScoreService extends BaseService<Score>{
 
+	public final static int OPEN_FACTORY_SCORE = 100;
+	
 	@Override
 	public QueryResult query(String condition, QuerySettings settings) {
 		JSONObject queryJson = StrFuncs.isEmpty(condition) ? new JSONObject() : JSONObject.fromObject(condition);

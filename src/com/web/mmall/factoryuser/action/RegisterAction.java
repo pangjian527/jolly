@@ -22,6 +22,13 @@ import com.web.mmall.MMallActon;
 public class RegisterAction extends MMallActon{
 	@RequestMapping
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception { 
+		
+		String uid = this.getParam("uid");
+		String pid = this.getParam("pid");
+		
+		request.setAttribute("uid", uid);
+		request.setAttribute("pid", pid);
+		
 		return "mmall/factoryuser/register";
 	}
 	
@@ -76,6 +83,8 @@ public class RegisterAction extends MMallActon{
 			String cityId = this.getParam("cityId");
 			String countyId = this.getParam("countyId");
 			String addr = this.getParam("addr");
+			String sysUserId = this.getParam("uid");
+			String refereeId = this.getParam("pid");
 			if(!tempVerifycodeService.verify(mobile, verifycode)){
 				//throw new Exception("请输入正确的验证码");
 			}
@@ -87,6 +96,8 @@ public class RegisterAction extends MMallActon{
 			factory.setCityId(cityId);
 			factory.setCountyId(countyId);
 			factory.setAddr(addr);
+			factory.setSysUserId(sysUserId);
+			factory.setRefereeId(refereeId);
 			factoryService.saveFactoryAndCreateFactoryUser(factory, password);
 			FactoryUser user = factoryUserService.getByMobile(mobile);//获取用户
 			this.setUser(user);
