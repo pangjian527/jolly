@@ -9,9 +9,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<title>我的推荐</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
+	<link href="${home}/style/scroller.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" src="${home}/script/jquery.js"></script>	
 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=2f0t0ylElcF05UYfrDgY8tGR55cAXtP6"></script>
 	<script type="text/javascript" src="${home}/script/mwebmall/haux.mobile.js"></script>
+	<script type="text/javascript" src="${home}/script/iscroll-probe.js"></script>
+	<script type="text/javascript" src="${home}/script/mwebmall/scroller.js"></script>
 	<style type="text/css">
 	
 		div.scwrapper{
@@ -40,13 +43,17 @@
 			  color: #E73C3C;
 		}
 		
-		div.show-table-box ul li{
-			  height: 30px;
+		div.recommend-list-box{
+			  top:50px;
+		}
+		
+		div.recommend-list-box ul li{
+			  height: 50px;
 			  padding: 10px 10px;
 			  font-size: 16px;
 			  border-bottom: 1px solid #e4e4e4;
-			  line-height: 30px;
-			    position: relative;
+			  line-height: 50px;
+			  position: relative;
 		}
 		
 		#contentDiv-1{
@@ -57,7 +64,6 @@
 			right:0;
 		}  
 		
-		
 	</style>
 	
 	<script type="text/javascript">
@@ -66,7 +72,76 @@
 	var markerArrStr = '${factoryJsonArray}';
 	var gpsX= '${factory.gpsX}', gpsY= '${factory.gpsY}',factoryName='${factory.name}';
 	
-	function initBody() {
+	 var myScroll ,pn  = 1,totalPage = ${totalPage};
+	window.onload = function(){
+		initBaiduMapBody();
+		createScroll("contentDiv-2",
+				function(){
+					window.location="${home}/mmall/home/index.do?op=recommendList&indexNum=2";
+				},
+				function(){
+					//只有总页数大于当前的页数才加载
+		        	if(totalPage>pn){
+		        		pn++;
+		        		loadRecommendData();
+	        	}}
+		);
+		if('${indexNum}'){
+			showContentDiv('${indexNum}');
+		}else{
+			showContentDiv(1);
+		}
+	}
+	
+	/*  start 下拉分页，异步加载数据 */
+	function loadRecommendData(){
+		var data = new Object();
+		data.pn = pn;
+		$.ajax({
+			type:"post",
+			url:"${home}/mmall/home/index.do?op=listRecommendAsync",
+			data:data,
+			success:function(data){
+				//创建
+				createRecommendItem(data);
+			}
+		});
+	}	
+	
+	function createRecommendItem(data){
+		var recommendData = JSON.parse(data);
+		var recommendList=recommendData.recommendList;
+		if(recommendList){
+			var ulEle = document.getElementById("recommend-list-ul");
+			for(var i=0;i<recommendList.length;i++){
+				var recommendRow = recommendList[i];
+				var liEle = document.createElement("li");
+				
+				var labelEle = document.createElement("label");
+				labelEle.className="factory-name";
+				labelEle.innerHTML = recommendRow.name;
+				
+				var timeSpanEl = document.createElement("span");
+				timeSpanEl.innerHTML = formatDate(recommendRow.create_time);
+				
+				liEle.appendChild(labelEle);
+				liEle.appendChild(timeSpanEl);
+				ulEle.appendChild(liEle);
+			}
+		}
+	}
+	
+	function formatDate (targetDate) {  
+		var date = new Date(targetDate.time);
+	    var y = date.getFullYear();  
+	    var m = date.getMonth() + 1;  
+	    m = m < 10 ? '0' + m : m;  
+	    var d = date.getDate();  
+	    d = d < 10 ? ('0' + d) : d;  
+	    return y + '-' + m + '-' + d;  
+	}
+	
+	function initBaiduMapBody() {
 		//1. 获取
 		map = new BMap.Map("contentDiv-1");     
 	    // 创建地图实例  
@@ -123,7 +198,8 @@
 	}
 	
 	
-	function showContentDiv(obj,contentDivIndex){
+	function showContentDiv(indexNum){
+		var obj = document.getElementById("menu-"+indexNum)
 		var ulEle = obj.parentNode;
 		var labelEles=ulEle.getElementsByTagName("label");
 		for(var i=0;i<labelEles.length;i++){
@@ -135,8 +211,8 @@
 			}
 		}
 		for(var i=1;i<=2;i++){
-			if(i==contentDivIndex){
-				document.getElementById("contentDiv-"+contentDivIndex).style.display = "";
+			if(i==indexNum){
+				document.getElementById("contentDiv-"+indexNum).style.display = "";
 			}else{
 				document.getElementById("contentDiv-"+i).style.display = "none";
 			}
@@ -150,27 +226,29 @@
 	<div class="scwrapper">
 		<div class="recommend-menu-box">
 			<ul>
-				<li onclick="showContentDiv(this,1)">
+				<li id="menu-1" onclick="showContentDiv(1)">
 					<label class="active">地图显示</label>
 				</li>
-				<li onclick="showContentDiv(this,2)">
+				<li id="menu-2" onclick="showContentDiv(2)">
 					<label>列表显示</label>
 				</li>
 			</ul>
 		</div>
 		<div class="show-map-box" id="contentDiv-1">
 		</div>
-		<div class="show-table-box" id="contentDiv-2" style="display:none">
+		<div class="recommend-list-box scroller-div" id="contentDiv-2">
 			<c:if test="${!empty queryResult.rows }">
-				<ul>
-					<c:forEach items="${queryResult.rows }" var="row">
-						<li>
-							<label class="factory-name">${row.name }</label>
-							<span><fmt:formatDate value="${row.create_time}" pattern="yyyy-MM-dd"/></span>
-						</li>
-					
-					</c:forEach>
-				</ul>
+				<div id="scroller">
+					<ul id="recommend-list-ul">
+						<c:forEach items="${queryResult.rows }" var="row">
+							<li>
+								<label class="factory-name">${row.name }</label>
+								<span><fmt:formatDate value="${row.create_time}" pattern="yyyy-MM-dd"/></span>
+							</li>
+						
+						</c:forEach>
+					</ul>
+				</div>
 			</c:if>
 			<c:if test="${empty queryResult.rows }">
 				<div class="no-data-box">

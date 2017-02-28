@@ -9,6 +9,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import pub.dao.query.PageSettings;
 import pub.dao.query.QueryResult;
+import pub.functions.JsonFuncs;
 import pub.types.Pair;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,11 +81,37 @@ public class IndexAction  extends MMallActon{
 		
 		JSONObject condition=new JSONObject();
 		condition.element("factoryId", user.getFactoryId());
-		QueryResult queryResult = scoreService.query(condition.toString(), PageSettings.of(pageNo));
+		PageSettings setting = PageSettings.of(pageNo);
+		QueryResult queryResult = scoreService.query(condition.toString(), setting);
 		Factory factory = factoryService.get(user.getFactoryId());
+		int totalPage = queryResult.getRowCount()%setting.getPageSize()==0
+				?queryResult.getRowCount()/setting.getPageSize():queryResult.getRowCount()/setting.getPageSize()+1;
 		request.setAttribute("queryResult", queryResult);
+		request.setAttribute("totalPage",totalPage );
 		request.setAttribute("factory", factory);
 		return "/mmall/home/score_list";
+	}
+	
+	@RequestMapping
+	public void listScoreAsync(HttpServletRequest request,HttpServletResponse response){
+		JSONObject jsonObject = new JSONObject();
+		String pn =  request.getParameter("pn");
+		int pageNo  = pn ==null ? 1:Integer.valueOf(pn); 
+		FactoryUser user = this.getUser();
+		if(user==null){
+			this.writeJson(jsonObject);
+			return;	
+		}
+		
+		JSONObject condition=new JSONObject();
+		condition.element("factoryId", user.getFactoryId());
+		PageSettings setting = PageSettings.of(pageNo);
+		QueryResult queryResult = scoreService.query(condition.toString(), setting);
+		Factory factory = factoryService.get(user.getFactoryId());
+		
+		jsonObject.element("scoreList", queryResult.getRows());
+		jsonObject.element("factory", factory);
+		this.writeJson(jsonObject);
 	}
 	
 	@RequestMapping
@@ -99,16 +126,41 @@ public class IndexAction  extends MMallActon{
 		int pageNo  = pn ==null ? 1:Integer.valueOf(pn);
 		JSONObject condition=new JSONObject();
 		condition.element("refereeId", factory.getId());
-		QueryResult queryResult =factoryService.query(condition.toString(), PageSettings.of(pageNo));
-		
+		PageSettings setting = PageSettings.of(pageNo);
+		QueryResult queryResult =factoryService.query(condition.toString(), setting);
+		int totalPage = queryResult.getRowCount()%setting.getPageSize()==0
+				?queryResult.getRowCount()/setting.getPageSize():queryResult.getRowCount()/setting.getPageSize()+1;
 		List<Factory> factoryList = factoryService.getAllByRefereeId( factory.getId());
 		
 		request.setAttribute("factory", factory);
 		request.setAttribute("queryResult", queryResult);
+		request.setAttribute("totalPage",totalPage );
 		request.setAttribute("factoryJsonArray", JSONArray.fromObject(factoryList));
+		request.setAttribute("indexNum",request.getParameter("indexNum") );
 		return "/mmall/home/recommend_list";
 	}
 	
+	@RequestMapping
+	public void listRecommendAsync(HttpServletRequest request,HttpServletResponse response){
+		JSONObject jsonObject = new JSONObject();
+		FactoryUser user = this.getUser();
+		if(user==null){
+			this.writeJson(jsonObject);
+			return;	
+		}
+			
+		Factory factory = factoryService.get(user.getFactoryId());
+		
+		String pn =  request.getParameter("pn");
+		int pageNo  = pn ==null ? 1:Integer.valueOf(pn);
+		JSONObject condition=new JSONObject();
+		condition.element("refereeId", factory.getId());
+		PageSettings setting = PageSettings.of(pageNo);
+		QueryResult queryResult =factoryService.query(condition.toString(), setting);
+		
+		jsonObject.element("recommendList", queryResult.getRows());
+		this.writeJson(jsonObject);
+	}
 	
 	@Autowired
 	private ScoreService scoreService;
