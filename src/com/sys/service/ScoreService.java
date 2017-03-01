@@ -41,7 +41,7 @@ public class ScoreService extends BaseService<Score>{
 		return query.getResult();
 	}
 	
-	public int getAllScoreBySysUser(String sysUserId,Date startDate,Date endDate){
+	public double getAllScoreBySysUser(String sysUserId,Date startDate,Date endDate){
 		return scoreDao.getAllScore(sysUserId,startDate,endDate);
 	}
 	

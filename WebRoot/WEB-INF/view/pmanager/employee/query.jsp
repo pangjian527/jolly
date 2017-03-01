@@ -114,15 +114,15 @@
                 <div class="m_asset_panel">
                     <div class="asset_item">
                         <b>历史积分</b>
-                        <label>￥${allScore}.00</label>
+                        <label>￥${allScore}</label>
                     </div>
                     <div class="asset_item">
                         <b>上月积分</b>
-                        <label>￥${upMonthScore}.00</label>
+                        <label>￥${upMonthScore}</label>
                     </div>
                     <div class="asset_item">
                         <b>本月积分</b>
-                        <label>￥${currentMonthScore}.00</label>
+                        <label>￥${currentMonthScore}</label>
                     </div>
                     <div style="clear:both;"></div>
                 </div>

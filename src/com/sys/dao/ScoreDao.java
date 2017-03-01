@@ -18,7 +18,7 @@ public class ScoreDao extends HibernateDao<Score> {
 		super(Score.class);
 	}
 
-	public int getAllScore(String sysUserId, Date startDate, Date endDate) {
+	public double getAllScore(String sysUserId, Date startDate, Date endDate) {
 		
 		StringBuffer sql = new StringBuffer(" select coalesce(sum(s.score),0) " +
 				"from t_score s where s.sys_user_id =:sysUserId ");
@@ -40,7 +40,7 @@ public class ScoreDao extends HibernateDao<Score> {
 			query.setParameter("endDate", endDate);
 		}
 		
-		return Integer.valueOf(query.uniqueResult().toString());
+		return Double.valueOf(query.uniqueResult().toString());
 	}
 
 	public int getFactoryHistoryScore(String factoryId) {
