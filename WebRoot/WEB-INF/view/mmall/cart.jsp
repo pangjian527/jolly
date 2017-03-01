@@ -266,6 +266,7 @@
 			var iElements = document.getElementById("cartListId").getElementsByTagName("i");
 			var priceAmount = 0;
 			var productCount = 0;
+			var selectItemCount =0;
 			for(var i = 0, len = iElements.length; i < len; i++){
 				var iElement = iElements[i];
 				if(iElement.className != "cart-checkbox checked"){
@@ -275,11 +276,13 @@
 				var price = iElement.parentNode.parentNode.getAttribute("price");
 				priceAmount += count * price;
 				productCount+=count;
+				selectItemCount++;
 			}
 			priceAmount = Math.round(priceAmount * 100) /100;
 			document.getElementById("totalPrice").innerHTML = "￥"+priceAmount.toFixed(2);
 			document.getElementById("allCount").innerHTML = productCount;
-			if(productCount > 0  && productCount == iElements.length){
+			
+			if(selectItemCount == iElements.length){
 				document.getElementById("cartCheckboxId").className = "cart-checkbox checked";
 			}
 			else{
@@ -395,6 +398,10 @@
 		}
 		function toProductDetail(productId){
 			window.location = "${home}/mmall/product/product.do?op=viewDetail&productId="+productId;
+		}
+		
+		window.onload = function(){
+			document.getElementById("cartCheckboxId").onclick();
 		}
 	</script>
 		
