@@ -225,5 +225,7 @@ DELIMITER $$
 CREATE DEFINER=`root`@`localhost` TRIGGER `t_update_on_profit_config` BEFORE UPDATE ON `t_profit_config`
  FOR EACH ROW SET new.update_time = SYSDATE()
 
+ALTER TABLE `jolly`.`t_score` 
+CHANGE COLUMN `score` `score` DOUBLE NULL DEFAULT NULL ;
 
    

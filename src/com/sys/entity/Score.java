@@ -27,7 +27,7 @@ public class Score implements Serializable {
 	// 用户ID
 	private String factoryId;
 	// 积分值(正值为增加，负值为抵扣)
-	private Integer score;
+	private double score;
 	// 创建时间（触发器维护）
 	private Date createTime;
 	// 修改时间（触发器维护）
@@ -66,7 +66,7 @@ public class Score implements Serializable {
 
 
 	@Column(name = "SCORE")
-	public Integer getScore() {
+	public double getScore() {
 		return score;
 	}
 
@@ -86,7 +86,7 @@ public class Score implements Serializable {
 	}
 
 
-	public void setScore(Integer score) {
+	public void setScore(double score) {
 		this.score = score;
 	}
 

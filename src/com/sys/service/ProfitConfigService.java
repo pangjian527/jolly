@@ -54,6 +54,15 @@ public class ProfitConfigService extends BaseService<ProfitConfig>{
 		return null;
 	}
 	
+	public ProfitConfig getProfitConfigStatus(){
+		List<ProfitConfig> profitList = profitConfigDao.getAllByProperty("status", ProfitConfig.STATUS_EFFECTIVE);
+		
+		if(profitList.size() > 0){
+			return profitList.get(0);
+		}
+		return null;
+	}
+	
 	@Autowired
 	private GeneralDao generalDao;
 	@Autowired

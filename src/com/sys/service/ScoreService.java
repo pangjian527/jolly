@@ -23,8 +23,6 @@ import com.sys.entity.Score;
 @Transactional(readOnly = true)
 public class ScoreService extends BaseService<Score>{
 
-	public final static int OPEN_FACTORY_SCORE = 100;
-	
 	@Override
 	public QueryResult query(String condition, QuerySettings settings) {
 		JSONObject queryJson = StrFuncs.isEmpty(condition) ? new JSONObject() : JSONObject.fromObject(condition);
@@ -57,7 +55,7 @@ public class ScoreService extends BaseService<Score>{
 	}
 	
 	@Transactional
-	public void deliverFactoryScore(int score,String source,String factoryId,String bookId) {
+	public void deliverFactoryScore(double score,String source,String factoryId,String bookId) {
 		Score scoreObj = new Score();
 		scoreObj.setFactoryId(factoryId);
 		scoreObj.setScore(score);
@@ -69,7 +67,7 @@ public class ScoreService extends BaseService<Score>{
 	
 	//门店下单，地推人员所得积分
 	@Transactional
-	public void sysUserScore(int score,String factoryId,String source,String sysUserId) {
+	public void sysUserScore(double score,String factoryId,String source,String sysUserId) {
 		Score scoreObj = new Score();
 		scoreObj.setSysUserId(sysUserId);
 		scoreObj.setScore(score);
