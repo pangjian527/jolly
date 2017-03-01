@@ -46,12 +46,11 @@
 		
 		div.cart-list-box ul li div.pro-info-box{
 				float:left;
-				width:calc(100% - 120px);
-				padding:0 10px;
+				width:calc(100% - 100px);
 		}
 		div.pro-info-title{
 			color: #232326;
-		    font-size: 15px;
+		    font-size: 14px;
 		    line-height: 20px;
 		    height: 60px;
 		    overflow: hidden;
@@ -61,6 +60,7 @@
 		    -webkit-line-clamp: 2;
 		    -webkit-box-orient: vertical;
 		    word-break: break-word;		
+		    padding-left:5px;
 		}
 		div.pro-price{
 			height: 45px;
@@ -68,7 +68,7 @@
 		}
 		div.pro-price label.price{
 			color:#f23030;
-			font-size:25px;
+			font-size:16px;
 		}
 		
 		div.cart-balance-box{
@@ -416,7 +416,7 @@
 							<div class="pro-info-box">
 								<div class="pro-info-title" onclick = "toProductDetail('${cartItem.productId }')">${cartItem.productName }</div>
 								<div class="pro-price">
-									<label class="price">￥${cartItem.price }</label>
+									<label class="price">￥<fmt:formatNumber value="${cartItem.price }" pattern="#,#00.00#"/></label>
 									<div class="edit-count">
 										<a class="minus-count" onclick="_decreaseItemCount(this,'${cartItem.productId }')">
 										</a>
@@ -430,6 +430,11 @@
 					</li>
 				</c:forEach>
 			</ul>
+			<c:if test="${empty cartData.items }">
+				<div class="no-data-box">
+					<h3>没有找到相关数据</h3>
+				</div>
+			</c:if>
 		</div>
 		
 		<div class="cart-balance-box">
