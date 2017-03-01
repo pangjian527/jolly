@@ -82,6 +82,7 @@
 		    width: 100%;
 		    border-top: 1px solid #e4e4e4;
 		    max-width: 640px;
+		    line-height:53px;
 		}
 		
 		div.cart-balance-box a{
@@ -92,18 +93,21 @@
 		    height: 50px;
 		    display: block;
     		float: right;
+    		font-weight: bold;
 		}
 		
 		div.cart-balance-box label{
 			display:inline-block;
 			height:50px;
-			font-size:25px;
-			margin-right: 10px;
+			font-size:16px;
+			margin-right: 5px;
+			font-weight:bold;53px
 		}
 		
 		
 		header.header{
 			  background-color: #f3f3f3;
+			  height:50px;
 		}
 		header.header h1{
 			margin: 0;
@@ -121,6 +125,7 @@
 			  line-height: 50px;
 			  height: 50px;
 			  color: red;
+			  font-size:14px;
 		}
 		a.checkbox{
 			  float: left;
@@ -213,9 +218,9 @@
 			  display: table-cell;
 			  vertical-align: middle;
 			  padding-left: 5px;
-			  font-size: 16px;
-			  line-height: 20px;
-			    padding-top: 5px;
+			  font-size: 14px;
+			  line-height: 23px;
+			  font-weight:bold;
 		}
 		div.cart-price-info{
 			    float: left;
@@ -272,7 +277,7 @@
 				productCount+=count;
 			}
 			priceAmount = Math.round(priceAmount * 100) /100;
-			document.getElementById("totalPrice").innerHTML = "￥"+priceAmount;
+			document.getElementById("totalPrice").innerHTML = "￥"+priceAmount.toFixed(2);
 			document.getElementById("allCount").innerHTML = productCount;
 			if(productCount > 0  && productCount == iElements.length){
 				document.getElementById("cartCheckboxId").className = "cart-checkbox checked";
@@ -397,8 +402,7 @@
 <body>
 	<div class="scwrapper">
 		<header class="header">
-			<h1>购物车</h1>
-			<a href="javascript:deleteItems()">删除</a>
+			<a href="javascript:deleteItems()">删除选中商品</a>
 		</header>
 		
 		<div class="cart-list-box">
@@ -444,8 +448,8 @@
 			</div>
 			<div class="btn-right-block">
 				<span>合计：</span>
-				<label id="totalPrice">￥0</label>
-				<a href="javascript:cartSubmit()">去结算(<span id="allCount"></span>)</a>
+				<label id="totalPrice">￥0.00</label>
+				<a href="javascript:cartSubmit()">去结算(<span id="allCount">0</span>)</a>
 			</div>
 		</div>
 		<form action="${home}/mmall/order/order.do" method="post" name="bookform">
