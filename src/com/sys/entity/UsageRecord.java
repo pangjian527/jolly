@@ -39,7 +39,7 @@ public class UsageRecord implements Serializable {
 	}
 
 	@Column(name = "SECURITY_CODE")
-	public String getSecuritCode() {
+	public String getSecurityCode() {
 		return securityCode;
 	}
 
@@ -65,7 +65,7 @@ public class UsageRecord implements Serializable {
 	}
 
 
-	public void setSecuritCode(String securitCode) {
+	public void setSecurityCode(String securitCode) {
 		this.securityCode = securitCode;
 	}
 

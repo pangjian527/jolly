@@ -148,7 +148,7 @@
 	                	<td>
 	                		<div class="stock_status_line">
 	                			<ul>
-	                				<c:if test="${productItem.status == 2}">
+	                				<c:if test="${productItem.status == 2 && usageCount ==0}">
 		                				<li>
 		                					<i></i>
 		                					<label>
@@ -159,32 +159,11 @@
 		                					</label>
 		                				</li>
 	                				</c:if>
-	                				<c:forEach items="${listUsageStatus}" var="data" >
+	                				<c:forEach items="${listResult}" var="result" >
 		                				<li>
 		                					<i></i>
 		                					<label>
-		                						<fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
-		                						${data.factoryName} 进行了查询
-		                					</label>
-		                				</li>
-	                				</c:forEach>
-	                				<c:forEach items="${listStockStatus}" var="data" >
-		                				<li>
-		                					<i></i>
-		                					<label>
-		                						<fmt:formatDate value="${data.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
-		                						<c:if test="${data.stockType ==1}">
-		                							扫描入库
-		                						</c:if>
-		                						<c:if test="${data.stockType ==0}">
-		                							扫描出库
-		                						</c:if>&nbsp;&nbsp;
-		                						<c:if test="${data.bookformCode != null}">
-		                						订单编号：${data.bookformCode}
-		                						</c:if>
-		                						<c:if test="${data.factoryName != null}">
-		                						</br>购买商家：${data.factoryName}
-		                						</c:if>
+		                						${result.second }
 		                					</label>
 		                				</li>
 	                				</c:forEach>

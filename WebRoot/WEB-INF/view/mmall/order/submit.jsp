@@ -382,7 +382,7 @@
 				</c:forEach>
 			</ul>
 		</div>
-		<div class="user-score-box">
+		<div class="user-score-box"  style="display:none">
 			<ul>
 				<li>
 					<label>优惠劵</label>
@@ -390,7 +390,7 @@
 					<i class="direction"></i>
 				</li>
 				<li>
-					<label>积分 共${score }积分，可低￥${score/10 }元。</label>
+					<label>积分 共${score }积分，可低￥${score }元。</label>
 					<i></i>
 				</li>
 			</ul>
@@ -405,8 +405,8 @@
 			<dl>
 				<dt>商品金额</dt>
 				<dd>￥ <fmt:formatNumber value="${cartData.allTotal }" pattern="#,#00.00#"/></dd>
-				<dt>积分抵扣</dt>
-				<dd>-￥0.00</dd>
+				<dt style="display:none">积分抵扣</dt>
+				<dd  style="display:none">-￥0.00</dd>
 				<dt>运费</dt>
 				<dd>+￥0.00</dd>
 			</dl>

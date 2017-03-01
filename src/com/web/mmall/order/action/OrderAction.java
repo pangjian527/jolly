@@ -66,8 +66,8 @@ public class OrderAction extends MMallActon{
 		CartData cartData = cartService.getCartData(items);
 		
 		//3.获取积分
-		int totalScore = scoreService.getFactoryHistoryScore(factory.getId());
-		int consumeScore = scoreService.getFactoryConsumeScore(factory.getId());
+		double totalScore = scoreService.getFactoryHistoryScore(factory.getId());
+		double consumeScore = scoreService.getFactoryConsumeScore(factory.getId());
 		
 		//4. 省市区
 		

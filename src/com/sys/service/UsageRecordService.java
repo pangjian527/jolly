@@ -21,6 +21,15 @@ public class UsageRecordService {
 		return usageRecordDao.getAllByProperty("security_Code", securityCode, "create_time desc");
 	}
 	
+	@Transactional
+	public void addUsage(String securityCode,String factoryId){
+		UsageRecord record = new UsageRecord();
+		record.setFactoryId(factoryId);
+		record.setSecurityCode(securityCode);
+		
+		usageRecordDao.save(record);
+	}
+	
 	@Autowired
 	private UsageRecordDao usageRecordDao;
 	

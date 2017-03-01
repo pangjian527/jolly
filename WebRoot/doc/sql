@@ -195,6 +195,38 @@ ALTER TABLE `t_bookform`
 DROP INDEX `index_status_deliveryTime`,
 ADD INDEX `index_status_deliveryTime` (`status`, `delivery_time`) USING BTREE ;
 
+2017-03-01pj add
+CREATE TABLE `jolly`.`t_profit_config` (
+  `id` VARCHAR(32) NOT NULL,
+  `push_direct_open_factory` DOUBLE NULL COMMENT '直接开店提成',
+  `push_indirect_open_factory` VARCHAR(45) NULL COMMENT '间接提成',
+  `push_order` DOUBLE NULL,
+  `factory_order` DOUBLE NULL COMMENT '商家下单，上级的商家提成',
+  `create_time` DATE NULL,
+  `update_time` DATE NULL,
+  `install_amount` DOUBLE NULL COMMENT '安装费用',
+  PRIMARY KEY (`id`));
+
+ALTER TABLE `jolly`.`t_profit_config` 
+ADD COLUMN `status` VARCHAR(45) NULL AFTER `install_amount`;
+ 
+ insert sys_module values('131','11',null,'提成管理',null,null,null);
+insert sys_navtree values('131','11','提成管理','131',null,'/pmanager/profit/profit_config.do?op=query',13);
+
+USE `jolly`;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` TRIGGER `t_create_on_profit_config` BEFORE INSERT ON `t_profit_config` FOR EACH ROW BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END
+
+USE `jolly`;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` TRIGGER `t_update_on_profit_config` BEFORE UPDATE ON `t_profit_config`
+ FOR EACH ROW SET new.update_time = SYSDATE()
+
+ALTER TABLE `jolly`.`t_score` 
+CHANGE COLUMN `score` `score` DOUBLE NULL DEFAULT NULL ;
 
  2017-03-01 23:56 csx add
 

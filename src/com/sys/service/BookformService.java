@@ -40,6 +40,7 @@ import com.sys.entity.FactoryUser;
 import com.sys.entity.LogPayment;
 import com.sys.entity.Product;
 import com.sys.entity.ProductItem;
+import com.sys.entity.ProfitConfig;
 import com.sys.entity.StockRecord;
 import com.sys.entity.SysUser;
 import com.web.mmall.entity.OrderEntity;
@@ -250,13 +251,19 @@ public class BookformService extends BaseService<Bookform>{
 		//发货生成账单
 		billDetailService.deliverBillDetail(bookform);
 		
-		int score = (int)Math.floor(bookform.getSales());
-		Factory factory = factoryService.get(bookform.getFactoryId());
-		//门店积分
-		scoreService.deliverFactoryScore(score, factory.getMobile()+"门店下单积分", bookform.getFactoryId(), bookform.getId());
-		//地推积分，门店不递归
-		scoreService.sysUserScore(score, bookform.getFactoryId(), 
-				factory.getName()+"下单", factory.getSysUserId());
+		ProfitConfig prifitConfig = profitConfigService.getProfitConfigStatus();
+		
+		if(prifitConfig != null){
+			double employeeScore = bookform.getSales() * prifitConfig.getPushOrder()*0.01;
+			
+			double factoryScore = bookform.getSales() * prifitConfig.getFactoryOrder()*0.01;
+			Factory factory = factoryService.get(bookform.getFactoryId());
+			//推荐门店的积分
+			scoreService.deliverFactoryScore(factoryScore, factory.getMobile()+"门店下单积分", factory.getRefereeId(), bookform.getId());
+			
+			//地推积分，门店不递归
+			scoreService.sysUserScore(employeeScore, bookform.getFactoryId(), factory.getMobile()+"下单", factory.getSysUserId());
+		}
 		
 		return true;
 	}
@@ -460,5 +467,7 @@ public class BookformService extends BaseService<Bookform>{
 	private StockRecordService stockRecordService;
 	@Autowired
 	private ProductItemService productItemService;
+	@Autowired
+	private ProfitConfigService profitConfigService;
 
 }
