@@ -213,5 +213,17 @@ ADD COLUMN `status` VARCHAR(45) NULL AFTER `install_amount`;
  insert sys_module values('131','11',null,'提成管理',null,null,null);
 insert sys_navtree values('131','11','提成管理','131',null,'/pmanager/profit/profit_config.do?op=query',13);
 
+USE `jolly`;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` TRIGGER `t_create_on_profit_config` BEFORE INSERT ON `t_profit_config` FOR EACH ROW BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END
+
+USE `jolly`;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` TRIGGER `t_update_on_profit_config` BEFORE UPDATE ON `t_profit_config`
+ FOR EACH ROW SET new.update_time = SYSDATE()
+
 
    
