@@ -225,9 +225,9 @@ public class FactoryAction extends PManagerAction<Factory>{
 		QueryResult queryResult = scoreService.query(object.toString(), PageSettings.of(pageNo));
 		
 		//历史总积分
-		int historyScore = scoreService.getFactoryHistoryScore(id);
+		double historyScore = scoreService.getFactoryHistoryScore(id);
 		//已消费积分
-		int consumeScore = scoreService.getFactoryConsumeScore(id);
+		double consumeScore = scoreService.getFactoryConsumeScore(id);
 		
 		model.put("queryResult", queryResult);
 		model.put("historyScore", historyScore);

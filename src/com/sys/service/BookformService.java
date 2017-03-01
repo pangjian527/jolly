@@ -254,9 +254,9 @@ public class BookformService extends BaseService<Bookform>{
 		ProfitConfig prifitConfig = profitConfigService.getProfitConfigStatus();
 		
 		if(prifitConfig != null){
-			double employeeScore = bookform.getSales() * prifitConfig.getPushOrder();
+			double employeeScore = bookform.getSales() * prifitConfig.getPushOrder()*0.01;
 			
-			double factoryScore = bookform.getSales() * prifitConfig.getFactoryOrder();
+			double factoryScore = bookform.getSales() * prifitConfig.getFactoryOrder()*0.01;
 			Factory factory = factoryService.get(bookform.getFactoryId());
 			//推荐门店的积分
 			scoreService.deliverFactoryScore(factoryScore, factory.getMobile()+"门店下单积分", factory.getRefereeId(), bookform.getId());

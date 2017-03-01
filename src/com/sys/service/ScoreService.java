@@ -46,11 +46,11 @@ public class ScoreService extends BaseService<Score>{
 	}
 	
 	//获取商家的历史总积分
-	public int getFactoryHistoryScore(String factoryId){
+	public double getFactoryHistoryScore(String factoryId){
 		return scoreDao.getFactoryHistoryScore(factoryId);
 	}
 	//获取商家的已经消费的积分
-	public int getFactoryConsumeScore(String factoryId) {
+	public double getFactoryConsumeScore(String factoryId) {
 		return scoreDao.getFactoryConsumeScore(factoryId);
 	}
 	

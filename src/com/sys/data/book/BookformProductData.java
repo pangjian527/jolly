@@ -145,7 +145,7 @@ public class BookformProductData implements Serializable{
 		for(ProductItem item:this.outStockItemList){
 			codes.append(item.getSecurityCode()).append("，");
 		}
-		codes.setLength(codes.length()-1);
+		//codes.setLength(codes.length()-1);
 		return codes.toString();
 	}
 

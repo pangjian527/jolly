@@ -22,6 +22,7 @@ import pub.functions.DateFuncs;
 import pub.functions.JsonFuncs;
 import pub.functions.StrFuncs;
 import pub.spring.ActionResult;
+import pub.types.Pair;
 
 import com.sys.entity.Bookform;
 import com.sys.entity.Factory;
@@ -150,18 +151,21 @@ public class ProductAction extends PManagerAction<Product>{
 		//2. 获取商品信息
 		Product product = productService.get(productItem.getProductId());
 		
-		//3. 获取出入库记录
-		List<StockRecord> stockRecords = stockRecordService.getStockRecordBySecurityCode(securityCode);
-		List<StockStatus> listStockStatus = this.getData(stockRecords);
-		
-		//4. 获取查询记录
 		int usageCount = usageRecordService.countUsageQuery(securityCode);
-		List<UsageRecord> listUsageRecord = usageRecordService.getUsageByCode(securityCode);
+		
+		//3. 获取出入库记录
+//		List<StockRecord> stockRecords = stockRecordService.getStockRecordBySecurityCode(securityCode);
+//		List<StockStatus> listStockStatus = this.getData(stockRecords);
+		//4. 获取查询记录
+		//List<UsageRecord> listUsageRecord = usageRecordService.getUsageByCode(securityCode);
 
+		List<Pair<Long, String>> listResult = productItemService.getProeuctItemTimeLog(securityCode,null);
+		
 		request.setAttribute("product", product);
 		request.setAttribute("productItem", productItem);
-		request.setAttribute("listStockStatus", listStockStatus);
-		request.setAttribute("listUsageStatus", this.getDataUsage(listUsageRecord));
+//		request.setAttribute("listStockStatus", listStockStatus);
+//		request.setAttribute("listUsageStatus", this.getDataUsage(listUsageRecord));
+		request.setAttribute("listResult", listResult);
 		request.setAttribute("usageCount", usageCount);
 		
 		return url;

@@ -159,7 +159,7 @@ public class ProductItemService extends BaseService<ProductItem>{
 				
 				//1.3 订单说明
 				StringBuffer orderDescribe = new StringBuffer(DateFuncs.toString(bookform.getCreateTime(),DateFuncs.format2));
-				orderDescribe.append(factory.getName()).append("下单完成").append("订单编号：").append(bookform.getCode());
+				orderDescribe.append(" "+factory.getName()).append("下单完成 ").append(" </br> 订单编号：").append(bookform.getCode());
 				
 				Pair<Long, String> orderPair = new Pair<Long, String>();
 				orderPair.first = bookform.getCreateTime().getTime();
@@ -169,7 +169,7 @@ public class ProductItemService extends BaseService<ProductItem>{
 				//1.5 发货说明
 				if(bookform.getDeliveryTime() != null){
 					StringBuffer deliveryDescribe = new StringBuffer(DateFuncs.toString(bookform.getDeliveryTime(),DateFuncs.format2));
-					deliveryDescribe.append("完成发货").append("快递类型"+bookform.getDeliveryFactory()).append("快递单号："+bookform.getTrackingNumber());
+					deliveryDescribe.append(" 完成发货").append(" | 快递类型："+bookform.getDeliveryFactory()).append(" </br> 快递单号："+bookform.getTrackingNumber());
 					
 					Pair<Long, String> deliveryPair = new Pair<Long, String>();
 					deliveryPair.first = bookform.getDeliveryTime().getTime();
@@ -188,7 +188,7 @@ public class ProductItemService extends BaseService<ProductItem>{
 			Pair<Long, String> usagePair = new Pair<Long, String>();
 			usagePair.first = usageRecord.getCreateTime().getTime();
 			StringBuffer deliveryDescribe = new StringBuffer(DateFuncs.toString(usageRecord.getCreateTime(),DateFuncs.format2));
-			usagePair.second = deliveryDescribe.append(factory.getName()+"销售查询").toString();
+			usagePair.second = deliveryDescribe.append(" "+factory.getMobile()+"销售查询").toString();
 			lineResult.add(usagePair);
 		}
 		

@@ -42,8 +42,8 @@ public class IndexAction  extends MMallActon{
 		//开店数量
 		int countFactory = factoryService.countFactoryByRefereeId(user.getFactoryId());
 		//总积分
-		int totalScore = scoreService.getFactoryHistoryScore(user.getFactoryId());
-		int useScore = scoreService.getFactoryConsumeScore(user.getFactoryId());
+		double totalScore = scoreService.getFactoryHistoryScore(user.getFactoryId());
+		double useScore = scoreService.getFactoryConsumeScore(user.getFactoryId());
 		
 		request.setAttribute("countBookform", countBookform);
 		request.setAttribute("countFactory", countFactory);
@@ -68,6 +68,9 @@ public class IndexAction  extends MMallActon{
 		}
 		Product product = productService.get(productItem.getProductId());
 		int countUsageQuery = usageRecordService.countUsageQuery(securityCode);
+		
+		//添加查询记录
+		usageRecordService.addUsage(securityCode, factoryUser.getFactoryId());
 		
 		request.setAttribute("listResult", listResult);
 		request.setAttribute("product", product);
