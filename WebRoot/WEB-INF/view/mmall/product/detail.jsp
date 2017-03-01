@@ -38,6 +38,7 @@
 		div.product-menu-box ul li label.active{
 			border-bottom: 2px solid #9a9a9a;
   			padding: 17px 10px;
+  			color:red;
 		}
 		div.base-info-wrapper{
 			margin: 10px 0;
@@ -73,6 +74,21 @@
 		a.cart{
 			width: 33%;
   			background-color: white;
+  			position:relative;
+  			font-size: 14px;
+    		line-height: 75px;
+		}
+		a.cart i.cart_png{
+			display: block;
+		    background-image: url("/jolly/image/cart_sprits_all.png");
+		    height: 25px;
+		    width: 27px;
+		    background-position: 0px -26px;
+		    background-size: 124px;
+		    position: absolute;
+		    left: 50%;
+		    margin-left: -15px;
+		    top: 6px;
 		}
 		a.add-cart{
 			width: 34%;
@@ -227,8 +243,8 @@
 			<div class="base-info-wrapper">
 				<div class="product-name">${product.name }</div>
 				<div class="price-info">
-					<span class="discount-price">¥${product.price }</span>
-					<label>原价：</label><span>¥${product.priceMart }</span>
+					<span class="discount-price">¥<fmt:formatNumber value="${product.price }" pattern="#,#00.00#"/></span>
+					<label>原价：</label><i style="text-decoration: line-through;">¥<fmt:formatNumber value="${product.priceMart }" pattern="#,#00.00#"/></i>
 				</div>
 				<div class="express-remark">包退、包换</div>
 			</div>
@@ -303,7 +319,10 @@
 			</c:forEach>
 		</div>
 		<div class="bottom-menu">
-			<a class="cart" href="javascript:toCart()">购物车</a>
+			<a class="cart" href="javascript:toCart()">
+				<i class="cart_png"></i>
+				购物车
+			</a>
 			<a class="add-cart" href="javascript:addToCart('${product.id }')">加入购物车</a>
 			<a class="buy-now" href="javascript:buyNow('${product.id }')">立即购买</a>
 		</div>
