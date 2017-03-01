@@ -28,6 +28,7 @@ import com.sys.service.ProductService;
 import com.sys.service.ScoreService;
 import com.sys.service.UsageRecordService;
 import com.web.mmall.MMallActon;
+import com.wxpay.util.WXConfigUtil;
 
 @Controller
 public class IndexAction  extends MMallActon{
@@ -50,7 +51,8 @@ public class IndexAction  extends MMallActon{
 		return "/mmall/home/index";
 	}
 	@RequestMapping
-	public String security(){
+	public String security(HttpServletRequest request,HttpServletResponse response){
+		WXConfigUtil.createWXConfigParam(request);
 		return "/mmall/home/security";
 	}
 	/* 防伪码详情 */
@@ -61,6 +63,9 @@ public class IndexAction  extends MMallActon{
 		List<Pair<Long, String>> listResult = productItemService.getProeuctItemTimeLog(securityCode, factoryUser.getFactoryId());
 		
 		ProductItem productItem = productItemService.getBySecurityCode(securityCode);
+		if(productItem==null){
+			return "/mmall/home/security_detail";
+		}
 		Product product = productService.get(productItem.getProductId());
 		int countUsageQuery = usageRecordService.countUsageQuery(securityCode);
 		

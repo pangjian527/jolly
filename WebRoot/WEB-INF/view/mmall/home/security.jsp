@@ -94,6 +94,20 @@
 			var securityCode = document.getElementById("securityCode").value;
 			window.location.href = "${home}/mmall/home/index.do?op=securityDetail&securityCode="+securityCode;
 		}
+		function scanCode(){
+			wx.scanQRCode({
+			    needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+			    scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+			    success: function (res) {
+			    if(res){ // 扫码返回的结果
+				    document.getElementById("securityCode").value=res.resultStr;
+			    }else{
+			    	dialogAlert("温馨提示", "扫描失败，请稍候再试");
+			    }
+			}
+			});
+		}
+		
 	</script>
 		
 </head>
@@ -107,8 +121,38 @@
 			<div class="secutiry-box">
 				<input type="text" id="securityCode" placeholder="请扫描防伪码" />
 				<a class="scan" href="javascript:secutiryValid()">查询</a>
-				<a  href="">扫码</a>
+				<a  href="javascript:scanCode()">扫码</a>
 			</div>
 	</div>
 </body>
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
+<script type="text/javascript">
+wx.config({
+    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    appId: '${appId}', // 必填，公众号的唯一标识
+    timestamp: '${timeStamp}', // 必填，生成签名的时间戳
+    nonceStr: '${nonceStr}', // 必填，生成签名的随机串
+    signature: '${signature}',//
+    jsApiList: [
+		"checkJsApi",
+    	"scanQRCode"
+    ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+});
+wx.error(function(res){
+	//alert(res.errMsg);
+	//alert(location.href.split('#')[0]);
+});
+
+wx.ready(function(){
+	wx.checkJsApi({
+	    jsApiList: ['scanQRCode'], //
+	    success: function(res) {
+	       if(res.errMsg=='checkJsApi:ok'&&!res.checkResult.scanQRCode){
+	        	alert("当前微信版本不支持扫一扫功能");
+	       }
+	    }
+	});
+});
+</script>
 </html>

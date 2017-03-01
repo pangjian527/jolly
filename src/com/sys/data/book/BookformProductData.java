@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
+
 import com.sys.entity.BookformDetail;
+import com.sys.entity.ProductItem;
 
 /*
  * @版本说明：2014-11-10 pj
@@ -37,8 +39,9 @@ public class BookformProductData implements Serializable{
 	private String imageId;
 	///订单详情id
 	private String id;
-	// 数量
-	private Integer outStockCount ;
+	
+	//已出库商品
+	private List<ProductItem> outStockItemList = new ArrayList<ProductItem>();
 	
 	public BookformProductData(BookformDetail detail){
 		try{
@@ -128,13 +131,22 @@ public class BookformProductData implements Serializable{
 	}
 
 
-	public Integer getOutStockCount() {
-		return outStockCount;
+	public List<ProductItem> getOutStockItemList() {
+		return outStockItemList;
 	}
 
 
-	public void setOutStockCount(Integer outStockCount) {
-		this.outStockCount = outStockCount;
+	public void setOutStockItemList(List<ProductItem> outStockItemList) {
+		this.outStockItemList = outStockItemList;
 	}
 	
+	public String getSecurityCodes() {
+		StringBuffer codes=new StringBuffer();
+		for(ProductItem item:this.outStockItemList){
+			codes.append(item.getSecurityCode()).append("，");
+		}
+		codes.setLength(codes.length()-1);
+		return codes.toString();
+	}
+
 }

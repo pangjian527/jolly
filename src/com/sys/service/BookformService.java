@@ -173,8 +173,8 @@ public class BookformService extends BaseService<Bookform>{
 				targetData.setImageId(photoId);
 				targetData.setProductName(product.getName());
 				
-				int outStockCount = this.calculateOutStockCount(productId,stockRecordList);
-				targetData.setOutStockCount(outStockCount);
+				List<ProductItem> itemList = this.calculateOutStockItemList(productId,stockRecordList);
+				targetData.setOutStockItemList(itemList);
 				
 				datas.add(targetData);
 			}
@@ -184,19 +184,19 @@ public class BookformService extends BaseService<Bookform>{
 	}
 	
 	/**
-	 * 计算已经出库的商品数量
+	 * 获取已出库商品列表
 	 * @param stockRecordList
 	 * @return
 	 */
-	private int calculateOutStockCount(String productId,List<StockRecord> stockRecordList) {
-		int stockedCount= 0;
+	private List<ProductItem> calculateOutStockItemList(String productId,List<StockRecord> stockRecordList) {
+		List<ProductItem> itemList = new ArrayList<ProductItem>();
 		for (StockRecord stockRecord : stockRecordList) {
 			ProductItem item = productItemService.getBySecurityCode(stockRecord.getSecurityCode());
 			if(item.getProductId().equals(productId)){
-				stockedCount+=1;
+				itemList.add(item);
 			}
 		}
-		return stockedCount;
+		return itemList;
 	}
 
 	@Transactional
@@ -227,8 +227,6 @@ public class BookformService extends BaseService<Bookform>{
 	
 	
 	/**
-	 *  @2015-2-1，商城轮胎发货，记录物流状态、物流公司、运单号
-	 * 如果不是需要商城发货的轮胎订单，或者已经发过了，则返回false
 	 * @param id
 	 * @param user
 	 * @return
@@ -433,6 +431,12 @@ public class BookformService extends BaseService<Bookform>{
 		
 		System.out.println("end finishPayment");
 	}
+	
+	@Transactional
+	public void autoFinishOrder() {
+		bookformDao.autoFinishOrder();
+	}
+	
 
 	@Autowired
 	private BookformDao bookformDao;
@@ -456,4 +460,5 @@ public class BookformService extends BaseService<Bookform>{
 	private StockRecordService stockRecordService;
 	@Autowired
 	private ProductItemService productItemService;
+
 }

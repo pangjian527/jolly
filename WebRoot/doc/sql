@@ -190,4 +190,10 @@ ALTER TABLE `log_payment`
 CHANGE COLUMN `callback_config` `order_id`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `callback_task`;
 
 
+ 2017-03-1 19:06 csx add
+ALTER TABLE `t_bookform`
+DROP INDEX `index_status_deliveryTime`,
+ADD INDEX `index_status_deliveryTime` (`status`, `delivery_time`) USING BTREE ;
+
+
    

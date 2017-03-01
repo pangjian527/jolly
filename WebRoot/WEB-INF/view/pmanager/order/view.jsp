@@ -153,9 +153,11 @@
 		}
 		.col-0{width:70px;}
 		.col-1{width:auto}
-		.col-2,.col-3{width:200px;}
-		.col-4{width:200px}
-		.col-5{width:200px}
+		.col-2{width:150px}
+		.col-3{width:150px;}
+		.col-4{width:auto}
+		.col-5{width:150px}
+		.col-6{width:150px}
 		table td{
 			vertical-align: middle;
 			padding: 5px;
@@ -767,12 +769,14 @@
 					<col class="col-3">
 					<col class="col-4">
 					<col class="col-5">
+					<col class="col-6">
 					<thead>
 						<tr>
 							<th colspan="2">商品</th>
 							
 							<th>单价</th>
 							<th>数量</th>
+							<th>已出库商品</th>
 							<th>已出库数量</th>
 							<th>小计</th>
 						</tr>
@@ -793,7 +797,10 @@
 								${item.count}
 							</td>
 							<td>
-								${item.outStockCount}
+								${item.securityCodes}
+							</td>
+							<td>
+								${fn:length(item.outStockItemList)}
 							</td>
 							<td>
 								￥${item.price*item.count}

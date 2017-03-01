@@ -33,6 +33,7 @@
 			display: block;
   			color: #262629;
   			float: left;
+  			width: calc(100% - 60px);
 		}
 		div.base-info label{
 			 font-size: 18px;
@@ -40,6 +41,10 @@
 		div.base-info span{
 			display: block;
   			color: #999;
+  			  text-overflow: ellipsis;
+			  word-break: keep-all;
+			  white-space: nowrap;
+			  overflow: hidden;
 		}
 		div.score{
 			  float: right;
@@ -47,6 +52,7 @@
 		div.score span{
 			  font-size: 25px;
 			  color: #f23030;
+		    line-height: 50px;
 		}
 		
 	</style>

@@ -96,44 +96,51 @@
 </head>
 <body>
 	<div class="scwrapper">
-		<div class="sec-info-box">
-				<h2 class="title">商品信息</h2>
-				<dl>
-					<dt>商品名称：</dt>
-					<dd>${product.name }</dd>
-					<dt>电池容量：</dt>
-					<dd>${product.capacity }</dd>
-					<dt>电池型号：</dt>
-					<dd>${product.model }</dd>
-					<dt>适用品牌：</dt>
-					<dd>${product.applyBrand }</dd>
-					<dt>适用机型：</dt>
-					<dd>${product.applyPhoneType }</dd>
-					<dt>使用次数：</dt>
-					<dd>
-						<c:if test="${countUsageQuery <=0 }"><label class="no_use">首次查询，未使用</label></c:if> 
-						<c:if test="${countUsageQuery >0 }"><label class="use">警告该电池已经使用</label></c:if> 
-					</dd>
-				</dl>
-				<div style="clear:both;"></div>
-		</div>
-		<div class="sec-status-box">
-				<h2 class="title">商品状态</h2>
-				<div class="sec-status-line-box">
-					<ul>
-						<c:forEach items="${listResult }" var="item" >
-             			<li>
-             				<i></i>
-             				<label>${item.second }</label>
-             			</li>
-             			</c:forEach>
-             			<li>
-             				<i></i>
-             				<label>生产</label>
-             			</li>
-					</ul>
-				</div>
-		</div>
+		<c:if test="${!empty product }">
+			<div class="sec-info-box">
+					<h2 class="title">商品信息</h2>
+					<dl>
+						<dt>商品名称：</dt>
+						<dd>${product.name }</dd>
+						<dt>电池容量：</dt>
+						<dd>${product.capacity }</dd>
+						<dt>电池型号：</dt>
+						<dd>${product.model }</dd>
+						<dt>适用品牌：</dt>
+						<dd>${product.applyBrand }</dd>
+						<dt>适用机型：</dt>
+						<dd>${product.applyPhoneType }</dd>
+						<dt>使用次数：</dt>
+						<dd>
+							<c:if test="${countUsageQuery <=0 }"><label class="no_use">首次查询，未使用</label></c:if> 
+							<c:if test="${countUsageQuery >0 }"><label class="use">警告该电池已经使用</label></c:if> 
+						</dd>
+					</dl>
+					<div style="clear:both;"></div>
+			</div>
+			<div class="sec-status-box">
+					<h2 class="title">商品状态</h2>
+					<div class="sec-status-line-box">
+						<ul>
+							<c:forEach items="${listResult }" var="item" >
+	             			<li>
+	             				<i></i>
+	             				<label>${item.second }</label>
+	             			</li>
+	             			</c:forEach>
+	             			<li>
+	             				<i></i>
+	             				<label>生产</label>
+	             			</li>
+						</ul>
+					</div>
+			</div>
+		</c:if>
+		<c:if test="${empty product }">
+			<div class="no-data-box">
+				<h3>没有找到相关数据</h3>
+			</div>
+		</c:if>
 	</div>
 </body>
 </html>

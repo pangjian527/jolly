@@ -297,8 +297,12 @@
 							}else if(data.code == "success"){
 								//通过授权页面获取CODE，获取OPENID
 								var redirectUrl="http://"+window.location.host+"${home}/mmall/order/order.do?op=pay&bookformId="+data.bookformId;
-								window.location="${oauthUrl}?appid=${appId}&redirect_uri="+urlencode(redirectUrl)
-		                                          +"&response_type=code&scope=snsapi_base#wechat_redirect";
+								if(getSelectObjectValue()==0){
+									window.location="${oauthUrl}?appid=${appId}&redirect_uri="+urlencode(redirectUrl)
+                                    +"&response_type=code&scope=snsapi_base#wechat_redirect";
+								}else{
+									window.location="${home}/mmall/order/order.do?op=pay&bookformId="+data.bookformId;
+								}
 								
 							}
 						}

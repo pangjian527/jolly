@@ -130,5 +130,10 @@ public class BookformDao extends HibernateDao<Bookform> {
 		return Integer.valueOf(this.getSession().createSQLQuery(sql)
 				.setParameter("factoryId", factoryId).uniqueResult().toString());
 	}
+
+	public void autoFinishOrder() {
+		String sql = "update t_bookform t set t.status = 4 where t.status = 2 and t.delivery_time<date_sub(date(now()),interval  9 DAY);";
+		this.getSession().createSQLQuery(sql).executeUpdate();
+	}
 	
 }
