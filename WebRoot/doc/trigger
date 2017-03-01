@@ -338,3 +338,20 @@ CREATE TRIGGER t_update_on_cart
 BEFORE UPDATE ON t_cart
 FOR EACH ROW
 SET new.update_time = SYSDATE();
+
+ 2017-03-01 23:56 csx add
+
+DROP TRIGGER IF EXISTS t_create_on_ad;
+CREATE TRIGGER t_create_on_ad 
+BEFORE INSERT ON t_ad
+FOR EACH ROW
+BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END;
+
+DROP TRIGGER IF EXISTS t_update_on_ad;
+CREATE TRIGGER t_update_on_ad 
+BEFORE UPDATE ON t_ad
+FOR EACH ROW
+SET new.update_time = SYSDATE();

@@ -213,9 +213,6 @@
 					</td>
 					<td>
 						<a href="javascript:void(0)" onclick="viewObject('${data.id }');">查看</a>
-						<c:if test='${data.status == 1}'>
-							<a href="${home}/pmanager/product/product.do?op=outStockExecute&bookId=${data.id }">出库</a>
-						</c:if>
 					</td>
 				</tr>
 			</c:forEach>

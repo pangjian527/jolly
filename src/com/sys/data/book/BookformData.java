@@ -29,6 +29,7 @@ public class BookformData implements Serializable {
 	//service层已经做了处理，只有支付成功，logPayment才不为空
 	private LogPayment logPayment;
 	
+	private boolean isAllOutStock;//是否都已出库
 	public BookformData(Bookform bookform){
 		this.bookform = bookform;
 		productDatas =new ArrayList<BookformProductData>();
@@ -116,6 +117,17 @@ public class BookformData implements Serializable {
 	}
 	public void setFactoryAddr(String factoryAddr) {
 		this.factoryAddr = factoryAddr;
+	}
+	public boolean isAllOutStock() {
+		for(BookformProductData data:productDatas){
+			if(data.getCount()>data.getOutStockItemList().size()){
+				return false;
+			}
+		}
+		return true;
+	}
+	public void setAllOutStock(boolean isAllOutStock) {
+		this.isAllOutStock = isAllOutStock;
 	}
 	
 }

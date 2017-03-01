@@ -105,12 +105,16 @@ public class ProductAction extends PManagerAction<Product>{
 		
 		String securityCode = request.getParameter("securityCode");
 		String bookId = request.getParameter("bookId");
-		
-		String result = productItemService.outStock(bookId,securityCode);
-		if(result == null){
-			this.writeJson(true);
-		}else{
-			this.writeErrorJson(result);
+		try{
+			String result = productItemService.outStock(bookId,securityCode);
+			if(result == null){
+				this.writeJson(true);
+			}else{
+				this.writeErrorJson(result);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			this.writeErrorJson(e.getMessage());
 		}
 	}
 	

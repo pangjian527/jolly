@@ -196,4 +196,62 @@ DROP INDEX `index_status_deliveryTime`,
 ADD INDEX `index_status_deliveryTime` (`status`, `delivery_time`) USING BTREE ;
 
 
+ 2017-03-01 23:56 csx add
+
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : wersty
+Source Server Version : 50625
+Source Host           : localhost:3306
+Source Database       : jolly
+
+Target Server Type    : MYSQL
+Target Server Version : 50625
+File Encoding         : 65001
+
+Date: 2017-03-02 00:16:18
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for t_ad
+-- ----------------------------
+DROP TABLE IF EXISTS `t_ad`;
+CREATE TABLE `t_ad` (
+  `id` varchar(32) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `user_id` varchar(32) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL,
+  `ad_photo_id` varchar(32) DEFAULT NULL,
+  `content_photo_id` varchar(32) DEFAULT NULL,
+  `seq` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TRIGGER IF EXISTS `t_create_on_ad`;
+DELIMITER ;;
+CREATE TRIGGER `t_create_on_ad` BEFORE INSERT ON `t_ad` FOR EACH ROW BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `t_update_on_ad`;
+DELIMITER ;;
+CREATE TRIGGER `t_update_on_ad` BEFORE UPDATE ON `t_ad` FOR EACH ROW SET new.update_time = SYSDATE()
+;;
+DELIMITER ;
+
+
+INSERT INTO `jolly`.`sys_navtree` (`id`, `parent_id`, `name`, `module_id`, `code`, `furl`, `seq`) VALUES ('110', '11', '广告位管理', '110', NULL, '/pmanager/ad/ad.do?op=query', '2');
+INSERT INTO `jolly`.`sys_modulerole` (`id`, `module_id`, `role_id`, `create_time`, `update_time`) VALUES ('123', '110', 'admin', '2017-03-01 23:20:18', '2017-03-01 23:20:18');
+INSERT INTO `jolly`.`sys_navtree` (`id`, `parent_id`, `name`, `module_id`, `code`, `furl`, `seq`) VALUES ('110', '11', '广告位管理', '110', NULL, '/pmanager/ad/ad.do?op=query', '2');
+
+
+
+
    

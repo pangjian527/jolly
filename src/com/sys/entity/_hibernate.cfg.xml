@@ -32,5 +32,7 @@
         <mapping class="com.sys.entity.TempVerifycode"/>
         <mapping class="com.sys.entity.Sms"/>
         <mapping class="com.sys.entity.Cart"/>
+        <mapping class="com.sys.entity.Ad"/>
+        
     </session-factory>
 </hibernate-configuration>

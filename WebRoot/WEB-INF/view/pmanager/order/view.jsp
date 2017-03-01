@@ -592,6 +592,10 @@
 		    headParent.appendChild(style); //把创建的style元素插入到父页面head中    
 		}
 		
+		function outStock(){
+			window.location="${home}/pmanager/product/product.do?op=outStockExecute&bookId=${data.bookform.id }"
+		}
+		
 		//使用
 		addCSS("table{width:100%;margin:15px 0;border-collapse:collapse;border-spacing:0}table th{padding:10px 0;background:#efefef;font-family:微软雅黑;font-weight:400;font-size:14px;letter-spacing:2px;text-align:center;text-indent:.5em;border:1px solid #ccc}.col-0{width:70px}.col-1{width:auto}.col-2,.col-3{width:60px}.col-4{width:240px}.col-5{width:120px}.col-6{width:80px}table td{vertical-align:middle;padding:5px;font-family:微软雅黑;border:1px solid #ccc}table td.product-img{border-right:0}table td.product-name{border-left:0}table td img{width:80px;height:80px}td p{color:#666;margin-top:10px}td li{margin:10px 0 0;border-bottom:1px solid #ccc;padding-bottom:10px}td li:last-child{border-bottom:0}td li{color:#999}td li.used span{color:#666;text-decoration:line-through;margin-right:5px}td li.available span{color:#f40;margin-right:5px}.product-list{text-align:center;margin:0 10px}");
 	</script>		
@@ -658,18 +662,6 @@
 								<fmt:formatDate value="${data.logPayment.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 								完成支付
 							</dd>
-							<dt>
-								<c:if test="${data.logPayment.sysType == 0}">
-									支付宝
-								</c:if>
-								<c:if test="${data.logPayment.sysType == 1}">
-									微信
-								</c:if>
-								交易号
-							</dt>
-							<dd>
-								XXXXXXXXXXXXXXX
-							</dd>
 						</c:if>
 					</c:if>
 					<c:if test="${data.bookform.payType == 1}">
@@ -705,7 +697,14 @@
 							订单状态：待发货
 						</h4>
 						<p class="describe">
-							<c:if test="${data.bookform.trackingStatus == 0 }">
+							<c:if test="${!data.allOutStock}">
+								<button type="button" class="ok" onclick="outStock()">
+									<i></i>
+									出库
+								</button>
+								
+							</c:if>
+							<c:if test="${data.bookform.trackingStatus == 0 &&data.allOutStock}">
 								商城尚未向商家发货，请及时完成以下工作
 								<br/>
 								<button type="button" class="ok" onclick="openDeliveryBox()">

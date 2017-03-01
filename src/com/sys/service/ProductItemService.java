@@ -18,6 +18,7 @@ import pub.types.Pair;
 
 import com.sys.dao.ProductItemDao;
 import com.sys.entity.Bookform;
+import com.sys.entity.BookformDetail;
 import com.sys.entity.Factory;
 import com.sys.entity.ProductItem;
 import com.sys.entity.StockRecord;
@@ -61,7 +62,7 @@ public class ProductItemService extends BaseService<ProductItem>{
 	}
 	
 	@Transactional
-	public String outStock(String bookId, String securityCode) {
+	public String outStock(String bookId, String securityCode) throws Exception {
 		
 		ProductItem productItem = this.getBySecurityCode(securityCode);
 		if(productItem == null){
@@ -74,8 +75,13 @@ public class ProductItemService extends BaseService<ProductItem>{
 		if(productItem.getStatus() == ProductItem.STATUS_INVALID ){
 			return "该电池已经无效，请重新输入！";
 		}
-		Bookform bookform = bookformService.get(bookId);
 		
+		if(!isItemInOrder(productItem.getProductId(),bookId)){
+			return "下单商品中不包含该电池，请重新输入";
+		}
+		if(isItemEnoughForOrder(productItem.getProductId(),bookId)){
+			return "该订单的电池出库数量已足够，请重新输入";
+		}
 		productItem.setStatus(ProductItem.STATUS_OUT_STOCK);
 		productItemDao.save(productItem);
 		
@@ -88,6 +94,39 @@ public class ProductItemService extends BaseService<ProductItem>{
 		return null;
 	} 
 	
+	private boolean isItemEnoughForOrder(String productId,
+			String bookId) throws Exception {
+		List<BookformDetail> detailList = bookformDetailService.getAllByBookId(bookId);
+		for(BookformDetail detail:detailList){
+			if(detail.getProductId().equals(productId)){
+				return this.getOutStockCount(bookId,productId)-detail.getCount()>=0;
+			}
+		}
+		return false;
+	}
+
+	private Integer getOutStockCount(String bookId, String productId) {
+		int outStockCount = 0;
+		List<StockRecord> stockRecordList = stockRecordService.getStockRecordByBookIdAndType(bookId,StockRecord.TYPE_OUT_STOCK);
+		for (StockRecord stockRecord : stockRecordList) {
+			ProductItem item = this.getBySecurityCode(stockRecord.getSecurityCode());
+			if(item.getProductId().equals(productId)){
+				outStockCount+=1;
+			}
+		}
+		return outStockCount;
+	}
+
+	private boolean isItemInOrder(String productId, String bookId) throws Exception {
+		List<BookformDetail> detailList = bookformDetailService.getAllByBookId(bookId);
+		for(BookformDetail detail:detailList){
+			if(detail.getProductId().equals(productId)){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Transactional
 	public String rejectProudct(String securityCode) {
 		
@@ -218,6 +257,8 @@ public class ProductItemService extends BaseService<ProductItem>{
 	private BillDetailService billDetailService;
 	@Autowired
 	private FactoryService factoryService;
+	@Autowired
+	private BookformDetailService bookformDetailService;
 	
 	
 }

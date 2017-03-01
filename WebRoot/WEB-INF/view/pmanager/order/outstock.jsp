@@ -51,7 +51,7 @@
 					if(data.error){
 						document.getElementById("code_desc").innerHTML=securityCode;
 						document.getElementById("code_result").innerHTML= "出库失败";
-						alert("失败");
+						alert(data.error);
 					}else{
 						document.getElementById("code_desc").innerHTML=securityCode;
 						document.getElementById("code_result").innerHTML= "出库成功";
