@@ -186,8 +186,8 @@
 			<div class="head-box">
 					<img src="${home}/image/newDefaul.png" />
 					<div class="factory-info">
-						<label>广州市海珠区电脑城龙哥手机售后维修店</label>
-						<label>18922378741</label>
+						<label>${factory.name }</label>
+						<label>${factory.mobile }</label>
 					</div>
 					<ul>
 						<li>

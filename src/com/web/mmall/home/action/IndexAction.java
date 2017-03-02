@@ -44,10 +44,11 @@ public class IndexAction  extends MMallActon{
 		//总积分
 		double totalScore = scoreService.getFactoryHistoryScore(user.getFactoryId());
 		double useScore = scoreService.getFactoryConsumeScore(user.getFactoryId());
-		
+		Factory factory = factoryService.get(user.getFactoryId());
 		request.setAttribute("countBookform", countBookform);
 		request.setAttribute("countFactory", countFactory);
 		request.setAttribute("score", totalScore - useScore );
+		request.setAttribute("factory", factory);
 		return "/mmall/home/index";
 	}
 	@RequestMapping
