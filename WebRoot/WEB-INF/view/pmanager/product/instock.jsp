@@ -59,6 +59,17 @@
 				}
 			});
 		}
+		
+		function scanCode(event){
+			var ev = event || window.event;
+			var pressedKeyCode = ev.which || ev.keyCode;
+			var srcElement = ev.target || ev.srcElement;
+			if(pressedKeyCode == 13 && srcElement.tagName == "INPUT"){
+				var value = srcElement.value ;
+				saveObject(value);
+				srcElement.value = "";
+			}
+		}
 	</script>		
 	
 </head>
@@ -70,7 +81,7 @@
 	    </div>
 	    <div class="stock_scan_panel">
 	    	<input type="hidden" name="productId" id="productId" value="${productId}"/>
-	        <input placeholder="请输入或扫描防伪码" name="securityCode" id="securityCode" style="height:50px;width:470px;text-indent:10px;font-size:18px;"/>
+	        <input onkeydown="scanCode()" placeholder="请输入或扫描防伪码" name="securityCode" id="securityCode" style="height:50px;width:470px;text-indent:10px;font-size:18px;"/>
 	        <button onclick="saveObject()" style="vertical-align: top;height:55px;width:120px;font-size:18px;border:1px solid red;background:red;color:white;">入库</button>
 	    </div>
 	</div>

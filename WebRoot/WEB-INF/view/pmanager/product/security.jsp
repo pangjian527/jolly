@@ -91,13 +91,22 @@
 			}
 		}
 		
+		function scanCode(event){
+			var ev = event || window.event;
+			var pressedKeyCode = ev.which || ev.keyCode;
+			var srcElement = ev.target || ev.srcElement;
+			if(pressedKeyCode == 13 && srcElement.tagName == "INPUT"){
+				queryObject();
+			}
+		}
+		
 	</script>		
 	
 </head>
 <body>
 	<div class="m_data_panel" style="width:600px;margin:auto;margin-top:80px">
         <div class="security_code">
-            <input value="${securityCode}" id="securityCode" name="securityCode" placeholder="请输入防伪码"/>
+            <input value="${securityCode}" id="securityCode" onkeydown="scanCode()" name="securityCode" placeholder="请输入防伪码"/>
             <button  onclick="queryObject()">查询</button>
         </div>
         <c:if test="${product != null}">

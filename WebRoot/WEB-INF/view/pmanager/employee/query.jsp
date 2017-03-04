@@ -60,7 +60,7 @@
         	background:#efefef;
         }
         div.e_left_panel table tbody tr:hover td:first-child{
-        	border-left:2px solid red;
+        	border-left:2px solid green;
         }
     </style>
 	
@@ -88,8 +88,8 @@
                     <tr>
                         <td width="50" align="center">.NO</td>
                         <td>名字</td>
-                        <td width="30%">开店总数</td>
-                        <td width="30%">操作</td>
+                        <td width="25%">开店总数</td>
+                        <td width="25%">操作</td>
                     </tr>
                 </thead>
                 <tbody>
