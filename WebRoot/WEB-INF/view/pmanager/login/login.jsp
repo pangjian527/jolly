@@ -5,8 +5,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title>倬利</title>
-		<link rel="icon" href="${home}/favicon.ico" type="image/x-icon" />
+		<title>倬利电子商务管理后台</title>
+		<link rel="icon" href="${home}/image/ZLlogo2.ico" type="image/x-icon" />
 		<link rel="shortcut icon" href="${home}/favicon.ico" type="image/x-icon" />
 		<link rel="bookmark" href="${home}/favicon.ico" type="image/x-icon" />
 
