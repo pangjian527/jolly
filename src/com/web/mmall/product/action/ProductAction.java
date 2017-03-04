@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import pub.functions.StrFuncs;
 
+import com.sys.entity.Ad;
 import com.sys.entity.Area;
 import com.sys.entity.ExpressFee;
 import com.sys.entity.Factory;
 import com.sys.entity.FactoryUser;
 import com.sys.entity.Product;
+import com.sys.service.AdService;
 import com.sys.service.AreaService;
 import com.sys.service.BookformDetailService;
 import com.sys.service.ExpressFeeService;
@@ -52,8 +54,13 @@ public class ProductAction extends MMallActon{
 		}else{
 			request.setAttribute("islogin", true);
 		}
+		
+		//查询广告数据 
+		List<Ad> adList = adService.getActiveAd();
+		
 		WXConfigUtil.createWXConfigParam(request);
 		request.setAttribute("lists", entityResult);
+		request.setAttribute("adList", adList);
 		return "/mmall/product/list";
 	}
 	
@@ -95,4 +102,6 @@ public class ProductAction extends MMallActon{
 	private AreaService areaService;
 	@Autowired 
 	private FactoryService factoryService;
+	@Autowired
+	private AdService adService;
 }

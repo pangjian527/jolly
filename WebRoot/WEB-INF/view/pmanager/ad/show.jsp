@@ -128,7 +128,7 @@
 					</li>
 					<li>
 						<label>url链接：</label>
-						<form:input path="url" cssClass="text required form-input" />
+						<form:input path="url" cssClass="text form-input" />
 					</li>
 					
 					<li class="mandatory">
@@ -166,7 +166,7 @@
 					<form:input path="adPhotoId" type="hidden"/>
 				</div>
 			</div>
-			<div class="box_title">
+			<div class="box_title" style="display:none">
 				<h3>详情图片</h3>
 				<div>
 					<form:input path="contentPhotoId"  type="hidden"/>

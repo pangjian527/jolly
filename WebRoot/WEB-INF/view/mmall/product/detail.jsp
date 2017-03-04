@@ -127,6 +127,15 @@
 			width: 80px;
 		}
 		
+		div.slider-wrapper {
+			---lkkheight: 120px;
+		}
+		div.slider-wrapper img{
+			width: 100%;
+			---lkkmax-height: 120px;
+			position: relative;
+		}
+		
 	</style>
 	<script type="text/javascript">
 	function initBody(){

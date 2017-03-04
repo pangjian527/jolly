@@ -1,5 +1,7 @@
 package com.sys.service;
 
+import java.util.List;
+
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,10 @@ public class AdService extends BaseService<Ad>{
 		
 		generalDao.execute(query);
 		return query.getResult();
+	}
+	
+	public List<Ad> getActiveAd() {
+		return adDao.getActiveAd();
 	}
 	
 	@Autowired

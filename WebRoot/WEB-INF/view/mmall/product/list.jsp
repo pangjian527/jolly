@@ -9,7 +9,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<title>商品列表</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
-	
+	<link rel="stylesheet" type="text/css" href="${home}/style/swipe.css">
+	<script type="text/javascript" src="${home}/script/mwebmall/haux.mobile.js"></script>
+	<script type="text/javascript" src="${home}/script/mwebmall/swipe.min.js"></script>
 	<style type="text/css">
 	
 		div.scwrapper{
@@ -119,22 +121,63 @@
 		    background-size: 70px 50px;
 		    background-repeat: no-repeat;
 		}
-		
+		div.slider-wrapper {
+			---lkkheight: 120px;
+		}
+		div.slider-wrapper img{
+			width: 100%;
+			---lkkmax-height: 120px;
+			position: relative;
+		}
 	</style>
 	
 	<script type="text/javascript">
-		
+	function initBody(){
+		_imagefalsh();
+	}
+	//设置图片滚动
+	function _imagefalsh(){
+	   var bullets = document.getElementById('position').getElementsByTagName('li');
+	   var banner = Swipe(document.getElementById('mySwipe'), {
+	   	auto: 2000,
+	   	continuous: true,
+	   	disableScroll:false,
+	   	callback: function(pos) {
+	   		var i = bullets.length;
+	   		while (i--) {
+	   		  bullets[i].className = ' ';
+	   		}
+	   		bullets[pos].className = 'cur';
+	   	}
+	   });
+	}
 	</script>
 		
 </head>
 <body>
 	<div class="scwrapper">
 		<div class="slider-wrapper">
-			<ul>
-				<li>
-					<img width="100%" src="${home}/image/234.jpg"/>
-				</li>
-			</ul>
+				<%-- <ul>
+					<li>
+						<img width="100%" src="${home}/img-${product.photoIds }_400X300.do"/>
+					</li>
+				</ul> --%>
+			<div class="addWrap">
+   					<div class="swipe" id="mySwipe">
+						<div class="swipe-wrap">
+							<c:forEach items="${adList}" var="ad"  >
+								<div>
+		   							<img id="factory-img" src="${home}/img-${ad.adPhotoId }.do">
+		   						</div>
+		   					</c:forEach>
+						</div>
+					</div>
+					<ul id="position">
+						<c:forEach items="${adList}" var="ad" varStatus="num">
+							<li class="<c:if test="${num.index==0 }">cur</c:if>"></li>
+						</c:forEach>
+					</ul>
+   				</div>
 		</div>
 		<div class="product-wrapper">
 			<ul>
