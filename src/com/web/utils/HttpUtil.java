@@ -9,13 +9,20 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import com.web.utils.netease.CheckSumBuilder;
+import com.wxpay.util.SignUtil;
 /*
  * request tools
  * by dgs 2014-12-30
  * **/
 public class HttpUtil {
+	
+	
+	
 	
 	private static final int SO_TIMEOUT = 10000;
 	private static final int CON_TIMEOUT = 10000;
@@ -54,6 +61,73 @@ public class HttpUtil {
 			con.setConnectTimeout(CON_TIMEOUT);
 			con.setReadTimeout(SO_TIMEOUT);
 			con.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+			OutputStreamWriter osw = new OutputStreamWriter(con.getOutputStream(), "UTF-8");
+			osw.write(sb.toString());
+			osw.flush();
+			osw.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				con.disconnect();
+			}
+		}
+		// 读取返回内容
+		StringBuffer buffer = new StringBuffer();
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
+			String temp;
+			while ((temp = br.readLine()) != null) {
+				buffer.append(temp);
+				buffer.append("\n");
+			}
+			System.out.println(buffer.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return buffer.toString();
+	}
+	
+	public static String httpPost(String url,Map<String, String> headerParams, Map<String, String> params) {
+		URL u = null;
+		HttpURLConnection con = null;
+		// 构建请求参数
+		StringBuffer sb = new StringBuffer();
+		
+		if (params != null) {
+			boolean first = true;
+			for (Entry<String, String> e : params.entrySet()) {
+				if (first) {
+					first = false;
+				} else {
+					sb.append('&');
+				}
+				sb.append(e.getKey());
+				sb.append("=");
+				sb.append(e.getValue());
+			}
+			//sb.substring(0, sb.length() - 1);
+		}
+		System.out.println("send_url:" + url);
+		System.out.println("send_data:" + sb.toString());
+		System.out.println("====");
+		// 尝试发送请求
+		try {
+			u = new URL(url);
+			con = (HttpURLConnection) u.openConnection();
+			con.setRequestMethod("POST");
+			con.setDoOutput(true);
+			con.setDoInput(true);
+			con.setUseCaches(false);
+			con.setConnectTimeout(CON_TIMEOUT);
+			con.setReadTimeout(SO_TIMEOUT);
+			con.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+			
+			for (Entry<String, String> e : headerParams.entrySet()) {
+				con.setRequestProperty(e.getKey(), e.getValue());
+			}
+			
 			OutputStreamWriter osw = new OutputStreamWriter(con.getOutputStream(), "UTF-8");
 			osw.write(sb.toString());
 			osw.flush();
@@ -147,5 +221,21 @@ public class HttpUtil {
 			sb.append(param.getKey()).append('=').append(sValue);
 		}
 		return sb.toString();
+	}
+	
+	public static void main(String[] args) {
+		Map<String, String> headerParams = new HashMap<String, String>();
+		headerParams.put("AppKey", "da85d433c65d70f703692bd1806b78d2");
+		long time =System.currentTimeMillis()/1000;
+		String noncestr = SignUtil.getRandomStringByLength(32);
+		headerParams.put("CurTime", String.valueOf(time));
+		headerParams.put("Nonce", noncestr);
+		headerParams.put("CheckSum", CheckSumBuilder.getCheckSum("4da44793ee55", noncestr, String.valueOf(time)));
+		
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("mobile", "13760755956");
+		params.put("codeLen", "6");
+		String httpPost = httpPost("https://api.netease.im/sms/sendcode.action", headerParams, params);
+		System.out.println(httpPost);
 	}
 }
