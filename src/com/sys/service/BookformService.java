@@ -1,5 +1,6 @@
 package com.sys.service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -254,9 +255,12 @@ public class BookformService extends BaseService<Bookform>{
 		ProfitConfig prifitConfig = profitConfigService.getProfitConfigStatus();
 		
 		if(prifitConfig != null){
-			double employeeScore = bookform.getSales() * prifitConfig.getPushOrder()*0.01;
 			
-			double factoryScore = bookform.getSales() * prifitConfig.getFactoryOrder()*0.01;
+			DecimalFormat   df   = new DecimalFormat("######0.00"); 
+			
+			double employeeScore = Double.valueOf( df.format(bookform.getSales() * prifitConfig.getPushOrder()*0.01));
+			
+			double factoryScore = Double.valueOf(df.format(bookform.getSales() * prifitConfig.getFactoryOrder()*0.01));
 			Factory factory = factoryService.get(bookform.getFactoryId());
 			//推荐门店的积分
 			scoreService.deliverFactoryScore(factoryScore, factory.getMobile()+"门店下单积分", factory.getRefereeId(), bookform.getId());

@@ -61,12 +61,14 @@ public class IndexAction  extends MMallActon{
 	public String securityDetail(HttpServletRequest request,HttpServletResponse response,String securityCode){
 		
 		FactoryUser factoryUser = this.getUser();
-		List<Pair<Long, String>> listResult = productItemService.getProeuctItemTimeLog(securityCode, factoryUser.getFactoryId());
 		
 		ProductItem productItem = productItemService.getBySecurityCode(securityCode);
-		if(productItem==null){
+		if(productItem==null || productItem.getStatus()  != ProductItem.STATUS_OUT_STOCK){
 			return "/mmall/home/security_detail";
 		}
+		//记录
+		List<Pair<Long, String>> listResult = productItemService.getProeuctItemTimeLog(securityCode, factoryUser.getFactoryId());
+		
 		Product product = productService.get(productItem.getProductId());
 		int countUsageQuery = usageRecordService.countUsageQuery(securityCode);
 		

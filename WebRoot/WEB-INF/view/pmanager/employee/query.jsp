@@ -114,15 +114,15 @@
                 <div class="m_asset_panel">
                     <div class="asset_item">
                         <b>历史积分</b>
-                        <label>￥${allScore}</label>
+                        <label>￥<fmt:formatNumber value="${allScore}" pattern="#,#00.00#"/></label>
                     </div>
                     <div class="asset_item">
                         <b>上月积分</b>
-                        <label>￥${upMonthScore}</label>
+                        <label>￥<fmt:formatNumber value="${upMonthScore}" pattern="#,#00.00#"/></label>
                     </div>
                     <div class="asset_item">
                         <b>本月积分</b>
-                        <label>￥${currentMonthScore}</label>
+                        <label>￥<fmt:formatNumber value="${currentMonthScore}" pattern="#,#00.00#"/></label>
                     </div>
                     <div style="clear:both;"></div>
                 </div>
@@ -144,7 +144,7 @@
                     <c:forEach items="${queryResult.rows}" var="data" varStatus="idx">
 	                    <tr >
 	                        <td>${idx.index+1 }</td>
-	                        <td>${data.score}</td>
+	                        <td><fmt:formatNumber value="${data.score}" pattern="#,#00.00#"/></td>
 	                        <td>${data.source}</td>
 	                        <td><fmt:formatDate value="${data.create_time}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 	                    </tr>
