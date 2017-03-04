@@ -64,7 +64,8 @@
 		.order-box dl dd{
 			line-height:30px;
 			padding:0 0 0 90px;
-			margin:0 10px
+			margin:0 10px;
+			height: 30px;
 		}
 		.shop-name, .invoice{
 			border-top:1px solid #efefef
@@ -622,17 +623,23 @@
 					<dt>商家名称</dt>
 					<dd class="shop-name">
 						${data.factory.name}
+						<c:if test="${empty data.factory.name }">
+							未知
+						</c:if>
 					</dd>
 					
 					<dt>联系方式</dt>
-					<dd>${data.factory.man}，${data.factory.mobile}</dd>
+					<dd>
+						<c:if test="${not empty data.factory.man}">
+						${data.factory.man}，
+						</c:if>
+						${data.factory.mobile}</dd>
 					</c:if>
 					<dt>商家地址</dt>
 					<dd class="shop-address">${data.factoryAddr}</dd>
 					
-					
-					<dt style="display:none">商家留言</dt>
-					<dd style="display:none">
+					<dt>商家留言</dt>
+					<dd>
 						<c:if test="${not empty data.bookform.remark}">
 							${data.bookform.remark}
 						</c:if>

@@ -144,7 +144,7 @@
                     <c:forEach items="${queryResult.rows}" var="data" varStatus="idx">
 	                    <tr >
 	                        <td>${idx.index+1 }</td>
-	                        <td><fmt:formatNumber value="${data.score}" pattern="#,#00.00#"/></td>
+	                        <td><fmt:formatNumber value="${data.score}" pattern="#.00#"/></td>
 	                        <td>${data.source}</td>
 	                        <td><fmt:formatDate value="${data.create_time}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 	                    </tr>

@@ -193,9 +193,10 @@
 						<p>${data.areaname}</p>
 					</td>
 					<td>
-						<c:if test='${data.tracking_status == 0}'>未发货</c:if>
-						<c:if test='${data.tracking_status == 1}'>已发货</c:if>
+						<c:if test='${data.tracking_status == 0}'><label style="color:red">未发货</label></c:if>
+						<c:if test='${data.tracking_status == 1}'><label style="color:green">已发货</label></c:if>
 						<c:if test='${data.tracking_status == 2}'>已收货</c:if>
+						<c:if test='${empty data.tracking_status}'><label style="color:red">未发货</label></c:if>
 					</td>
 					
 					<td>
