@@ -614,16 +614,7 @@
 				取消
 			</button>
 		</c:if>
-<%-- 		<c:if test="${data.bookform.isSelf == 1}"> --%>
-<%-- 			<c:if test="${data.bookform.status == 1 || data.bookform.status == 2}"> --%>
-<%-- 				<button type="button" class="cancel" onclick="printBookForm('${data.bookform.id}')"> --%>
-<!-- 					<i></i> -->
-<!-- 					打印 -->
-<!-- 				</button> -->
-<%-- 			</c:if> --%>
-<%-- 		</c:if> --%>
 	</div>
-	<div id="content">
 		<div class="body_wrap">
 			<div class="order-box">
 				<dl>
@@ -855,7 +846,5 @@
 				</a>
 			</div>
 		</div>
-		
-	</div>
 </body>
 </html>

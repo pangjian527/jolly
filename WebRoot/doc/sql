@@ -283,7 +283,9 @@ INSERT INTO `jolly`.`sys_navtree` (`id`, `parent_id`, `name`, `module_id`, `code
 INSERT INTO `jolly`.`sys_modulerole` (`id`, `module_id`, `role_id`, `create_time`, `update_time`) VALUES ('123', '110', 'admin', '2017-03-01 23:20:18', '2017-03-01 23:20:18');
 INSERT INTO `jolly`.`sys_navtree` (`id`, `parent_id`, `name`, `module_id`, `code`, `furl`, `seq`) VALUES ('110', '11', '广告位管理', '110', NULL, '/pmanager/ad/ad.do?op=query', '2');
 
-
+--0304 pj add
+ALTER TABLE `jolly`.`t_ad` 
+CHANGE COLUMN `content_photo_id` `content_photo_id` VARCHAR(500) NULL DEFAULT NULL ;
 
 
    

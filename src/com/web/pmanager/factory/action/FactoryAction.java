@@ -108,12 +108,17 @@ public class FactoryAction extends PManagerAction<Factory>{
 	
 	@RequestMapping
 	public String locateGps(HttpServletRequest request, ModelMap model, String id) throws Exception{
-		Factory bean = factoryService.get(id);
-		model.put("bean", bean);
-		Area cityArea = areaService.get(bean.getCityId());
+		Factory factory = factoryService.get(id);
+		
+		Area cityArea = areaService.get(factory.getCityId());
+		Area area = areaService.get(factory.getCountyId());
+		
 		model.put("city", cityArea);
-		Area area = areaService.get(bean.getCountyId());
-		model.put("fullAddress", area.getFullName() + bean.getAddr());
+		model.put("bean", factory);
+		if(area != null){
+			model.put("fullAddress", area.getFullName() + factory.getAddr());
+		}
+		
 		return this.getJspFolderPath() + "/locateGps";
 	}
 	
