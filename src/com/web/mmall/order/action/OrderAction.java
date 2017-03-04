@@ -28,6 +28,7 @@ import com.sys.entity.LogPayment;
 import com.sys.service.AreaService;
 import com.sys.service.BookformService;
 import com.sys.service.CartService;
+import com.sys.service.ExpressFeeService;
 import com.sys.service.FactoryService;
 import com.sys.service.LogPaymentService;
 import com.sys.service.ProductService;
@@ -71,10 +72,14 @@ public class OrderAction extends MMallActon{
 		
 		//4. 省市区
 		
+		//5. 邮费
+		double deliveryCost = expressFeeService.getDeliveryCost(cartData.getAllTotal());
+		
 		request.setAttribute("cartData", cartData);
 		request.setAttribute("factory",factory);
 		request.setAttribute("score", totalScore - consumeScore);
 		request.setAttribute("items",items);
+		request.setAttribute("deliveryCost",deliveryCost);
 		
 		request.setAttribute("appId", WXPayConfig.PUBLIC_APP_ID);
 		request.setAttribute("oauthUrl", WXPayConfig.OAUTH2_URL);
@@ -274,4 +279,6 @@ public class OrderAction extends MMallActon{
 	private CartService cartService;
 	@Autowired
 	private LogPaymentService logPaymentService;
+	@Autowired
+	private ExpressFeeService expressFeeService;
 }

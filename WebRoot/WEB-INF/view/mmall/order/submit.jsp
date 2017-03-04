@@ -13,6 +13,7 @@
 	<script type="text/javascript" src="${home}/script/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="${home}/script/m_dialog.js"></script>
 	<script type="text/javascript" src="${home}/script/mwebmall/haux.mobile.js"></script>
+	<script type="text/javascript" src="${home}/script/mwebmall/manage.area.js"></script>
 	
 	<style type="text/css">
 	
@@ -276,6 +277,9 @@
 					}
 				}(spansElement[i].getAttribute("value"))
 			};
+			
+			initAreaBox(document.getElementById("provinceId"), document.getElementById("cityId"), 
+					document.getElementById("countyId"), "", "", "");
 		}
 		
 		function submitObject(){
@@ -349,15 +353,12 @@
 				</li>
 				<li>
 					<label>区 &nbsp;&nbsp; 域：</label>
-					<select id="provinceId">
-						<option value="2250">广东省</option>
-					</select>
-					<select id="cityId">
-						<option value="2251">广州市</option>
-					</select>
-					<select id="countyId">
-						<option  value="2270">天河区</option>
-					</select>
+					<select name="provinceId" id="provinceId">
+  					</select>
+  					<select name="cityId" id="cityId">
+  					</select>
+  					<select name="countyId" id ="countyId">
+  					</select>
 				</li>
 				<li>
 					<label>街 &nbsp;&nbsp; 道：</label>
@@ -408,13 +409,13 @@
 				<dt style="display:none">积分抵扣</dt>
 				<dd  style="display:none">-￥0.00</dd>
 				<dt>运费</dt>
-				<dd>+￥0.00</dd>
+				<dd>+￥<fmt:formatNumber value="${deliveryCost }" pattern="#,#00.00#"/></dd>
 			</dl>
 			<div style="clear:both;"></div>
 		</div>
 		<div class="order-submit-box">
 			<span>合计：</span>
-			<label>￥ <fmt:formatNumber value="${cartData.allTotal }" pattern="#,#00.00#"/></label>
+			<label>￥ <fmt:formatNumber value="${cartData.allTotal + deliveryCost }" pattern="#,#00.00#"/></label>
 			<a href="javascript:submitObject()">提交订单</a>
 		</div>
 		<div class="dialog-box-bg" style="display:none">

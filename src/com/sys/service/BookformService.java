@@ -280,7 +280,6 @@ public class BookformService extends BaseService<Bookform>{
 		bookform.setContactProvinceId(data.getProvinceId());
 		bookform.setContactCityId(data.getCityId());
 		bookform.setContactCountyId(data.getCountyId());
-		bookform.setSales(cartData.getAllTotal());
 		bookform.setCode(StrFuncs.createTimeUID());
 		bookform.setContactTel(data.getMobile());
 		bookform.setContactMan(data.getMan());
@@ -294,11 +293,16 @@ public class BookformService extends BaseService<Bookform>{
 			bookform.setStatus(Bookform.STATUS_WAIT_SEND_DELIVERY);
 		}
 		
+		//3. 快递费用
+		double deliveryCost = expressFeeService.getDeliveryCost(cartData.getAllTotal());
+		
+		bookform.setSales(cartData.getAllTotal() + deliveryCost);
+		bookform.setDeliveryCost(deliveryCost);
 		bookform.setPayType(data.getPayType());
 		
 		bookformDao.save(bookform);
 
-		//3. 创建订单明细
+		//4. 创建订单明细
 		createBookformDetail(cartData,bookform);
 		
 		return bookform.getId();
@@ -469,5 +473,7 @@ public class BookformService extends BaseService<Bookform>{
 	private ProductItemService productItemService;
 	@Autowired
 	private ProfitConfigService profitConfigService;
+	@Autowired
+	private ExpressFeeService expressFeeService;
 
 }

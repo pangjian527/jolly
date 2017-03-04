@@ -2,6 +2,8 @@ package com.sys.service;
 
 import net.sf.json.JSONObject;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +34,18 @@ public class ExpressFeeService extends BaseService<ExpressFee>{
 				where.toString()).orderBy(" t.update_time desc ");
 		generalDao.execute(query);
 		return query.getResult();
+	}
+	
+	public double getDeliveryCost(double sales){
+		
+		List<ExpressFee> list = expressFeeDao.getAll();
+		if(!list.isEmpty()){
+				ExpressFee expressFee = list.get(0);
+				if(sales >= expressFee.getAmountForFree()){
+					return 0;
+				}
+		}
+		return 15.0;
 	}
 	@Autowired
 	private ExpressFeeDao expressFeeDao;

@@ -127,17 +127,10 @@
 				<ul class="input two_col">
 					<li class="mandatory">
 						<label>
-							邮费：
-						</label>
-						<form:input path="fee" cssClass="text form-input real required" min="0" />
-					</li>
-					<li class="mandatory">
-						<label>
 							免邮费总额：
 						</label>
 						<form:input path="amountForFree" cssClass="text form-input real required" min="0"/>
 					</li>
-				
 				</ul>
 				<div class="clear"></div>
 			</div>

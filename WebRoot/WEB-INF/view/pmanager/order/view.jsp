@@ -640,7 +640,6 @@
 						</c:if>
 					</dd>
 					
-					
 					<c:if test="${data.bookform.payType == 0}">
 						<dt>付款方式</dt>
 						<dd>在线支付</dd>
@@ -663,7 +662,10 @@
 						<dt>付款方式</dt>
 						<dd>预发货后付款</dd>
 					</c:if>
-	
+					<c:if test="${!empty data.bookform.deliveryCost}">
+					<dt>快递费用</dt>
+					<dd>${data.bookform.deliveryCost }</dd>
+					</c:if>
 				</dl>
 				<div class="prime">
 					<p>

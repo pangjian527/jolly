@@ -86,7 +86,7 @@
 		<thead>
 			<tr>
 			    <th>No.</th>
-				<th>邮费</th>
+				<th>类型</th>
 				<th>免邮费总额</th>
 				<th>创建时间</th>
 				<th>更新时间</th>
@@ -97,7 +97,7 @@
 			<c:forEach items="${queryResult.rows}" var="data" varStatus="idx">
 				<tr>
 					<td>${idx.index+1 }</td>
-					<td>${data.fee }</td>
+					<td>满额包邮</td>
 					<td>${data.amount_for_free }</td>
 					<td><fmt:formatDate value="${data.create_time}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 					<td><fmt:formatDate value="${data.update_time}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
