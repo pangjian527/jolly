@@ -630,8 +630,9 @@
 					<dt>商家地址</dt>
 					<dd class="shop-address">${data.factoryAddr}</dd>
 					
-					<dt>商家留言</dt>
-					<dd>
+					
+					<dt style="display:none">商家留言</dt>
+					<dd style="display:none">
 						<c:if test="${not empty data.bookform.remark}">
 							${data.bookform.remark}
 						</c:if>
@@ -655,7 +656,7 @@
 						</c:if>
 					</c:if>
 					<c:if test="${data.bookform.payType == 1}">
-						<dt>付款方式</dt>
+						<dt>付款方式1</dt>
 						<dd>货到付款</dd>
 					</c:if>
 					<c:if test="${data.bookform.payType == 2}">
