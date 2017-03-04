@@ -52,16 +52,11 @@ public class RegisterAction extends MMallActon{
 			}
 
 			
-			//2.生成验证码和短信内容
-			String code = tempVerifycodeService.createVerifycode(mobile);
+			//2.发送验证码
+			String code = smsService.sendMsg(mobile);
 			System.out.println("手机验证码：" + code);
-			String content = "您的注册验证码为 " + code + "，请勿向他人透露";
 			
 			//3.发送短信
-			/*String errorInfo = smsService.sendSms(mobile, content, this.getIp(), "Mobile Regist");
-			if(errorInfo != null){
-				throw new Exception(errorInfo);
-			}*/
 			this.writeErrorJson("");
 		}
 		catch (Exception e) {
@@ -85,8 +80,8 @@ public class RegisterAction extends MMallActon{
 			String addr = this.getParam("addr");
 			String sysUserId = this.getParam("uid");
 			String refereeId = this.getParam("pid");
-			if(!tempVerifycodeService.verify(mobile, verifycode)){
-				//throw new Exception("请输入正确的验证码");
+			if(!smsService.validate(mobile, verifycode)){
+				throw new Exception("请输入正确的验证码");
 			}
 			
 			Factory  factory = new Factory();
