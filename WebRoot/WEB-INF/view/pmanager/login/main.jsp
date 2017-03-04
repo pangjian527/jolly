@@ -7,7 +7,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>倬利电子商务管理后台</title>
-	<link rel="icon" href="${home}/image/ZLlogo2.ico" type="image/x-icon" />
+	<link rel="icon" href="${home}/favicon.ico" type="image/x-icon" />
 	<link rel="shortcut icon" href="${home}/favicon.ico" type="image/x-icon" />
 	<link rel="bookmark" href="${home}/favicon.ico" type="image/x-icon" />
 	
