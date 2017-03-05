@@ -131,8 +131,8 @@ public class BookformService extends BaseService<Bookform>{
 		Area deliveryAddressArea = areaService.get(bookform.getContactProvinceId(), 
 				bookform.getContactCityId(), bookform.getContactCountyId());
 		String deliveryAddress=deliveryAddressArea==null?"":deliveryAddressArea.getFullName();
-		bookform.setContactAddr(deliveryAddress + " " + bookform.getContactAddr());
-
+		//bookform.setContactAddr(deliveryAddress + " " + bookform.getContactAddr());
+		data.setContactAddr(deliveryAddress + " " + bookform.getContactAddr());
 		if(bookform.getPayType() == 0 && StrFuncs.notEmpty(bookform.getPaymentId())){
 			LogPayment logPayment = logPaymentService.get(bookform.getPaymentId());
 			if(logPayment!=null && logPayment.getStatus().intValue()==1){//只有是已经支付的才赋值

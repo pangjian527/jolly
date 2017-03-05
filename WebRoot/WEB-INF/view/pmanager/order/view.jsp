@@ -637,6 +637,8 @@
 					</c:if>
 					<dt>商家地址</dt>
 					<dd class="shop-address">${data.factoryAddr}</dd>
+					<dt>收货地址</dt>
+					<dd>${data.contactAddr }</dd>
 					
 					<dt>商家留言</dt>
 					<dd>

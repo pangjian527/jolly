@@ -183,7 +183,12 @@
 			<c:forEach items="${queryResult.rows}" var="data" varStatus="idx">
 				<tr>
 					<td>${idx.index+1 }</td>
-					<td>${data.name }</td>
+					<td>
+						${data.name }
+						<c:if test="${empty data.name }">
+							未知
+						</c:if>
+					</td>
 					<td>
 						${data.man }
 						<p>${data.mobile }</p>

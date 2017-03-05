@@ -105,7 +105,12 @@
 			<c:forEach items="${queryResult.rows}" var="data" varStatus="idx">
 				<tr>
 					<td>${idx.index+1 }</td>
-					<td>${data.factoryname }</td>
+					<td>
+						${data.factoryname }
+						<c:if test="${empty data.factoryname }">
+							未知
+						</c:if>
+					</td>
 					<td>${data.account }</td>
 					<td>${data.mobile }</td>
 					<td>${data.remark }</td>

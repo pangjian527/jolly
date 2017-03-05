@@ -90,7 +90,7 @@ public class FactoryService extends BaseService<Factory>{
 		if(StrFuncs.notEmpty(factory.getSysUserId()) && profitConfig !=null){
 			//开店，地推积分
 			scoreService.sysUserScore(profitConfig.getPushDirectOpenFactory(), factory.getId(), describe, factory.getSysUserId());
-		}else if(StrFuncs.notEmpty(factory.getRefereeId()) && profitConfig ==null){
+		}else if(StrFuncs.notEmpty(factory.getRefereeId()) && profitConfig !=null){
 			//门店推荐开店，推荐的门店的积分
 			Factory parentFactory = factoryDao.get(factory.getRefereeId());
 			//找到父节点的sys_user增加积分

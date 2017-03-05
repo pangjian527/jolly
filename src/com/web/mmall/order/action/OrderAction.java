@@ -115,6 +115,8 @@ public class OrderAction extends MMallActon{
 		String bookformId = "";
 		try {
 			bookformId = bookformService.submitBookform(cartData, factoryUser, entity);
+			
+			cartService.delete(factoryUser, cartData.getAllProductIds());
 		} catch (Exception e) {
 			resultObj.element("code", "dataerr").element("content",e.getMessage());
 			this.writeJson(resultObj);
