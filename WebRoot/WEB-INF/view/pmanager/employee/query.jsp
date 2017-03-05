@@ -88,8 +88,8 @@
                     <tr>
                         <td width="50" align="center">.NO</td>
                         <td>名字</td>
-                        <td width="25%">开店总数</td>
-                        <td width="25%">操作</td>
+                        <td width="80">开店总数</td>
+                        <td width="110">操作</td>
                     </tr>
                 </thead>
                 <tbody>
