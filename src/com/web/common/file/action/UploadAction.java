@@ -1,6 +1,5 @@
 package com.web.common.file.action;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,18 +7,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-
-
-
 import pub.functions.StrFuncs;
+import sun.misc.BASE64Decoder;
 
 import com.sys.entity.File;
 import com.sys.service.FileService;
@@ -37,8 +32,6 @@ public class UploadAction extends BaseAction{
 	public String upload(HttpServletRequest request,HttpServletResponse response,
 			@RequestParam MultipartFile fileUpload) throws Exception{
 		try {
-			InputStream is = fileUpload.getInputStream();
-			
 			File files = new File();
 			
 			files.setFileName(fileUpload.getOriginalFilename());
@@ -46,6 +39,30 @@ public class UploadAction extends BaseAction{
 			files.setContent(fileUpload.getBytes());
 			files.setUploadTime(new Date());
 			files.setContentType(fileUpload.getContentType());
+			String fileId = baseInfo.save(files);
+			File fileWithoutContent = baseInfo.getWithoutContent(fileId);
+			this.writeJson(fileWithoutContent);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
+	
+	@RequestMapping
+	public String uploadImg(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		try {
+			String base64Img=request.getParameter("base64Img");
+			BASE64Decoder decode = new BASE64Decoder();
+			byte[] imgData = decode.decodeBuffer(base64Img.split(",")[1]);
+			
+			File files = new File();
+			files.setFileName(this.getParam("fileName"));
+			files.setFileSize( imgData.length);
+			files.setContent(imgData);
+			files.setUploadTime(new Date());
+			files.setContentType(this.getParam("contentType"));
 			String fileId = baseInfo.save(files);
 			File fileWithoutContent = baseInfo.getWithoutContent(fileId);
 			this.writeJson(fileWithoutContent);

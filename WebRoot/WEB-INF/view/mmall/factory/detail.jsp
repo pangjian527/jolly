@@ -167,6 +167,9 @@
 		  /* padding: 0px; */
 		  text-align: center;
 	}
+	div.add-file a.uploading{
+		font-size: 12px;
+	}
 </style>
 <script type="text/javascript">
 	window.onload=function(){
@@ -242,17 +245,28 @@
      		dialogAlert("温馨提示","图片大小不能大于4M");
      		return;
      	} 
-		$.ajaxFileUpload({
-	         url : home()+ "/common/file/upload.do?op=upload",           
-	         secureuri : false,
-	         fileElementId:fileId,
-	         dataType : "json",       
-	         success: function (data){
-	        	 insertImgEle(fileId,data.id);
-	         },
-	         error: function (data, status, e){
-	         	dialogAlert("温馨提示","上传图片出错");
-	         }
+    	 var fileEl=document.getElementById(fileId);
+    	 fileEl.previousElementSibling.className="uploading";
+    	 fileEl.previousElementSibling.innerHTML="上传中...";
+	     var file=fileEl.files[0];
+	     var imgData = dealImage(file,function(base64Img){
+	    	 $.ajax({url: home()+'/common/file/upload.do?op=uploadImg',
+	 			data:{base64Img:base64Img,
+	 				fileName:file.name,
+	 				contentType:file.type},
+	 	        type : "POST",
+	 	       dataType : "json", 
+	 	       success: function (data){
+	 	    	  	fileEl.previousElementSibling.innerHTML="+";
+	 	    	   	fileEl.previousElementSibling.className="";
+		        	insertImgEle(fileId,data.id);
+		         },
+		         error: function (data, status, e){
+		         	dialogAlert("温馨提示","上传图片出错");
+		        	fileEl.previousElementSibling.innerHTML="+";
+		 	    	fileEl.previousElementSibling.className="";
+		         }
+	 		});
 	     });
 	}
 	
@@ -347,6 +361,36 @@
 			}
         });
     }
+	
+	/**
+	 * 图片压缩，默认同比例压缩
+	 */
+	function dealImage(file,callback){
+		var fileReader = new FileReader();  
+	    fileReader.onload = function(event) {  
+		    var result = event.target.result; //返回的dataURL   
+		    var image = new Image();  
+		   
+		    //若图片大小大于0.5M，压缩后再上传，否则直接上传  
+		    if(file.size>0.5*1024*1024){     
+		    	image.onload = function() { //创建一个image对象，给canvas绘制使用  
+		            var canvas = document.createElement('canvas');     
+		            canvas.width = this.width;  
+		            canvas.height = this.height; //计算等比缩小后图片宽高   
+		            var ctx = canvas.getContext('2d');  
+		            ctx.drawImage(this, 0, 0, canvas.width, canvas.height);  
+		            result = canvas.toDataURL(file.type, 0.6); //重新生成图片    
+				    callback(result);
+		        }  
+	    	 	image.src = result;  
+	        }else{
+	        	callback(result);
+	        }
+	    	
+	    }  
+	    fileReader.readAsDataURL(file);  
+	}
+	 
 </script>
 </head>
 <body>
