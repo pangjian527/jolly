@@ -104,7 +104,6 @@
 	}
 </style>
 <script type="text/javascript">
-
 	function loginSubmit(){
 		
 		var account=document.getElementsByName("account")[0].value;
@@ -140,6 +139,7 @@
 		window.location="${home}/mmall/factoryuser/login.do?op=toLoginSms";
 	}
 </script>
+<jsp:include page="../initWeixin.jsp"/>
 </head>
 <body>
   	<div class="scwrapper">

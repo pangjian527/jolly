@@ -38,7 +38,6 @@ public class FactoryAction extends MMallActon{
 		request.setAttribute("factory", factory);
 		request.setAttribute("factoryImgIds", this.SplitToList(factory.getPhotoIds()));
 		request.setAttribute("licenseImgIds", this.SplitToList(factory.getLicenseFileIds()));
-		WXConfigUtil.createWXConfigParam(request);
 		return "mmall/factory/detail";
 	}
 	

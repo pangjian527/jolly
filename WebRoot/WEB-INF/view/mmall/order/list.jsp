@@ -351,7 +351,7 @@
                               +"&response_type=code&scope=snsapi_base#wechat_redirect";
 		}
 	</script>
-		
+	<jsp:include page="../initWeixin.jsp"/>	
 </head>
 <body onload="loaded()">
 	<div class="scwrapper">

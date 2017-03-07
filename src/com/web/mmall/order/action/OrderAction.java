@@ -135,7 +135,6 @@ public class OrderAction extends MMallActon{
 		
 		request.setAttribute("bookform", bookform);
 		
-		WXConfigUtil.createWXConfigParam(request);//参数初始化
 		return "/mmall/order/pay";
 	}
 	
@@ -222,7 +221,6 @@ public class OrderAction extends MMallActon{
 		request.setAttribute("pair", pair);
 		request.setAttribute("status", status);
 		
-		WXConfigUtil.createWXConfigParam(request);//参数初始化
 		request.setAttribute("oauthUrl", WXPayConfig.OAUTH2_URL);
 		
 		return "/mmall/order/list";
@@ -262,7 +260,6 @@ public class OrderAction extends MMallActon{
 		
 		request.setAttribute("orderData", orderData);
 		
-		WXConfigUtil.createWXConfigParam(request);//参数初始化
 		request.setAttribute("oauthUrl", WXPayConfig.OAUTH2_URL);
 		return "/mmall/order/detail";
 	}

@@ -51,6 +51,18 @@
         <url-pattern>*.do</url-pattern>
     </filter-mapping>
     
+    <!-- mmall weixin filter  -->
+	<filter>
+		<filter-name>weixinFilter</filter-name>
+		<filter-class>
+			com.web.mmall.filter.WeixinFilter
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>weixinFilter</filter-name>
+		<url-pattern>/mmall/*</url-pattern>		
+	</filter-mapping>
+    
    <!-- mmall filter  -->
 	<filter>
 		<filter-name>mmallSecurityFilter</filter-name>

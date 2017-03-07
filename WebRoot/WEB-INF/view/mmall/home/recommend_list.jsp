@@ -74,7 +74,7 @@
 	var gpsX= '${factory.gpsX}', gpsY= '${factory.gpsY}',factoryName='${factory.name}';
 	
 	 var myScroll ,pn  = 1,totalPage = ${totalPage};
-	window.onload = function(){
+	function initBody(){
 		initBaiduMapBody();
 		createScroll("contentDiv-2",
 				function(){
@@ -221,7 +221,7 @@
 		
 	}
 	</script>
-		
+	<jsp:include page="../initWeixin.jsp"/>
 </head>
 <body>
 	<div class="scwrapper">

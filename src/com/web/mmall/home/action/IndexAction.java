@@ -53,7 +53,6 @@ public class IndexAction  extends MMallActon{
 	}
 	@RequestMapping
 	public String security(HttpServletRequest request,HttpServletResponse response){
-		WXConfigUtil.createWXConfigParam(request);
 		return "/mmall/home/security";
 	}
 	/* 防伪码详情 */

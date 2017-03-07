@@ -58,7 +58,6 @@ public class ProductAction extends MMallActon{
 		//查询广告数据 
 		List<Ad> adList = adService.getActiveAd();
 		
-		WXConfigUtil.createWXConfigParam(request);
 		request.setAttribute("lists", entityResult);
 		request.setAttribute("adList", adList);
 		return "/mmall/product/list";

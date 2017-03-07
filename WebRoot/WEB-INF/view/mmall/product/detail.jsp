@@ -210,6 +210,7 @@
 			});
 		}
 	</script>
+	<jsp:include page="../initWeixin.jsp"/>	
 </head>
 <body>
 	<div class="scwrapper">

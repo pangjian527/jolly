@@ -56,4 +56,11 @@ public class WXConfigUtil {
 		String signature = SignUtil.getSha1(signValue);
 		request.setAttribute("signature", signature);
 	}
+	
+	public static void createWXShareParam(HttpServletRequest request,String factoryId) {
+		request.setAttribute("title", "倬利测试");
+		request.setAttribute("content", "倬利内容");        //时间戳
+		request.setAttribute("link", request.getContextPath()+"/mmall/factoryuser/register.do?pid="+factoryId);            //随机字符串
+		request.setAttribute("imgUrl", "");  
+	}
 }

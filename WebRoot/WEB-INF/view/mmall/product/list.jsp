@@ -153,7 +153,7 @@
 	   });
 	}
 	</script>
-		
+	<jsp:include page="../initWeixin.jsp"/>	
 </head>
 <body>
 	<div class="scwrapper">
@@ -231,69 +231,4 @@
 	</div>
 </body>
 
-<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
-<script type="text/javascript">
-wx.config({
-    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-    appId: '${appId}', // 必填，公众号的唯一标识
-    timestamp: '${timeStamp}', // 必填，生成签名的时间戳
-    nonceStr: '${nonceStr}', // 必填，生成签名的随机串
-    signature: '${signature}',//
-    jsApiList: [
-    	"checkJsApi",
-    	"onMenuShareTimeline",
-    	"onMenuShareAppMessage",
-    	"onMenuShareQQ",
-    	"onMenuShareWeibo",
-    	"onMenuShareQZone","getLocation"
-    ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-});
-wx.error(function(res){
-	//alert(res.errMsg);
-	//alert(location.href.split('#')[0]);
-});
-var imUrl=window.location.href;
-
-wx.ready(function(){
-	wx.checkJsApi({
-	    jsApiList: ['onMenuShareTimeline',
-	    			'onMenuShareAppMessage',
-	    			'onMenuShareQQ',
-	    			'onMenuShareWeibo',
-	    			'onMenuShareQZone'], //
-	    success: function(res) {
-	       if(res.errMsg=='checkJsApi:ok'&&!res.checkResult.onMenuShareTimeline){
-	        	alert("当前微信版本不支持分享");
-	       }
-	    }
-	});
-	 // 监听“分享朋友圈”
-	   wx.onMenuShareTimeline({
-		    title: '倬利商城', // 分享标题
-		    link: imUrl, // 分享链接
-		    imgUrl: '${home}/image/234.jpg', // 分享图标
-		    success: function () {
-		        // 用户确认分享后执行的回调函数
-		    },
-		    cancel: function () {
-		        // 用户取消分享后执行的回调函数
-		    }
-		});
-		// 监听“分享给朋友”
-	    wx.onMenuShareAppMessage({
-	     	title: '倬利商城', // 分享标题
-		    desc: '分享内容',//分享内容
-		    link: imUrl, // 分享链接
-		    imgUrl: '${home}/image/234.jpg', // 分享图标
-	      trigger: function (res) {
-	      },
-	      success: function (res) {
-	      },
-	      cancel: function (res) {
-	      },
-	      fail: function (res) {
-	      }
-	    });
-});
-</script>
 </html>
