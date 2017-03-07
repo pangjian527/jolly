@@ -245,26 +245,41 @@
      		dialogAlert("温馨提示","图片大小不能大于4M");
      		return;
      	} 
+        
     	 var fileEl=document.getElementById(fileId);
-    	 fileEl.previousElementSibling.className="uploading";
-    	 fileEl.previousElementSibling.innerHTML="上传中...";
 	     var file=fileEl.files[0];
-	     var imgData = dealImage(file,function(base64Img){
+    	 var divFileEle = fileEl.parentNode;
+	     divFileEle.removeChild(fileEl);//防止重复点击
+	     
+	     var fileAEle = divFileEle.getElementsByTagName("a")[0];
+         fileAEle.className="uploading";
+         fileAEle.innerHTML="上传中...";
+	     
+	     var imgData = dealImage(file,function(imgData){
+	    	 var formData = new FormData();
+	    	 formData.append("imgData", imgData);
+	    	 formData.append("fileName", file.name);
 	    	 $.ajax({url: home()+'/common/file/upload.do?op=uploadImg',
-	 			data:{base64Img:base64Img,
-	 				fileName:file.name,
-	 				contentType:file.type},
-	 	        type : "POST",
+	    		 data: formData,
+	 				method: 'post',
+	 			    processData: false,
+	 			    contentType: false,
 	 	       dataType : "json", 
 	 	       success: function (data){
-	 	    	  	fileEl.previousElementSibling.innerHTML="+";
-	 	    	   	fileEl.previousElementSibling.className="";
+	 	    	   //重新生成file input
+	 	    	  	divFileEle.innerHTML = divFileEle.innerHTML+"<input type='file' accept='image/*' name='fileUpload' capture='camera'  onchange='startUpload(this.id)' id='"+fileId+"'>";
+	 	    	  	var fileAEle = divFileEle.getElementsByTagName("a")[0];
+	 	    	  	fileAEle.innerHTML="+";
+	 	    	  	fileAEle.className="";
 		        	insertImgEle(fileId,data.id);
 		         },
 		         error: function (data, status, e){
 		         	dialogAlert("温馨提示","上传图片出错");
-		        	fileEl.previousElementSibling.innerHTML="+";
-		 	    	fileEl.previousElementSibling.className="";
+		        	//重新生成file input
+		        	divFileEle.innerHTML = divFileEle.innerHTML+"<input type='file' accept='image/*' name='fileUpload' capture='camera'  onchange='startUpload(this.id)' id='"+fileId+"'>";
+		        	var fileAEle = divFileEle.getElementsByTagName("a")[0];
+		        	fileAEle.innerHTML="+";
+		         	fileAEle.className="";
 		         }
 	 		});
 	     });
@@ -302,7 +317,6 @@
 		var imgId=imgObj.getAttribute("imgId");
 		var targetParentNode=obj.parentNode.parentNode;
 		targetParentNode.removeChild(obj.parentNode);
-		deleteServerImg(imgId);//异步删除服务器图片
 		var imgEls=targetParentNode.getElementsByTagName("img");
 		if(fileId == 'fileId-1'&&imgEls&&imgEls.length==1){
 			var divEl=document.createElement("div");
@@ -333,15 +347,6 @@
 		}
 	}
 	
-	function deleteServerImg(imgId){
-		$.ajax({url : home()+ "/common/file/upload.do?op=delete&fileId="+imgId,
-		    type:"get",
-		    error: function(){
-			}, 
-			success:function(){
-			}
-		});	
-	}
 	function getBaiduPosition(lng,lat) {
         var url ="http://api.map.baidu.com/geoconv/v1/?coords="+lng+","+lat+"&from=1&to=5&ak=2f0t0ylElcF05UYfrDgY8tGR55cAXtP6";
         $.ajax({
@@ -380,17 +385,38 @@
 		            var ctx = canvas.getContext('2d');  
 		            ctx.drawImage(this, 0, 0, canvas.width, canvas.height);  
 		            result = canvas.toDataURL(file.type, 0.6); //重新生成图片    
-				    callback(result);
+				    callback(base64ToBlob(result,file.type));
 		        }  
 	    	 	image.src = result;  
 	        }else{
-	        	callback(result);
+	        	callback(base64ToBlob(result,file.type));
 	        }
 	    	
 	    }  
 	    fileReader.readAsDataURL(file);  
 	}
 	 
+	 function base64ToBlob(basestr,fileType) {
+		 var text = window.atob(basestr.split(",")[1]);
+		  var buffer = new ArrayBuffer(text.length);
+		  var ubuffer = new Uint8Array(buffer);
+		  for (var i = 0; i < text.length; i++) {
+		    ubuffer[i] = text.charCodeAt(i);
+		  }
+		  var Builder = window.WebKitBlobBuilder || window.MozBlobBuilder;
+		  var blob;
+		  if (Builder) {
+		    var builder = new Builder();
+		    builder.append(ubuffer);
+		    blob = builder.getBlob(type);
+		  } else {
+		    blob = new window.Blob([ubuffer], {type: fileType});
+		  }
+
+         return blob;
+     }
+	
+	
 </script>
 </head>
 <body>

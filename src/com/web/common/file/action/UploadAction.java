@@ -51,18 +51,14 @@ public class UploadAction extends BaseAction{
 	}
 	
 	@RequestMapping
-	public String uploadImg(HttpServletRequest request,HttpServletResponse response) throws Exception{
+	public String uploadImg(HttpServletRequest request,HttpServletResponse response,@RequestParam MultipartFile imgData,@RequestParam String fileName) throws Exception{
 		try {
-			String base64Img=request.getParameter("base64Img");
-			BASE64Decoder decode = new BASE64Decoder();
-			byte[] imgData = decode.decodeBuffer(base64Img.split(",")[1]);
-			
 			File files = new File();
-			files.setFileName(this.getParam("fileName"));
-			files.setFileSize( imgData.length);
-			files.setContent(imgData);
+			files.setFileName(fileName);
+			files.setFileSize( ((Long)imgData.getSize()).intValue());
+			files.setContent(imgData.getBytes());
 			files.setUploadTime(new Date());
-			files.setContentType(this.getParam("contentType"));
+			files.setContentType(imgData.getContentType());
 			String fileId = baseInfo.save(files);
 			File fileWithoutContent = baseInfo.getWithoutContent(fileId);
 			this.writeJson(fileWithoutContent);
