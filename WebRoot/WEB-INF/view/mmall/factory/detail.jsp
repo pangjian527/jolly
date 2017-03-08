@@ -16,8 +16,6 @@
 	<script type="text/javascript" src="${home}/script/m_dialog.js"></script>
 	<script type="text/javascript" src="${home}/script/mwebmall/manage.area.js"></script>
 	<script type="text/javascript" src="${home}/script/jquery.ajaxfileupload.js"></script>
-	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
-	<script type="text/javascript" src="${home}/script/mwebmall/weixin.js"></script>
 
 <style type="text/css">
 	body{
@@ -174,13 +172,11 @@
 	}
 </style>
 <script type="text/javascript">
-	window.onload=function(){
+	function initBody(){
 		initAreaBox(document.getElementById("provinceId"), document.getElementById("cityId"), 
 				document.getElementById("countyId"), "${factory.provinceId}", "${factory.cityId}", "${factory.countyId}");
 		
-		initWeiXinConfig('${appId}','${timeStamp}','${nonceStr}','${signature}');
 		getWeixinLocation(getBaiduPosition);
-		initWeixinShare('${title}','${content}','${link}','${imgUrl}');
 	}
 	function submitFactory(){
 		var name=document.getElementById("name").value;
@@ -423,6 +419,7 @@
 	
 	
 </script>
+<jsp:include page="../initWeixin.jsp"/>	
 </head>
 <body>
   	<div class="scwrapper">

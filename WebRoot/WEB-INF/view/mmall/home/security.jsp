@@ -98,7 +98,11 @@
 		function scanCode(){
 			scanWeixinQRCode(function(res){
 				if(res){ // 扫码返回的结果
-				    document.getElementById("securityCode").value=res.resultStr;
+					var code =res.resultStr;
+					if(res.resultStr.indexOf(',') >= 0){
+						code = res.resultStr.substring(res.resultStr.indexOf(',')+1);
+					}
+				    document.getElementById("securityCode").value=code;
 			    }else{
 			    	dialogAlert("温馨提示", "扫描失败，请稍候再试");
 			    }
