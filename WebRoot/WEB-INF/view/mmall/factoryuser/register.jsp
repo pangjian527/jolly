@@ -198,6 +198,10 @@
 		
 	}
 	function registSubmit(){
+		if('${subscribe}'!='1'){
+			dialogAlert("温馨提示","请先搜索关注倬利微信公众号再进行注册");
+	        return false; 
+		}
 		//1.检查用户输入有效性
 		var inputElements = document.getElementsByTagName("input");
 		var mobileInput = inputElements[0];

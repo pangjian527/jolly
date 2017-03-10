@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import pub.functions.JsonFuncs;
+import pub.functions.StrFuncs;
 import pub.functions.XmlFuncs;
 import pub.types.Pair;
 
@@ -130,10 +131,16 @@ public class OrderAction extends MMallActon{
 	/*立即付款*/
 	@RequestMapping
 	public String pay(HttpServletRequest request,HttpServletResponse response,String bookformId){
-		
 		Bookform bookform = bookformService.get(bookformId);
 		
 		request.setAttribute("bookform", bookform);
+		if(StrFuncs.notEmpty(request.getParameter("code"))){
+			//通过返回CODE获取openId
+			Map<String, String> oauthTokenMap = WXConfigUtil.getOauthResult(request.getParameter("code"));
+			//获取access_token
+			String openId = (String)oauthTokenMap.get("openid");
+			request.setAttribute("openId", openId);
+		}
 		
 		return "/mmall/order/pay";
 	}

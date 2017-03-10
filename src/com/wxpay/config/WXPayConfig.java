@@ -38,6 +38,7 @@ public class WXPayConfig {
 //	
 //	
 	public static final String OAUTH2_TOKEN_URL="https://api.weixin.qq.com/sns/oauth2/access_token";
+	public static final String BASE_INFO_URL = "https://api.weixin.qq.com/cgi-bin/user/info";
 //	
 //	//微信配置信息参数
 	public static String WX_TICKET="";//缓存微信TICKET,jsapi_ticket只会存在7200秒.并且有时间限制,(接口的调用频率限制为2000次/天.所以一定要缓存.)这是第三坑.

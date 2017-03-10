@@ -23,15 +23,6 @@ import com.wxpay.config.WXPayConfig;
  */
 public class WXConfigUtil {
 	public static void createWXConfigParam(HttpServletRequest request) {
-		if(StrFuncs.notEmpty(request.getParameter("code"))){
-			//通过返回CODE获取openId
-			String oauthTokenParam="appid="+WXPayConfig.PUBLIC_APP_ID+"&secret="+WXPayConfig.PUBLIC_APPSECRET+"&code="+request.getParameter("code")+"&grant_type=authorization_code";
-			String oauthTokenJsonStr = HttpClientUtil.SendGET(WXPayConfig.OAUTH2_TOKEN_URL, oauthTokenParam);
-			Map oauthTokenMap = JsonFuncs.toMap(oauthTokenJsonStr);
-			//获取access_token
-			String openId = (String)oauthTokenMap.get("openid");
-			request.setAttribute("openId", openId);
-		}
 		
 		//初始化微信jssdk config参数
 		String noncestr = SignUtil.getRandomStringByLength(32);//生成随机字符串
@@ -55,6 +46,20 @@ public class WXConfigUtil {
 		//这个签名.主要是给加载微信js使用.别和上面的搞混了.
 		String signature = SignUtil.getSha1(signValue);
 		request.setAttribute("signature", signature);
+	}
+
+	public static Map<String, String> getOauthResult(String code) {
+		String oauthTokenParam="appid="+WXPayConfig.PUBLIC_APP_ID+"&secret="+WXPayConfig.PUBLIC_APPSECRET+"&code="+code+"&grant_type=authorization_code";
+		String oauthTokenJsonStr = HttpClientUtil.SendGET(WXPayConfig.OAUTH2_TOKEN_URL, oauthTokenParam);
+		Map<String, String> oauthTokenMap = JsonFuncs.toMap(oauthTokenJsonStr);
+		return oauthTokenMap;
+	}
+	
+	public static Map<String, String> getBaseInfo(String token,String openid) {
+		String param="access_token="+token+"&openid="+openid+"&lang=zh_CN";
+		String baseInfoJsonStr = HttpClientUtil.SendGET(WXPayConfig.BASE_INFO_URL, param);
+		Map<String, String> baseInfonMap = JsonFuncs.toMap(baseInfoJsonStr);
+		return baseInfonMap;
 	}
 	
 	public static void createWXShareParam(HttpServletRequest request,String factoryId) {

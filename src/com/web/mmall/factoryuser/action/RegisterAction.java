@@ -1,5 +1,8 @@
 package com.web.mmall.factoryuser.action;
 
+import java.net.URLEncoder;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,20 +18,54 @@ import com.sys.service.FactoryService;
 import com.sys.service.FactoryUserService;
 import com.sys.service.SmsService;
 import com.sys.service.TempVerifycodeService;
-import com.web.common.action.BaseAction;
 import com.web.mmall.MMallActon;
+import com.wxpay.config.WXPayConfig;
+import com.wxpay.util.WXConfigUtil;
 
 @Controller
 public class RegisterAction extends MMallActon{
 	@RequestMapping
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception { 
 		
+		/*String uid = this.getParam("uid");
+		String pid = this.getParam("pid");
+		
+		request.getLocalAddr();
+		request.getQueryString();
+		String redirectUrl="http://wersty.wicp.net/jolly"+"/mmall/factoryuser/register.do?op=toRegisterPage&uid="+uid+"&pid="+pid;
+		String weiXinOauthurl=WXPayConfig.OAUTH2_URL+"?appid="+WXPayConfig.PUBLIC_APP_ID+"&redirect_uri="+URLEncoder.encode(redirectUrl)
+                          +"&response_type=code&scope=snsapi_base#wechat_redirect";
+		response.sendRedirect(weiXinOauthurl);*/
+		String uid = this.getParam("uid");
+		String pid = this.getParam("pid");
+		request.setAttribute("uid", uid);
+		request.setAttribute("pid", pid);
+		request.setAttribute("oauthUrl", WXPayConfig.OAUTH2_URL);
+		return "mmall/factoryuser/wxForward";
+	}
+	
+	@RequestMapping
+	public String toRegisterPage(HttpServletRequest request, HttpServletResponse response) throws Exception { 
+		
 		String uid = this.getParam("uid");
 		String pid = this.getParam("pid");
 		
 		request.setAttribute("uid", uid);
 		request.setAttribute("pid", pid);
-		
+		request.setAttribute("subscribe",0);
+		if(StrFuncs.notEmpty(request.getParameter("code"))){
+			try {
+				Map<String, String> oauthResult = WXConfigUtil.getOauthResult(request.getParameter("code"));
+				String openId = (String)oauthResult.get("openid");
+				Map<String, String> baseInfo = WXConfigUtil.getBaseInfo(WXPayConfig.WX_TOKEN, openId);
+				if(baseInfo!=null&&baseInfo.get("subscribe")!=null){
+					request.setAttribute("subscribe", baseInfo.get("subscribe"));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 		return "mmall/factoryuser/register";
 	}
 	
