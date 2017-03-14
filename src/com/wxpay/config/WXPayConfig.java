@@ -1,6 +1,5 @@
 package com.wxpay.config;
 
-import com.sys.consts.Consts;
 
 
 /* *
@@ -16,8 +15,10 @@ public class WXPayConfig {
 	//异步回调地址
 	//public static final String NOTIFY_URL = Consts.configs.get("server_url")+"/wx_notify_url.html";
 	//本机测试
-	public static final String NOTIFY_URL = "http://www.egopower.cn//jolly/wx_notify_url.html";
-	public static final String SERVER_URL = "http://www.egopower.cn//jolly/";
+	public static final String NOTIFY_URL = "http://www.egopower.cn/jolly/wx_notify_url.html";
+	public static final String SERVER_URL = "http://www.egopower.cn/jolly/";
+	/*public static final String NOTIFY_URL = "http://wersty.wicp.net/jolly/wx_notify_url.html";
+	public static final String SERVER_URL = "http://wersty.wicp.net/jolly/";*/
 	//public static final String OAUTH2_REDIRECT_URL=Consts.configs.get("server_url");//授权页面重定向URL
 
 	//↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓

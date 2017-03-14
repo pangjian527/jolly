@@ -33,6 +33,8 @@ public class RegisterAction extends MMallActon{
 		String redirectUrl=WXPayConfig.SERVER_URL+"mmall/factoryuser/register.do?op=toRegisterPage&uid="+uid+"&pid="+pid;
 		String weiXinOauthurl=WXPayConfig.OAUTH2_URL+"?appid="+WXPayConfig.PUBLIC_APP_ID+"&redirect_uri="+URLEncoder.encode(redirectUrl)
                           +"&response_type=code&scope=snsapi_base#wechat_redirect";
+		System.out.println("redirectUrl---"+redirectUrl);
+		System.out.println("weiXinOauthurl----"+weiXinOauthurl);
 		response.sendRedirect(weiXinOauthurl);
 		/*String uid = this.getParam("uid");
 		String pid = this.getParam("pid");
