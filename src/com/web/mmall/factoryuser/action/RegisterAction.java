@@ -25,23 +25,21 @@ import com.wxpay.util.WXConfigUtil;
 @Controller
 public class RegisterAction extends MMallActon{
 	@RequestMapping
-	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception { 
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception { 
 		
-		/*String uid = this.getParam("uid");
+		String uid = this.getParam("uid");
 		String pid = this.getParam("pid");
 		
-		request.getLocalAddr();
-		request.getQueryString();
-		String redirectUrl="http://wersty.wicp.net/jolly"+"/mmall/factoryuser/register.do?op=toRegisterPage&uid="+uid+"&pid="+pid;
+		String redirectUrl=WXPayConfig.SERVER_URL+"mmall/factoryuser/register.do?op=toRegisterPage&uid="+uid+"&pid="+pid;
 		String weiXinOauthurl=WXPayConfig.OAUTH2_URL+"?appid="+WXPayConfig.PUBLIC_APP_ID+"&redirect_uri="+URLEncoder.encode(redirectUrl)
                           +"&response_type=code&scope=snsapi_base#wechat_redirect";
-		response.sendRedirect(weiXinOauthurl);*/
-		String uid = this.getParam("uid");
+		response.sendRedirect(weiXinOauthurl);
+		/*String uid = this.getParam("uid");
 		String pid = this.getParam("pid");
 		request.setAttribute("uid", uid);
 		request.setAttribute("pid", pid);
 		request.setAttribute("oauthUrl", WXPayConfig.OAUTH2_URL);
-		return "mmall/factoryuser/wxForward";
+		return "mmall/factoryuser/wxForward";*/
 	}
 	
 	@RequestMapping
