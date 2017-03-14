@@ -10,10 +10,6 @@ import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
 
 import javax.imageio.ImageIO;
-
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGEncodeParam;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 /*
  * 图片处理
  * by dgs
@@ -57,15 +53,26 @@ public class ImageHelper {
         	bi = zoomImage(bi, cw, ch,x,y, w*1.0/cw);
         }
        // try {
-            /*输出到文件流*/
-            FileOutputStream newimage = new FileOutputStream(dest);
-            JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(newimage);
-            JPEGEncodeParam jep = JPEGCodec.getDefaultJPEGEncodeParam(bi);
-            /* 压缩质量 */
-            jep.setQuality(0.9f, true);
-            encoder.encode(bi, jep);
-           /*近JPEG编码*/
-            newimage.close();
+        /*输出到文件流*/
+        
+        String suffix = ImageHelper.getSuffix(dest);
+        
+        FileOutputStream newimage = new FileOutputStream(dest);
+        ImageIO.write(bi, suffix, newimage);
+        newimage.close();
+        
+//        JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(newimage);
+//        JPEGEncodeParam jep = JPEGCodec.getDefaultJPEGEncodeParam(bi);
+        
+        /* 压缩质量 */
+//        jep.setQuality(0.9f, true);
+//        encoder.encode(bi, jep);
+       /*近JPEG编码*/
+            
+        /*File file = new File(dest);
+		OutputStream os = new BufferedOutputStream(new FileOutputStream(file));
+		os.write(content);
+		os.close();*/
       /*  } catch (Exception e) {
         	e.printStackTrace();
         }*/
@@ -77,6 +84,16 @@ public class ImageHelper {
         //4.如果 (rh/rw) = h / w，不用切
         //5.按照切割后的图片大小，按比例压缩到 w,h的大小
 	}
+	
+	//获得文件的后缀名
+	public static String getSuffix(String filename){
+		String suffix = ".jpg";
+		if(filename!=null && filename.contains(".")){
+			suffix = filename.substring(filename.lastIndexOf(".")+1, filename.length());
+		}
+		return suffix;
+	}
+	
 	
 	/*
      * 图片剪切与缩放

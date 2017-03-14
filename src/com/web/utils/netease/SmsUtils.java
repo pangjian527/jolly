@@ -9,8 +9,8 @@ import com.web.utils.HttpUtil;
 import com.wxpay.util.SignUtil;
 
 public class SmsUtils {
-	private static final String appKey="da85d433c65d70f703692bd1806b78d2";
-	private static final String appSecret="4da44793ee55";
+	private static final String appKey="22805cdb3352be3e2e0884b69697501c";
+	private static final String appSecret="33294c9d9a53";
 	private static final String SENDCODE_URL="https://api.netease.im/sms/sendcode.action";//发送短信验证码
 	private static final String VERIFYCODE_URL="https://api.netease.im/sms/verifycode.action";//校验验证码
 	public static String sendMsg(String mobile,int codeLength) throws Exception{
