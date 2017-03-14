@@ -17,16 +17,15 @@
 	
 	<style type="text/css">
 		.col0{width: 40px;}
-		.col1{width:auto}
+		.col1{width:auto;}
 		.col2{width: 100px;}
 		.col3{width: 100px}
 		.col4{width: 200px}
 		.col5{width: 100px}
 		.col6{width: 100px}
-		.col7{width: 200px}
-		.col8{width: 100px}
+		.col7{width: 50px}
+		.col8{width: 50px}
 		.col9{width: 100px}
-		.col10{width: 150px}
 	</style>
 	
 	<script type="text/javascript">
@@ -114,14 +113,12 @@
 			<col class="col7" />
 			<col class="col8" />
 			<col class="col9" />
-			<col class="col10" />
 		<thead>
 			<tr>
 			    <th>No.</th>
 			    <th>名称</th>
 				<th>批发价格</th>
 				<th>市场价</th>
-				<th>电池型号</th>
 				<th>容量</th>
 				<th>虚拟销量</th>
 				<th>适用品牌</th>
@@ -137,7 +134,6 @@
 					<td>${data.name }</td>
 					<td>${data.price }</td>
 					<td>${data.price_mart }</td>
-					<td>${data.model }</td>
 					<td>${data.capacity }</td>
 					<td>${data.virtual_count }</td>
 					<td>${data.apply_brand }</td>
