@@ -1,5 +1,6 @@
 package com.wxpay.util;
 
+import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,6 +50,9 @@ public class WXConfigUtil {
 	}
 
 	public static Map<String, String> getOauthResult(String code) {
+		if(StringUtils.isEmpty(code)){
+			return null;
+		}
 		String oauthTokenParam="appid="+WXPayConfig.PUBLIC_APP_ID+"&secret="+WXPayConfig.PUBLIC_APPSECRET+"&code="+code+"&grant_type=authorization_code";
 		String oauthTokenJsonStr = HttpClientUtil.SendGET(WXPayConfig.OAUTH2_TOKEN_URL, oauthTokenParam);
 		Map<String, String> oauthTokenMap = JsonFuncs.toMap(oauthTokenJsonStr);
@@ -67,5 +71,10 @@ public class WXConfigUtil {
 		request.setAttribute("content", "专注于做最好的手机电池，主营苹果等市场上各类手机电池，质量高，服务好！");        //时间戳
 		request.setAttribute("link", WXPayConfig.SERVER_URL+"mmall/factoryuser/register.do?pid="+factoryId);            //随机字符串
 		request.setAttribute("imgUrl", WXPayConfig.SERVER_URL+"image/favicon.ico");  
+	}
+
+	public static String getWxOauthUrl(String redirectUrl) {
+		return WXPayConfig.OAUTH2_URL+"?appid="+WXPayConfig.PUBLIC_APP_ID+"&redirect_uri="+URLEncoder.encode(redirectUrl)
+		        +"&response_type=code&scope=snsapi_base#wechat_redirect";
 	}
 }

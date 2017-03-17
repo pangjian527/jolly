@@ -1,6 +1,5 @@
 package com.web.mmall.factoryuser.action;
 
-import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,8 +30,7 @@ public class RegisterAction extends MMallActon{
 		String pid = this.getParam("pid");
 		
 		String redirectUrl=WXPayConfig.SERVER_URL+"mmall/factoryuser/register.do?op=toRegisterPage&uid="+uid+"&pid="+pid;
-		String weiXinOauthurl=WXPayConfig.OAUTH2_URL+"?appid="+WXPayConfig.PUBLIC_APP_ID+"&redirect_uri="+URLEncoder.encode(redirectUrl)
-                          +"&response_type=code&scope=snsapi_base#wechat_redirect";
+		String weiXinOauthurl=WXConfigUtil.getWxOauthUrl(redirectUrl);
 		System.out.println("redirectUrl---"+redirectUrl);
 		System.out.println("weiXinOauthurl----"+weiXinOauthurl);
 		response.sendRedirect(weiXinOauthurl);

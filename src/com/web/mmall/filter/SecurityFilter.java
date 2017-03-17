@@ -3,6 +3,7 @@ package com.web.mmall.filter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -13,7 +14,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.sys.entity.FactoryUser;
 import com.web.mmall.consts.Consts;
+import com.wxpay.util.WXConfigUtil;
 
 public class SecurityFilter implements Filter{
 
@@ -24,6 +29,7 @@ public class SecurityFilter implements Filter{
 						 FilterChain filterChain) throws IOException, ServletException {
 
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
+		HttpServletResponse response = (HttpServletResponse) servletResponse;
 		//操作结果，不过滤
 		if( request.getRequestURI().indexOf("/common/action_result.html") !=-1){
 			filterChain.doFilter(servletRequest, servletResponse);
@@ -36,11 +42,31 @@ public class SecurityFilter implements Filter{
 			filterChain.doFilter(servletRequest, servletResponse);
 			return;
 		}
+		
 		//如果用户已经使用帐号+密码登陆了Icrm系统，可以正常访问对内的 *.jsp和*.do
 		if (request.getSession().getAttribute(Consts.FACTORY_USER_SESSION_KEY) != null) {
 			//在这里后续判断用户访问的url是否和其拥有的权限匹配，如果超出权限，则转入非法页面提示
 			filterChain.doFilter(servletRequest, servletResponse);
 			return;
+		}
+		
+		Map<String, String> oauthResult = WXConfigUtil.getOauthResult(request.getParameter("code"));
+		if(oauthResult==null){
+			String url = request.getRequestURL().toString();	//请求URL
+			if(StringUtils.isNotEmpty(request.getQueryString())){
+				url=url+ "?" + request.getQueryString();//请求参数
+			}
+			response.sendRedirect(WXConfigUtil.getWxOauthUrl(url));
+			return;
+		}else{
+			String openId = (String)oauthResult.get("openid");
+			//TODO 根据openid获取用户，并绑定session
+			FactoryUser factoryUser=null;
+			if(factoryUser!=null){
+				request.getSession().setAttribute(Consts.FACTORY_USER_SESSION_KEY, factoryUser);
+				filterChain.doFilter(servletRequest, servletResponse);
+				return;
+			}
 		}
 		
 		String indexUrl = request.getContextPath() + "/mmall/product/product.do";
@@ -50,10 +76,13 @@ public class SecurityFilter implements Filter{
 			return;
 		}
 		
-		//如果未登陆客户试图通过直接输url的方式来强制访问PIM非公开页面，拒绝并转入PIM登陆页面
-		HttpServletResponse response = (HttpServletResponse) servletResponse;
+		//跳转注册页面
+		String registerUrl = request.getContextPath() + "/mmall/factoryuser/register.do";
+		response.sendRedirect(registerUrl);
+		
+		/*//如果未登陆客户试图通过直接输url的方式来强制访问PIM非公开页面，拒绝并转入PIM登陆页面
 		String loginUrl = request.getContextPath() + "/mmall/factoryuser/login.do";
-		response.sendRedirect(loginUrl);
+		response.sendRedirect(loginUrl);*/
 	}
 
 	private List<String> getfilterUrlList(String contextPath) {
