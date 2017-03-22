@@ -132,7 +132,7 @@ public class BookformDao extends HibernateDao<Bookform> {
 	}
 
 	public void autoFinishOrder() {
-		String sql = "update t_bookform t set t.status = 4 where t.status = 2 and t.delivery_time<date_sub(date(now()),interval  9 DAY);";
+		String sql = "update t_bookform t set t.status = 4,t.tracking_Status=2 where t.status = 2 and t.delivery_time<date_sub(date(now()),interval  9 DAY);";
 		this.getSession().createSQLQuery(sql).executeUpdate();
 	}
 	

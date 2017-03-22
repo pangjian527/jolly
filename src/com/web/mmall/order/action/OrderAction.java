@@ -271,6 +271,19 @@ public class OrderAction extends MMallActon{
 		return "/mmall/order/detail";
 	}
 	
+	/*确认收货*/
+	@RequestMapping
+	public void finishOrder(HttpServletRequest request,HttpServletResponse response,String bookformId){
+		try{
+			bookformService.finishOrder(bookformId);
+			
+			this.writeJson(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.writeErrorJson("操作失败");
+		}
+	}
+	
 	@Autowired
 	private FactoryService factoryService;
 	@Autowired

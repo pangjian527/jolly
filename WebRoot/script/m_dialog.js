@@ -81,6 +81,6 @@ function dialogAlert(title,content,onCancel){
 }
 
 function dialogConfirm(title,content,onCancel,onConfirm){
-	var dialog = new MobileDialog("温馨提示",content,"alert",onCancel,onConfirm);
+	var dialog = new MobileDialog("温馨提示",content,"confirm",onCancel,onConfirm);
 	dialog.initElement();
 }

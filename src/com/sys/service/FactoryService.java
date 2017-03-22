@@ -56,6 +56,8 @@ public class FactoryService extends BaseService<Factory>{
 				" and f.mobile like :mobile");
 		this.addQueryEqualFilter(queryJson, where, query, "refereeId",
 				" and f.referee_id = :refereeId");
+		this.addQueryEqualFilter(queryJson, where, query, "sysUserId",
+		" and f.sys_user_id = :sysUserId");
 
 		query.select(select.toString()).from(
 				" t_factory f left join t_area a on f.county_id=a.id ").where(

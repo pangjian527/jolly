@@ -295,7 +295,7 @@
   		<div class="factory-user-box">
   			<ul>
   				<li>
-  					<label>手机号码：</label>
+  					<label>手机号码1：</label>
   					<input type="text" placeholder="手机号码" name="mobile" id="mobile"/>
   				</li>
   				<li>

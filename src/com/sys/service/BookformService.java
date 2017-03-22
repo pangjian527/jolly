@@ -452,6 +452,16 @@ public class BookformService extends BaseService<Bookform>{
 		bookformDao.autoFinishOrder();
 	}
 	
+	/* 确认收货 */
+	@Transactional
+	public void finishOrder(String bookformId) {
+		Bookform bookform = bookformDao.get(bookformId);
+		
+		bookform.setStatus(Bookform.STATUS_FINISH);
+		bookform.setTrackingStatus(Bookform.TRACKING_FINISH);
+		
+		bookformDao.save(bookform);
+	}
 
 	@Autowired
 	private BookformDao bookformDao;
@@ -479,5 +489,7 @@ public class BookformService extends BaseService<Bookform>{
 	private ProfitConfigService profitConfigService;
 	@Autowired
 	private ExpressFeeService expressFeeService;
+
+	
 
 }

@@ -28,6 +28,13 @@ public class OrderData {
 	//订单金额
 	private double sales;
 	
+	private String deliveryFactory;
+	// 快递单号
+	private String trackingNumber;
+	
+	// 配送状态（0未发货 1已发货 2已收货）
+	private Integer trackingStatus;
+	
 	private List<OrderDetailData> details =new ArrayList<OrderDetailData>();
 	
 	public OrderData(){}
@@ -42,6 +49,9 @@ public class OrderData {
 		this.addr = bookform.getContactAddr();
 		this.sales = bookform.getSales();
 		this.createTime = bookform.getCreateTime();
+		this.trackingStatus = bookform.getTrackingStatus();
+		this.deliveryFactory = bookform.getDeliveryFactory();
+		this.trackingNumber = bookform.getTrackingNumber();
 		
 	}
 
@@ -129,6 +139,26 @@ public class OrderData {
 		this.details.add(detailData);
 	}
 	
+	
+	public Integer getTrackingStatus() {
+		return trackingStatus;
+	}
+	public void setTrackingStatus(Integer trackingStatus) {
+		this.trackingStatus = trackingStatus;
+	}
+	
+	public String getDeliveryFactory() {
+		return deliveryFactory;
+	}
+	public void setDeliveryFactory(String deliveryFactory) {
+		this.deliveryFactory = deliveryFactory;
+	}
+	public String getTrackingNumber() {
+		return trackingNumber;
+	}
+	public void setTrackingNumber(String trackingNumber) {
+		this.trackingNumber = trackingNumber;
+	}
 	public String getStatusLabel(){
 		if(this.status == 0){
 			return "待付款";
