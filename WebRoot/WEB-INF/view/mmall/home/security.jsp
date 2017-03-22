@@ -115,7 +115,7 @@
 	<div class="scwrapper">
 			<div class="tip-box">
 				<i class="icon"></i>
-				<label>注：根据防伪码查询后电池不可退，请确认使用再查询。</label>
+				<label>注：查询结果为首次查询，非质量问题不予退换货。</label>
 				<div style="clear:both;"></div>
 			</div>
 			<div class="secutiry-box">
