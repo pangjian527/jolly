@@ -88,9 +88,8 @@
 		}
 		div.footer ul li{
 			float: left;
-		    width: 33.3%;
+		    width: 25%;
 		    text-align: center;
-		    line-height: 50px;
 		    background: white;
 		    height:50px;
 		}
@@ -101,25 +100,38 @@
 		}
 		div.footer ul li i{
 			display:block;
-			width:50px;
-			height:50px;
+			width:30px;
+			height:30px;
 			margin:auto;
-			background-position: -10px 0px;
+			background-position-y: 3px;
+		}
+		div.footer ul li label{
+			font-size: 12px;
+		    height: 20px;
+		    display: block;
+		    line-height: 20px;
 		}
 		div.footer ul li i.home{
-			background-image: url("${home}/image/a-home.png");
-		    background-size: 70px 50px;
+			background-image: url("${home}/image/nav_home_on.png");
+		    background-size: 30px 30px;
 		    background-repeat: no-repeat;
 		}
 		div.footer ul li i.cart{
-			background-image: url("${home}/image/n-cart.png");
-		    background-size: 70px 50px;
+			background-image: url("${home}/image/nav_cart.png");
+		    background-size: 30px 30px;
 		    background-repeat: no-repeat;
 		}
 		
+		div.footer ul li i.kefu{
+			background-image: url("${home}/image/nav_kefu.png");
+		    background-size: 32px 30px;
+		    background-repeat: no-repeat;
+		    background-position-y: 1px;
+		}
+		
 		div.footer ul li i.me{
-			background-image: url("${home}/image/n-me.png");
-		    background-size: 70px 50px;
+			background-image: url("${home}/image/nav_me.png");
+		    background-size: 29px 29px;
 		    background-repeat: no-repeat;
 		}
 		div.slider-wrapper {
@@ -195,7 +207,12 @@
 										<b>批发价:</b><label class="price">？？</label>
 										</c:if>
 										<c:if test="${islogin == true}">
-										<b>批发价:</b><label class="price">￥${product.price }</label>&nbsp;&nbsp;
+											<c:if test="${auto == true}">
+												<b>批发价:</b><label class="price">￥${product.price }</label>&nbsp;&nbsp;
+											</c:if>
+											<c:if test="${auto == false}">
+												<b>批发价:</b><label class="price">￥${product.priceMart }</label>&nbsp;&nbsp;
+											</c:if>
 										</c:if>
 										</br>
 										市场价:<label class="price_mart">￥${product.priceMart }</label>
@@ -214,16 +231,25 @@
 				<li >
 					<a href="">
 						<i class="home"></i>
+						<label>首页</label>
 					</a>
 				</li>
 				<li >
 					<a href="${home }/mmall/cart.do">
 						<i class="cart"></i>
+						<label>购物车</label>
+					</a>
+				</li>
+				<li >
+					<a href="tel://400-861-3360">
+						<i class="kefu"></i>
+						<label>客服</label>
 					</a>
 				</li>
 				<li >
 					<a href="${home }/mmall/home/index.do">
 						<i class="me"></i>
+						<label>我的</label>
 					</a>
 				</li>
 			</ul>

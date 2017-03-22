@@ -182,6 +182,15 @@
 				<li>
 					<label>状 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 态：${orderData.statusLabel }</label>
 				</li>
+				<c:if test="${orderData.status ==2 || orderData.status ==4}">
+					<li>
+						<label>物流类型：${orderData.deliveryFactory }</label>
+					</li>
+					<li>
+						<label>物流单号：${orderData.trackingNumber }</label>
+					</li>
+				</c:if>
+				
 			</ul>
 		</div>
 		

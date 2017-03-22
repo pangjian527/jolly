@@ -164,6 +164,65 @@
 		div.nav-menu-box ul li i.icon_factory{
 			background-image: url("${home}/image/icon_factory.png");
 		}
+		
+		
+		div.footer{
+			position: fixed;
+			bottom:0;
+			left:0;
+			right:0;
+			height:50px;
+			border-top: 1px solid #e4e4e4;
+    		box-shadow: 0px 0px 20px #888888;
+		}
+		div.footer ul li{
+			float: left;
+		    width: 25%;
+		    text-align: center;
+		    background: white;
+		    height:50px;
+		}
+		div.footer ul li a {
+			display: block;
+		    height: 100%;
+		    width: 100%;
+		}
+		div.footer ul li i{
+			display:block;
+			width:30px;
+			height:30px;
+			margin:auto;
+			background-position-y: 3px;
+		}
+		div.footer ul li label{
+			font-size: 12px;
+		    height: 20px;
+		    display: block;
+		    line-height: 20px;
+		}
+		div.footer ul li i.home{
+			background-image: url("${home}/image/nav_home.png");
+		    background-size: 30px 30px;
+		    background-repeat: no-repeat;
+		}
+		div.footer ul li i.cart{
+			background-image: url("${home}/image/nav_cart.png");
+		    background-size: 30px 30px;
+		    background-repeat: no-repeat;
+		}
+		
+		div.footer ul li i.kefu{
+			background-image: url("${home}/image/nav_kefu.png");
+		    background-size: 32px 30px;
+		    background-repeat: no-repeat;
+		    background-position-y: 1px;
+		}
+		
+		div.footer ul li i.me{
+			background-image: url("${home}/image/nav_me_on.png");
+		    background-size: 29px 29px;
+		    background-repeat: no-repeat;
+		}
 	</style>
 	
 	<script type="text/javascript">
@@ -184,79 +243,116 @@
 </head>
 <body>
 	<div class="scwrapper">
-			<div class="head-box">
-					<img src="${home}/image/newDefaul.png" />
-					<div class="factory-info">
-						<label>${factory.name }</label>
-						<label>${factory.mobile }</label>
-					</div>
-					<ul>
-						<li>
-							<a href="${home}/mmall/order/order.do?op=list">
-							<div class="split-line">
-								订单(${countBookform })
-							</div>
-							</a>
-						</li>
-						<li>
-							<div  onclick="toRecommendList()" class="split-line">推荐(${countFactory })</div>
-						</li>
-						<li>
-							<div  onclick="toScoreList()">积分(${score })</div>
-						</li>
-					</ul>
-			</div>
-			
-			<div class="nav-menu-box">
+		<div class="head-box">
+				<img src="${home}/image/newDefaul.png" />
+				<div class="factory-info">
+					<label>${factory.name }</label>
+					<label>${factory.mobile }</label>
+				</div>
 				<ul>
 					<li>
 						<a href="${home}/mmall/order/order.do?op=list">
-						<i class="icon icon_order"></i>
-						<label>我的订单</label>
-						<i class="direction"></i>
+						<div class="split-line">
+							订单(${countBookform })
+						</div>
 						</a>
 					</li>
-					<li onclick="toScoreList()">
-						<i class="icon icon_score"></i>
-						<label>我的积分</label>
-						<i class="direction"></i>
+					<li>
+						<div  onclick="toRecommendList()" class="split-line">推荐(${countFactory })</div>
 					</li>
-					<li onclick="toRecommendList()">
-						<i class="icon icon_tuijian"></i>
-						<label>我的推荐</label>
-						<i class="direction"></i>
-					</li>
-					<li onclick="window.location='${home}/mmall/home/index.do?op=security'">
-						<i class="icon icon_code"></i>
-						<label>防伪码查询</label>
-						<i class="direction"></i>
+					<li>
+						<div  onclick="toScoreList()">积分(${score })</div>
 					</li>
 				</ul>
-			</div>
-			
-			<div class="nav-menu-box">
-				<ul>
-					<li onclick="toAuthorize()">
-						<i class="icon icon_factory"></i>
-						<label>店铺信息</label>
-						<i class="direction"></i>
+		</div>
+		
+		<div class="nav-menu-box">
+			<ul>
+				<li>
+					<a href="${home}/mmall/order/order.do?op=list">
+					<i class="icon icon_order"></i>
+					<label>我的订单</label>
+					<i class="direction"></i>
+					</a>
+				</li>
+				<li onclick="toScoreList()">
+					<i class="icon icon_score"></i>
+					<label>我的积分</label>
+					<i class="direction"></i>
+				</li>
+				<li onclick="toRecommendList()">
+					<i class="icon icon_tuijian"></i>
+					<label>我的推荐</label>
+					<i class="direction"></i>
+				</li>
+				<li onclick="window.location='${home}/mmall/home/index.do?op=security'">
+					<i class="icon icon_code"></i>
+					<label>防伪码查询</label>
+					<i class="direction"></i>
+				</li>
+			</ul>
+		</div>
+		
+		<div class="nav-menu-box">
+			<ul>
+				<li onclick="toAuthorize()">
+					<i class="icon icon_factory"></i>
+					<label>店铺信息</label>
+					<i class="direction"></i>
+					<c:if test="${factory.autoStatus eq 'NO_AUTO'}">
 						<label class="desc">认证后可以接安装订单哦</label>
-					</li>
-					<li>
-						<i class="icon icon_code"></i>
-						<label>安装验证码</label>
-						<i class="direction"></i>
-						<label class="desc">敬请期待</label>
-					</li>
-					<li>
-						<i class="icon icon_install_order"></i>
-						<label>安装订单</label>
-						<i class="direction"></i>
-						<label class="desc">敬请期待</label>
-					</li>
-				</ul>
-			</div>
-			<a href="javascript:logout()" class="logout">退出系统</a>
+					</c:if>
+					<c:if test="${factory.autoStatus eq 'WAIT_AUTO'}">
+						<label class="desc">等待客服审核</label>
+					</c:if>
+					<c:if test="${factory.autoStatus eq 'AUTO_SUCCESS'}">
+						<label class="desc">已认证</label>
+					</c:if>
+				</li>
+				<li>
+					<i class="icon icon_code"></i>
+					<label>安装验证码</label>
+					<i class="direction"></i>
+					<label class="desc">敬请期待</label>
+				</li>
+				<li>
+					<i class="icon icon_install_order"></i>
+					<label>安装订单</label>
+					<i class="direction"></i>
+					<label class="desc">敬请期待</label>
+				</li>
+			</ul>
+		</div>
+		<a href="javascript:logout()" class="logout">退出系统</a>
+		
+		<div class="footer">
+			<ul>
+				<li >
+					<a href="${home }/mmall/product/product.do">
+						<i class="home"></i>
+						<label>首页</label>
+					</a>
+				</li>
+				<li >
+					<a href="${home }/mmall/cart.do">
+						<i class="cart"></i>
+						<label>购物车</label>
+					</a>
+				</li>
+				<li >
+					<a href="tel://400-861-3360">
+						<i class="kefu"></i>
+						<label>客服</label>
+					</a>
+				</li>
+				<li >
+					<a href="${home }/mmall/home/index.do">
+						<i class="me"></i>
+						<label>我的</label>
+					</a>
+				</li>
+			</ul>
+		</div>
 	</div>
 </body>
 </html>

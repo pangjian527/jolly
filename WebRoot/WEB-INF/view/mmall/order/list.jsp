@@ -10,9 +10,11 @@
 	<title>我的订单</title>
 	<link rel="icon" href="${home}/favicon.ico" type="image/x-icon" />
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
+	<link href="${home}/style/m_dialog.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" src="${home}/script/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="${home}/script/iscroll-probe.js"></script>
 	<script type="text/javascript" src="${home}/script/mwebmall/haux.mobile.js"></script>
+	<script type="text/javascript" src="${home}/script/m_dialog.js"></script>
 	
 	
 	<style type="text/css">
@@ -350,6 +352,26 @@
 			window.location="${oauthUrl}?appid=${appId}&redirect_uri="+urlencode(redirectUrl)
                               +"&response_type=code&scope=snsapi_base#wechat_redirect";
 		}
+		
+		function finishOrder(bookformId){
+			
+			dialogConfirm("确认收货","请确认收到货之后才进行操作，否则货钱两空哦！",function(){},function(){
+				$.ajax({url: home()+'/mmall/order/order.do?op=finishOrder',
+					data:{bookformId:bookformId},
+					success:function(data){
+						alert(data);
+						if(data.error){
+							dialogAlert("温馨提示",dataJsonObj.error);
+						}
+						else{
+							dialogAlert("温馨提示","确认成功！",function(){
+								window.location.reload(true);
+							});
+						}
+					}
+				});
+			});
+		}
 	</script>
 	<jsp:include page="../initWeixin.jsp"/>	
 </head>
@@ -408,6 +430,9 @@
 							实际付款：￥<fmt:formatNumber value="${data.sales }" pattern="#,#00.00#"/>
 							<c:if test="${data.status == 0 }">
 								<a class="order-pay" href="javascript:pay('${data.bookId }');">付款</a>
+							</c:if>
+							<c:if test="${data.status == 2 && data.trackingStatus == 1}">
+								<a class="order-pay" href="javascript:finishOrder('${data.bookId }');">确认收货</a>
 							</c:if>
 						</div>
 						<c:if test="${data.status == 4 }">

@@ -51,8 +51,21 @@ public class ProductAction extends MMallActon{
 		
 		if(object == null){
 			request.setAttribute("islogin", false);
+			request.setAttribute("auto", false);
 		}else{
 			request.setAttribute("islogin", true);
+			FactoryUser factoryUser = (FactoryUser)object;
+			
+			Factory factory = factoryService.get(factoryUser.getFactoryId());
+			
+			if(StrFuncs.notEmpty(factory.getAutoStatus()) && 
+					Factory.AUTO_SUCCESS.equals(factory.getAutoStatus())){
+				request.setAttribute("auto", true);
+			}else{
+				request.setAttribute("auto", false);
+			}
+			
+			
 		}
 		
 		//查询广告数据 

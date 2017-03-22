@@ -24,6 +24,10 @@ public class Factory implements Serializable {
 	 * 
 	 */
 	public static String TABLE_NAME = "T_FACTORY";
+	
+	public static String NO_AUTO = "NO_AUTO";
+	public static String WAIT_AUTO = "WAIT_AUTO";
+	public static String AUTO_SUCCESS = "AUTO_SUCCESS";
 	//总店ID
 	public static String MAIN_STORE_ID = "-1";
 	
@@ -75,6 +79,9 @@ public class Factory implements Serializable {
 	private String sysUserId;// 
 	// （sys_status）状态；0:无效； 1:有效 2:待审核3:草稿4:被下架了
 	private Integer status;
+	
+	//认证状态（no_auto,wait_apply,auto_success）
+	private String autoStatus;
 	
 	public Factory() {
 		this.createTime = new Date();
@@ -173,9 +180,10 @@ public class Factory implements Serializable {
 	public Integer getStatus() {
 		return status;
 	}
-
-
-
+	@Column(name = "AUTO_STATUS")
+	public String getAutoStatus() {
+		return autoStatus;
+	}
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -249,5 +257,13 @@ public class Factory implements Serializable {
 	public void setLicenseFileIds(String licenseFileIds) {
 		this.licenseFileIds = licenseFileIds;
 	}
+
+
+	public void setAutoStatus(String autoStatus) {
+		this.autoStatus = autoStatus;
+	}
+
+	
+	
 
 }

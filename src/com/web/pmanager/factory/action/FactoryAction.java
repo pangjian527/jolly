@@ -17,19 +17,23 @@ import org.springframework.web.servlet.View;
 
 import pub.dao.query.PageSettings;
 import pub.dao.query.QueryResult;
+import pub.functions.JsonFuncs;
 import pub.functions.StrFuncs;
 import pub.spring.ActionResult;
 import pub.types.IdText;
+import pub.types.Pair;
 
 import com.sys.entity.Area;
 import com.sys.entity.Factory;
 import com.sys.entity.SysUser;
 import com.sys.service.AreaService;
+import com.sys.service.BaseService;
 import com.sys.service.FactoryService;
 import com.sys.service.FileService;
 import com.sys.service.ScoreService;
 import com.sys.service.SysUserService;
 import com.web.pmanager.PManagerAction;
+import com.web.pmanager.consts.Consts;
 
 /**
  * 后台商家商户管理
@@ -38,6 +42,29 @@ import com.web.pmanager.PManagerAction;
 @Controller
 public class FactoryAction extends PManagerAction<Factory>{
 
+	@RequestMapping
+	public String query(HttpServletRequest request, ModelMap model) throws Exception{
+			
+		Pair<String, Integer> postConfig = this.getPostConfig(request, "query");
+		String queryCondition = postConfig.first;
+		int pageNo = postConfig.second;
+		
+		// 地推只能查看自己开发的门店
+		SysUser sysUser = this.getUser(request);
+		JSONObject jsonObject = JsonFuncs.toJsonObject(queryCondition);
+		if(sysUser.getOrganizationId().equals("channel")){
+			jsonObject.element("sysUserId", sysUser.getId());
+		}
+		
+		QueryResult result = factoryService.query(jsonObject.toString(), PageSettings.of(pageNo));
+		request.setAttribute("queryResult", result);
+		
+		//记录当前的查询条件
+		this.setPostConfig(request, "query", postConfig);
+		
+		return getJspFolderPath() + "/query";
+	}
+	
 	@RequestMapping
 	public void queryForSelect(HttpServletRequest request, HttpServletResponse response)throws Exception{
 

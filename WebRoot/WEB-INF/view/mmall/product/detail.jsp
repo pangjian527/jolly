@@ -136,6 +136,9 @@
 			---lkkmax-height: 120px;
 			position: relative;
 		}
+		div.product-content-wrapper img{
+			vertical-align: top;
+		}
 		
 	</style>
 	<script type="text/javascript">

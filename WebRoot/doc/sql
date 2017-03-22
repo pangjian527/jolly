@@ -290,4 +290,12 @@ CHANGE COLUMN `content_photo_id` `content_photo_id` VARCHAR(500) NULL DEFAULT NU
 ALTER TABLE `jolly`.`t_express_fee` 
 CHANGE COLUMN `amount_for_free` `amount_for_free` DOUBLE NULL DEFAULT NULL COMMENT '订单总额满多少可免费' ;
 
+
+
+--0322 pj add
+alter table `jolly`.`t_factory` 
+   add column `auto_status` varchar(20) NULL COMMENT '认证状态' after `status`;
+alter table `jolly`.`t_factory` 
+   change `auto_status` `auto_status` varchar(10) character set latin1 collate latin1_swedish_ci default 'NO_AUTO' NULL  comment '认证状态'
+
    
