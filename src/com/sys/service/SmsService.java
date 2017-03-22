@@ -1,5 +1,6 @@
 package com.sys.service;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
@@ -66,6 +67,10 @@ public class SmsService extends BaseService<Sms>{
 	public boolean validate(String mobile,String code) throws Exception {
 		return  SmsUtils.validate(mobile, code);
 	}
+	public static void sendTempMsg(String tempId,JSONArray mobileArr,JSONArray tempParamArr) throws Exception {
+		SmsUtils.sendTempMsg(tempId, mobileArr, tempParamArr);
+	}
+	
 	@Autowired
 	private SmsDao smsDao;
 	/*@Autowired

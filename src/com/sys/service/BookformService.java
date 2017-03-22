@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
@@ -46,6 +47,8 @@ import com.sys.entity.StockRecord;
 import com.sys.entity.SysUser;
 import com.web.mmall.entity.OrderEntity;
 import com.web.utils.BookformPaymentCallbackUtils;
+import com.web.utils.netease.SmsUtils;
+import com.web.utils.netease.Template;
 
 @Service
 @Transactional(readOnly = true)
@@ -462,6 +465,26 @@ public class BookformService extends BaseService<Bookform>{
 		
 		bookformDao.save(bookform);
 	}
+	
+	public void notifyFactoryUserDelivered(final String id) {
+		new Thread(){//异步通知
+			public void run(){
+				try {
+					Bookform bookform = get(id);
+					JSONArray mobileArr= new JSONArray();
+					mobileArr.add(bookform.getContactTel());
+					
+					JSONArray tempParamArr= new JSONArray();
+					tempParamArr.add("测试发货通知");//TODO
+					smsService.sendTempMsg(Template.TEMPLATE_NOTIFY_SENDED, mobileArr, tempParamArr);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
+		
+	}
+
 
 	@Autowired
 	private BookformDao bookformDao;
@@ -490,6 +513,7 @@ public class BookformService extends BaseService<Bookform>{
 	@Autowired
 	private ExpressFeeService expressFeeService;
 
-	
+	@Autowired
+	private SmsService smsService;
 
 }

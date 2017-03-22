@@ -52,6 +52,8 @@ public class FactoryUser implements Serializable {
 	private String mobile;
 	//是否阅读协议 0:未同意 1：已同意
 	private Integer protocol;
+	
+	private String openid;
 
 	@GenericGenerator(name = "generator", strategy = "uuid.hex")
 	@Id
@@ -99,6 +101,12 @@ public class FactoryUser implements Serializable {
 	@Column(name = "PROTOCOL")
 	public Integer getProtocol() {
 		return protocol;
+	}
+	
+	
+	@Column(name = "OPENID")
+	public String getOpenid() {
+		return openid;
 	}
 
 	public void setProtocol(Integer protocol) {
@@ -153,4 +161,9 @@ public class FactoryUser implements Serializable {
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
+
+	public void setOpenid(String openid) {
+		this.openid = openid;
+	}
+	
 }

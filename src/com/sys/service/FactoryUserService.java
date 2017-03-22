@@ -130,6 +130,11 @@ public class FactoryUserService  extends BaseService<FactoryUser>{
 	public FactoryUser getByAccount(String account){
 		return baseDao.getByProperty("account", account);
 	}
+	
+	public FactoryUser getByOpenid(String openid){
+		return baseDao.getByProperty("openid", openid);
+	}
+	
 	public FactoryUser getByMobile(String mobile){
 		List<FactoryUser> beans = baseDao.getAllByProperty("mobile", mobile);
 		if(ColFuncs.isEmpty(beans)){

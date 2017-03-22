@@ -31,9 +31,9 @@ public class WeixinFilter implements Filter{
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		String requestType = request.getHeader("X-Requested-With");
 		if(StringUtils.isEmpty(requestType)){
-			FactoryUser factoryUser = (FactoryUser)request.getSession().getAttribute(Consts.FACTORY_USER_SESSION_KEY);
+			Object factoryUser = request.getSession().getAttribute(Consts.FACTORY_USER_SESSION_KEY);
 			WXConfigUtil.createWXConfigParam(request);
-			WXConfigUtil.createWXShareParam(request, factoryUser==null?"":factoryUser.getFactoryId());
+			WXConfigUtil.createWXShareParam(request, factoryUser==null?"":((FactoryUser)factoryUser).getFactoryId());
 		}
 		filterChain.doFilter(servletRequest, servletResponse);
 	}

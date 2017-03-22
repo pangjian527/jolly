@@ -16,7 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 
+import pub.spring.BeanUtils;
+
 import com.sys.entity.FactoryUser;
+import com.sys.service.FactoryUserService;
 import com.web.mmall.consts.Consts;
 import com.wxpay.util.WXConfigUtil;
 
@@ -50,7 +53,7 @@ public class SecurityFilter implements Filter{
 			return;
 		}
 		
-		Map<String, String> oauthResult = WXConfigUtil.getOauthResult(request.getParameter("code"));
+		/*Map<String, String> oauthResult = WXConfigUtil.getOauthResult(request.getParameter("code"));
 		if(oauthResult==null){
 			String url = request.getRequestURL().toString();	//请求URL
 			if(StringUtils.isNotEmpty(request.getQueryString())){
@@ -61,13 +64,13 @@ public class SecurityFilter implements Filter{
 		}else{
 			String openId = (String)oauthResult.get("openid");
 			//TODO 根据openid获取用户，并绑定session
-			FactoryUser factoryUser=null;
+			FactoryUser factoryUser=BeanUtils.getBean(FactoryUserService.class).getByOpenid(openId);
 			if(factoryUser!=null){
 				request.getSession().setAttribute(Consts.FACTORY_USER_SESSION_KEY, factoryUser);
 				filterChain.doFilter(servletRequest, servletResponse);
 				return;
 			}
-		}
+		}*/
 		
 		String indexUrl = request.getContextPath() + "/mmall/product/product.do";
 		String method = request.getParameter("op");
@@ -76,13 +79,9 @@ public class SecurityFilter implements Filter{
 			return;
 		}
 		
-		//跳转注册页面
-		String registerUrl = request.getContextPath() + "/mmall/factoryuser/register.do";
-		response.sendRedirect(registerUrl);
-		
-		/*//如果未登陆客户试图通过直接输url的方式来强制访问PIM非公开页面，拒绝并转入PIM登陆页面
+		//如果未登陆客户试图通过直接输url的方式来强制访问PIM非公开页面，拒绝并转入PIM登陆页面
 		String loginUrl = request.getContextPath() + "/mmall/factoryuser/login.do";
-		response.sendRedirect(loginUrl);*/
+		response.sendRedirect(loginUrl);
 	}
 
 	private List<String> getfilterUrlList(String contextPath) {

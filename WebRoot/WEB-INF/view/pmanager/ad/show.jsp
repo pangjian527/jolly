@@ -166,7 +166,7 @@
 					<form:input path="adPhotoId" type="hidden"/>
 				</div>
 			</div>
-			<div class="box_title" style="display:none">
+			<div class="box_title" >
 				<h3>详情图片</h3>
 				<div>
 					<form:input path="contentPhotoId"  type="hidden"/>

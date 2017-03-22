@@ -164,6 +164,14 @@
 	   	}
 	   });
 	}
+	function gotoDetail(adUrl,contentPhotoId){
+		if(adUrl){
+			window.location = adUrl;
+		}else if(contentPhotoId){
+			window.location = "${home}/mmall/ad.do?contentPhotoId="+contentPhotoId;
+		}
+		
+	}
 	</script>
 	<jsp:include page="../initWeixin.jsp"/>	
 </head>
@@ -179,7 +187,7 @@
    					<div class="swipe" id="mySwipe">
 						<div class="swipe-wrap">
 							<c:forEach items="${adList}" var="ad"  >
-								<div>
+								<div onclick="gotoDetail('${ad.url}','${ad.contentPhotoId }')">
 		   							<img id="factory-img" src="${home}/img-${ad.adPhotoId }.do">
 		   						</div>
 		   					</c:forEach>

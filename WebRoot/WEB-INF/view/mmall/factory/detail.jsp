@@ -72,15 +72,22 @@
 	div.license-box{
 		margin:20px 0;
 	}
-	
 	div.license-box ul li.licensename-row{
-	  	height: 100px;
+		height: 100px;
+	  line-height: 20px;
 	}
-	li.licensename-row label{
+	div.license-box ul li.licensename-row label{
+		margin-top:20px;
 		display: block;
 		float: left;
 		height: 100%;
-		line-height: 100px;
+		word-break: break-all;
+	}
+	div.license-box ul li.licensename-row label p{
+		  color: red;
+		  font-size: 12px;
+		  text-align: left;
+		    margin: auto 5px;
 	}
 	li.licensename-row div.licensename-img{
 		  float: left;
@@ -170,6 +177,13 @@
 	div.add-file a.uploading{
 		font-size: 12px;
 	}
+	div.agreement-box{
+		margin-top:10px;
+	  	font-size: 13px;
+	}
+	div.agreement-box a{
+		color:red;
+	}
 </style>
 <script type="text/javascript">
 	function initBody(){
@@ -183,6 +197,7 @@
 		var man=document.getElementById("man").value;
 		var addr=document.getElementById("addr").value;
 		var licenseName=document.getElementById("licenseName").value;
+		var moneyAccount=document.getElementById("moneyAccount").value;
 		var gps=document.getElementById("gps").value;
 		if(name==""){
 			dialogAlert("温馨提示","商家名称不能为空！");
@@ -190,6 +205,10 @@
 		}
 		if(man==""){
 			dialogAlert("温馨提示","联系人不能为空！");
+			return;
+		}
+		if(moneyAccount==""){
+			dialogAlert("温馨提示","收款账号不能为空！");
 			return;
 		}
 		if(addr==""){
@@ -218,6 +237,11 @@
 			return;
 		}
 		document.getElementById("photoIds").value = photoIdsValue;
+		
+		if(!document.getElementById("agreement").checked){
+			dialogAlert("温馨提示","请先阅读并勾选同意合作协议");
+			return;
+		}
 		
 		document.detailInfoForm.submit();
 	}
@@ -440,6 +464,10 @@
 	  					<input type="text" name="mobile" id="mobile" value="${factory.mobile }" readonly="readonly"/>
 	  				</li>
 	  				<li>
+	  					<label>收款账号：</label>
+	  					<input type="text" name="moneyAccount" id="moneyAccount" value="${factory.moneyAccount }" />
+	  				</li>
+	  				<li>
 	  					<label>商家区域：</label>
 	  					<select name="provinceId" id="provinceId">
 	  					</select>
@@ -470,7 +498,9 @@
 	  				</li>
 	  				<li class="licensename-row">
 	  					<input type="hidden" name="licenseFileIds" id="licenseFileIds" value="${factory.licenseFileIds }"/>
-	  					<label>执照图片：</label>
+	  					<label>执照图片：
+	  						<p>注:无营业执照，可上传身份证正反面</p>
+	  					</label>
 	  					<div class="licensename-img" id="licensename-img-id">
 	  						<c:forEach items="${licenseImgIds }" var="imgId">
 	  							<div class="img-show">
@@ -506,6 +536,9 @@
 				</div>
 	  		</div>
   		</form>
+  		<div class="agreement-box">
+  			<input type="checkbox" name="agreement" id="agreement" <c:if test="${factory.agreeProtocol==1 }">checked</c:if>>已阅读并同意<a href="${home }/common/protocol.htm">《倬利商家合作协议》</a>
+  		</div>
   		<a class="submit-btn" onclick="submitFactory();" id="submitFctory">提交申请</a>
   	</div>
 </body>

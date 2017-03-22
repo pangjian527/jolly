@@ -75,6 +75,8 @@ public class Product implements Serializable {
 	
 	private Integer stockCount;
 	
+	private Integer saleCount;
+	
 	@GenericGenerator(name = "generator", strategy = "uuid.hex")
 	@Id
 	@GeneratedValue(generator = "generator")
@@ -185,6 +187,12 @@ public class Product implements Serializable {
 	public Integer getStockCount() {
 		return stockCount;
 	}
+	
+	
+	@Column(name = "SALE_COUNT")
+	public Integer getSaleCount() {
+		return saleCount;
+	}
 
 	public void setId(String id) {
 		this.id = id;
@@ -274,6 +282,11 @@ public class Product implements Serializable {
 		this.stockCount = stockCount;
 	}
 	
+	
+	public void setSaleCount(Integer saleCount) {
+		this.saleCount = saleCount;
+	}
+
 	//photos_ids转为list
 	public List<String> imgIds(){
 		if(StrFuncs.notEmpty(getPhotoIds())){

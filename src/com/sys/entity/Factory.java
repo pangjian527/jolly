@@ -43,6 +43,10 @@ public class Factory implements Serializable {
 	public static final int STATUS_DRAFT =3 ;//草稿
 	public static final int STATUS_OUT_OF_STOCK=4;//被下架了
 	
+	public static final int PROTOCOL_AGREE =1 ;//同意
+	public static final int PROTOCOL_NOT_AGREE=0;//不同意
+	
+	
 	// 主键
 	private String id;
 	// 商家名称
@@ -82,6 +86,10 @@ public class Factory implements Serializable {
 	
 	//认证状态（no_auto,wait_apply,auto_success）
 	private String autoStatus;
+	
+	private String moneyAccount;
+	
+	private Integer agreeProtocol;
 	
 	public Factory() {
 		this.createTime = new Date();
@@ -184,6 +192,17 @@ public class Factory implements Serializable {
 	public String getAutoStatus() {
 		return autoStatus;
 	}
+	
+	@Column(name = "MONEY_ACCOUNT")
+	public String getMoneyAccount() {
+		return moneyAccount;
+	}
+	
+	@Column(name = "AGREE_PROTOCOL")
+	public Integer getAgreeProtocol() {
+		return agreeProtocol;
+	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -263,7 +282,13 @@ public class Factory implements Serializable {
 		this.autoStatus = autoStatus;
 	}
 
-	
-	
+	public void setMoneyAccount(String moneyAccount) {
+		this.moneyAccount = moneyAccount;
+	}
+
+	public void setAgreeProtocol(Integer agreeProtocol) {
+		this.agreeProtocol = agreeProtocol;
+	}
+
 
 }

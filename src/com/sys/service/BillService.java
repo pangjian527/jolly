@@ -3,6 +3,7 @@ package com.sys.service;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,16 @@ import pub.dao.query.QueryResult;
 import pub.dao.query.QuerySettings;
 import pub.functions.DateFuncs;
 import pub.functions.StrFuncs;
+import pub.spring.ActionResult;
 
 import com.sys.dao.BillDao;
 import com.sys.dao.BillDetailDao;
 import com.sys.entity.Bill;
 import com.sys.entity.BillDetail;
+import com.sys.entity.Factory;
 import com.sys.entity.FactoryUser;
 import com.sys.entity.SysUser;
+import com.web.utils.netease.Template;
 
 @Service
 @Transactional(readOnly = true)
@@ -66,7 +70,7 @@ public class BillService extends BaseService<Bill>{
 	public Bill createAndSave(SysUser sysUser,String factoryId) throws Exception{
 		//0.合法性验证，需要验证这个店是不是已经有未完成的单
 		if(sysUser==null||getActiveBill(factoryId) != null){
-			return null;
+			throw new Exception("无效的申请");
 		}
 		
 		//1.汇总商家未结算的明细，生成结算清单
@@ -75,8 +79,8 @@ public class BillService extends BaseService<Bill>{
 		for(BillDetail detail : details){
 			amount += detail.getPricePay();
 		}
-		if(amount < 0.001 && amount > -0.001){
-			return null;
+		if(amount < 0.001 && amount > -500){//欠商家500内不结算
+			throw new Exception("欠商家500元内不能发起结算");
 		}
 		
 		Bill bill = new Bill();
@@ -525,6 +529,25 @@ public class BillService extends BaseService<Bill>{
 		}
 	}*/
 	
+	public void notifyFactoryUserBillSubmited(final String factoryId) {
+		new Thread(){//异步通知
+			public void run(){
+				try {
+					Factory factory = factoryService.get(factoryId);
+					JSONArray mobileArr= new JSONArray();
+					mobileArr.add(factory.getMobile());
+					
+					JSONArray tempParamArr= new JSONArray();
+					tempParamArr.add("测试账单通知");//TODO
+					smsService.sendTempMsg(Template.TEMPLATE_NOTIFY_SUBMIT_BILL_DETAIL, mobileArr, tempParamArr);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
+		
+	}
+	
 	@Autowired
 	private GeneralDao generalDao;
 	@Autowired
@@ -533,4 +556,9 @@ public class BillService extends BaseService<Bill>{
 	private BillDetailService billDetailService;
 	@Autowired
 	private BillDetailDao billDetailDao;
+	@Autowired
+	private FactoryService factoryService;
+	@Autowired
+	private SmsService smsService;
+	
 }

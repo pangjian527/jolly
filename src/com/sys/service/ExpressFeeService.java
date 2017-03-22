@@ -45,7 +45,7 @@ public class ExpressFeeService extends BaseService<ExpressFee>{
 					return 0;
 				}
 		}
-		return 15.0;
+		return list.get(0).getFee();
 	}
 	@Autowired
 	private ExpressFeeDao expressFeeDao;

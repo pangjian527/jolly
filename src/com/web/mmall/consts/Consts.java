@@ -17,6 +17,8 @@ public class Consts {
 	public static final String FACTORY_USER_MENU = "FACTORY_USER_MENU";
 	
 	public static final String FACTORY_USER_MODULE = "FACTORY_USER_MODULE";
+	
+	public static final String OPEN_ID_SESSION_KEY = "OPEN_ID_SESSION_KEY";
 
 	public static String HOME;
 

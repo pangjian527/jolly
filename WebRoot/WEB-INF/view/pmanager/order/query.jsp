@@ -60,6 +60,9 @@
 				queryCondition ? queryCondition.cityId : null,
 				queryCondition ? queryCondition.countyId : null,
 				true);
+			setInterval(function(){
+				window.location.reload();
+			}, 60*1000);
 		});
 		
 		//发起库存询问

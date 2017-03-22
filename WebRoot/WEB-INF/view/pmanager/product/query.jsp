@@ -23,9 +23,10 @@
 		.col4{width: 200px}
 		.col5{width: 100px}
 		.col6{width: 100px}
-		.col7{width: 50px}
+		.col7{width: 100px}
 		.col8{width: 50px}
-		.col9{width: 100px}
+		.col9{width: 50px}
+		.col10{width: 100px}
 	</style>
 	
 	<script type="text/javascript">
@@ -113,6 +114,7 @@
 			<col class="col7" />
 			<col class="col8" />
 			<col class="col9" />
+			<col class="col10" />
 		<thead>
 			<tr>
 			    <th>No.</th>
@@ -120,6 +122,7 @@
 				<th>批发价格</th>
 				<th>市场价</th>
 				<th>容量</th>
+				<th>实际销量</th>
 				<th>虚拟销量</th>
 				<th>适用品牌</th>
 				<th>状态</th>
@@ -135,6 +138,7 @@
 					<td>${data.price }</td>
 					<td>${data.price_mart }</td>
 					<td>${data.capacity }</td>
+					<td>${data.sale_count }</td>
 					<td>${data.virtual_count }</td>
 					<td>${data.apply_brand }</td>
 					<td>

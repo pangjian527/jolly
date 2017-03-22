@@ -3,6 +3,7 @@ package com.web.utils.netease;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import com.web.utils.HttpUtil;
@@ -13,6 +14,8 @@ public class SmsUtils {
 	private static final String appSecret="33294c9d9a53";
 	private static final String SENDCODE_URL="https://api.netease.im/sms/sendcode.action";//发送短信验证码
 	private static final String VERIFYCODE_URL="https://api.netease.im/sms/verifycode.action";//校验验证码
+	private static final String SENDTEMPLATE_URL="https://api.netease.im/sms/sendtemplate.action";//发送模板短信
+	
 	public static String sendMsg(String mobile,int codeLength) throws Exception{
 		Map<String, String> headerParams = new HashMap<String, String>();
 		long time =System.currentTimeMillis()/1000;
@@ -72,9 +75,37 @@ public class SmsUtils {
 			throw new Exception(e);
 		}
 	}
+	
+	public static void sendTempMsg(String tempId,JSONArray mobileArr,JSONArray tempParamArr) throws Exception{
+		Map<String, String> headerParams = new HashMap<String, String>();
+		long time =System.currentTimeMillis()/1000;
+		String noncestr = SignUtil.getRandomStringByLength(32);
+		headerParams.put("AppKey", appKey);
+		headerParams.put("CurTime", String.valueOf(time));
+		headerParams.put("Nonce", noncestr);
+		headerParams.put("CheckSum", CheckSumBuilder.getCheckSum(appSecret, noncestr, String.valueOf(time)));
+		headerParams.put("charset", "utf-8");
+		
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("templateid", tempId);
+		params.put("mobiles", mobileArr.toString());
+		params.put("params", tempParamArr.toString());
+		try {
+			HttpUtil.httpPost(SENDTEMPLATE_URL, headerParams, params);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+	}
+	
+	
 	public static void main(String[] args) throws Exception {
-		String sendMsg = sendMsg("13760755956", 6);
-		System.out.println(sendMsg);
-		System.out.println(validate("13760755956", sendMsg));
+		JSONArray arry=new JSONArray();
+		arry.add("13760755956");
+		
+		JSONArray arry2=new JSONArray();
+		arry2.add("123");
+		
+		sendTempMsg("3060166", arry,arry2);
 	}
 }
