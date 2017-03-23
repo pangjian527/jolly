@@ -156,36 +156,6 @@ public class FactoryUserService  extends BaseService<FactoryUser>{
 		return factoryUser;
 	}
 	
-	@Transactional
-	public FactoryUser login(String key, String password , String ipAddr) throws Exception{
-		//2.是否有这个用户
-		FactoryUser user = getByKeyword(key);
-		if(user == null){
-			throw new Exception("不存在的用户"); 
-		}
-		
-		//3.密码对不对
-		if(!user.getPwd().equals(password)){
-			throw new Exception("密码错误"); 
-		}
-		
-		//4.检查账户有效性
-		if(user.getStatus() == 0){
-			throw new Exception("账户未激活"); 
-		}
-		if(user.getStatus() == 2){
-			throw new Exception("账户已被冻结"); 
-		}
-		
-		//5.检查商家有效性
-		Factory factory = factoryService.get(user.getFactoryId());
-		if(factory.getStatus() != 1){
-			throw new Exception("商家尚未开通"); 
-		}
-		
-		
-		return user;
-	}
 	/*
 	 * @功能说明：商家用户修改密码
 	 * 
@@ -315,7 +285,8 @@ public class FactoryUserService  extends BaseService<FactoryUser>{
 		this.save(factoryUser);
 	}
 	
-	public FactoryUser login(String key,String password) throws Exception {
+	@Transactional
+	public FactoryUser login(String key,String password,String openid) throws Exception {
 		//2.是否有这个用户
 		FactoryUser user = getByKeyword(key);
 		if(user == null){
@@ -341,6 +312,8 @@ public class FactoryUserService  extends BaseService<FactoryUser>{
 		if(factory.getStatus() != 1){
 			throw new Exception("门店尚未开通"); 
 		}*/
+		user.setOpenid(openid);//绑定登录用户直到下次重新登录
+		baseDao.save(user);
 		
 		return user;
 	}

@@ -121,7 +121,8 @@
 			url:home() + '/mmall/factoryuser/login.do',
 			data:{op:"login",
 				account:account,
-				password:password},
+				password:password,
+				openid:'${openid}'},
 			showProgress:false,
 			success:function(data){
 				if(data.error){
@@ -136,7 +137,7 @@
 		window.location="${home}/mmall/factoryuser/register.do";
 	}
 	function toSmsLogin(){
-		window.location="${home}/mmall/factoryuser/login.do?op=toLoginSms";
+		window.location="${home}/mmall/factoryuser/login.do?loginWay=sms";
 	}
 </script>
 <jsp:include page="../initWeixin.jsp"/>

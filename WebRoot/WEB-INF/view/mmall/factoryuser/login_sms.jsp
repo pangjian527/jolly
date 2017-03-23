@@ -214,10 +214,11 @@
 		//2.提交
 			
 		haux.getData({
-			url:home() + '/mmall/factoryuser/login.do',
+			url:home() + '/mmall/factoryuser/login.do?loginWay=sms',
 			data:{op:"loginSms", 
 				mobile:mobileInput.value,
-				verifycode:verifyInput.value},
+				verifycode:verifyInput.value,
+				openid:'${openid}'},
 			showProgress:false,
 			success:function(data){
 				if(data.error){

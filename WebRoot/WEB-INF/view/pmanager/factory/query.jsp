@@ -20,11 +20,12 @@
 		.col1{width: auto;}
 		.col2{width: 140px}
 		.col3{width: 250px}
-		.col4{width: auto}
-		.col5{width: 100px}
-		.col6{width: 200px}
-		.col7{width: 100px}
-		.col8{width: 230px}
+		.col4{width: 100px}
+		.col5{width: auto}
+		.col6{width: 100px}
+		.col7{width: 200px}
+		.col8{width: 100px}
+		.col9{width: 230px}
 
 		div.body_wrap div.query ul li.colspan_2 div{
 			display: inline-block;
@@ -166,12 +167,14 @@
 			<col class="col6" />
 			<col class="col7" />
 			<col class="col8" />
+			<col class="col9" />
 		<thead>
 			<tr>
 			    <th>No.</th>
 				<th>商家名称</th>
 				<th>联系方式</th>
 				<th>商家地址</th>
+				<th>商家金额</th>
 				<th>推荐商家</th>
 				<th>推荐职员</th>
 				<th>状态</th>
@@ -196,6 +199,9 @@
 					<td>
 						${data.addr }
 						<p>${data.areaname }</p>
+					</td>
+					<td>
+						${data.bill_amount }
 					</td>
 					<td>${data.referee_name }</td>
 					<td>${data.sys_user_name }</td>

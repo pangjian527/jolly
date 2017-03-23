@@ -1,5 +1,7 @@
 package com.web.mmall.factoryuser.action;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,34 +21,53 @@ import com.sys.service.TempVerifycodeService;
 import com.web.common.action.BaseAction;
 import com.web.mmall.MMallActon;
 import com.web.mmall.consts.Consts;
+import com.wxpay.config.WXPayConfig;
+import com.wxpay.util.WXConfigUtil;
 
 @Controller 
 public class LoginAction extends MMallActon{
 	Logger logger = LoggerFactory.getLogger(LoginAction.class);
 	@RequestMapping
-	public String execute(HttpServletRequest request,
+	public void execute(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+		String loginWay = this.getParam("loginWay");
 		
-		return "mmall/factoryuser/login";
+		String redirectUrl=WXPayConfig.SERVER_URL+"mmall/factoryuser/login.do?op=toLogin&loginWay="+loginWay;
+		String weiXinOauthurl=WXConfigUtil.getWxOauthUrl(redirectUrl);
+		System.out.println("redirectUrl----"+redirectUrl);
+		System.out.println("weiXinOauthurl----"+weiXinOauthurl);
+		response.sendRedirect(weiXinOauthurl);
 	}
 	
 	@RequestMapping
-	public String toLoginSms(HttpServletRequest request,
+	public String toLogin(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+		Map<String, String> oauthResult = WXConfigUtil.getOauthResult(request.getParameter("code"));
+		if(oauthResult!=null){
+			request.setAttribute("openid", (String)oauthResult.get("openid"));
+		}else{
+			request.setAttribute("openid","");
+		}
 		
-		return "mmall/factoryuser/login_sms";
+		String loginWay = this.getParam("loginWay");
+		if("sms".equals(loginWay)){
+			return "mmall/factoryuser/login_sms";
+		}else{
+			return "mmall/factoryuser/login";
+		}
+		
 	}
 	
 	@RequestMapping
 	public void login(HttpServletRequest request,
-			HttpServletResponse response, String account, String password) throws Exception {
+			HttpServletResponse response, String account, String password,String openid) throws Exception {
 		try {
 			if(StrFuncs.isEmpty(account) || StrFuncs.isEmpty(password)){
 				throw new Exception("用户名或密码不能为空!");
 			}
 			logger.info("页面登录");
 			
-			FactoryUser factoryUser = factoryUserService.login(account.trim(), password.trim());
+			FactoryUser factoryUser = factoryUserService.login(account.trim(), password.trim(),openid);
 			this.setUser(factoryUser);
 			logger.info("页面登录成功");
 			

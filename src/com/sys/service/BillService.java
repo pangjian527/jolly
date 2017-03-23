@@ -70,16 +70,20 @@ public class BillService extends BaseService<Bill>{
 	public Bill createAndSave(SysUser sysUser,String factoryId) throws Exception{
 		//0.合法性验证，需要验证这个店是不是已经有未完成的单
 		if(sysUser==null||getActiveBill(factoryId) != null){
-			throw new Exception("无效的申请");
+			throw new Exception("有未完成的结算申请");
 		}
 		
 		//1.汇总商家未结算的明细，生成结算清单
-		List<BillDetail> details = billDetailService.getAllByFactoryId(factoryId, 0);
 		double amount = 0;
+		List<BillDetail> details = billDetailService.getAllByFactoryId(factoryId, 0);
+		
+		if(details.isEmpty()){
+			throw new Exception("没有需要结算的账单");
+		}
 		for(BillDetail detail : details){
 			amount += detail.getPricePay();
 		}
-		if(amount < 0.001 && amount > -500){//欠商家500内不结算
+		if(amount < 0 && amount > -500){//欠商家500内不结算
 			throw new Exception("欠商家500元内不能发起结算");
 		}
 		
@@ -87,10 +91,10 @@ public class BillService extends BaseService<Bill>{
 		bill.setAmount(amount);
 		bill.setFactoryId(factoryId);
 		if(amount > 0.001){
-			bill.setStatus(0);//商家付款请求，待审核
+			bill.setStatus(Bill.STATUS_FACTORY_PAY);//待商家付款
 		}
 		else{
-			bill.setStatus(4);//商家在线还款请求，可以直接支付了
+			bill.setStatus(Bill.STATUS_MALL_PAY);//待商城付款
 		}
 		bill.setSysUserId(sysUser.getId());
 		
@@ -104,7 +108,7 @@ public class BillService extends BaseService<Bill>{
 		String billId = bill.getId();
 		for(BillDetail detail : details){
 			detail.setBillId(billId);
-			detail.setStatus(0);
+			detail.setStatus(BillDetail.BILL_DETAIL_NOT_SETTLE);
 			billDetailService.save(detail);
 		}
 		
@@ -137,7 +141,7 @@ public class BillService extends BaseService<Bill>{
 			return false;
 		}
 		//1.变更数据状态
-		bill.setStatus(Bill.STATUS_AUDIT_SUCCESS);
+		bill.setStatus(Bill.STATUS_FINISH);
 		//bill.setRemark(user.getName() + "已向商家完成付款：" + detail);
 		String text = DateFuncs.toString(new Date()) + " " + user.getCode() 
 			+ "确认已付款，详情：" + detail;
@@ -146,7 +150,7 @@ public class BillService extends BaseService<Bill>{
 		save(bill);
 		List<BillDetail> billDetails = billDetailService.getAllByBillId(id);
 		for(BillDetail billDetail : billDetails){
-			billDetail.setStatus(1);
+			billDetail.setStatus(BillDetail.BILL_DETAIL_YES_SETTLE);
 			billDetailService.save(billDetail);
 		}
 		/*//2.记日志

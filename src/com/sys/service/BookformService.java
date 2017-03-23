@@ -466,23 +466,42 @@ public class BookformService extends BaseService<Bookform>{
 		bookformDao.save(bookform);
 	}
 	
-	public void notifyFactoryUserDelivered(final String id) {
-		new Thread(){//异步通知
+	public void syncDealAfterDeliver(final String id) {
+		new Thread(){
 			public void run(){
 				try {
 					Bookform bookform = get(id);
-					JSONArray mobileArr= new JSONArray();
-					mobileArr.add(bookform.getContactTel());
-					
-					JSONArray tempParamArr= new JSONArray();
-					tempParamArr.add("测试发货通知");//TODO
-					smsService.sendTempMsg(Template.TEMPLATE_NOTIFY_SENDED, mobileArr, tempParamArr);
+					updateProductSaleCount(bookform);//发货更新商品销售数量
+					notifyFactoryUserDelivered(bookform);//异步通知
 				} catch (Exception e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
+
 		}.start();
 		
+	}
+	
+	@Transactional
+	private void updateProductSaleCount(Bookform bookform) throws Exception {
+		List<BookformDetail> listDetails = bookformDetailDao.getAllByBookId(bookform.getId());
+		
+		for (BookformDetail bookformDetail : listDetails) {
+			Product product = productService.get(bookformDetail.getProductId());
+			product.setSaleCount(product.getSaleCount()+bookformDetail.getCount());
+			productService.save(product);
+		}
+		
+	}
+	
+	private void notifyFactoryUserDelivered(Bookform bookform) throws Exception {
+		JSONArray mobileArr= new JSONArray();
+		mobileArr.add(bookform.getContactTel());
+		
+		JSONArray tempParamArr= new JSONArray();
+		tempParamArr.add("测试发货通知");//TODO
+		smsService.sendTempMsg(Template.TEMPLATE_NOTIFY_SENDED, mobileArr, tempParamArr);
 	}
 
 
@@ -515,5 +534,6 @@ public class BookformService extends BaseService<Bookform>{
 
 	@Autowired
 	private SmsService smsService;
+
 
 }

@@ -53,7 +53,7 @@ public class SecurityFilter implements Filter{
 			return;
 		}
 		
-		/*Map<String, String> oauthResult = WXConfigUtil.getOauthResult(request.getParameter("code"));
+		Map<String, String> oauthResult = WXConfigUtil.getOauthResult(request.getParameter("code"));
 		if(oauthResult==null){
 			String url = request.getRequestURL().toString();	//请求URL
 			if(StringUtils.isNotEmpty(request.getQueryString())){
@@ -70,7 +70,7 @@ public class SecurityFilter implements Filter{
 				filterChain.doFilter(servletRequest, servletResponse);
 				return;
 			}
-		}*/
+		}
 		
 		String indexUrl = request.getContextPath() + "/mmall/product/product.do";
 		String method = request.getParameter("op");

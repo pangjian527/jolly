@@ -78,8 +78,8 @@ public class BookformAction extends PManagerAction<Bookform>{
 		
 		boolean success = baseService.deliver(id, deliveryFactory, trackingNumber, this.getUser(request));
 		if(success){
-			//异步通知商家已发货
-			baseService.notifyFactoryUserDelivered(id);
+			//异步处理后台工作
+			baseService.syncDealAfterDeliver(id);
 			this.writeJson(true);
 		}
 		else{

@@ -20,11 +20,11 @@ public class Bill implements Serializable {
 	private static final long serialVersionUID = 1507151882906348555L;
 	
 	public static String TABLE_NAME = "T_BILL";
-	public static final int STATUS_AUDIT_PENDING = 0;	//待审核
-	//public static final int STATUS_AUDIT_THROUGH = 1;	//审核通过，等待总店付款
-	public static final int STATUS_AUDIT_SUCCESS = 2;    //付款完成
+	public static final int STATUS_FACTORY_PAY = 0;	//待商家付款
+	public static final int STATUS_MALL_PAY = 1;	//待商城付款
+	public static final int STATUS_FINISH = 2;    //完成
 	public static final int STATUS_CANCEL = -1;			//人为撤销
-	//public static final int STATUS_WAIT_FACTORY = 4;	//等待商家在线支付欠款
+	//public static final int STATUS_WAIT_FACTORY = 4;	//等待商家支付欠款
 	//public static final int PROCESS_RETURN = 5 ;		//驳回
 	//public static final int STATUS_ABNORMAL_PAYMENT_REQUEST = 6;	//请款异常
 

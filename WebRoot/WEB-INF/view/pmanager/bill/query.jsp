@@ -98,11 +98,11 @@
 		//拒绝商家的收款请求
 		function finishObject(id){
 			haux.component.Dialog.prompt({
-				content: "完成商家收款", 
-				title : "完成收款",
+				content: "收付款备注信息内容", 
+				title : "收付款备注",
 				min:20,
 				max:100,
-				placeholder:"请输入汇款详细信息",
+				placeholder:"请输入详细信息",
 				ok:function(text){
 					var url="${home}/pmanager/bill/bill.do?op=finish&id=" + id + "&detail=" + text;
 					Dialog.open({url : url, 
@@ -152,6 +152,10 @@
 					<span class="radio">
 						<input type="radio" class="radio" name="status" value="0"/>
 						待商家付款
+					</span>
+					<span class="radio">
+						<input type="radio" class="radio" name="status" value="1"/>
+						待商城付款
 					</span>
 					<span class="radio">
 						<input type="radio" class="radio"  name="status" value="2"/>
@@ -212,6 +216,9 @@
 						<c:if test="${data.status == 0}">
 							待商家付款
 						</c:if>
+						<c:if test="${data.status == 1}">
+							待商城付款
+						</c:if>
 						<c:if test="${data.status == 2}">
 							已完成
 						</c:if>
@@ -221,8 +228,11 @@
 					</td>
 					<td>
 						<a href="javascript:showObject('${data.id}')">查看<a>
-						<c:if test="${data.status == 0}">
-							<a href="javascript:finishObject('${data.id}')">已收款</a>
+						<c:if test="${data.status == 0||data.status == 1}">
+							<a href="javascript:finishObject('${data.id}')">
+								<c:if test="${data.status == 0}">已收款</c:if>
+								<c:if test="${data.status == 1}">已付款</c:if>
+							</a>
 							<a href="javascript:disableObject('${data.id}')">撤销</a>
 						</c:if>
 					</td>

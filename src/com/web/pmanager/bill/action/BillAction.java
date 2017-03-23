@@ -95,7 +95,7 @@ public class BillAction  extends PManagerAction<Bill>{
 	public View finish(HttpServletRequest request, String id, String detail) throws Exception{
 		boolean success = billService.finish(id, detail, this.getUser(request));
 		if(success){
-			return ActionResult.ok("已完成支付", "/pmanager/bill/bill.do?op=query");
+			return ActionResult.ok("账单结算已完成", "/pmanager/bill/bill.do?op=query");
 		}
 		else{
 			return ActionResult.error("非法数据操作");
