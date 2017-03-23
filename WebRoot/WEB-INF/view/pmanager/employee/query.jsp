@@ -72,7 +72,8 @@
 		
 		function copyClip (id,event){
 			var url  ="http://"+ window.location.host + "/jolly/mmall/factoryuser/register.do?uid="+id;
-			window.open(url, '_blank ' );
+			prompt("请复制链接生成二维码",url)
+			//window.open(url, '_blank ' );
 		}
 		
 		
