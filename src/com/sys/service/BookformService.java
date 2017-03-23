@@ -493,7 +493,7 @@ public class BookformService extends BaseService<Bookform>{
 		
 		for (BookformDetail bookformDetail : listDetails) {
 			Product product = productService.get(bookformDetail.getProductId());
-			product.setSaleCount(product.getSaleCount()+bookformDetail.getCount());
+			product.setSaleCount(product.getSaleCount()==null?0:product.getSaleCount()+bookformDetail.getCount());
 			productService.save(product);
 		}
 		
