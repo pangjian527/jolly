@@ -422,8 +422,15 @@ public class BookformService extends BaseService<Bookform>{
 			throw new Exception("订单:" + bookform.getCode() + " 已完成付款!");
 		}
 		Double amount = bookform.getSales();
+		String title = this.getOrderDesc(bookform.getId());
 		
-		List<BookformDetail> details = bookformDetailDao.getAllByProperty("bookId", bookform.getId());
+		
+
+		return new PayInfo(title, amount, BookformPaymentCallbackUtils.class.getName(),orderId);
+	}
+	
+	private String getOrderDesc(String bookformId){
+		List<BookformDetail> details = bookformDetailDao.getAllByProperty("bookId", bookformId);
 		Product product = productService.get(details.get(0).getProductId());
 		String title = product.getName();
 		if(title.length() >= 20){
@@ -432,8 +439,7 @@ public class BookformService extends BaseService<Bookform>{
 		if(details.size() > 1 ){
 			title += "...等多项商品";
 		}
-
-		return new PayInfo(title, amount, BookformPaymentCallbackUtils.class.getName(),orderId);
+		return title;
 	}
 	
 	@Transactional
@@ -500,7 +506,8 @@ public class BookformService extends BaseService<Bookform>{
 		mobileArr.add(bookform.getContactTel());
 		
 		JSONArray tempParamArr= new JSONArray();
-		tempParamArr.add("测试发货通知");//TODO
+		tempParamArr.add(this.getOrderDesc(bookform.getId()));//TODO
+		
 		smsService.sendTempMsg(Template.TEMPLATE_NOTIFY_SENDED, mobileArr, tempParamArr);
 	}
 

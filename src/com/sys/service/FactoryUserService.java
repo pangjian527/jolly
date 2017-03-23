@@ -286,7 +286,7 @@ public class FactoryUserService  extends BaseService<FactoryUser>{
 	}
 	
 	@Transactional
-	public FactoryUser login(String key,String password,String openid) throws Exception {
+	public FactoryUser login(String key,String password) throws Exception {
 		//2.是否有这个用户
 		FactoryUser user = getByKeyword(key);
 		if(user == null){
@@ -312,10 +312,22 @@ public class FactoryUserService  extends BaseService<FactoryUser>{
 		if(factory.getStatus() != 1){
 			throw new Exception("门店尚未开通"); 
 		}*/
-		user.setOpenid(openid);//绑定登录用户直到下次重新登录
-		baseDao.save(user);
 		
 		return user;
+	}
+	
+	@Transactional
+	public void bindWeixinAccount(String factoryUserId,String openid){
+		FactoryUser factoryUser = this.get(factoryUserId);
+		factoryUser.setOpenid(openid);
+		this.save(factoryUser);
+	}
+	
+	@Transactional
+	public void unbindWeixinAccount(String factoryUserId){
+		FactoryUser factoryUser = this.get(factoryUserId);
+		factoryUser.setOpenid(null);
+		this.save(factoryUser);
 	}
 	
 	@Autowired

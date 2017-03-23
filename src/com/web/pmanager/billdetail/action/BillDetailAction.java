@@ -99,7 +99,7 @@ public class BillDetailAction extends PManagerAction<BillDetail>{
 			double amount = bill.getAmount();
 			//2.1 商家在商城有余额，生成一条结算申请单(t_bill)，并切换回详情页面
 			//return "/pfactory/billdetail/bill_detail.do?op=\"query\"";
-			billService.notifyFactoryUserBillSubmited(this.getParam("factoryId"));
+			billService.notifyFactoryUserBillSubmited(this.getParam("factoryId"),amount);
 			return ActionResult.ok("您已提交结算申请￥" + amount + "元)，请前往账单管理菜单查看", null);
 		} catch (Exception e) {
 			return ActionResult.ok(e.getMessage(), null);

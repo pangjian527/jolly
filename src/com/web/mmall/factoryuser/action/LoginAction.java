@@ -11,16 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import pub.functions.CryptFuncs;
 import pub.functions.StrFuncs;
 
 import com.sys.entity.FactoryUser;
 import com.sys.service.FactoryUserService;
 import com.sys.service.SmsService;
 import com.sys.service.TempVerifycodeService;
-import com.web.common.action.BaseAction;
 import com.web.mmall.MMallActon;
-import com.web.mmall.consts.Consts;
 import com.wxpay.config.WXPayConfig;
 import com.wxpay.util.WXConfigUtil;
 
@@ -67,7 +64,11 @@ public class LoginAction extends MMallActon{
 			}
 			logger.info("页面登录");
 			
-			FactoryUser factoryUser = factoryUserService.login(account.trim(), password.trim(),openid);
+			FactoryUser factoryUser = factoryUserService.login(account.trim(), password.trim());
+			
+			//绑定微信用户
+			factoryUserService.bindWeixinAccount(factoryUser.getId(), openid);
+			
 			this.setUser(factoryUser);
 			logger.info("页面登录成功");
 			
@@ -84,7 +85,7 @@ public class LoginAction extends MMallActon{
 	
 	@RequestMapping
 	public void loginSms(HttpServletRequest request,
-			HttpServletResponse response,String mobile, String verifycode) throws Exception {
+			HttpServletResponse response,String mobile, String verifycode,String openid) throws Exception {
 		
 		try {
 			if(!smsService.validate(mobile, verifycode)){
@@ -92,6 +93,9 @@ public class LoginAction extends MMallActon{
 			}
 			logger.info("页面登录");
 			FactoryUser factoryUser = factoryUserService.getByMobile(mobile);
+			//绑定微信用户
+			factoryUserService.bindWeixinAccount(factoryUser.getId(), openid);
+			
 			this.setUser(factoryUser);	
 			logger.info("页面登录成功");
 			
@@ -137,8 +141,12 @@ public class LoginAction extends MMallActon{
 	
 	@RequestMapping
 	public String logout(HttpServletRequest request,HttpServletResponse response) {
+		//解绑微信
+		FactoryUser user = this.getUser();
+		factoryUserService.unbindWeixinAccount(user.getId());
 		this.removeUser();
-		return "redirect:/mmall/product/product.do";
+		
+		return "redirect:/mmall/factoryuser/login.do";
 	}
 	@Autowired
 	private FactoryUserService factoryUserService;

@@ -533,7 +533,7 @@ public class BillService extends BaseService<Bill>{
 		}
 	}*/
 	
-	public void notifyFactoryUserBillSubmited(final String factoryId) {
+	public void notifyFactoryUserBillSubmited(final String factoryId,final double amount) {
 		new Thread(){//异步通知
 			public void run(){
 				try {
@@ -542,7 +542,7 @@ public class BillService extends BaseService<Bill>{
 					mobileArr.add(factory.getMobile());
 					
 					JSONArray tempParamArr= new JSONArray();
-					tempParamArr.add("测试账单通知");//TODO
+					tempParamArr.add(amount);//TODO
 					smsService.sendTempMsg(Template.TEMPLATE_NOTIFY_SUBMIT_BILL_DETAIL, mobileArr, tempParamArr);
 				} catch (Exception e) {
 					e.printStackTrace();

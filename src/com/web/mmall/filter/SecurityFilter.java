@@ -30,8 +30,8 @@ public class SecurityFilter implements Filter{
 	}
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
 						 FilterChain filterChain) throws IOException, ServletException {
-
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
+		System.out.println("url-------"+request.getRequestURI());
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 		//操作结果，不过滤
 		if( request.getRequestURI().indexOf("/common/action_result.html") !=-1){
@@ -59,6 +59,7 @@ public class SecurityFilter implements Filter{
 			if(StringUtils.isNotEmpty(request.getQueryString())){
 				url=url+ "?" + request.getQueryString();//请求参数
 			}
+			System.out.println("Redirecturl-------"+request.getRequestURI());
 			response.sendRedirect(WXConfigUtil.getWxOauthUrl(url));
 			return;
 		}else{

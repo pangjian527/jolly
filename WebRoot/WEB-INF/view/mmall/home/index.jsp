@@ -117,7 +117,7 @@
 		    color: white;
 		    border-radius: 25px;
 		    margin-top: 10px;
-		    margin-bottom: 10px;
+		    margin-bottom: 70px;
 		}
 		
 		ul li i.direction{
