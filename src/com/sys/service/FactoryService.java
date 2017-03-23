@@ -97,7 +97,12 @@ public class FactoryService extends BaseService<Factory>{
 			Factory parentFactory = factoryDao.get(factory.getRefereeId());
 			//找到父节点的sys_user增加积分
 			scoreService.sysUserScore(profitConfig.getPushIndirectOpenFactory(), factory.getId(), describe, parentFactory.getSysUserId());
-			factory.setSysUserId(parentFactory.getSysUserId());
+		}
+		
+		if(StrFuncs.notEmpty(factory.getRefereeId())){
+			//获取父节点的地推
+			Factory parentFactory = factoryDao.get(factory.getRefereeId());
+			factory.setSysUserId(parentFactory==null?"":parentFactory.getSysUserId());
 		}
 		
 		this.save(factory);
@@ -154,6 +159,7 @@ public class FactoryService extends BaseService<Factory>{
 		
 		//4.执行操作
 		factory.setStatus(Factory.STATUS_VALID);
+		factory.setAutoStatus(Factory.AUTO_SUCCESS);
 		factoryDao.save(factory);
 		
 		return true;

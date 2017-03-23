@@ -128,6 +128,7 @@ public class RegisterAction extends MMallActon{
 			factory.setAddr(addr);
 			factory.setSysUserId(sysUserId);
 			factory.setRefereeId(refereeId);
+			factory.setAutoStatus(Factory.NO_AUTO);
 			factoryService.saveFactoryAndCreateFactoryUser(factory, password);
 			FactoryUser user = factoryUserService.getByMobile(mobile);//获取用户
 			this.setUser(user);
@@ -137,6 +138,11 @@ public class RegisterAction extends MMallActon{
 			e.printStackTrace();
 			this.writeJson("{error:'"+e.getMessage()+"'}");
 		}
+	}
+	
+	@RequestMapping
+	public String followPage(HttpServletRequest request,HttpServletResponse response){
+		return "mmall/factoryuser/result";
 	}
 	
 	@Autowired

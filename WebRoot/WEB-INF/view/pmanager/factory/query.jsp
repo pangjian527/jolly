@@ -51,6 +51,10 @@
 		    font-size: 14px;
 		    font-family: "微软雅黑";
 		}
+		label.bill-amount{
+			font-size:20px;
+			color:red;
+		}
 	</style> 
 	
 	<script type="text/javascript">
@@ -201,7 +205,13 @@
 						<p>${data.areaname }</p>
 					</td>
 					<td>
-						${data.bill_amount }
+						<c:if test="${!empty data.bill_amount}">
+							<label class="bill-amount">￥${data.bill_amount }</label>
+						</c:if>
+						<c:if test="${empty data.bill_amount}">
+							<label class="bill-amount">￥0.0</label>
+						</c:if>
+						
 					</td>
 					<td>${data.referee_name }</td>
 					<td>${data.sys_user_name }</td>
@@ -221,7 +231,12 @@
 						</c:if>
 						<c:if test="${data.status == 3 }">
 							草稿
-							<p>商家尚未提交审核, 无需处理</p>
+							<c:if test="${data.auto_status eq 'NO_AUTO'}">
+								<p>商家尚未提交审核,无需处理</p>
+							</c:if>
+							<c:if test="${data.auto_status eq 'WAIT_AUTO'}">
+								<p style="color:red;">商家提交审核,请尽快处理</p>
+							</c:if>
 						</c:if>
 						<c:if test="${data.status == 4 }">
 							下架
