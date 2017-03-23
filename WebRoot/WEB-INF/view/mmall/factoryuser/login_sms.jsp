@@ -93,20 +93,22 @@
 		    letter-spacing: 10px;
 	}
 	button.verify-code-btn{
-		background-color: white;
-	    height: 40px;
-	    line-height: 40px;
-	    border: 0;
-	    font-size: 16px;
-	    position: absolute;
-	    right: 10px;
-	    top: 10px;
-	    color: #f40;
+		background-color: #eee;
+	  color: #848689;
+	  border-radius: 3px;
+	  -webkit-box-shadow: 0 0 0 1px #eee;
+	  height: 30px;
+	  line-height: 30px;
+	  border: 0;
+	  font-size: 14px;
+	  position: absolute;
+      right: 10px;
+      top: 9px;
 	}
 	button.active{
 		background-color: #fff;
-		 color: #e4e4e4;
-		 font-size:14px;
+		  color: #f23030;
+		  box-shadow: 0 0 0 1px #f23030;
 	}
 	
 	
@@ -268,13 +270,13 @@
   				</li>
   				<li>
   					<label>图形验证码：</label>
-  					<input type="text"  placeholder="图形验证码" name="imgcode" id="imgcode" />
+  					<input type="text"  placeholder="图形验证码" name="imgcode" id="imgcode"  onkeyup="checkBtnActive(this)"/>
   					<img class="valid" id="validImg"  onclick="reloadVerifyimage(this)" src='${home}/file/verifyimage.do'/>
   				</li>
   				<li>
   					<label>短信验证码：</label>
   					<input type="text"  placeholder="短信验证码"name="verifyCode" id="verifyCode" />
-  					<button type="button" onclick="sendVerifycode()" class="verify-code-btn" id="verify-code-btn">获取验证码</button>
+  					<button type="button" onclick="sendVerifycode()" class="verify-code-btn" id="verify-code-btn" disabled="disabled">获取验证码</button>
   				</li>
   			</ul>
   		</div>

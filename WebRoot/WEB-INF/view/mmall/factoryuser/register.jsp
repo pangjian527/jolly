@@ -132,14 +132,11 @@
 		  position: relative;
   		margin-top: 20px;
 	}
-	div.forward-menu a.register-href {
-		 margin-left: 15px;
-  		color: #F04E4E;
-	}
 	div.forward-menu a.sms-login-href {
 		  position: absolute;
 		  right: 15px;
 		  color: #F04E4E;
+	      height: 40px;
 	}
 </style>
 <script type="text/javascript">
