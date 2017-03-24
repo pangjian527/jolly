@@ -218,7 +218,7 @@
 						<c:if test='${data.status == 1}'>
 							已认证
 						</c:if>
-						<c:if test='${data.STATUS == 2}'>
+						<c:if test='${data.status == 2}'>
 							待认证
 							<p>请尽快完成认证,以便商家及时享受商城优惠</p>
 						</c:if>

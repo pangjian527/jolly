@@ -92,7 +92,7 @@ public class LoginAction extends MMallActon{
 				throw new Exception("请输入正确的验证码");
 			}
 			logger.info("页面登录");
-			FactoryUser factoryUser = factoryUserService.getByMobile(mobile);
+			FactoryUser factoryUser = factoryUserService.loginBySms(mobile);
 			//绑定微信用户
 			factoryUserService.bindWeixinAccount(factoryUser.getId(), openid);
 			

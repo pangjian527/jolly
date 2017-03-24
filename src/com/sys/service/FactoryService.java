@@ -152,14 +152,12 @@ public class FactoryService extends BaseService<Factory>{
 			return false;
 		}
 		//2.若状态码不为 草稿 或 下架状态 不准申请上架
-		if(oldStatus == Factory.STATUS_DRAFT || oldStatus ==Factory.STATUS_OUT_OF_STOCK ){
-		}else{
+		if(oldStatus != Factory.STATUS_APPROVE && oldStatus !=Factory.STATUS_OUT_OF_STOCK ){
 			return false;
 		}
 		
 		//4.执行操作
 		factory.setStatus(Factory.STATUS_VALID);
-		factory.setAutoStatus(Factory.AUTO_SUCCESS);
 		factoryDao.save(factory);
 		
 		return true;

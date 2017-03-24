@@ -287,16 +287,32 @@ public class FactoryUserService  extends BaseService<FactoryUser>{
 	
 	@Transactional
 	public FactoryUser login(String key,String password) throws Exception {
-		//2.是否有这个用户
 		FactoryUser user = getByKeyword(key);
-		if(user == null){
-			throw new Exception("不存在的用户"); 
-		}
 		
-		//3.密码对不对
+		validateLogin(user);
+		
+		//密码对不对
 		String md5Pwd = CryptFuncs.getMd5(password); 
 		if(!user.getPwd().equals(md5Pwd)){
 			throw new Exception("密码错误"); 
+		}
+		
+		return user;
+	}
+	
+	@Transactional
+	public FactoryUser loginBySms(String mobile) throws Exception {
+		FactoryUser user = this.getByMobile(mobile);
+		
+		validateLogin(user);
+		
+		return user;
+	}
+	
+	
+	private void validateLogin(FactoryUser user) throws Exception {
+		if(user == null){
+			throw new Exception("不存在的用户"); 
 		}
 		
 		//4.检查账户有效性
@@ -307,15 +323,14 @@ public class FactoryUserService  extends BaseService<FactoryUser>{
 			throw new Exception("账户已被冻结"); 
 		}
 		
-		/*//5.检查门店有效性
+		//5.检查商家有效性
 		Factory factory = factoryService.get(user.getFactoryId());
-		if(factory.getStatus() != 1){
-			throw new Exception("门店尚未开通"); 
-		}*/
+		if(factory.getStatus() == Factory.STATUS_INVALID||factory.getStatus() == Factory.STATUS_OUT_OF_STOCK){
+			throw new Exception("商家无效，请联系客服处理"); 
+		}
 		
-		return user;
 	}
-	
+
 	@Transactional
 	public void bindWeixinAccount(String factoryUserId,String openid){
 		FactoryUser factoryUser = this.get(factoryUserId);

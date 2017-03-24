@@ -128,7 +128,7 @@ public class RegisterAction extends MMallActon{
 			factory.setAddr(addr);
 			factory.setSysUserId(sysUserId);
 			factory.setRefereeId(refereeId);
-			factory.setAutoStatus(Factory.NO_AUTO);
+			factory.setStatus(Factory.STATUS_DRAFT);
 			factoryService.saveFactoryAndCreateFactoryUser(factory, password);
 			FactoryUser user = factoryUserService.getByMobile(mobile);//获取用户
 			this.setUser(user);
