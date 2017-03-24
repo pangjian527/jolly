@@ -299,13 +299,13 @@
 					<i class="icon icon_factory"></i>
 					<label>店铺信息</label>
 					<i class="direction"></i>
-					<c:if test="${factory.autoStatus eq 'NO_AUTO'}">
+					<c:if test="${factory.status == 3}">
 						<label class="desc">认证后可以接安装订单哦</label>
 					</c:if>
-					<c:if test="${factory.autoStatus eq 'WAIT_AUTO'}">
+					<c:if test="${factory.status == 2}">
 						<label class="desc">等待客服审核</label>
 					</c:if>
-					<c:if test="${factory.autoStatus eq 'AUTO_SUCCESS'}">
+					<c:if test="${factory.status == 1}">
 						<label class="desc">已认证</label>
 					</c:if>
 				</li>

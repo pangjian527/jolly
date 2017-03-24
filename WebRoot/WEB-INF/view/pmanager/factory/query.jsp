@@ -216,12 +216,15 @@
 							<p>已删除, 不可恢复</p>
 						</c:if>
 						<c:if test='${data.status == 1}'>
-							有效
-							<p>商家正常营业中</p>
+							已认证
+						</c:if>
+						<c:if test='${data.STATUS == 2}'>
+							待认证
+							<p>请尽快完成认证,以便商家及时享受商城优惠</p>
 						</c:if>
 						<c:if test="${data.status == 3 }">
 							草稿
-							<p>商家尚未提交审核, 无需处理</p>
+							<p>商家尚未提交认证, 无需处理</p>
 						</c:if>
 						<c:if test="${data.status == 4 }">
 							下架
@@ -236,7 +239,7 @@
 						<c:if test="${data.status != 0 }">
 						<a href="javascript:void(0)" onclick="locateObject('${data.id}');">定位</a>
 						</c:if>
-						<c:if test='${data.status == 3||data.status == 4}'>
+						<c:if test='${data.status == 2||data.status == 4}'>
 							<a href="javascript:void(0)" onclick="submitObject('${data.id}', '上架', '批准商家上架，${data.name}能够开始在商城进货');">
 								上架
 							</a>

@@ -85,7 +85,7 @@ public class FactoryAction extends MMallActon{
 		factory.setLicenseFileIds(licenseFileIds);
 		factory.setPhotoIds(photoIds);
 		factory.setAgreeProtocol(Factory.PROTOCOL_AGREE);
-		factory.setAutoStatus(Factory.WAIT_AUTO);
+		factory.setStatus(Factory.STATUS_APPROVE);;
 		factory.setMoneyAccount(moneyAccount);
 	}
 	

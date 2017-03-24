@@ -58,8 +58,7 @@ public class ProductAction extends MMallActon{
 			
 			Factory factory = factoryService.get(factoryUser.getFactoryId());
 			
-			if(StrFuncs.notEmpty(factory.getAutoStatus()) && 
-					Factory.AUTO_SUCCESS.equals(factory.getAutoStatus())){
+			if(Factory.STATUS_VALID==factory.getStatus()){
 				request.setAttribute("auto", true);
 			}else{
 				request.setAttribute("auto", false);

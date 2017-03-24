@@ -25,9 +25,6 @@ public class Factory implements Serializable {
 	 */
 	public static String TABLE_NAME = "T_FACTORY";
 	
-	public static String NO_AUTO = "NO_AUTO";
-	public static String WAIT_AUTO = "WAIT_AUTO";
-	public static String AUTO_SUCCESS = "AUTO_SUCCESS";
 	//总店ID
 	public static String MAIN_STORE_ID = "-1";
 	
@@ -38,10 +35,10 @@ public class Factory implements Serializable {
 	//public static final int APPROVE = 2;		//待审核
 	
 	public static final int STATUS_INVALID =0 ;	//无效 删除
-	public static final int STATUS_VALID =1 ;	//有效 {审核通过}
-	public static final int STATUS_APPROVE =2 ;	//待审核
-	public static final int STATUS_DRAFT =3 ;//草稿
-	public static final int STATUS_OUT_OF_STOCK=4;//被下架了
+	public static final int STATUS_VALID =1 ;	//有效 {认证通过}
+	public static final int STATUS_APPROVE =2 ;	//待认证
+	public static final int STATUS_DRAFT =3 ;//未进行认证
+	public static final int STATUS_OUT_OF_STOCK=4;//被人为下架了
 	
 	public static final int PROTOCOL_AGREE =1 ;//同意
 	public static final int PROTOCOL_NOT_AGREE=0;//不同意
