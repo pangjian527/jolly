@@ -196,8 +196,8 @@
 	}
 	function registSubmit(){
 		if('${subscribe}'!='1'){
-			dialogAlert("温馨提示","请先搜索关注倬利微信公众号再进行注册");
-	        return false; 
+			//dialogAlert("温馨提示","请先搜索关注倬利微信公众号再进行注册");
+	        //return false; 
 		}
 		//1.检查用户输入有效性
 		var inputElements = document.getElementsByTagName("input");
@@ -257,7 +257,11 @@
 					dialogAlert("温馨提示",data.error);
 				}
 				else{
-					window.location=home()+"/mmall/product/product.do";
+					if('${subscribe}'!='1'){
+						window.location=home()+"/mmall/factoryuser/register.do?op=followPage";
+					}else{
+						window.location=home()+"/mmall/product/product.do";
+					}
 				}
 			}
 		});
