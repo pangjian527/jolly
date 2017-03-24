@@ -26,8 +26,8 @@ public class RegisterAction extends MMallActon{
 	@RequestMapping
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception { 
 		
-		String uid = this.getParam("uid");
-		String pid = this.getParam("pid");
+		String uid = this.getParam("uid")==null?"" :this.getParam("uid");
+		String pid = this.getParam("pid")==null?"" :this.getParam("pid");
 		
 		String redirectUrl=WXPayConfig.SERVER_URL+"mmall/factoryuser/register.do?op=toRegisterPage&uid="+uid+"&pid="+pid;
 		String weiXinOauthurl=WXConfigUtil.getWxOauthUrl(redirectUrl);
@@ -48,8 +48,8 @@ public class RegisterAction extends MMallActon{
 		String uid = this.getParam("uid");
 		String pid = this.getParam("pid");
 		
-		request.setAttribute("uid", uid);
-		request.setAttribute("pid", pid);
+		request.setAttribute("uid", uid == null ?"": uid);
+		request.setAttribute("pid", pid == null ? "" : pid);
 		request.setAttribute("subscribe",0);
 		if(StrFuncs.notEmpty(request.getParameter("code"))){
 			try {
