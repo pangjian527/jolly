@@ -18,6 +18,7 @@ import org.apache.commons.lang.StringUtils;
 
 import pub.spring.BeanUtils;
 
+import com.sys.entity.Factory;
 import com.sys.entity.FactoryUser;
 import com.sys.service.FactoryUserService;
 import com.web.mmall.consts.Consts;
@@ -66,7 +67,7 @@ public class SecurityFilter implements Filter{
 			String openId = (String)oauthResult.get("openid");
 			//TODO 根据openid获取用户，并绑定session
 			FactoryUser factoryUser=BeanUtils.getBean(FactoryUserService.class).getByOpenid(openId);
-			if(factoryUser!=null){
+			if(factoryUser!=null&&factoryUser.getStatus()!=Factory.STATUS_INVALID&&factoryUser.getStatus()!=Factory.STATUS_OUT_OF_STOCK){
 				request.getSession().setAttribute(Consts.FACTORY_USER_SESSION_KEY, factoryUser);
 				filterChain.doFilter(servletRequest, servletResponse);
 				return;
