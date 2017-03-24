@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sys.data.cart.CartData;
 import com.sys.data.cart.CartItem;
+import com.sys.entity.Factory;
 import com.sys.entity.FactoryUser;
 import com.sys.entity.Product;
 import com.sys.service.CartService;
@@ -37,6 +38,9 @@ public class CartAction  extends MMallActon {
 			cartService.complete(cartData);
 			cartData.clearInvalidItems();
 			request.setAttribute("cartData", cartData);
+			
+			Factory factory = factoryService.get(user.getFactoryId());
+			request.setAttribute("factory", factory);
 		}
 		
 		return "mmall/cart";

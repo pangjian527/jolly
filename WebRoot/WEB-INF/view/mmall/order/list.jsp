@@ -347,10 +347,7 @@
 		}
 		  	
 		function pay(bookformId){
-			//通过授权页面获取CODE，获取OPENID
-			var redirectUrl="http://"+window.location.host+"${home}/mmall/order/order.do?op=pay&bookformId="+bookformId;
-			window.location="${oauthUrl}?appid=${appId}&redirect_uri="+urlencode(redirectUrl)
-                              +"&response_type=code&scope=snsapi_base#wechat_redirect";
+			window.location=window.location="${home}/mmall/order/order.do?op=pay&bookformId="+bookformId;
 		}
 		
 		function finishOrder(bookformId){

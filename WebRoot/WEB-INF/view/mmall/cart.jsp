@@ -415,7 +415,13 @@
 		<div class="cart-list-box">
 			<ul id="cartListId">
 				<c:forEach items="${cartData.items }" var="cartItem">
-					<li price="${cartItem.price }" productId="${cartItem.productId }">
+					<c:if test="${factory.status == 1 }">
+						<li price="${cartItem.price }" productId="${cartItem.productId }">
+					</c:if>
+					<c:if test="${factory.status != 1 }">
+						<li price="${cartItem.priceMart }" productId="${cartItem.productId }">
+					</c:if>
+					
 						<div class="check-wrapper">
 							<i class="cart-checkbox" onclick ="checkOrNot(this)">
 							</i>	
@@ -427,7 +433,14 @@
 							<div class="pro-info-box">
 								<div class="pro-info-title" onclick = "toProductDetail('${cartItem.productId }')">${cartItem.productName }</div>
 								<div class="pro-price">
-									<label class="price">￥<fmt:formatNumber value="${cartItem.price }" pattern="#,#00.00#"/></label>
+									<label class="price">
+										<c:if test="${factory.status == 1 }">
+											￥<fmt:formatNumber value="${cartItem.price }" pattern="#,#00.00#"/>
+										</c:if>
+										<c:if test="${factory.status != 1 }">
+											￥<fmt:formatNumber value="${cartItem.priceMart }" pattern="#,#00.00#"/>
+										</c:if>
+									</label>
 									<div class="edit-count">
 										<a class="minus-count" onclick="_decreaseItemCount(this,'${cartItem.productId }')">
 										</a>

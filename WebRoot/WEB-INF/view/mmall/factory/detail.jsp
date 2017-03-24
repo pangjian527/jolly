@@ -242,8 +242,9 @@
 			dialogAlert("温馨提示","请先阅读并勾选同意合作协议");
 			return;
 		}
-		
-		document.detailInfoForm.submit();
+		dialogConfirm("温馨提示","提交认证，请耐心等待商城进行审核",null,function(){
+			document.detailInfoForm.submit();
+		});
 	}
 	
 	function getPhotoIds(typeId){

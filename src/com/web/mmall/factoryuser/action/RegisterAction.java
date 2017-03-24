@@ -29,17 +29,14 @@ public class RegisterAction extends MMallActon{
 		String uid = this.getParam("uid");
 		String pid = this.getParam("pid");
 		
-		String redirectUrl=WXPayConfig.SERVER_URL+"mmall/factoryuser/register.do?op=toRegisterPage&uid="+uid+"&pid="+pid;
+		String redirectUrl=request.getRequestURL()+"?op=toRegisterPage&uid="+uid+"&pid="+pid;
 		String weiXinOauthurl=WXConfigUtil.getWxOauthUrl(redirectUrl);
-		System.out.println("redirectUrl---"+redirectUrl);
-		System.out.println("weiXinOauthurl----"+weiXinOauthurl);
-		response.sendRedirect(weiXinOauthurl);
-		/*String uid = this.getParam("uid");
-		String pid = this.getParam("pid");
-		request.setAttribute("uid", uid);
-		request.setAttribute("pid", pid);
-		request.setAttribute("oauthUrl", WXPayConfig.OAUTH2_URL);
-		return "mmall/factoryuser/wxForward";*/
+		String ua = request.getHeader("user-agent").toLowerCase();
+		if(ua.indexOf("micromessenger")>0){//微信端才需要获取openid
+			response.sendRedirect(weiXinOauthurl);
+		}else{
+			response.sendRedirect(redirectUrl);
+		}
 	}
 	
 	@RequestMapping

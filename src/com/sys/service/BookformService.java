@@ -301,14 +301,16 @@ public class BookformService extends BaseService<Bookform>{
 		//3. 快递费用
 		double deliveryCost = expressFeeService.getDeliveryCost(cartData.getAllTotal());
 		
-		bookform.setSales(cartData.getAllTotal() + deliveryCost);
+		Factory factory = factoryService.get(factoryUser.getFactoryId());
+		double totalPrice = factory.STATUS_VALID == factory.getStatus()?cartData.getAllTotal():cartData.getMartPriceTotal();
+		bookform.setSales(totalPrice + deliveryCost);
 		bookform.setDeliveryCost(deliveryCost);
 		bookform.setPayType(data.getPayType());
 		
 		bookformDao.save(bookform);
 
 		//4. 创建订单明细
-		createBookformDetail(cartData,bookform);
+		createBookformDetail(cartData,bookform,factory.getStatus());
 		
 		return bookform.getId();
 	}
@@ -333,13 +335,13 @@ public class BookformService extends BaseService<Bookform>{
 		}
 	}
 	
-	private void createBookformDetail(CartData cartData,Bookform bookform){
+	private void createBookformDetail(CartData cartData,Bookform bookform,int factoryStatus){
 		for (CartItem cartItem : cartData.getItems()) {
 			BookformDetail  detail  = new BookformDetail();
 			detail.setBookId(bookform.getId());
 			detail.setCount(cartItem.getCount());
 			detail.setProductId(cartItem.getProductId());;
-			detail.setPrice(cartItem.getPrice());
+			detail.setPrice(factoryStatus==Factory.STATUS_VALID?cartItem.getPrice():cartItem.getPriceMart());
 			detail.setPriceMart(cartItem.getPriceMart());
 			
 			bookformDetailDao.save(detail);

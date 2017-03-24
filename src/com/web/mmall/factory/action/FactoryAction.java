@@ -49,6 +49,11 @@ public class FactoryAction extends MMallActon{
 			return "redirect:/mmall/factoryuser/login.do";
 		}
 		Factory factory = factoryService.get(user.getFactoryId());
+		if(factory.STATUS_INVALID==factory.getStatus()
+				||factory.STATUS_OUT_OF_STOCK==factory.getStatus()){
+			//商家已被删除或下架，不能进行认证
+			return "redirect:/mmall/factoryuser/login.do";
+		}
 		
 		updateFactoryInfo(factory);
 		

@@ -75,6 +75,18 @@ public class CartData implements Serializable {
 		return total;
 	}
 	
+	//计算订单总价
+	public double getMartPriceTotal() {
+		double total = 0d;
+		for (CartItem item : items) {
+			if(item.getPriceMart()!=null){
+				double priceAmount=NumberUtil.mul(item.getPriceMart(), item.getCount());
+				total = NumberUtil.add(total, priceAmount);
+			}
+		}
+		return total;
+	}
+	
 	
 	//判断指定的productId是否已经在购物车中,已经存在:true  没有:false
 	public boolean checkProductIdInCartData(String productId){

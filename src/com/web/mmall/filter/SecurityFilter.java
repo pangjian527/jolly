@@ -54,25 +54,29 @@ public class SecurityFilter implements Filter{
 			return;
 		}
 		
-		Map<String, String> oauthResult = WXConfigUtil.getOauthResult(request.getParameter("code"));
-		if(oauthResult==null){
-			String url = request.getRequestURL().toString();	//请求URL
-			if(StringUtils.isNotEmpty(request.getQueryString())){
-				url=url+ "?" + request.getQueryString();//请求参数
-			}
-			System.out.println("Redirecturl-------"+request.getRequestURI());
-			response.sendRedirect(WXConfigUtil.getWxOauthUrl(url));
-			return;
-		}else{
-			String openId = (String)oauthResult.get("openid");
-			//TODO 根据openid获取用户，并绑定session
-			FactoryUser factoryUser=BeanUtils.getBean(FactoryUserService.class).getByOpenid(openId);
-			if(factoryUser!=null&&factoryUser.getStatus()!=Factory.STATUS_INVALID&&factoryUser.getStatus()!=Factory.STATUS_OUT_OF_STOCK){
-				request.getSession().setAttribute(Consts.FACTORY_USER_SESSION_KEY, factoryUser);
-				filterChain.doFilter(servletRequest, servletResponse);
+		String ua = request.getHeader("user-agent").toLowerCase();
+		if(ua.indexOf("micromessenger")>0){//微信端才需要通过openid登录
+			Map<String, String> oauthResult = WXConfigUtil.getOauthResult(request.getParameter("code"));
+			if(oauthResult==null){
+				String url = request.getRequestURL().toString();	//请求URL
+				if(StringUtils.isNotEmpty(request.getQueryString())){
+					url=url+ "?" + request.getQueryString();//请求参数
+				}
+				System.out.println("Redirecturl-------"+request.getRequestURI());
+				response.sendRedirect(WXConfigUtil.getWxOauthUrl(url));
 				return;
+			}else{
+				String openId = (String)oauthResult.get("openid");
+				//TODO 根据openid获取用户，并绑定session
+				FactoryUser factoryUser=BeanUtils.getBean(FactoryUserService.class).getByOpenid(openId);
+				if(factoryUser!=null&&factoryUser.getStatus()!=Factory.STATUS_INVALID&&factoryUser.getStatus()!=Factory.STATUS_OUT_OF_STOCK){
+					request.getSession().setAttribute(Consts.FACTORY_USER_SESSION_KEY, factoryUser);
+					filterChain.doFilter(servletRequest, servletResponse);
+					return;
+				}
 			}
 		}
+		
 		
 		String indexUrl = request.getContextPath() + "/mmall/product/product.do";
 		String method = request.getParameter("op");

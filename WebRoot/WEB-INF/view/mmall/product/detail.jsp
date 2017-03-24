@@ -257,7 +257,14 @@
 			<div class="base-info-wrapper">
 				<div class="product-name">${product.name }</div>
 				<div class="price-info">
-					<span class="discount-price">¥<fmt:formatNumber value="${product.price }" pattern="#,#00.00#"/></span>
+					<span class="discount-price">
+						<c:if test="${factory.status == 1 }">
+							¥<fmt:formatNumber value="${product.price }" pattern="#,#00.00#"/>
+						</c:if>
+						<c:if test="${factory.status != 1 }">
+							¥<fmt:formatNumber value="${product.priceMart }" pattern="#,#00.00#"/>
+						</c:if>
+					</span>
 					<label>原价：</label><i style="text-decoration: line-through;">¥<fmt:formatNumber value="${product.priceMart }" pattern="#,#00.00#"/></i>
 				</div>
 				<div class="express-remark">包退、包换</div>

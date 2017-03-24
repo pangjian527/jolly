@@ -300,15 +300,7 @@
 							}else if(data.code == "dataerr"){
 								dialogAlert("温馨提示",data.content);
 							}else if(data.code == "success"){
-								//通过授权页面获取CODE，获取OPENID
-								var redirectUrl="http://"+window.location.host+"${home}/mmall/order/order.do?op=pay&bookformId="+data.bookformId;
-								if(getSelectObjectValue()==0){
-									window.location="${oauthUrl}?appid=${appId}&redirect_uri="+urlencode(redirectUrl)
-                                    +"&response_type=code&scope=snsapi_base#wechat_redirect";
-								}else{
-									window.location="${home}/mmall/order/order.do?op=pay&bookformId="+data.bookformId;
-								}
-								
+								window.location="${home}/mmall/order/order.do?op=pay&bookformId="+data.bookformId;
 							}
 						}
 					});
@@ -377,7 +369,14 @@
 					<div class="pro-info-box">
 						<div class="pro-info-title">${item.productName }</div>
 						<div class="pro-price">
-							<label class="price">￥<fmt:formatNumber value="${item.price }" pattern="#,#00.00#"/></label>&nbsp;&nbsp;x ${item.count }
+							<label class="price">
+								<c:if test="${factory.status == 1 }">
+									￥<fmt:formatNumber value="${item.price }" pattern="#,#00.00#"/>
+								</c:if>
+								<c:if test="${factory.status != 1 }">
+									￥<fmt:formatNumber value="${item.priceMart }" pattern="#,#00.00#"/>
+								</c:if>
+							</label>&nbsp;&nbsp;x ${item.count }
 						</div>
 					</div>
 				</li>
@@ -406,7 +405,14 @@
 		<div class="order-price-box">
 			<dl>
 				<dt>商品金额</dt>
-				<dd>￥ <fmt:formatNumber value="${cartData.allTotal }" pattern="#,#00.00#"/></dd>
+				<dd>
+					<c:if test="${factory.status == 1 }">
+						￥ <fmt:formatNumber value="${cartData.allTotal }" pattern="#,#00.00#"/>
+					</c:if>
+					<c:if test="${factory.status != 1 }">
+						￥ <fmt:formatNumber value="${cartData.martPriceTotal }" pattern="#,#00.00#"/>
+					</c:if>
+				</dd>
 				<dt style="display:none">积分抵扣</dt>
 				<dd  style="display:none">-￥0.00</dd>
 				<dt>运费</dt>
@@ -416,7 +422,14 @@
 		</div>
 		<div class="order-submit-box">
 			<span>合计：</span>
-			<label>￥ <fmt:formatNumber value="${cartData.allTotal + deliveryCost }" pattern="#,#00.00#"/></label>
+			<label>
+				<c:if test="${factory.status == 1 }">
+					￥ <fmt:formatNumber value="${cartData.allTotal + deliveryCost }" pattern="#,#00.00#"/>
+				</c:if>
+				<c:if test="${factory.status != 1 }">
+					￥ <fmt:formatNumber value="${cartData.martPriceTotal + deliveryCost}" pattern="#,#00.00#"/>
+				</c:if>
+			</label>
 			<a href="javascript:submitObject()">提交订单</a>
 		</div>
 		<div class="dialog-box-bg" style="display:none">

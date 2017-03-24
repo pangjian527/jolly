@@ -91,6 +91,7 @@ public class ProductAction extends MMallActon{
 			Factory factory = factoryService.get(user.getFactoryId());
 			Area area = areaService.get(factory.getCountyId());
 			request.setAttribute("area", area);
+			request.setAttribute("factory", factory);
 		}
 		
 		return "/mmall/product/detail";

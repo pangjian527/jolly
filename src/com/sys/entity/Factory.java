@@ -81,9 +81,6 @@ public class Factory implements Serializable {
 	// （sys_status）状态；0:无效； 1:有效 2:待审核3:草稿4:被下架了
 	private Integer status;
 	
-	//认证状态（no_auto,wait_apply,auto_success）
-	private String autoStatus;
-	
 	private String moneyAccount;
 	
 	private Integer agreeProtocol;
@@ -185,10 +182,6 @@ public class Factory implements Serializable {
 	public Integer getStatus() {
 		return status;
 	}
-	@Column(name = "AUTO_STATUS")
-	public String getAutoStatus() {
-		return autoStatus;
-	}
 	
 	@Column(name = "MONEY_ACCOUNT")
 	public String getMoneyAccount() {
@@ -274,10 +267,6 @@ public class Factory implements Serializable {
 		this.licenseFileIds = licenseFileIds;
 	}
 
-
-	public void setAutoStatus(String autoStatus) {
-		this.autoStatus = autoStatus;
-	}
 
 	public void setMoneyAccount(String moneyAccount) {
 		this.moneyAccount = moneyAccount;

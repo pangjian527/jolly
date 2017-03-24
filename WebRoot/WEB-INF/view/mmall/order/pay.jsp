@@ -9,8 +9,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<title>立即付款</title>
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
+	<link href="${home}/style/m_dialog.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" src="${home}/script/jquery.js"></script>	
 	<script type="text/javascript" src="${home}/script/mwebmall/haux.mobile.js"></script>
+	<script type="text/javascript" src="${home}/script/m_dialog.js"></script>
 	<style type="text/css">
 	
 		div.scwrapper{
@@ -46,26 +48,21 @@
 	<script type="text/javascript">
 	//生成LogPayment 记录
 	function payNow(){
-		var openId='${openId}';
-		if(openId){
-			haux.getData({url:home()+'/mmall/order/order.do?op=preparePay',
-				data:{orderId:'${bookform.id }',openId:'${openId }'},
-				success:function(data){
-					if(data.error){
-						dialogAlert("温馨提示", data.error)
-						return;
-					}
-					wxPay(data.timeStamp,data.nonceStr,data.packageValue,data.signType,data.paySign,
-							function(){
-						 		window.location.href=home()+"/mmall/order/order.do?op=list";
-							},function(res){
-								dialogAlert("温馨提示", res.errMsg);
-							});
+		haux.getData({url:home()+'/mmall/order/order.do?op=preparePay',
+			data:{orderId:'${bookform.id }'},
+			success:function(data){
+				if(data.error){
+					dialogAlert("温馨提示", data.error)
+					return;
 				}
-			});
-		}else{
-			dialogAlert("温馨提示", "支付出错，请稍候再试！")
-		}
+				wxPay(data.timeStamp,data.nonceStr,data.packageValue,data.signType,data.paySign,
+						function(){
+					 		window.location.href=home()+"/mmall/order/order.do?op=list";
+						},function(res){
+							dialogAlert("温馨提示", res.errMsg);
+						});
+			}
+		});
 	}
 	
 	</script>

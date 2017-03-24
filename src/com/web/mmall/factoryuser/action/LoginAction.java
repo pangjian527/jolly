@@ -29,11 +29,16 @@ public class LoginAction extends MMallActon{
 			HttpServletResponse response) throws Exception {
 		String loginWay = this.getParam("loginWay");
 		
-		String redirectUrl=WXPayConfig.SERVER_URL+"mmall/factoryuser/login.do?op=toLogin&loginWay="+loginWay;
+		String redirectUrl=request.getRequestURL()+"?op=toLogin&loginWay="+loginWay;
 		String weiXinOauthurl=WXConfigUtil.getWxOauthUrl(redirectUrl);
 		System.out.println("redirectUrl----"+redirectUrl);
 		System.out.println("weiXinOauthurl----"+weiXinOauthurl);
-		response.sendRedirect(weiXinOauthurl);
+		String ua = request.getHeader("user-agent").toLowerCase();
+		if(ua.indexOf("micromessenger")>0){//微信端才需要获取openid
+			response.sendRedirect(weiXinOauthurl);
+		}else{
+			response.sendRedirect(redirectUrl);
+		}
 	}
 	
 	@RequestMapping
