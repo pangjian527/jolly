@@ -356,9 +356,8 @@
 				$.ajax({url: home()+'/mmall/order/order.do?op=finishOrder',
 					data:{bookformId:bookformId},
 					success:function(data){
-						alert(data);
 						if(data.error){
-							dialogAlert("温馨提示",dataJsonObj.error);
+							dialogAlert("温馨提示",data.error);
 						}
 						else{
 							dialogAlert("温馨提示","确认成功！",function(){
