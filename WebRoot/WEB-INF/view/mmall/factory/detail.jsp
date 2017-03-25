@@ -36,7 +36,6 @@
 	}
 	
 	div.scwrapper ul li{
-		height:40px;
 		line-height:40px;
 		color:#232326;
 	}
@@ -44,6 +43,7 @@
 		display:inline-block;
 		width:100px;
 		text-align: right;
+		font-size:14px;
 	}
 	div.scwrapper ul li input[type="text"]{
 		height:25px;
@@ -70,11 +70,10 @@
    		background-position: -10px 0;
 	}
 	div.license-box{
-		margin:20px 0;
+		margin:10px 0;
 	}
 	div.license-box ul li.licensename-row{
-		height: 100px;
-	  line-height: 20px;
+	  	line-height: 20px;
 	}
 	div.license-box ul li.licensename-row label{
 		margin-top:20px;
@@ -90,45 +89,41 @@
 		    margin: auto 5px;
 	}
 	li.licensename-row div.licensename-img{
-		  float: left;
-		  width: calc(100% - 100px);
-		  height: 100%;
+		  margin: 0 10px;
 	}
 	
 	div.factory-img-box label{
-		  display: block;
-		  border-bottom: 1px solid #e4e4e4;
-		  height: 40px;
-		  line-height: 40px;
-		  padding-left: 20px;
-		    color: #232326;
+		 display: block;
+		 border-bottom: 1px solid #e4e4e4;
+		 height: 40px;
+		 line-height: 40px;
+		 padding-left: 10px;
+		 color: #232326;
+		 font-size:14px;
 	}
 	div.factory-img{
-  		  padding: 20px 20px;
+  		 padding: 10px 10px;
  		 min-height: 110px;
 	}
 	
-		div.add-file {
-		  display: inline-block;
-		  padding: 5px;
-		  text-align: center;
-		  line-height: 100px;
-		  position: relative;
-		  /* margin-top: 29px; */
-		  margin: 1 20px;
-		  /* margin-left: 23px; */
-		  /* margin-top: 5px; */
-		}
+	div.add-file {
+	  display: inline-block;
+	  padding: 5px;
+	  text-align: center;
+	  line-height: 100px;
+	  position: relative;
+	  margin: 1 20px;
+	}
 	div.add-file a{
-		  font-size: 60px;
-		  font-family: arial;
-		  color: #999;
-		  font-weight: bold;
-		    width: 90px;
-		  height: 90px;
-		  display: block;
-		  line-height: 90px;
-	    	border: 2px dashed #e4e4e4;
+		font-size: 60px;
+		font-family: arial;
+		color: #999;
+		font-weight: bold;
+		width: 90px;
+		height: 90px;
+		display: block;
+		line-height: 90px;
+	    border: 2px dashed #e4e4e4;
 	}
 	div.add-file input{
 		  opacity: 0;
@@ -182,6 +177,18 @@
 	  	font-size: 13px;
 	}
 	div.agreement-box a{
+		color:red;
+	}
+	
+	div.license-box-img{
+		font-size: 14px;
+	    text-indent: 7px;
+	    border-bottom: 1px dashed #e4e4e4;
+	    margin: 0px 10px;
+	    line-height: 40px;
+    	height: 40px;
+	}
+	div.license-box-img span{
 		color:red;
 	}
 </style>
@@ -499,13 +506,11 @@
 	  				</li>
 	  				<li class="licensename-row">
 	  					<input type="hidden" name="licenseFileIds" id="licenseFileIds" value="${factory.licenseFileIds }"/>
-	  					<label>执照图片：
-	  						<p>注:无营业执照，可上传身份证正反面</p>
-	  					</label>
+	  					<div class="license-box-img">执&nbsp;照&nbsp;图&nbsp;片：<span>(注:无营业执照，可上传身份证正反面)</span></div>
 	  					<div class="licensename-img" id="licensename-img-id">
 	  						<c:forEach items="${licenseImgIds }" var="imgId">
 	  							<div class="img-show">
-		  							<img   src="${home}/img-${imgId}_100x100.do" imgId="${imgId}"/>
+		  							<img src="${home}/img-${imgId}_100x100.do" imgId="${imgId}"/>
 				  					<a href="javascript:;" onclick="deleteImg(this,'fileId-1')">x</a>
 	  							</div>
 			  				</c:forEach>
@@ -515,8 +520,9 @@
 				  					<input type="file" accept="image/*" name="fileUpload" capture="camera"  onchange="startUpload(this.id)" id="fileId-1">
 				  				</div>
 			  				</c:if>
-			  				
+			  				<div style="clear: both;"></div>
 	  					</div>
+	  					<div style="clear: both;"></div>
 	  				</li>
 	  			</ul>
 	  		</div>
