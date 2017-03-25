@@ -18,6 +18,8 @@ import com.sys.service.FactoryUserService;
 import com.sys.service.SmsService;
 import com.sys.service.TempVerifycodeService;
 import com.web.mmall.MMallActon;
+import com.web.utils.netease.SmsUtils;
+import com.web.utils.netease.Template;
 import com.wxpay.config.WXPayConfig;
 import com.wxpay.util.WXConfigUtil;
 
@@ -133,7 +135,7 @@ public class LoginAction extends MMallActon{
 
 			
 			//2.发送验证码
-			String code = smsService.sendMsg(mobile);
+			String code = smsService.sendMsg(mobile,Template.TEMPLATE_LOGIN_CODE);
 			System.out.println("手机验证码：" + code);
 			this.writeErrorJson("");
 		}

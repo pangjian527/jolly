@@ -60,8 +60,8 @@ public class SmsService extends BaseService<Sms>{
 		generalDao.execute(query);
 		return query.getResult();
 	}
-	public String sendMsg(String mobile) throws Exception {
-		return SmsUtils.sendMsg(mobile, 6);
+	public String sendMsg(String mobile,String templateId) throws Exception {
+		return SmsUtils.sendMsg(mobile, 6,templateId);
 	}
 	
 	public boolean validate(String mobile,String code) throws Exception {

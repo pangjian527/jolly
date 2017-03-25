@@ -16,7 +16,7 @@ public class SmsUtils {
 	private static final String VERIFYCODE_URL="https://api.netease.im/sms/verifycode.action";//校验验证码
 	private static final String SENDTEMPLATE_URL="https://api.netease.im/sms/sendtemplate.action";//发送模板短信
 	
-	public static String sendMsg(String mobile,int codeLength) throws Exception{
+	public static String sendMsg(String mobile,int codeLength,String templateId) throws Exception{
 		Map<String, String> headerParams = new HashMap<String, String>();
 		long time =System.currentTimeMillis()/1000;
 		String noncestr = SignUtil.getRandomStringByLength(32);
@@ -28,6 +28,7 @@ public class SmsUtils {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("mobile", mobile);
 		params.put("codeLen", String.valueOf(codeLength));
+		params.put("templateid", templateId);
 		try {
 			String jsonTex = HttpUtil.httpPost(SENDCODE_URL, headerParams, params);
 			JSONObject result = JSONObject.fromObject(jsonTex);
