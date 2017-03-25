@@ -524,8 +524,12 @@
 	  					<label>开户银行：</label>
 	  					<select name="bankName" id="bankName">
 	  						<option value="">请选择</option>
-	  						<option value="中国银行" <c:if test="${ factory.bankName=='中国银行'}">selected</c:if>>中国银行</option>
+	  						<c:forEach items="${bankNameList }" var="bankName">
+	  							<option value="${bankName } <c:if test="${factory.bankName == bankName}">selected</c:if> ">${bankName }</option>
+	  						</c:forEach>
+	  						 
 	  					</select>
+	  					
 	  				</li>
 	  				<li>
 	  					<label>支行名称：</label>
