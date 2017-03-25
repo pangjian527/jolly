@@ -26,7 +26,6 @@
 	    min-width: 320px;
 	    max-width: 640px;
 	    margin: 0 auto;
-	    padding: 10px 0;
 	}
 	
 	
@@ -63,11 +62,12 @@
 		background:white;
 	}
 	
-	div.factory-base-box,div.license-box,div.factory-img-box{
+	div.factory-base-box,div.bank-info-box,div.license-box,div.factory-img-box{
 		background:white;
    		background-size: 50px 5px;
    		padding: 5px 0;
    		background-position: -10px 0;
+   		margin: 10px 0;
 	}
 	div.license-box{
 		margin:10px 0;
@@ -191,6 +191,9 @@
 	div.license-box-img span{
 		color:red;
 	}
+	div.bank-info-box  ul li select{
+		width: calc(100% - 130px);
+	}
 </style>
 <script type="text/javascript">
 	function initBody(){
@@ -207,23 +210,19 @@
 		var moneyAccount=document.getElementById("moneyAccount").value;
 		var gps=document.getElementById("gps").value;
 		if(name==""){
-			dialogAlert("温馨提示","商家名称不能为空！");
+			dialogAlert("温馨提示","请填写商家名称！");
 			return ;
 		}
 		if(man==""){
-			dialogAlert("温馨提示","联系人不能为空！");
-			return;
-		}
-		if(moneyAccount==""){
-			dialogAlert("温馨提示","收款账号不能为空！");
+			dialogAlert("温馨提示","请填写联系人！");
 			return;
 		}
 		if(addr==""){
-			dialogAlert("温馨提示","详细地址不能为空！");
+			dialogAlert("温馨提示","请填写详细地址！");
 			return;
 		}
 		if(licenseName==""){
-			dialogAlert("温馨提示","营业执照名不能为空！");
+			dialogAlert("温馨提示","请填写营业执照名！");
 			return;
 		}
 		
@@ -236,6 +235,32 @@
 			document.getElementById("gpsX").value=gpsArr[0];
 			document.getElementById("gpsY").value=gpsArr[1];
 		}
+		
+		if(bankName==""){
+			dialogAlert("温馨提示","请填写开户银行！");
+			return;
+		}
+		
+		if(bankBranchName==""){
+			dialogAlert("温馨提示","请填写支行名称！");
+			return;
+		}
+		
+		if(moneyAccount==""){
+			dialogAlert("温馨提示","请填写收款账号！");
+			return;
+		}
+		
+		if(isNaN(moneyAccount)){
+			dialogAlert("温馨提示","收款账号不合法！");
+			return;
+		}
+		
+		if(bankOwnerName==""){
+			dialogAlert("温馨提示","请填写开户人姓名！");
+			return;
+		}
+		
 		document.getElementById("licenseFileIds").value = getPhotoIds("licensename-img-id");
 		
 		var photoIdsValue=getPhotoIds("factory-img-id");
@@ -472,10 +497,6 @@
 	  					<input type="text" name="mobile" id="mobile" value="${factory.mobile }" readonly="readonly"/>
 	  				</li>
 	  				<li>
-	  					<label>收款账号：</label>
-	  					<input type="text" name="moneyAccount" id="moneyAccount" value="${factory.moneyAccount }" />
-	  				</li>
-	  				<li>
 	  					<label>商家区域：</label>
 	  					<select name="provinceId" id="provinceId">
 	  					</select>
@@ -494,6 +515,29 @@
 	  					<input type="text" name="gps" id="gps" value="${factory.gpsX },${factory.gpsY }"/>
 	  					<input type="hidden" name="gpsX" id="gpsX" value="${factory.gpsX }"/>
 	  					<input type="hidden" name="gpsY" id="gpsY" value="${factory.gpsY }"/>
+	  				</li>
+	  			</ul>
+	  		</div>
+	  		<div class="bank-info-box">
+	  			<ul>
+	  				<li>
+	  					<label>开户银行：</label>
+	  					<select name="bankName" id="bankName">
+	  						<option value="">请选择</option>
+	  						<option value="中国银行" <c:if test="${ factory.bankName=='中国银行'}">selected</c:if>>中国银行</option>
+	  					</select>
+	  				</li>
+	  				<li>
+	  					<label>支行名称：</label>
+	  					<input type="text" name="bankBranchName" id="bankBranchName" value="${factory.bankBranchName }" />
+	  				</li>
+	  				<li>
+	  					<label>收款账号：</label>
+	  					<input type="text" name="moneyAccount" id="moneyAccount" value="${factory.moneyAccount }" />
+	  				</li>
+	  				<li>
+	  					<label>开户人姓名：</label>
+	  					<input type="text" name="bankOwnerName" id="bankOwnerName" value="${factory.bankOwnerName }" />
 	  				</li>
 	  			</ul>
 	  		</div>

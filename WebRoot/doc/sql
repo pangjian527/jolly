@@ -313,3 +313,11 @@ ADD COLUMN `agree_protocol`  tinyint NULL AFTER `money_account`;
 
 ALTER TABLE `t_factory_user`
 ADD COLUMN `openid`  varchar(255) NULL AFTER `protocol`,
+
+--0325 added by chensx
+ALTER TABLE `t_factory`
+ADD COLUMN `bank_name`  varchar(255) CHARACTER SET utf8 NULL AFTER `agree_protocol`,
+ADD COLUMN `bank_branch_name`  varchar(255) CHARACTER SET utf8 NULL AFTER `bank_name`,
+ADD COLUMN `bank_owner_name`  varchar(255) CHARACTER SET utf8 NULL AFTER `bank_branch_name`;
+
+

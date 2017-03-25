@@ -229,6 +229,39 @@
 				</ul>
 				<div class="clear"></div>
 			</div>
+			<div class="box" style="position: relative;">
+				<h3>
+					银行信息
+				</h3>
+				<ul class="input two_col">
+					<li class="mandatory">
+						<label>
+							开户银行：
+						</label>
+						<form:input path="bankName" cssClass="text required form-input" disabled="true"/>
+					</li>
+					<li class="mandatory">
+						<label>
+							支行名称：
+						</label>
+						<form:input path="bankBranchName" cssClass="text required form-input" disabled="true"/>
+					</li>
+					<li class="mandatory">
+						<label>
+							银行账号：
+						</label>
+						<form:input path="moneyAccount" cssClass="text required form-input" disabled="true"/>
+					</li>
+					<li class="mandatory">
+						<label>
+							开户人姓名：
+						</label>
+						<form:input path="bankOwnerName" cssClass="text required form-input" disabled="true"/>
+					</li>
+				
+				</ul>
+				<div class="clear"></div>
+			</div>
 			<div class="box_title">
 				<h3>商家图片</h3>
 				<div>

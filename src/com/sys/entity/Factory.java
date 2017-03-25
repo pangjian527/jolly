@@ -85,6 +85,12 @@ public class Factory implements Serializable {
 	
 	private Integer agreeProtocol;
 	
+	private String bankName;
+	
+	private String bankBranchName;
+	
+	private String bankOwnerName;
+	
 	public Factory() {
 		this.createTime = new Date();
 	}
@@ -193,6 +199,21 @@ public class Factory implements Serializable {
 		return agreeProtocol;
 	}
 
+	@Column(name = "BANK_NAME")
+	public String getBankName() {
+		return bankName;
+	}
+
+	@Column(name = "BANK_BRANCH_NAME")
+	public String getBankBranchName() {
+		return bankBranchName;
+	}
+
+	@Column(name = "BANK_OWNER_NAME")
+	public String getBankOwnerName() {
+		return bankOwnerName;
+	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -276,5 +297,16 @@ public class Factory implements Serializable {
 		this.agreeProtocol = agreeProtocol;
 	}
 
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	public void setBankBranchName(String bankBranchName) {
+		this.bankBranchName = bankBranchName;
+	}
+
+	public void setBankOwnerName(String bankOwnerName) {
+		this.bankOwnerName = bankOwnerName;
+	}
 
 }

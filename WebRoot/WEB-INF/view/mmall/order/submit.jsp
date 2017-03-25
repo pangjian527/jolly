@@ -300,7 +300,19 @@
 							}else if(data.code == "dataerr"){
 								dialogAlert("温馨提示",data.content);
 							}else if(data.code == "success"){
-								window.location="${home}/mmall/order/order.do?op=pay&bookformId="+data.bookformId;
+								//通过授权页面获取CODE，获取OPENID
+								var redirectUrl="http://"+window.location.host+"${home}/mmall/order/order.do?op=pay&bookformId="+data.bookformId;
+								if(getSelectObjectValue()==0){
+									if(is_weixn()){
+										window.location="${oauthUrl}?appid=${appId}&redirect_uri="+urlencode(redirectUrl)
+	                                    +"&response_type=code&scope=snsapi_base#wechat_redirect";
+									}else{
+										window.location=redirectUrl;
+									}
+								}else{
+									window.location="${home}/mmall/order/order.do?op=pay&bookformId="+data.bookformId;
+								}
+								
 							}
 						}
 					});

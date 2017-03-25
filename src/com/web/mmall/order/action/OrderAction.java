@@ -134,13 +134,13 @@ public class OrderAction extends MMallActon{
 		Bookform bookform = bookformService.get(bookformId);
 		
 		request.setAttribute("bookform", bookform);
-		/*if(StrFuncs.notEmpty(request.getParameter("code"))){
+		if(StrFuncs.notEmpty(request.getParameter("code"))){
 			//通过返回CODE获取openId
 			Map<String, String> oauthTokenMap = WXConfigUtil.getOauthResult(request.getParameter("code"));
 			//获取access_token
 			String openId = (String)oauthTokenMap.get("openid");
 			request.setAttribute("openId", openId);
-		}*/
+		}
 		
 		return "/mmall/order/pay";
 	}
@@ -151,33 +151,7 @@ public class OrderAction extends MMallActon{
 	 */
 	@RequestMapping
 	public void preparePay(HttpServletRequest request, HttpServletResponse response) throws Exception{		
-		String redirectUrl=request.getRequestURL()+"?op=toPreparePay&orderId="+this.getParam("orderId");
-		String weiXinOauthurl=WXConfigUtil.getWxOauthUrl(redirectUrl);
-		String ua = request.getHeader("user-agent").toLowerCase();
-		if(ua.indexOf("micromessenger")>0){//微信端才需要获取openid
-			response.sendRedirect(weiXinOauthurl);
-		}else{
-			response.sendRedirect(redirectUrl);
-		}
-	}
-	
-	/*
-	 * @功能说明：微信付款之前创建logPayment记录
-	 * 
-	 */
-	@RequestMapping
-	public void toPreparePay(HttpServletRequest request, HttpServletResponse response) throws Exception{		
 		try {		
-			//下面就到了获取openid,这个代表用户id.
-			//获取openID
-			String openid = null;
-			Map<String, String> oauthResult = WXConfigUtil.getOauthResult(request.getParameter("code"));
-			if(oauthResult!=null){
-				openid = (String)oauthResult.get("openid");
-			}else{
-				throw new Exception("请到微信端进行支付");
-			}
-			
 			String orderId = request.getParameter("orderId");
 			PayInfo payInfo = bookformService.getPayInfo(orderId);
 			LogPayment logPayment = logPaymentService.createAndSave(payInfo.amount, payInfo.payChanel, 
@@ -186,6 +160,8 @@ public class OrderAction extends MMallActon{
 			JSONObject object=new JSONObject();
 			//调用微信统一支付接口
 			
+			//下面就到了获取openid,这个代表用户id.
+			String openid = this.getParam("openId");
 			String noncestr = SignUtil.getRandomStringByLength(32);//生成随机字符串
 			String timestamp = String.valueOf((System.currentTimeMillis()/1000));//生成1970年到现在的秒数.
 			
@@ -197,7 +173,7 @@ public class OrderAction extends MMallActon{
 			parameters.put("out_trade_no", logPayment.getId());
 			String total_fee=String.valueOf(payInfo.amount*100);
 			//parameters.put("total_fee", total_fee.substring(0, total_fee.indexOf(".")));
-			parameters.put("total_fee", total_fee);
+			parameters.put("total_fee", total_fee.substring(0, total_fee.indexOf(".")));
 			parameters.put("spbill_create_ip",request.getRemoteAddr());
 			parameters.put("notify_url", WXPayConfig.NOTIFY_URL);
 			parameters.put("trade_type", "JSAPI");

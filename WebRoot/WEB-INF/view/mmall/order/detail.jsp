@@ -155,7 +155,15 @@
 	
 	<script type="text/javascript">
 		function payNow(bookformId){
-			window.location="${home}/mmall/order/order.do?op=pay&bookformId="+bookformId;
+			//通过授权页面获取CODE，获取OPENID
+			var redirectUrl="http://"+window.location.host+"${home}/mmall/order/order.do?op=pay&bookformId="+bookformId;
+			if(is_weixn()){
+				window.location="${oauthUrl}?appid=${appId}&redirect_uri="+urlencode(redirectUrl)
+                +"&response_type=code&scope=snsapi_base#wechat_redirect";
+			}else{
+				window.location=redirectUrl;
+			}
+			
 		}
 	</script>
 	<jsp:include page="../initWeixin.jsp"/>	

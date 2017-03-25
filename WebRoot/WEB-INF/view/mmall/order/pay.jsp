@@ -48,21 +48,26 @@
 	<script type="text/javascript">
 	//生成LogPayment 记录
 	function payNow(){
-		haux.getData({url:home()+'/mmall/order/order.do?op=preparePay',
-			data:{orderId:'${bookform.id }'},
-			success:function(data){
-				if(data.error){
-					dialogAlert("温馨提示", data.error)
-					return;
+		var openId='${openId}';
+		if(openId){
+			haux.getData({url:home()+'/mmall/order/order.do?op=preparePay',
+				data:{orderId:'${bookform.id }',openId:'${openId }'},
+				success:function(data){
+					if(data.error){
+						dialogAlert("温馨提示", data.error)
+						return;
+					}
+					wxPay(data.timeStamp,data.nonceStr,data.packageValue,data.signType,data.paySign,
+							function(){
+						 		window.location.href=home()+"/mmall/order/order.do?op=list";
+							},function(res){
+								dialogAlert("温馨提示", res.errMsg);
+							});
 				}
-				wxPay(data.timeStamp,data.nonceStr,data.packageValue,data.signType,data.paySign,
-						function(){
-					 		window.location.href=home()+"/mmall/order/order.do?op=list";
-						},function(res){
-							dialogAlert("温馨提示", res.errMsg);
-						});
-			}
-		});
+			});
+		}else{
+			dialogAlert("温馨提示", "请在微信客户端进行支付！")
+		}
 	}
 	
 	</script>

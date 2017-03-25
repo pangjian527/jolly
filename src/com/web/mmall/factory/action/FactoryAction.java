@@ -75,7 +75,10 @@ public class FactoryAction extends MMallActon{
 		String licenseName = this.getParam("licenseName");
 		String licenseFileIds = this.getParam("licenseFileIds");
 		String photoIds = this.getParam("photoIds");
+		String bankName = this.getParam("bankName");
 		String moneyAccount = this.getParam("moneyAccount");
+		String bankBranchName = this.getParam("bankBranchName");
+		String bankOwnerName = this.getParam("bankOwnerName");
 		
 		factory.setName(name);
 		factory.setMan(man);
@@ -92,6 +95,9 @@ public class FactoryAction extends MMallActon{
 		factory.setAgreeProtocol(Factory.PROTOCOL_AGREE);
 		factory.setStatus(Factory.STATUS_APPROVE);;
 		factory.setMoneyAccount(moneyAccount);
+		factory.setBankName(bankName);
+		factory.setBankBranchName(bankBranchName);
+		factory.setBankOwnerName(bankOwnerName);
 	}
 	
 	public List<String> SplitToList(String imgIds){
