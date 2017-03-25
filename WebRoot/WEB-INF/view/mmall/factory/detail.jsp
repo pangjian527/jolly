@@ -525,7 +525,7 @@
 	  					<select name="bankName" id="bankName">
 	  						<option value="">请选择</option>
 	  						<c:forEach items="${bankNameList }" var="bankName">
-	  							<option value="${bankName } <c:if test="${factory.bankName == bankName}">selected</c:if> ">${bankName }</option>
+	  							<option value="${bankName }" <c:if test='${factory.bankName == bankName}'>selected</c:if> >${bankName }</option>
 	  						</c:forEach>
 	  						 
 	  					</select>
