@@ -136,6 +136,9 @@
 			---lkkmax-height: 120px;
 			position: relative;
 		}
+		div.product-content-wrapper{
+			margin-bottom: 52px;
+		}
 		div.product-content-wrapper img{
 			vertical-align: top;
 		}
@@ -242,7 +245,7 @@
 							<div class="swipe-wrap">
 								<c:forEach items="${productPhotoIds}" var="field"  >
 									<div>
-			   							<img id="factory-img" src="${home}/img-${field }_400X300.do">
+			   							<img id="factory-img" src="${home}/img-${field }_720x720.do">
 			   						</div>
 			   					</c:forEach>
 							</div>
@@ -336,7 +339,7 @@
 		</div>
 		<div class="product-content-wrapper" id="contentDiv-3" style="display:none">
 			<c:forEach items="${contentPhotoIds }" var="contentPhotoId">
-				<img width="100%" src="${home}/img-${contentPhotoId }_400X300.do"/>
+				<img width="100%" src="${home}/img-${contentPhotoId }.do"/>
 			</c:forEach>
 		</div>
 		<div class="bottom-menu">

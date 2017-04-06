@@ -206,7 +206,7 @@
 						<li>
 							<a href="${home }/mmall/product/product.do?op=viewDetail&productId=${product.id}">
 								<div class="pro-img">
-									<img src="${home}/img-${product.firstPhotoId}.do">	
+									<img src="${home}/img-${product.firstPhotoId}_100x100.do">	
 								</div>
 								<div class="pro-info-box">
 									<div class="pro-info-title">${product.name }</div>
