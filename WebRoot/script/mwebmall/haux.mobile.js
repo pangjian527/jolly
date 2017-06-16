@@ -25,14 +25,6 @@ haux.isDebug = function(){
 
 function home() {
 	return "/jolly";
-	/*
-	var _home;
-	var win = window;
-	while (!_home && win) {
-		_home = win._home || win.top._home;
-		win = win.opener;_home="/htw";
-	}
-	return _home;*/
 }
 
 /*
@@ -619,43 +611,6 @@ window.addEventListener("load", function(){
 	}
 }, false);
 
-/* 创建 页面底部的广告，比如说引导下载app */
-function createFooterBanner(){
-	var footerElement=document.createElement("div");
-	footerElement.className="footer-apk-banner";
-	
-	var closeElement=document.createElement("i");
-	closeElement.className="close";
-	closeElement.innerHTML="x";
-	closeElement.onclick=function(){
-		document.body.removeChild(this.parentNode);
-	}
-	
-	var iconElement=document.createElement("i");
-	iconElement.className="icon";
-	
-	var labelElement=document.createElement("label");
-	labelElement.className="icon";
-	labelElement.innerHTML="洗车补贴 APP专享！";
-	
-	var aElement=document.createElement("a");
-	
-	aElement.href="http://a.app.qq.com/o/simple.jsp?pkgname=com.haux.htw.mall";//先跳应用宝再跳到APPSTORE，直接跳转微信什么拦截
-	/*if(isAppleDevice()){
-		//window.location="http://itunes.apple.com/cn/app/id1034170550";
-	}else{
-		aElement.href= "http://zt.91htw.com/91htw.apk";
-	}*/
-	
-	aElement.innerHTML="立即去抢";
-	
-	footerElement.appendChild(closeElement);
-	footerElement.appendChild(iconElement);
-	footerElement.appendChild(labelElement);
-	footerElement.appendChild(aElement);
-	
-	document.body.appendChild(footerElement);
-}
 
 function urlencode (str) {  
     str = (str + '').toString();   
@@ -663,84 +618,6 @@ function urlencode (str) {
     return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').  
     replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');  
 } 
-
-/*分享代码 start*/
-function showShareWindow(url,titleName){
-	
-	var divWrapElement =document.getElementById("pop-top-share");
-	if(divWrapElement){
-		divWrapElement.style.display="block";
-		return ;
-	}
-	
-	var textArr=["新浪微博", "QQ空间", "腾讯微博"];
-	var classArr=["item sinat", "item qqzone", "item tcent"];
-	var divElement=haux.createElement("div",{className:"pop-con"});
-	divWrapElement=haux.createElement("div",{className:"pop-share",id:"pop-top-share"});
-	divWrapElement.style.display="block";
-	
-	//创建关闭按钮
-	var aElement=haux.createElement("a",{id:"share_close",className:"bar-close",innerHTML:"×"});
-	aElement.onclick=function(){
-		document.getElementById("pop-top-share").style.display="none";
-	}
-	divElement.appendChild(aElement);
-	var h5Element=haux.createElement("h5",{innerHTML:"分享到："});
-	divElement.appendChild(h5Element);
-	
-	var ulElement=haux.createElement("ul",{className:"share-min-list fix"});
-	for(var i=0;i<3;i++){
-		var liElement=document.createElement("li");
-		var asubElement=haux.createElement("a",{className:classArr[i],title:"分享到"+textArr[i]});
-		
-		asubElement.onclick=function(index){
-			return function(){
-				shareToOthers(index,url,titleName);
-			}
-		}(i)
-		
-		var h6Element=haux.createElement("h6",{innerHTML:textArr[i]});
-		
-		liElement.appendChild(asubElement);
-		liElement.appendChild(h6Element);
-		ulElement.appendChild(liElement);
-	}
-	
-	divElement.appendChild(ulElement);
-	divWrapElement.appendChild(divElement);
-	document.body.appendChild(divWrapElement);
-}
-function shareToOthers(num,url,name,imgUrl,content){
-	var targetUrl;
-	if(num==0){//新浪微博
-		targetUrl="http://service.weibo.com/share/share.php?url="+urlencode(url)+"&title="+urlencode(name);
-		if(imgUrl){
-			targetUrl=targetUrl+"&pic="+urlencode(imgUrl);
-		}
-		if(content){
-			targetUrl=targetUrl+"&desc="+urlencode(content);
-		}
-	}else if(num==1){//qq空间
-		targetUrl="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url="+urlencode(url)+"&title="+urlencode(name);//"&title="+urlencode('${product.name }')+"&pics="+urlencode("http://www.91htw.com/img-"+data.photoIds.split(",")[0]+"_400X400.do")+"&site="+urlencode("http://www.91htw.com");
-		if(imgUrl){
-			targetUrl=targetUrl+"&pics="+urlencode(imgUrl);
-		}
-		if(content){
-			targetUrl=targetUrl+"&desc="+urlencode(content);
-		}
-	}else if(num==2){//腾讯微博
-		targetUrl="http://share.v.t.qq.com/index.php?c=share&a=index&title="+urlencode(name)+"&url="+urlencode(url);//+"&pics="+urlencode("http://www.91htw.com/img-"+data.photoIds.split(",")[0]+"_400X400.do")+"&site="+urlencode("http://www.91htw.com")
-		if(imgUrl){
-			targetUrl=targetUrl+"&pics="+urlencode(imgUrl);
-		}
-		if(content){
-			targetUrl=targetUrl+"&desc="+urlencode(content);
-		}
-	}
-	//window.location=targetUrl;
-	window.open(targetUrl);
-}
-/*分享代码 end*/
 /*判断是否微信浏览器打开*/
 function is_weixn(){  
     var ua = navigator.userAgent.toLowerCase();  

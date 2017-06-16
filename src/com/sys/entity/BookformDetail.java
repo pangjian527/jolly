@@ -23,7 +23,6 @@ public class BookformDetail implements Serializable {
 
 	public static String TABLE_NAME = "T_BOOKFORM_DETAIL";
 	public static String STORE_PRICE = "STORE";
-	public static String HTW_PRICE = "HTW";
 	
 	// 唯一标识
 	private String id;
