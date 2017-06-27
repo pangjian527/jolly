@@ -39,11 +39,12 @@ public class ExpressFeeService extends BaseService<ExpressFee>{
 	public double getDeliveryCost(double sales){
 		
 		List<ExpressFee> list = expressFeeDao.getAll();
-		if(!list.isEmpty()){
-				ExpressFee expressFee = list.get(0);
-				if(sales >= expressFee.getAmountForFree()){
-					return 0;
-				}
+		if(list.isEmpty()){
+			return 0;
+		}
+		ExpressFee expressFee = list.get(0);
+		if(sales >= expressFee.getAmountForFree()){
+			return 0;
 		}
 		return list.get(0).getFee();
 	}
