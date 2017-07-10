@@ -74,7 +74,12 @@
 			<b></b>
 			<label>邮费信息记录</label>
 			<span>共有${queryResult.rowCount}条数据</span>
-			
+			<s>
+				<button type="button" class="add" onclick="addObject(this)">
+					<i></i>
+					新增
+				</button>
+			</s>
 		</h1>
 		<table>
 			<col class="col0" />
