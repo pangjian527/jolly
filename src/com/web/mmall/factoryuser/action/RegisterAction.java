@@ -5,6 +5,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -130,6 +132,9 @@ public class RegisterAction extends MMallActon{
 			factoryService.saveFactoryAndCreateFactoryUser(factory, password);
 			FactoryUser user = factoryUserService.getByMobile(mobile);//获取用户
 			this.setUser(user);
+			
+			//发送注册后的信息
+			sendRegisterMsg(factory);
 			this.writeErrorJson("");
 		}
 		catch (Exception e) {
@@ -138,6 +143,23 @@ public class RegisterAction extends MMallActon{
 		}
 	}
 	
+	
+	private void sendRegisterMsg(Factory factory) throws Exception {
+		JSONArray mobileArr= new JSONArray();
+		mobileArr.add(factory.getMobile());
+		JSONArray tempParamArr= new JSONArray();
+		tempParamArr.add(factory.getMobile());
+		if(StrFuncs.isEmpty(factory.getName())
+				||StrFuncs.isEmpty(factory.getAddr())
+				||StrFuncs.isEmpty(factory.getProvinceId())
+				||StrFuncs.isEmpty(factory.getCityId())
+				||StrFuncs.isEmpty(factory.getCountyId())){
+			smsService.sendTempMsg(Template.TEMPLATE_LACK_INFO_CODE, mobileArr, tempParamArr);
+		}else{
+			smsService.sendTempMsg(Template.TEMPLATE_UNAUTH_CODE, mobileArr, tempParamArr);
+		}
+	}
+
 	@RequestMapping
 	public String followPage(HttpServletRequest request,HttpServletResponse response){
 		return "mmall/factoryuser/result";

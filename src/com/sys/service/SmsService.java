@@ -67,7 +67,7 @@ public class SmsService extends BaseService<Sms>{
 	public boolean validate(String mobile,String code) throws Exception {
 		return  SmsUtils.validate(mobile, code);
 	}
-	public static void sendTempMsg(String tempId,JSONArray mobileArr,JSONArray tempParamArr) throws Exception {
+	public void sendTempMsg(String tempId,JSONArray mobileArr,JSONArray tempParamArr) throws Exception {
 		SmsUtils.sendTempMsg(tempId, mobileArr, tempParamArr);
 	}
 	
