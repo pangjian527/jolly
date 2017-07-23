@@ -102,7 +102,8 @@ public class SmsUtils {
 	
 	public static void main(String[] args) throws Exception {
 		JSONArray arry=new JSONArray();
-		arry.add("13760755956");
+		arry.add("18922378741");
+		arry.add("18922378742");
 		
 		JSONArray arry2=new JSONArray();
 		arry2.add("123");

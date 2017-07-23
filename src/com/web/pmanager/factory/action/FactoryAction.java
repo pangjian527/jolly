@@ -31,9 +31,11 @@ import com.sys.service.BaseService;
 import com.sys.service.FactoryService;
 import com.sys.service.FileService;
 import com.sys.service.ScoreService;
+import com.sys.service.SmsService;
 import com.sys.service.SysUserService;
 import com.web.pmanager.PManagerAction;
 import com.web.pmanager.consts.Consts;
+import com.web.utils.netease.Template;
 
 /**
  * 后台商家商户管理
@@ -286,8 +288,6 @@ public class FactoryAction extends PManagerAction<Factory>{
 	@Autowired
 	private FactoryService factoryService;
 	@Autowired
-	private FileService fileService;
-	@Autowired
 	private AreaService areaService;
 	
 	@Autowired
@@ -295,4 +295,5 @@ public class FactoryAction extends PManagerAction<Factory>{
 	
 	@Autowired
 	private SysUserService sysUserService;
+	
 }
