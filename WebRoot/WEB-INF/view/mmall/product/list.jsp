@@ -142,6 +142,30 @@
 			---lkkmax-height: 120px;
 			position: relative;
 		}
+		div.menu-wrap{
+			padding: 10px 0;
+		    background-color: white;
+		    margin-top: 5px;
+		}
+		div.menu-wrap ul {
+			width:100%；
+		}
+		div.menu-wrap ul li{
+			float:left;
+			width:33%;
+			text-align:center;
+			font-size:14px;
+		}
+		
+		div.menu-wrap ul li i{
+			display:block;
+			width:50px;
+			height:50px;
+			background-color:red;
+			margin:auto;
+			border-radius: 30px;
+		}
+		
 	</style>
 	
 	<script type="text/javascript">
@@ -199,6 +223,23 @@
 						</c:forEach>
 					</ul>
    				</div>
+		</div>
+		<div class="menu-wrap">
+			<ul>
+				<li>
+					<i class=""></i>
+					电池
+				</li>
+				<li>
+					<i class=""></i>
+					屏幕
+				</li>
+				<li>
+					<i class=""></i>
+					其他
+				</li>
+			</ul>
+			<div style="clear:both;"></div>
 		</div>
 		<div class="product-wrapper">
 			<ul>
