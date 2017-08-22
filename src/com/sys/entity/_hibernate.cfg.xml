@@ -34,5 +34,6 @@
         <mapping class="com.sys.entity.Cart"/>
         <mapping class="com.sys.entity.Ad"/>
         <mapping class="com.sys.entity.ProfitConfig"/>
+        <mapping class="com.sys.entity.ProductBrand"/>
     </session-factory>
 </hibernate-configuration>

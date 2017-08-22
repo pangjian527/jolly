@@ -321,3 +321,44 @@ ADD COLUMN `bank_branch_name`  varchar(255) CHARACTER SET utf8 NULL AFTER `bank_
 ADD COLUMN `bank_owner_name`  varchar(255) CHARACTER SET utf8 NULL AFTER `bank_branch_name`;
 
 
+
+--0822 added by chensx
+INSERT INTO `jolly`.`sys_module` (`id`, `parent_id`, `code`, `name`, `remark`, `create_time`, `update_time`) VALUES ('122', '11', NULL, '品牌管理', NULL, '2017-08-22 20:34:30', '2017-08-22 20:34:30');
+INSERT INTO `jolly`.`sys_modulerole` (`id`, `module_id`, `role_id`, `create_time`, `update_time`) VALUES ('4028ad815a4ff856015a4ffb02ea0005', '122', 'admin', '2017-08-22 20:34:54', '2017-08-22 20:34:54');
+INSERT INTO `jolly`.`sys_navtree` (`id`, `parent_id`, `name`, `module_id`, `code`, `furl`, `seq`) VALUES ('122', '11', '品牌管理', '122', NULL, '/pmanager/productbrand/product_brand.do?op=query', '5');
+
+
+-- ----------------------------
+-- Table structure for t_product_brand
+-- ----------------------------
+DROP TABLE IF EXISTS `t_product_brand`;
+CREATE TABLE `t_product_brand` (
+  `id` varchar(40) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `remark` text,
+  `content` text,
+  `status` tinyint(4) DEFAULT NULL,
+  `seq` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TRIGGER IF EXISTS `t_create_on_product_brand`;
+DELIMITER ;;
+CREATE TRIGGER `t_create_on_product_brand` BEFORE INSERT ON `t_product_brand` FOR EACH ROW BEGIN
+SET new.create_time = SYSDATE();
+SET new.update_time = SYSDATE();
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `t_update_on_product_brand`;
+DELIMITER ;;
+CREATE TRIGGER `t_update_on_product_brand` BEFORE UPDATE ON `t_product_brand` FOR EACH ROW SET new.update_time = SYSDATE()
+;;
+DELIMITER ;
+
+ALTER TABLE `t_product`
+ADD COLUMN `brand_id`  varchar(40) NULL AFTER `sale_count`,
+ADD COLUMN `category`  varchar(50) NULL AFTER `brand_id`;
+ADD COLUMN `color`  varchar(50) NULL AFTER `category`;

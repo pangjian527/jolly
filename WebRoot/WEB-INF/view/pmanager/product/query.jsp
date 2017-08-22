@@ -13,6 +13,7 @@
 	<script type="text/javascript" src="${home}/script/haux.dom.form.js"></script>
 	<script type="text/javascript" src="${home}/script/haux.component.date.js"></script>
 	<script type="text/javascript" src="${home}/script/haux.component.dialog.js"></script>
+	<script type="text/javascript" src="${home}/script/haux.component.popbox.js"></script>
 		<script type="text/javascript" src="${home}/script/manage.query.js"></script>
 	
 	<style type="text/css">
@@ -69,6 +70,40 @@
 			}
 		}
 		
+		function showOptions(){
+			var opts=[{"id":"mobile_battery","text":"手机电池","code":null},
+			          {"id":"mobile_screen","text":"屏幕总成","code":null},
+			          {"id":"other","text":"其他","code":null}];
+			var documentFrame=document.createDocumentFragment();
+			
+			var divElement=document.createElement("div");
+			divElement.className="options";
+			var dlElement=document.createElement("dl");
+			
+			for(var i=0;i<opts.length;i++){
+				var ddElement=document.createElement("dd");
+				
+				var aElement=document.createElement("a");
+				aElement.innerHTML=opts[i].text;
+				aElement.href="###";
+				
+				ddElement.onclick=function(id){
+					return function(){
+						window.location=getActionPath() + "?op=add&product_category="+id;
+					}
+				}(opts[i].id)
+				
+				ddElement.appendChild(aElement);
+				dlElement.appendChild(ddElement);
+			}
+			divElement.appendChild(dlElement);
+			divElement.addClearElement();
+			
+			documentFrame.appendChild(divElement);
+
+			showPopboxInRelativePos(documentFrame, document.getElementById("add_product"), [6, 11], "pop_menu", 0, 0, "click_other");
+		}
+		
 	</script>
 		
 </head>
@@ -81,6 +116,34 @@
 				<li>
 					<label>商品名称：</label>
 					<input placeholder="商品名称" type="text" class="text form-input" name="name"/>
+				</li>
+				<li>
+					<label>商品品类：</label>
+					<span class="span">
+						<input type="radio" class="radio" name="category" value="" checked="checked"/>
+						不限
+					</span>
+					<span class="span">
+						<input type="radio" class="radio" name="category" value="MOBILE_BATTERY"/>
+						手机电池
+					</span>
+					<span class="span">
+						<input type="radio" class="radio" name="category" value="MOBILE_SCREEN"/>
+						屏幕总成
+					</span>
+					<span class="span">
+						<input type="radio" class="radio" name="category" value="OTHER"/>
+						其他
+					</span>
+				</li>
+				<li>
+					<label>商品品牌：</label>
+					<select name="brandId">
+						<option value="">全部</option>
+						<c:forEach items="${brandList }" var="brand">
+							<option value="${brand.id }">${brand.name }</option>
+						</c:forEach>
+					</select>
 				</li>
 			</ul>
 			<div class="operate" >
@@ -97,7 +160,7 @@
 			<label>商品信息记录</label>
 			<span>共有${queryResult.rowCount}条数据</span>
 			<s>
-				<button type="button" class="add" onclick="addObject(this)">
+				<button type="button" class="add" id="add_product" onclick="showOptions()">
 					<i></i>
 					新增
 				</button>

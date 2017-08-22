@@ -31,6 +31,10 @@ public class Product implements Serializable {
 	public static final int STATUS_APPROVE =2 ;	//待审核
 	public static final int STATUS_OUT_OF_STOCK=3;//被下架了
 	
+	public static final String CATEGORY_MOBILE_BATTERY = "MOBILE_BATTERY";//手机电池
+	public static final String CATEGORY_MOBILE_SCREEN = "MOBILE_SCREEN";//手机屏幕
+	public static final String CATEGORY_OTHER = "OTHER";//其他
+	
 	// 主键
 	private String id;
 	// 名称
@@ -76,6 +80,13 @@ public class Product implements Serializable {
 	private Integer stockCount;
 	
 	private Integer saleCount;
+	
+	private String category;//品类
+	
+	private String brandId;//品牌id
+	
+	//-------------以下为手机屏幕属性
+	private String color;//颜色
 	
 	@GenericGenerator(name = "generator", strategy = "uuid.hex")
 	@Id
@@ -193,6 +204,21 @@ public class Product implements Serializable {
 	public Integer getSaleCount() {
 		return saleCount;
 	}
+	
+	@Column(name = "CATEGORY")
+	public String getCategory() {
+		return category;
+	}
+
+	@Column(name = "BRAND_ID")
+	public String getBrandId() {
+		return brandId;
+	}
+	
+	@Column(name = "COLOR")
+	public String getColor() {
+		return color;
+	}
 
 	public void setId(String id) {
 		this.id = id;
@@ -285,6 +311,19 @@ public class Product implements Serializable {
 	
 	public void setSaleCount(Integer saleCount) {
 		this.saleCount = saleCount;
+	}
+
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public void setBrandId(String brandId) {
+		this.brandId = brandId;
+	}
+	
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 	//photos_ids转为list

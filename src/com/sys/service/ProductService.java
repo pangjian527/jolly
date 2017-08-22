@@ -32,6 +32,15 @@ public class ProductService extends BaseService<Product>{
 		StringBuffer select = new StringBuffer(" p.* ");
 		StringBuilder where = new StringBuilder(" 1=1 ");
 		
+		this.addQueryEqualFilter(queryJson, where, query, "category",
+				" and p.category = :category");
+		
+		this.addQueryEqualFilter(queryJson, where, query, "brandId",
+				" and p.brand_id = :brandId");
+		
+		this.addQueryLikeFilter(queryJson, where, query, "name",
+				" and p.name like :name");
+		
 		query.select(select.toString()).from(" t_product p").where(
 		where.toString()).orderBy(" p.update_time desc ");
 		generalDao.execute(query);

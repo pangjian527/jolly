@@ -110,7 +110,7 @@
 		<form:form action="${home}/pmanager/product/product.do?op=save" modelAttribute="bean" 
 			id="form" class="theme" name="basic" method="post">
 			<input type="hidden" name="id" id="id" value="${bean.id}"/>
-			<input type="hidden" name="category" id="category" value="MOBILE_BATTERY"/>
+			<input type="hidden" name="category" id="category" value="OTHER"/>
 			<div class="box">
 				<h3>
 					基本信息
@@ -133,19 +133,7 @@
 						<label>市场价格：</label>
 						<form:input path="priceMart" cssClass="text required form-input"/>
 					</li>
-					<li class="mandatory">
-						<label>电池型号：</label>
-						<form:input path="model" cssClass="text required form-input" class="required" />
-					</li>
-					<li class="mandatory">
-						<label>电池属性：</label>
-						<form:input path="coreType" cssClass="text required form-input" class="required" />
-					</li>
 					
-					<li class="mandatory">
-						<label>容量：</label>
-						<form:input path="capacity" cssClass="text required form-input" class="required" />
-					</li>
 					<li class="mandatory">
 						<label>适用品牌：</label>
 						<form:input path="applyBrand" cssClass="text required form-input" class="required" />
@@ -153,39 +141,6 @@
 					<li class="mandatory">
 						<label>适用机型：</label>
 						<form:input path="applyPhoneType" cssClass="text required form-input" class="required" />
-					</li>
-					
-					<li class="mandatory">
-						<label>执行标准：</label>
-						<form:input path="executeNormal" cssClass="text required form-input" class="required" />
-					</li>
-					<li class="mandatory">
-						<label>标准电压：</label>
-						<form:input path="normalVoltage" cssClass="text required form-input" class="required" />
-					</li>
-					
-					<li class="mandatory">
-						<label>充电电压：</label>
-						<form:input path="chargeVoltage" cssClass="text required form-input" class="required" />
-					</li>
-					<li class="mandatory">
-						<label>是否环保：</label>
-						<form:input path="environment" cssClass="text required form-input" class="required" />
-					</li>
-					
-					
-					<li class="mandatory">
-						<label>快充功能：</label>
-						<form:input path="quickCharge" cssClass="text required form-input" class="required" />
-					</li>
-					
-					<li class="mandatory">
-						<label>商品品牌：</label>
-						<select name="brandId">
-						<c:forEach items="${brandList }" var="brand">
-							<option value="${brand.id }" <c:if test="${brand.id == bean.brandId }">selected</c:if>>${brand.name }</option>
-						</c:forEach>
-					</select>
 					</li>
 					
 					<li class="mandatory">
