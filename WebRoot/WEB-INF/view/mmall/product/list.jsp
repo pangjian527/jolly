@@ -158,12 +158,28 @@
 		}
 		
 		div.menu-wrap ul li i{
-			display:block;
-			width:50px;
-			height:50px;
-			background-color:red;
-			margin:auto;
-			border-radius: 30px;
+			display: block;
+		    width: 65px;
+		    height: 65px;
+		    background-color: red;
+		    margin: auto;
+		    border-radius: 30px;
+		}
+		i.menu-icon{
+			background-size: 100%;
+    		background-repeat: no-repeat;
+		}
+		
+		i.battery-icon{
+			background-image:url("${home}/image/1.png");
+		}
+		
+		i.screen-icon{
+			background-image:url("${home}/image/2.png");
+		}
+		
+		i.other-icon{
+			background-image:url("${home}/image/3.png");
 		}
 		
 	</style>
@@ -227,16 +243,16 @@
 		<div class="menu-wrap">
 			<ul>
 				<li>
-					<i class=""></i>
-					电池
+					<i class="menu-icon battery-icon"></i>
+					手机电池
 				</li>
 				<li>
-					<i class=""></i>
-					屏幕
+					<i class="menu-icon screen-icon"></i>
+					屏幕总成
 				</li>
 				<li>
-					<i class=""></i>
-					其他
+					<i class="menu-icon other-icon"></i>
+					其他产品
 				</li>
 			</ul>
 			<div style="clear:both;"></div>
