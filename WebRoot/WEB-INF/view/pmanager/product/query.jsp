@@ -28,6 +28,26 @@
 		.col8{width: 50px}
 		.col9{width: 50px}
 		.col10{width: 100px}
+		
+		div.options {
+			padding: 10px 10px;
+    		width: 120px;
+		}
+		div.options dl dd{
+			height: 30px;
+    		line-height: 30px;
+		}
+		div.options dl dd a:hover{
+    		color: red;
+			text-decoration: none;
+			font-weight:bold;
+		}
+		div.options dl dd a{
+			display:block;
+			widht:100%;
+			text-decoration: none;
+			font-size:14px;
+		}
 	</style>
 	
 	<script type="text/javascript">
@@ -171,7 +191,6 @@
 			<col class="col1" />
 			<col class="col2" />
 			<col class="col3" />
-			<col class="col4" />
 			<col class="col5" />
 			<col class="col6" />
 			<col class="col7" />
@@ -184,7 +203,6 @@
 			    <th>名称</th>
 				<th>批发价格</th>
 				<th>市场价</th>
-				<th>容量</th>
 				<th>实际销量</th>
 				<th>虚拟销量</th>
 				<th>适用品牌</th>
@@ -200,7 +218,6 @@
 					<td>${data.name }</td>
 					<td>${data.price }</td>
 					<td>${data.price_mart }</td>
-					<td>${data.capacity }</td>
 					<td>${data.sale_count }</td>
 					<td>${data.virtual_count }</td>
 					<td>${data.apply_brand }</td>
