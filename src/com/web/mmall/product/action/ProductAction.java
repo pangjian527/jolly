@@ -104,6 +104,19 @@ public class ProductAction extends MMallActon{
 			return new ArrayList<String>();
 		}
 	}
+	
+	
+	@RequestMapping
+	public String search(HttpServletRequest request,HttpServletResponse response) {
+		return "/mmall/product/search";
+	}
+	
+	@RequestMapping
+	public String executeSearch(HttpServletRequest request,HttpServletResponse response) {
+		
+		return "/mmall/product/product_list";
+	}
+	
 	@Autowired
 	private ProductService productService;
 	@Autowired

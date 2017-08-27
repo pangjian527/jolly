@@ -182,6 +182,45 @@
 			background-image:url("${home}/image/3.png");
 		}
 		
+		div.search{
+			height: 40px;
+			width: 100%;
+		    z-index: 100;
+		    position:relative;
+		    
+		}
+		div.search i.search-icon{
+			background-image:url("${home}/image/search.png");
+		    position: absolute;
+		    z-index: 101;
+		    width: 20px;
+		    height: 20px;
+		    top: 11px;
+    		left: 17px;
+		    background-size: 100%;
+		}
+		div.search input{
+			border: 1px solid #e4e4e4;
+		    height: 30px;
+		    margin: 3px;
+		    border-radius: 15px;
+		    text-indent: 38px;
+		    width: 98%;
+		}
+		div.search a{
+			position: absolute;
+		    right: 10px;
+		    top: 7px;
+		    font-size: 14px;
+		    background-color: red;
+		    color: white;
+		    border-radius: 10px;
+		    height: 26px;
+		    display: block;
+		    width: 40px;
+		    line-height: 26px;
+		    text-align: center;
+		}
 	</style>
 	
 	<script type="text/javascript">
@@ -212,11 +251,19 @@
 		}
 		
 	}
+	function toSearch(){
+		window.location = "${home}//mmall/product/product.do?op=search";
+	}
 	</script>
 	<jsp:include page="../initWeixin.jsp"/>	
 </head>
 <body>
 	<div class="scwrapper">
+		<div class="search">
+			<i class="search-icon"></i>
+			<input onclick="toSearch()" placeholder="请输入关键字搜索"/>
+			<a href="">搜索</a>
+		</div>
 		<div class="slider-wrapper">
 				<%-- <ul>
 					<li>
