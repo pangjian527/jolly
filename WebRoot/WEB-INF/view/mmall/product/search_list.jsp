@@ -22,6 +22,11 @@
 		    background-color: #f3f3f3;
 		    margin-bottom:30px;
 		}
+		div.no-data-box{
+			text-align: center;
+		    margin-top: 50px;
+		    color: #ADADAD;
+		}
 		
 		div.product-wrapper ul li{
 			height:150px;
@@ -248,25 +253,27 @@
 		    top: 2px;
 		    right: -25px;
 		}
-		div.filter-wrap ul.condition-wrap{
+		
+		div.brand-filter-wrap{
+			display:none;
+			background: white;
+		}
+		div.filter-wrap div.brand-filter-wrap{
 			position:absolute;
 			top:36px;
 			z-index:100;
 			width:100%;
 		}
 		
-		div.filter-wrap ul.condition-wrap{
-			background: white;
-		}
 		div.filter-wrap ul.condition-wrap li{
 			height:35px;
 			line-height:35px;
 			font-weight:bold;
 			text-align:left;
-			text-indent:10px;
+			text-indent:35px;
 			border:0;
 			font-size:12px;
-			font-weight:none;
+			position:relative;
 		}
 		
 		div.shield-layer{
@@ -277,6 +284,34 @@
 		    bottom: 0;
 		    z-index: 99;
 		    background-color: rgba(0,0,0,0.7);
+		    display:none;
+		}
+		div.brand-filter-wrap a.reset{
+			background-color:white;
+			color:black;
+		}
+		div.brand-filter-wrap a {
+			width: 50%;
+		    height: 40px;
+		    background-color: red;
+		    color: white;
+		    font-weight: bold;
+		    display: inline-block;
+		    float: left;
+		    line-height: 40px;
+		    text-align: center;
+		    font-size:14px;
+		    border-top:1px solid #f3f3f3
+		}
+		div.brand-filter-wrap  i.filter-select{
+			diaplay:block;
+			position:absolute;
+			width:20px;
+			height:20px;
+			background-image: url("${home}/image/select.png");
+			background-size: 100%;
+		    top: 8px;
+		    left: 5px;
 		}
 	</style>
 	
@@ -292,21 +327,67 @@
 	function toSearch(){
 		window.location = "${home}//mmall/product/product.do?op=search";
 	}
+	
+	function openFilter(){
+		document.getElementById("shield-layer").style.display = "block"
+		
+		var filterWrap = document.getElementById("brand-filter-wrap");
+		filterWrap.style.display = "block";
+	}
+	function closeFilter(){
+		document.getElementById("shield-layer").style.display = "none"
+			
+		var filterWrap = document.getElementById("brand-filter-wrap");
+		filterWrap.style.display = "none";
+	}
+	
+	function selectBrand(){
+		var iLists = this.getElementsByTagName("i");
+		
+		if(iLists.length ==1){
+			this.removeChild(iLists[0]);
+		}else{
+			var iElement = document.createElement("i");
+			iElement.className = "filter-select";
+			this.appendChild(iElement);
+		}
+		
+	}
+	
+	function search(){
+		var liElements = document.getElementById("condition-wrap").getElementsByTagName("li");
+		
+		var brandIds = "";
+		for(var i=0;i<liElements.length;i++){
+			var liElement = liElements[i];
+			
+			var iElements =liElement.getElementsByTagName("i");
+			if(iElements.length >= 1){
+				brandIds = brandIds +"," + liElement.getAttribute("value");
+			}
+		}
+		alert(brandIds)
+		document.getElementById("brandId").value = brandIds;
+		document.forms[0].submit();
+	}
 	</script>
 	<jsp:include page="../initWeixin.jsp"/>	
 </head>
-<body>
-	<div class="shield-layer"></div>
+<body >
+	<div class="shield-layer" id="shield-layer"></div>
 	<div class="scwrapper">
 		<div class="search">
-			<i class="search-icon"></i>
-			<input onclick="toSearch()" placeholder="请输入关键字搜索"/>
-			<a href="">搜索</a>
+			<form action="${home}/mmall/product/product.do?op=executeSearch" method="post">
+				<i class="search-icon"></i>
+				<input onclick="toSearch()" name="name" id="name" value="${name }" placeholder="请输入关键字搜索"/>
+				<input type="hidden" name="brandId" id="brandId" value="${brandId}"/>
+				<a href="">搜索</a>
+			</form>
 		</div>
 		<div class="filter-wrap">
 			<ul>
 				<li>
-					<span>
+					<span onclick="openFilter()">
 						品牌
 						<i class="down-filter-icon"></i>
 					</span>
@@ -318,13 +399,18 @@
 					</span>	
 				</li>
 			</ul>
-			<ul class="condition-wrap">
-				<li>苹果</li>
-				<li>三星</li>
-				<li>华为</li>
-				<li>vivo</li>
-				<li>小米</li>
-			</ul>
+			<div class="brand-filter-wrap" id="brand-filter-wrap">
+				<ul class="condition-wrap" id="condition-wrap">
+					<c:forEach items="${brandLists }" var="productBrand">
+						<li onclick="selectBrand.call(this)" value="${productBrand.id }">
+							${productBrand.name }
+						</li>
+					</c:forEach>
+				</ul>
+				<div style="clear:both;"></div>
+				<a class="reset" href="javascript:closeFilter()">重置</a>
+				<a href="javascript:search()">确定</a>
+			</div>
 		</div>
 		<div class="product-wrapper">
 			<ul>
@@ -360,6 +446,11 @@
 				</c:forEach>
 			</ul>
 		</div>
+		<c:if test="${empty lists }">
+			<div class="no-data-box">
+				<h3>没有找到相关数据</h3>
+			</div>
+		</c:if>
 	</div>
 </body>
 

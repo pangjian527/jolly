@@ -12,12 +12,6 @@ import pub.functions.StrFuncs;
 
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * @author zhuangzhonglong
- * Date: 2008-3-30
- * Time: 4:05:51
- */
 public class PagedQuery extends HibernateQuery {
 
 	private PageSettings settings;
@@ -97,9 +91,11 @@ public class PagedQuery extends HibernateQuery {
 			if (resultBeanClass.getName().startsWith("java")) {
 				throw new RuntimeException("not implemented");
 			}
-			ResultTransformer transformer = new CaseInsensBeanTransformer(resultBeanClass);
-			query.setResultTransformer(transformer);
+			//ResultTransformer transformer = new CaseInsensBeanTransformer(resultBeanClass);
+			//query.setResultTransformer(transformer);
+			query.addEntity(resultBeanClass);
 		}
+		
 		return query;
 	}
 

@@ -568,4 +568,14 @@ public class StrFuncs {
         return time+millis+nextInt;
 		
 	}
+	
+	public static String isEmpty(String value,String defaultValue) {
+		boolean empty = StrFuncs.isEmpty(value);
+		
+		if(empty) {
+			return defaultValue;
+		}
+		
+		return value;
+	}
 }

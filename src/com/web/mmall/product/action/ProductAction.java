@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import pub.dao.query.PageSettings;
+import pub.dao.query.QueryResult;
 import pub.functions.StrFuncs;
 
 import com.sys.entity.Ad;
@@ -20,16 +22,20 @@ import com.sys.entity.ExpressFee;
 import com.sys.entity.Factory;
 import com.sys.entity.FactoryUser;
 import com.sys.entity.Product;
+import com.sys.entity.ProductBrand;
 import com.sys.service.AdService;
 import com.sys.service.AreaService;
 import com.sys.service.BookformDetailService;
 import com.sys.service.ExpressFeeService;
 import com.sys.service.FactoryService;
+import com.sys.service.ProductBrandService;
 import com.sys.service.ProductService;
 import com.web.mmall.MMallActon;
 import com.web.mmall.consts.Consts;
 import com.web.mmall.entity.ProductEntity;
 import com.wxpay.util.WXConfigUtil;
+
+import net.sf.json.JSONObject;
 
 @Controller
 public class ProductAction extends MMallActon{
@@ -115,7 +121,23 @@ public class ProductAction extends MMallActon{
 	public String executeSearch(HttpServletRequest request,HttpServletResponse response) {
 		
 		
-		List<Product> lists = productService.getAllByStatus(Product.STATUS_VALID);
+		int pageNo = this.getIntegerParam("pn", 1);
+
+		// @1：获取前端json查询条件,请求页数
+		String name = StrFuncs.isEmpty(request.getParameter("name"), "");
+		String brandId = StrFuncs.isEmpty(request.getParameter("brandId"), "");
+		// 类型
+		String capacity = StrFuncs.isEmpty(request.getParameter("capacity"), "");
+		
+		JSONObject queryJson = new JSONObject();
+		queryJson.element("name", name);
+		queryJson.element("brandId", brandId);
+		queryJson.element("status", Product.STATUS_VALID);
+		
+		QueryResult queryResult = productService.queryMall(queryJson,
+				PageSettings.of(pageNo));
+		
+		List<Product> lists  = queryResult.getRows();
 		
 		List<ProductEntity> entityResult = new ArrayList<ProductEntity>();
 		for (Product product : lists) {
@@ -144,7 +166,12 @@ public class ProductAction extends MMallActon{
 			}
 		}
 		
+		List<ProductBrand> brandLists = productBrandService.getAll();
+		
 		request.setAttribute("lists", entityResult);
+		request.setAttribute("name", name);
+		request.setAttribute("brandId", brandId);
+		request.setAttribute("brandLists", brandLists);
 		return "/mmall/product/search_list";
 	}
 	
@@ -160,4 +187,6 @@ public class ProductAction extends MMallActon{
 	private FactoryService factoryService;
 	@Autowired
 	private AdService adService;
+	@Autowired
+	private ProductBrandService productBrandService;
 }

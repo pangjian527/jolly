@@ -47,16 +47,6 @@ public class ProductBrandService  extends BaseService<ProductBrand>{
 		return productBrandDao.getAll(ProductBrand.STATUS_VALID);
 	}
 	
-/*	public List<String>  getFactoryBrandIds(String factoryId){
-		//List<FactoryBrandRel> list = factoryBrandRelDao.getAllByFactoryId(factoryId);
-		List<FactoryBrandRel> list = factoryBrandRelDao.getAllByProperty("factoryId", factoryId);
-		List<String> result = new ArrayList<String>();
-		for(FactoryBrandRel bean : list){
-			result.add(bean.getProductBrandId());
-		}
-		return result;
-	}*/
-	
 	@Transactional
 	public void save(ProductBrand productBrand, String fileId) throws Exception{
 		//1.保存bean
@@ -68,11 +58,6 @@ public class ProductBrandService  extends BaseService<ProductBrand>{
 		}
 	}
 
-/*	@Transactional
-	public void saveRelations(String factoryId, String[] brandIds) throws Exception{
-		factoryBrandRelDao.saveRelations(factoryId, "factoryId", brandIds, "productBrandId");
-	}*/
-	
 	@Transactional
 	public void delete( String id){
 		ProductBrand check = productBrandDao.get( id);

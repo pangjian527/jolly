@@ -75,7 +75,7 @@
 		<div class="search">
 			<form action="${home}/mmall/product/product.do?op=executeSearch" method="post">
 				<i class="search-icon"></i>
-				<input name="keyword" placeholder="请输入关键字搜索"/>
+				<input id="name" name="name" type="text" placeholder="请输入关键字搜索"/>
 				<a href="javascript:search()">搜索</a>
 			</form>
 		</div>

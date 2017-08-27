@@ -13,6 +13,7 @@ import pub.dao.GeneralDao;
 import pub.dao.hibernate.PagedQuery;
 import pub.dao.query.Query;
 import pub.dao.query.QueryResult;
+import pub.dao.query.QueryResultType;
 import pub.dao.query.QuerySettings;
 import pub.functions.StrFuncs;
 
@@ -43,6 +44,7 @@ public class ProductService extends BaseService<Product>{
 		
 		query.select(select.toString()).from(" t_product p").where(
 		where.toString()).orderBy(" p.update_time desc ");
+		
 		generalDao.execute(query);
 		return query.getResult();
 	}
@@ -63,6 +65,35 @@ public class ProductService extends BaseService<Product>{
 		Product product = this.get(productId);
 		product.setStockCount((product.getStockCount()==null?0:product.getStockCount())+addCount);
 		this.save(product);
+	}
+	
+	public QueryResult queryMall(JSONObject queryJson, QuerySettings settings) {
+		
+		settings.setResultBeanClass(Product.class);
+		settings.setResultType(QueryResultType.BEAN);
+		
+		Query query = new PagedQuery(settings);
+		StringBuffer select = new StringBuffer(" p.* ");
+		StringBuilder where = new StringBuilder(" 1=1 ");
+		
+		this.addQueryEqualFilter(queryJson, where, query, "category",
+				" and p.category = :category");
+		
+		this.addQueryEqualFilter(queryJson, where, query, "brandId",
+				" and p.brand_id = :brandId");
+		
+		this.addQueryLikeFilter(queryJson, where, query, "name",
+				" and p.name like :name");
+		
+		this.addQueryEqualFilter(queryJson, where, query, "status"," and p.status = :status");
+		query.select(select.toString()).from(" t_product p").where(where.toString());
+		
+		if(true) {
+			query.orderBy(" p.update_time desc ");
+		}
+		
+		generalDao.execute(query);
+		return query.getResult();
 	}
 	
 	@Autowired
