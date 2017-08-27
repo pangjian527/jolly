@@ -10,7 +10,6 @@
 	<title>商品列表</title>
 	<link rel="icon" href="${home}/favicon.ico" type="image/x-icon" />
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
-	<link rel="stylesheet" type="text/css" href="${home}/style/swipe.css">
 	<script type="text/javascript" src="${home}/script/mwebmall/haux.mobile.js"></script>
 	<style type="text/css">
 	
@@ -64,15 +63,21 @@
 	</style>
 	
 	<script type="text/javascript">
+	
+	function search(){
+		document.forms[0].submit();
+	}
 	</script>
 	<jsp:include page="../initWeixin.jsp"/>	
 </head>
 <body>
 	<div class="scwrapper">
 		<div class="search">
-			<i class="search-icon"></i>
-			<input placeholder="请输入关键字搜索"/>
-			<a href="">搜索</a>
+			<form action="${home}/mmall/product/product.do?op=executeSearch" method="post">
+				<i class="search-icon"></i>
+				<input name="keyword" placeholder="请输入关键字搜索"/>
+				<a href="javascript:search()">搜索</a>
+			</form>
 		</div>
 	</div>
 </body>

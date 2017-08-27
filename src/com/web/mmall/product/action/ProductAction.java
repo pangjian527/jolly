@@ -114,7 +114,38 @@ public class ProductAction extends MMallActon{
 	@RequestMapping
 	public String executeSearch(HttpServletRequest request,HttpServletResponse response) {
 		
-		return "/mmall/product/product_list";
+		
+		List<Product> lists = productService.getAllByStatus(Product.STATUS_VALID);
+		
+		List<ProductEntity> entityResult = new ArrayList<ProductEntity>();
+		for (Product product : lists) {
+			ProductEntity entity = new ProductEntity();
+			BeanUtils.copyProperties(product, entity);
+			
+			int realSalesCount = bookformDetailService.getCountByProductId(product.getId());
+			entity.setRealSalesCount(realSalesCount);
+			entityResult.add(entity);
+		}
+		
+		Object object = request.getSession().getAttribute(Consts.FACTORY_USER_SESSION_KEY);
+		
+		if(object == null){
+			request.setAttribute("islogin", false);
+			request.setAttribute("auto", false);
+		}else{
+			request.setAttribute("islogin", true);
+			FactoryUser factoryUser = (FactoryUser)object;
+			
+			Factory factory = factoryService.get(factoryUser.getFactoryId());
+			if(Factory.STATUS_VALID==factory.getStatus()){
+				request.setAttribute("auto", true);
+			}else{
+				request.setAttribute("auto", false);
+			}
+		}
+		
+		request.setAttribute("lists", entityResult);
+		return "/mmall/product/search_list";
 	}
 	
 	@Autowired

@@ -23,10 +23,6 @@
 		    margin-bottom:30px;
 		}
 		
-		div.product-wrapper{
-			margin-top:10px;
-		}
-		
 		div.product-wrapper ul li{
 			height:150px;
 			background-color:white;
@@ -221,38 +217,49 @@
 		    line-height: 26px;
 		    text-align: center;
 		}
+		
+		div.filter-wrap{
+			width:100%;
+			height:35px;
+		}
+		div.filter-wrap ul li{
+			float: left;
+		    width: 50%;
+		    text-align: center;
+		    line-height: 35px;
+		    background: white;
+		    border-bottom: 1px solid #e4e4e4;
+		    font-size: 14px;
+		}
+		
+		div.filter-wrap li span{
+			position:relative;
+			display: inline-block;
+			color:red;
+			font-weight:bold;
+		}
+		div.filter-wrap li span i.down-filter-icon{
+			display:block;
+			background-image:url("${home}/image/down.png");
+			width: 30px;
+		    height: 30px;
+		    position: absolute;
+		    top: 2px;
+		    right: -25px;
+		}
 	</style>
 	
 	<script type="text/javascript">
-	function initBody(){
-		_imagefalsh();
-	}
-	//设置图片滚动
-	function _imagefalsh(){
-	   var bullets = document.getElementById('position').getElementsByTagName('li');
-	   var banner = Swipe(document.getElementById('mySwipe'), {
-	   	auto: 2000,
-	   	continuous: true,
-	   	disableScroll:false,
-	   	callback: function(pos) {
-	   		var i = bullets.length;
-	   		while (i--) {
-	   		  bullets[i].className = ' ';
-	   		}
-	   		bullets[pos].className = 'cur';
-	   	}
-	   });
-	}
+	
 	function gotoDetail(adUrl,contentPhotoId){
 		if(adUrl){
 			window.location = adUrl;
 		}else if(contentPhotoId){
 			window.location = "${home}/mmall/ad.do?contentPhotoId="+contentPhotoId;
 		}
-		
 	}
 	function toSearch(){
-		window.location = "${home}/mmall/product/product.do?op=search";
+		window.location = "${home}//mmall/product/product.do?op=search";
 	}
 	</script>
 	<jsp:include page="../initWeixin.jsp"/>	
@@ -264,45 +271,21 @@
 			<input onclick="toSearch()" placeholder="请输入关键字搜索"/>
 			<a href="">搜索</a>
 		</div>
-		<div class="slider-wrapper">
-				<%-- <ul>
-					<li>
-						<img width="100%" src="${home}/img-${product.photoIds }_400X300.do"/>
-					</li>
-				</ul> --%>
-			<div class="addWrap">
-   					<div class="swipe" id="mySwipe">
-						<div class="swipe-wrap">
-							<c:forEach items="${adList}" var="ad"  >
-								<div onclick="gotoDetail('${ad.url}','${ad.contentPhotoId }')">
-		   							<img id="factory-img" src="${home}/img-${ad.adPhotoId }.do">
-		   						</div>
-		   					</c:forEach>
-						</div>
-					</div>
-					<ul id="position">
-						<c:forEach items="${adList}" var="ad" varStatus="num">
-							<li class="<c:if test="${num.index==0 }">cur</c:if>"></li>
-						</c:forEach>
-					</ul>
-   				</div>
-		</div>
-		<div class="menu-wrap">
+		<div class="filter-wrap">
 			<ul>
 				<li>
-					<i class="menu-icon battery-icon"></i>
-					手机电池
+					<span>
+						品牌
+						<i class="down-filter-icon"></i>
+					</span>
 				</li>
 				<li>
-					<i class="menu-icon screen-icon"></i>
-					屏幕总成
-				</li>
-				<li>
-					<i class="menu-icon other-icon"></i>
-					其他产品
+					<span>
+						价格
+						<i class="down-filter-icon"></i>
+					</span>	
 				</li>
 			</ul>
-			<div style="clear:both;"></div>
 		</div>
 		<div class="product-wrapper">
 			<ul>
@@ -336,34 +319,6 @@
 							</a>
 						</li>
 				</c:forEach>
-			</ul>
-		</div>
-		<div class="footer">
-			<ul>
-				<li >
-					<a href="">
-						<i class="home"></i>
-						<label>首页</label>
-					</a>
-				</li>
-				<li >
-					<a href="${home }/mmall/cart.do">
-						<i class="cart"></i>
-						<label>购物车</label>
-					</a>
-				</li>
-				<li >
-					<a href="tel://400-861-3360">
-						<i class="kefu"></i>
-						<label>客服</label>
-					</a>
-				</li>
-				<li >
-					<a href="${home }/mmall/home/index.do">
-						<i class="me"></i>
-						<label>我的</label>
-					</a>
-				</li>
 			</ul>
 		</div>
 	</div>
