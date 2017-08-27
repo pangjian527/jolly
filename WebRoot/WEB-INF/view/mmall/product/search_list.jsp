@@ -221,6 +221,7 @@
 		div.filter-wrap{
 			width:100%;
 			height:35px;
+			position:relative;
 		}
 		div.filter-wrap ul li{
 			float: left;
@@ -247,6 +248,36 @@
 		    top: 2px;
 		    right: -25px;
 		}
+		div.filter-wrap ul.condition-wrap{
+			position:absolute;
+			top:36px;
+			z-index:100;
+			width:100%;
+		}
+		
+		div.filter-wrap ul.condition-wrap{
+			background: white;
+		}
+		div.filter-wrap ul.condition-wrap li{
+			height:35px;
+			line-height:35px;
+			font-weight:bold;
+			text-align:left;
+			text-indent:10px;
+			border:0;
+			font-size:12px;
+			font-weight:none;
+		}
+		
+		div.shield-layer{
+			position: fixed;
+		    top: 76px;
+		    left: 0;
+		    right: 0;
+		    bottom: 0;
+		    z-index: 99;
+		    background-color: rgba(0,0,0,0.7);
+		}
 	</style>
 	
 	<script type="text/javascript">
@@ -265,6 +296,7 @@
 	<jsp:include page="../initWeixin.jsp"/>	
 </head>
 <body>
+	<div class="shield-layer"></div>
 	<div class="scwrapper">
 		<div class="search">
 			<i class="search-icon"></i>
@@ -285,6 +317,13 @@
 						<i class="down-filter-icon"></i>
 					</span>	
 				</li>
+			</ul>
+			<ul class="condition-wrap">
+				<li>苹果</li>
+				<li>三星</li>
+				<li>华为</li>
+				<li>vivo</li>
+				<li>小米</li>
 			</ul>
 		</div>
 		<div class="product-wrapper">
