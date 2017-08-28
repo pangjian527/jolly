@@ -15,6 +15,7 @@ import pub.dao.query.Query;
 import pub.dao.query.QueryResult;
 import pub.dao.query.QueryResultType;
 import pub.dao.query.QuerySettings;
+import pub.functions.JsonFuncs;
 import pub.functions.StrFuncs;
 
 import com.sys.dao.ProductDao;
@@ -79,17 +80,22 @@ public class ProductService extends BaseService<Product>{
 		this.addQueryEqualFilter(queryJson, where, query, "category",
 				" and p.category = :category");
 		
-		this.addQueryEqualFilter(queryJson, where, query, "brandId",
-				" and p.brand_id = :brandId");
-		
 		this.addQueryLikeFilter(queryJson, where, query, "name",
 				" and p.name like :name");
+		
+		if(!StrFuncs.isEmpty(queryJson.getString("brandIds"))) {
+			query.put("brandIds", queryJson.getString("brandIds").split(","));
+			where.append(" and p.brand_id in (:brandIds)");
+		}
 		
 		this.addQueryEqualFilter(queryJson, where, query, "status"," and p.status = :status");
 		query.select(select.toString()).from(" t_product p").where(where.toString());
 		
-		if(true) {
-			query.orderBy(" p.update_time desc ");
+		
+		if( JsonFuncs.getIntValue(queryJson, "priceSort", 0) == 0) {
+			query.orderBy(" p.price desc ");
+		}else if (JsonFuncs.getIntValue(queryJson, "priceSort", 0) == 1) {
+			query.orderBy(" p.price asc ");
 		}
 		
 		generalDao.execute(query);

@@ -24,8 +24,13 @@
 		}
 		div.no-data-box{
 			text-align: center;
-		    margin-top: 50px;
 		    color: #ADADAD;
+		    padding-top: 100px;
+    		background-color: white;
+    		margin-top:0;
+		}
+		div.no-data-box h3{
+			margin:0;
 		}
 		
 		div.product-wrapper ul li{
@@ -254,6 +259,16 @@
 		    right: -25px;
 		}
 		
+		div.filter-wrap li span i.up-filter-icon{
+			display:block;
+			background-image:url("${home}/image/top.png");
+			width: 30px;
+		    height: 30px;
+		    position: absolute;
+		    top: 2px;
+		    right: -25px;
+		}
+		
 		div.brand-filter-wrap{
 			display:none;
 			background: white;
@@ -366,8 +381,20 @@
 				brandIds = brandIds +"," + liElement.getAttribute("value");
 			}
 		}
-		alert(brandIds)
-		document.getElementById("brandId").value = brandIds;
+		document.getElementById("brandIds").value = brandIds;
+		document.forms[0].submit();
+	}
+	
+	function priceSort(){
+		var iElement = this.getElementsByTagName("i")[0];
+		
+		if(iElement.className == "down-filter-icon"){
+			iElement.className = "up-filter-icon";
+			document.getElementById("priceSort").value =1;
+		}else{
+			iElement.className = "down-filter-icon";
+			document.getElementById("priceSort").value =0;
+		}
 		document.forms[0].submit();
 	}
 	</script>
@@ -380,7 +407,8 @@
 			<form action="${home}/mmall/product/product.do?op=executeSearch" method="post">
 				<i class="search-icon"></i>
 				<input onclick="toSearch()" name="name" id="name" value="${name }" placeholder="请输入关键字搜索"/>
-				<input type="hidden" name="brandId" id="brandId" value="${brandId}"/>
+				<input type="hidden" name="brandIds" id="brandIds" value="${brandIds}"/>
+				<input type="hidden" name="priceSort" id="priceSort" value="0"/>
 				<a href="">搜索</a>
 			</form>
 		</div>
@@ -393,9 +421,14 @@
 					</span>
 				</li>
 				<li>
-					<span>
+					<span onclick="priceSort.call(this)">
 						价格
-						<i class="down-filter-icon"></i>
+						<c:if test="${priceSort ==1 }">
+							<i class="up-filter-icon"></i>
+						</c:if>
+						<c:if test="${priceSort ==0 }">
+							<i class="down-filter-icon"></i>
+						</c:if>
 					</span>	
 				</li>
 			</ul>

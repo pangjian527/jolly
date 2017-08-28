@@ -125,14 +125,18 @@ public class ProductAction extends MMallActon{
 
 		// @1：获取前端json查询条件,请求页数
 		String name = StrFuncs.isEmpty(request.getParameter("name"), "");
-		String brandId = StrFuncs.isEmpty(request.getParameter("brandId"), "");
+		String brandIds = StrFuncs.isEmpty(request.getParameter("brandIds"), "");
 		// 类型
 		String capacity = StrFuncs.isEmpty(request.getParameter("capacity"), "");
 		
+		String priceSort = StrFuncs.isEmpty(request.getParameter("priceSort"), "0");
+		
+		
 		JSONObject queryJson = new JSONObject();
 		queryJson.element("name", name);
-		queryJson.element("brandId", brandId);
+		queryJson.element("brandIds", brandIds);
 		queryJson.element("status", Product.STATUS_VALID);
+		queryJson.element("priceSort", priceSort);
 		
 		QueryResult queryResult = productService.queryMall(queryJson,
 				PageSettings.of(pageNo));
@@ -170,8 +174,9 @@ public class ProductAction extends MMallActon{
 		
 		request.setAttribute("lists", entityResult);
 		request.setAttribute("name", name);
-		request.setAttribute("brandId", brandId);
+		request.setAttribute("brandIds", brandIds);
 		request.setAttribute("brandLists", brandLists);
+		request.setAttribute("priceSort", priceSort);
 		return "/mmall/product/search_list";
 	}
 	
