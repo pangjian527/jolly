@@ -130,13 +130,14 @@ public class ProductAction extends MMallActon{
 		String capacity = StrFuncs.isEmpty(request.getParameter("capacity"), "");
 		
 		String priceSort = StrFuncs.isEmpty(request.getParameter("priceSort"), "0");
-		
+		String category = StrFuncs.isEmpty(request.getParameter("category"), "");
 		
 		JSONObject queryJson = new JSONObject();
 		queryJson.element("name", name);
 		queryJson.element("brandIds", brandIds);
 		queryJson.element("status", Product.STATUS_VALID);
 		queryJson.element("priceSort", priceSort);
+		queryJson.element("category", category);
 		
 		QueryResult queryResult = productService.queryMall(queryJson,
 				PageSettings.of(pageNo));
@@ -177,6 +178,7 @@ public class ProductAction extends MMallActon{
 		request.setAttribute("brandIds", brandIds);
 		request.setAttribute("brandLists", brandLists);
 		request.setAttribute("priceSort", priceSort);
+		request.setAttribute("category", category);
 		return "/mmall/product/search_list";
 	}
 	

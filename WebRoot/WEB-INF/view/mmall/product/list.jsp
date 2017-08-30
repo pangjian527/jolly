@@ -254,6 +254,10 @@
 	function toSearch(){
 		window.location = "${home}/mmall/product/product.do?op=search";
 	}
+	
+	function executeSearch(category){
+		window.location = "${home}/mmall/product/product.do?op=executeSearch&category="+category;
+	}
 	</script>
 	<jsp:include page="../initWeixin.jsp"/>	
 </head>
@@ -289,15 +293,15 @@
 		</div>
 		<div class="menu-wrap">
 			<ul>
-				<li>
+				<li onclick="executeSearch('MOBILE_BATTERY')">
 					<i class="menu-icon battery-icon"></i>
 					手机电池
 				</li>
-				<li>
+				<li onclick="executeSearch('MOBILE_SCREEN')">
 					<i class="menu-icon screen-icon"></i>
 					屏幕总成
 				</li>
-				<li>
+				<li onclick="executeSearch('OTHER')">
 					<i class="menu-icon other-icon"></i>
 					其他产品
 				</li>

@@ -26,7 +26,6 @@
 	    max-width: 640px;
 	    margin: 0 auto;
 	    background-color: #f3f3f3;
-	    padding: 10px 0;
 	}
 	
 	div.factory-user-box,div.factory-box{
@@ -293,6 +292,9 @@
 </head>
 <body>
   	<div class="scwrapper">
+  		<div>
+  			<img src="${home }/image/register_instr.jpg" width="100%"/>
+  		</div>
   		<div class="factory-user-box">
   			<ul>
   				<li>

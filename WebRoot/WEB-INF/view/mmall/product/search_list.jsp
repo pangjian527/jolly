@@ -408,7 +408,8 @@
 				<i class="search-icon"></i>
 				<input onclick="toSearch()" name="name" id="name" value="${name }" placeholder="请输入关键字搜索"/>
 				<input type="hidden" name="brandIds" id="brandIds" value="${brandIds}"/>
-				<input type="hidden" name="priceSort" id="priceSort" value="0"/>
+				<input type="hidden" name="priceSort" id="priceSort" value="${priceSort }"/>
+				<input type="hidden" name="category" id="category" value="${category }"/>
 				<a href="">搜索</a>
 			</form>
 		</div>

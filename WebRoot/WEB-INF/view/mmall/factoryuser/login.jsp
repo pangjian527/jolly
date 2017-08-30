@@ -26,14 +26,12 @@
 	    max-width: 640px;
 	    margin: 0 auto;
 	    background-color: #f3f3f3;
-	    padding: 10px 0;
 	}
 	
 	div.factory-user-box{
 		background:white;
    		background-size: 50px 5px;
    		padding: 15px 0;
-   		margin: 80px 0px 25px 0px;
 	}
 	
 	div.scwrapper ul {
@@ -144,6 +142,9 @@
 </head>
 <body>
   	<div class="scwrapper">
+  		<div>
+  			<img src="${home }/image/register_instr.jpg" width="100%"/>
+  		</div>
   		<div class="factory-user-box">
   			<form action="${home}/mmall/factoryuser/login.do" method="post" name="loginform" autocomplete="off">
   				<input type="hidden" name="op" value="login">
