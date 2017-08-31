@@ -10,3 +10,4 @@ src/rebel.xml
 WebRoot/sysfile/
 WebRoot/WEB-INF/view/pmanager/productbrand/.svn/all-wcprops
 WebRoot/WEB-INF/view/pmanager/productbrand/.svn/entries
+.classpath
