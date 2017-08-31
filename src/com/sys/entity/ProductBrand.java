@@ -39,6 +39,8 @@ public class ProductBrand implements Serializable {
 	private String content;
 	
 	private Integer seq;
+	
+	private String category;
 
 	@GenericGenerator(name = "generator", strategy = "uuid.hex")
 	@Id
@@ -71,6 +73,12 @@ public class ProductBrand implements Serializable {
 	@Column(name = "UPDATE_TIME", updatable = false)
 	public Date getUpdateTime() {
 		return updateTime;
+	}
+	
+	
+	@Column(name = "category")
+	public String getCategory() {
+		return category;
 	}
 
 	public void setId(String id) {
@@ -113,4 +121,10 @@ public class ProductBrand implements Serializable {
 	public void setSeq(Integer seq) {
 		this.seq = seq;
 	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	
+	
 }

@@ -11,8 +11,12 @@
 	<link rel="icon" href="${home}/favicon.ico" type="image/x-icon" />
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
 	<link rel="stylesheet" type="text/css" href="${home}/style/swipe.css">
+	<link href="${home}/style/scroller.css" rel="stylesheet" type="text/css"/>
+	<script type="text/javascript" src="${home}/script/jquery.js"></script>	
 	<script type="text/javascript" src="${home}/script/mwebmall/haux.mobile.js"></script>
 	<script type="text/javascript" src="${home}/script/mwebmall/swipe.min.js"></script>
+	<script type="text/javascript" src="${home}/script/iscroll-probe.js"></script>
+	<script type="text/javascript" src="${home}/script/mwebmall/scroller.js"></script>
 	<style type="text/css">
 	
 		div.scwrapper{
@@ -31,6 +35,10 @@
 		}
 		div.no-data-box h3{
 			margin:0;
+		}
+		
+		div.product-wrapper{
+			top:76px;
 		}
 		
 		div.product-wrapper ul li{
@@ -331,6 +339,114 @@
 	</style>
 	
 	<script type="text/javascript">
+	var myScroll ,pn  = 1,totalPage = ${totalPage};
+	window.onload = function(){
+		createScroll("product-wrapper",
+				function(){
+					window.location.reload(true);
+				},
+				function(){
+					//只有总页数大于当前的页数才加载
+		        	if(totalPage>pn){
+		        		pn++;
+		        		loadSearchData();
+		        	}
+				});
+	}
+	
+	function loadSearchData(){
+		var data = new Object();
+		data.pn = pn;
+		data.name = document.getElementById("name").value;
+		data.brandIds = document.getElementById("brandIds").value;
+		data.priceSort = document.getElementById("priceSort").value;
+		data.category = document.getElementById("category").value;
+		$.ajax({
+			type:"post",
+			url:"${home}/mmall/product/product.do?op=listSearchAsync",
+			data:data,
+			success:function(data){
+				//创建
+				createProductItem(data);
+			}
+		});
+	}
+	
+	function createProductItem(data){
+		var jsonData = JSON.parse(data);
+		var productList=jsonData.lists;
+		if(productList){
+			var ulEle = document.getElementById("product-list-ul");
+			for(var i=0;i<productList.length;i++){
+				var productRow = productList[i];
+				var liEle = document.createElement("li");
+				
+				var aEle = document.createElement("a");
+				aEle.href = "${home }/mmall/product/product.do?op=viewDetail&productId="+productRow.id;
+				
+				var imgDivEle = document.createElement("div");
+				imgDivEle.className="pro-img";
+				var imgEle = document.createElement("img");
+				imgEle.src = "${home}/img-"+productRow.firstPhotoId+"_100x100.do"
+				
+				var infoDivEle = document.createElement("div");
+				infoDivEle.className = "pro-info-box";
+				
+				var titleDivEle = document.createElement("div");
+				titleDivEle.className = "pro-info-title";
+				titleDivEle.innerHTML = productRow.name;
+				
+				var priceDivEle = document.createElement("div");
+				priceDivEle.className = "pro-price";
+				var bEle1 = document.createElement("b");
+				bEle1.innerHTML = "批发价:";
+				var labelEle1 = document.createElement("label");
+				labelEle1.className = "price";
+				if(jsonData.islogin){
+					if(jsonData.auto){
+						labelEle1.innerHTML = "￥"+productRow.price;
+					}else{
+						labelEle1.innerHTML = "￥"+productRow.priceMart;
+					}
+					
+				}else{
+					labelEle1.innerHTML = "？？";
+				}
+				
+				
+				
+				
+				
+				var bEle2 = document.createElement("b");
+				bEle2.innerHTML = "<br/>市场价:";
+				var labelEle2 = document.createElement("label");
+				labelEle2.className = "price_mart";
+				labelEle2.innerHTML = "￥"+productRow.priceMart;
+				
+				var saleDivEle = document.createElement("div");
+				saleDivEle.className = "pro-sale";
+				saleDivEle.innerHTML = "销量："+productRow.salesScount+"件";
+				
+				imgDivEle.appendChild(imgEle);
+				
+				priceDivEle.appendChild(bEle1);
+				priceDivEle.appendChild(labelEle1);
+				priceDivEle.appendChild(bEle2);
+				priceDivEle.appendChild(labelEle2);
+				
+				infoDivEle.appendChild(titleDivEle);
+				infoDivEle.appendChild(priceDivEle);
+				infoDivEle.appendChild(saleDivEle);
+				
+				aEle.appendChild(imgDivEle);
+				aEle.appendChild(infoDivEle);
+				
+				liEle.appendChild(aEle);
+				ulEle.appendChild(liEle);
+			}
+		}
+	}
+	
 	
 	function gotoDetail(adUrl,contentPhotoId){
 		if(adUrl){
@@ -446,39 +562,41 @@
 				<a href="javascript:search()">确定</a>
 			</div>
 		</div>
-		<div class="product-wrapper">
-			<ul>
-				<c:forEach items="${lists }" var="product">
-						<li>
-							<a href="${home }/mmall/product/product.do?op=viewDetail&productId=${product.id}">
-								<div class="pro-img">
-									<img src="${home}/img-${product.firstPhotoId}_100x100.do">	
-								</div>
-								<div class="pro-info-box">
-									<div class="pro-info-title">${product.name }</div>
-									<div class="pro-price">
-										<c:if test="${islogin == false}">
-										<b>批发价:</b><label class="price">？？</label>
-										</c:if>
-										<c:if test="${islogin == true}">
-											<c:if test="${auto == true}">
-												<b>批发价:</b><label class="price">￥${product.price }</label>&nbsp;&nbsp;
-											</c:if>
-											<c:if test="${auto == false}">
-												<b>批发价:</b><label class="price">￥${product.priceMart }</label>&nbsp;&nbsp;
-											</c:if>
-										</c:if>
-										</br>
-										市场价:<label class="price_mart">￥${product.priceMart }</label>
+		<div class="product-wrapper scroller-div" id="product-wrapper">
+			<div id="scroller">
+				<ul id="product-list-ul">
+					<c:forEach items="${lists }" var="product">
+							<li>
+								<a href="${home }/mmall/product/product.do?op=viewDetail&productId=${product.id}">
+									<div class="pro-img">
+										<img src="${home}/img-${product.firstPhotoId}_100x100.do">	
 									</div>
-									<div class="pro-sale">
-										销量：${product.salesScount }件
+									<div class="pro-info-box">
+										<div class="pro-info-title">${product.name }</div>
+										<div class="pro-price">
+											<c:if test="${islogin == false}">
+											<b>批发价:</b><label class="price">？？</label>
+											</c:if>
+											<c:if test="${islogin == true}">
+												<c:if test="${auto == true}">
+													<b>批发价:</b><label class="price">￥${product.price }</label>&nbsp;&nbsp;
+												</c:if>
+												<c:if test="${auto == false}">
+													<b>批发价:</b><label class="price">￥${product.priceMart }</label>&nbsp;&nbsp;
+												</c:if>
+											</c:if>
+											</br>
+											市场价:<label class="price_mart">￥${product.priceMart }</label>
+										</div>
+										<div class="pro-sale">
+											销量：${product.salesScount }件
+										</div>
 									</div>
-								</div>
-							</a>
-						</li>
-				</c:forEach>
-			</ul>
+								</a>
+							</li>
+					</c:forEach>
+				</ul>
+			</div>
 		</div>
 		<c:if test="${empty lists }">
 			<div class="no-data-box">

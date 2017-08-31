@@ -67,13 +67,12 @@ public class ProductAction extends PManagerAction<Product> {
 	@RequestMapping
 	public String add(HttpServletRequest request, ModelMap model) {
 		model.put("bean", new Product());
-		if (Product.CATEGORY_MOBILE_BATTERY.equals(this
-				.getParam("product_category").toUpperCase())) {
-			List<ProductBrand> brandList = productBrandService.getAll();
-			request.setAttribute("brandList", brandList);
+		String category = this.getParam("product_category").toUpperCase();
+		List<ProductBrand> brandList = productBrandService.getByCategory(category);
+		request.setAttribute("brandList", brandList);
+		if (Product.CATEGORY_MOBILE_BATTERY.equals(category)) {
 			return getJspFolderPath() + "/show";
-		} else if (Product.CATEGORY_MOBILE_SCREEN.equals(this
-				.getParam("product_category").toUpperCase())) {
+		} else if (Product.CATEGORY_MOBILE_SCREEN.equals(category)) {
 			return getJspFolderPath() + "/showScreen";
 		} else {
 			return getJspFolderPath() + "/showOther";
@@ -82,13 +81,12 @@ public class ProductAction extends PManagerAction<Product> {
 
 	@RequestMapping
 	public String edit(HttpServletRequest request, ModelMap model, String id) throws Exception{
-		model.put( "readonly", false);
 		Product bean = getService().get(id);
-		//System.out.println("bean的值"+bean);
+		List<ProductBrand> brandList = productBrandService.getByCategory(bean.getCategory());
+		model.put( "readonly", false);
 		model.put( "bean", bean);
+		model.put("brandList", brandList);
 		if (Product.CATEGORY_MOBILE_BATTERY.equals(bean.getCategory())) {
-			List<ProductBrand> brandList = productBrandService.getAll();
-			request.setAttribute("brandList", brandList);
 			return getJspFolderPath() + "/show";
 		} else if (Product.CATEGORY_MOBILE_SCREEN.equals(bean.getCategory())) {
 			return getJspFolderPath() + "/showScreen";

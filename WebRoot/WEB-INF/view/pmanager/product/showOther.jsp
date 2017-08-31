@@ -144,6 +144,15 @@
 					</li>
 					
 					<li class="mandatory">
+						<label>商品品牌：</label>
+						<select name="brandId">
+							<c:forEach items="${brandList }" var="brand">
+								<option value="${brand.id }">${brand.name }</option>
+							</c:forEach>
+						</select>
+					</li>
+					
+					<li class="mandatory">
 						<label>商品库存：</label>
 						<form:input path="stockCount" cssClass="text required form-input" class="required" disabled="true"/>
 					</li>

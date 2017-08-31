@@ -67,6 +67,10 @@ public class ProductBrandService  extends BaseService<ProductBrand>{
 		}
 	}
 	
+	public List<ProductBrand> getByCategory(String category){
+		return productBrandDao.getByCategory(category);
+	}
+	
 
 	@Autowired
 	private ProductBrandDao productBrandDao;

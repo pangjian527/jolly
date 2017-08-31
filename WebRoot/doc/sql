@@ -360,5 +360,8 @@ DELIMITER ;
 
 ALTER TABLE `t_product`
 ADD COLUMN `brand_id`  varchar(40) NULL AFTER `sale_count`,
-ADD COLUMN `category`  varchar(50) NULL AFTER `brand_id`;
+ADD COLUMN `category`  varchar(50) NULL AFTER `brand_id`,
 ADD COLUMN `color`  varchar(50) NULL AFTER `category`;
+
+ALTER TABLE `t_product_brand`
+ADD COLUMN `category`  varchar(50) NULL AFTER `update_time`;

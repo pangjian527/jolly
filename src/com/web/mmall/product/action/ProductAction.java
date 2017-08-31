@@ -126,9 +126,6 @@ public class ProductAction extends MMallActon{
 		// @1：获取前端json查询条件,请求页数
 		String name = StrFuncs.isEmpty(request.getParameter("name"), "");
 		String brandIds = StrFuncs.isEmpty(request.getParameter("brandIds"), "");
-		// 类型
-		String capacity = StrFuncs.isEmpty(request.getParameter("capacity"), "");
-		
 		String priceSort = StrFuncs.isEmpty(request.getParameter("priceSort"), "0");
 		String category = StrFuncs.isEmpty(request.getParameter("category"), "");
 		
@@ -139,8 +136,8 @@ public class ProductAction extends MMallActon{
 		queryJson.element("priceSort", priceSort);
 		queryJson.element("category", category);
 		
-		QueryResult queryResult = productService.queryMall(queryJson,
-				PageSettings.of(pageNo));
+		PageSettings setting = PageSettings.of(pageNo);
+		QueryResult queryResult = productService.queryMall(queryJson,setting);
 		
 		List<Product> lists  = queryResult.getRows();
 		
@@ -171,7 +168,10 @@ public class ProductAction extends MMallActon{
 			}
 		}
 		
-		List<ProductBrand> brandLists = productBrandService.getAll();
+		List<ProductBrand> brandLists = productBrandService.getByCategory(category);
+		
+		int totalPage = queryResult.getRowCount()%setting.getPageSize()==0
+				?queryResult.getRowCount()/setting.getPageSize():queryResult.getRowCount()/setting.getPageSize()+1;
 		
 		request.setAttribute("lists", entityResult);
 		request.setAttribute("name", name);
@@ -179,7 +179,66 @@ public class ProductAction extends MMallActon{
 		request.setAttribute("brandLists", brandLists);
 		request.setAttribute("priceSort", priceSort);
 		request.setAttribute("category", category);
+		request.setAttribute("totalPage", totalPage);
 		return "/mmall/product/search_list";
+	}
+	
+	@RequestMapping
+	public void listSearchAsync(HttpServletRequest request,HttpServletResponse response) {
+		JSONObject jsonObject = new JSONObject();
+		
+		int pageNo = this.getIntegerParam("pn", 1);
+
+		// @1：获取前端json查询条件,请求页数
+		String name = StrFuncs.isEmpty(request.getParameter("name"), "");
+		String brandIds = StrFuncs.isEmpty(request.getParameter("brandIds"), "");
+		// 类型
+		String capacity = StrFuncs.isEmpty(request.getParameter("capacity"), "");
+		
+		String priceSort = StrFuncs.isEmpty(request.getParameter("priceSort"), "0");
+		String category = StrFuncs.isEmpty(request.getParameter("category"), "");
+		
+		JSONObject queryJson = new JSONObject();
+		queryJson.element("name", name);
+		queryJson.element("brandIds", brandIds);
+		queryJson.element("status", Product.STATUS_VALID);
+		queryJson.element("priceSort", priceSort);
+		queryJson.element("category", category);
+		
+		PageSettings setting = PageSettings.of(pageNo,1);
+		QueryResult queryResult = productService.queryMall(queryJson,setting);
+		
+		List<Product> lists  = queryResult.getRows();
+		
+		List<ProductEntity> entityResult = new ArrayList<ProductEntity>();
+		for (Product product : lists) {
+			ProductEntity entity = new ProductEntity();
+			BeanUtils.copyProperties(product, entity);
+			
+			int realSalesCount = bookformDetailService.getCountByProductId(product.getId());
+			entity.setRealSalesCount(realSalesCount);
+			entityResult.add(entity);
+		}
+		
+		Object object = request.getSession().getAttribute(Consts.FACTORY_USER_SESSION_KEY);
+		
+		if(object == null){
+			jsonObject.element("islogin", false);
+			jsonObject.element("auto", false);
+		}else{
+			jsonObject.element("islogin", true);
+			FactoryUser factoryUser = (FactoryUser)object;
+			
+			Factory factory = factoryService.get(factoryUser.getFactoryId());
+			if(Factory.STATUS_VALID==factory.getStatus()){
+				jsonObject.element("auto", true);
+			}else{
+				jsonObject.element("auto", false);
+			}
+		}
+		
+		jsonObject.element("lists", entityResult);
+		this.writeJson(jsonObject);
 	}
 	
 	@Autowired
