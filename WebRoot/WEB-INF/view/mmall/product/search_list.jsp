@@ -413,10 +413,6 @@
 					labelEle1.innerHTML = "？？";
 				}
 				
-				
-				
-				
-				
 				var bEle2 = document.createElement("b");
 				bEle2.innerHTML = "<br/>市场价:";
 				var labelEle2 = document.createElement("label");

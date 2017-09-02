@@ -165,6 +165,12 @@ public class RegisterAction extends MMallActon{
 		return "mmall/factoryuser/result";
 	}
 	
+	@RequestMapping
+	public String info(HttpServletRequest request,HttpServletResponse response){
+		System.out.println("查看详情");
+		return "mmall/factoryuser/register_info";
+	}
+	
 	@Autowired
 	private TempVerifycodeService tempVerifycodeService;
 	@Autowired

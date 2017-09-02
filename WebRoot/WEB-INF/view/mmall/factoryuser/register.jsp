@@ -287,13 +287,17 @@
 	function toPwdLogin(){
 		window.location="${home}/mmall/factoryuser/login.do";
 	}
+	
+	function info(){
+		window.location = "${home}/mmall/factoryuser/register.do?op=info";
+	}
 </script>
 <jsp:include page="../initWeixin.jsp"/>
 </head>
 <body>
   	<div class="scwrapper">
   		<div>
-  			<img src="${home }/image/register_instr.jpg" width="100%"/>
+  			<img onclick="info()" src="${home }/image/register_instr.jpg" width="100%"/>
   		</div>
   		<div class="factory-user-box">
   			<ul>
