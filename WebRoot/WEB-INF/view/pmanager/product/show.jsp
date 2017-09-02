@@ -183,9 +183,9 @@
 						<label>商品品牌：</label>
 						<select name="brandId">
 						<c:forEach items="${brandList }" var="brand">
-							<option value="${brand.id }" <c:if test="${brand.id == bean.brandId }">selected</c:if>>${brand.name }</option>
+							<option value="${brand.id }" selected="<c:if test="${brand.id == bean.brandId }">selected</c:if>">${brand.name }</option>
 						</c:forEach>
-					</select>
+						</select>
 					</li>
 					
 					<li class="mandatory">
