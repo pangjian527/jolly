@@ -136,7 +136,7 @@ public class ProductAction extends MMallActon{
 		queryJson.element("priceSort", priceSort);
 		queryJson.element("category", category);
 		
-		PageSettings setting = PageSettings.of(pageNo,4);
+		PageSettings setting = PageSettings.of(pageNo);
 		QueryResult queryResult = productService.queryMall(queryJson,setting);
 		
 		List<Product> lists  = queryResult.getRows();
@@ -205,7 +205,7 @@ public class ProductAction extends MMallActon{
 		queryJson.element("priceSort", priceSort);
 		queryJson.element("category", category);
 		
-		PageSettings setting = PageSettings.of(pageNo,4);
+		PageSettings setting = PageSettings.of(pageNo);
 		QueryResult queryResult = productService.queryMall(queryJson,setting);
 		
 		List<Product> lists  = queryResult.getRows();
