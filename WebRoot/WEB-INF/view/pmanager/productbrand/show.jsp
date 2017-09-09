@@ -117,17 +117,6 @@
 						<form:input path="seq"  cssClass="text seq"/>
 						(数字越小，越靠前排)
 					</li>
-					<li>
-						<div class=" productBrand">
-							<h3>品牌介绍</h3>
-						</div>
-					</li>
-					<li class="mandatory">
-						<label>logo：</label>
-						<div class="logo-photo">
-							<input type="hidden" name="attachmentIds" id="attachments" value="${attachmentIds}"/>
-						</div>
-					</li>
 				</ul>
 				<div class="clear"></div>
 			</div>
