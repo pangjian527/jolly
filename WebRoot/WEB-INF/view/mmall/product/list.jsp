@@ -7,7 +7,7 @@
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	<title>商品列表</title>
+	<title>倬利网官方商城</title>
 	<link rel="icon" href="${home}/favicon.ico" type="image/x-icon" />
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
 	<link rel="stylesheet" type="text/css" href="${home}/style/swipe.css">
@@ -171,15 +171,15 @@
 		}
 		
 		i.battery-icon{
-			background-image:url("${home}/image/1.png");
+			background-image:url("${home}/image/3.png");
 		}
 		
 		i.screen-icon{
-			background-image:url("${home}/image/2.png");
+			background-image:url("${home}/image/1.png");
 		}
 		
 		i.other-icon{
-			background-image:url("${home}/image/3.png");
+			background-image:url("${home}/image/2.png");
 		}
 		
 		div.search{
@@ -314,7 +314,7 @@
 						<li>
 							<a href="${home }/mmall/product/product.do?op=viewDetail&productId=${product.id}">
 								<div class="pro-img">
-									<img src="${home}/img-${product.firstPhotoId}_100x100.do">	
+									<img src="${home}/img-${product.firstPhotoId}.do">	
 								</div>
 								<div class="pro-info-box">
 									<div class="pro-info-title">${product.name }</div>

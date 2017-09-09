@@ -7,7 +7,7 @@
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	<title>商品列表</title>
+	<title>倬利网官方商城</title>
 	<link rel="icon" href="${home}/favicon.ico" type="image/x-icon" />
 	<link href="${home}/style/style.css" rel="stylesheet" type="text/css"/>
 	<link rel="stylesheet" type="text/css" href="${home}/style/swipe.css">
@@ -387,7 +387,7 @@
 				var imgDivEle = document.createElement("div");
 				imgDivEle.className="pro-img";
 				var imgEle = document.createElement("img");
-				imgEle.src = "${home}/img-"+productRow.firstPhotoId+"_100x100.do"
+				imgEle.src = "${home}/img-"+productRow.firstPhotoId+".do"
 				
 				var infoDivEle = document.createElement("div");
 				infoDivEle.className = "pro-info-box";
@@ -529,7 +529,7 @@
 			<ul>
 				<li>
 					<span onclick="openFilter()">
-						品牌
+						商品分类
 						<i class="down-filter-icon"></i>
 					</span>
 				</li>
@@ -565,7 +565,7 @@
 							<li>
 								<a href="${home }/mmall/product/product.do?op=viewDetail&productId=${product.id}">
 									<div class="pro-img">
-										<img src="${home}/img-${product.firstPhotoId}_100x100.do">	
+										<img src="${home}/img-${product.firstPhotoId}.do">	
 									</div>
 									<div class="pro-info-box">
 										<div class="pro-info-title">${product.name }</div>
