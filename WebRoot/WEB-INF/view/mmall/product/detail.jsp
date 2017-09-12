@@ -293,48 +293,78 @@
 		<div class="product-properties-wrapper" id="contentDiv-2" style="display:none">
 			<table cellpadding="0" cellspacing="1" width="100%" border="1"
 				class="properties-table">
-				<tbody>
-					<tr>
-						<td class="tdTitle">电池型号</td>
-						<td>${product.model }</td>
-					</tr>
-					<tr>
-						<td class="tdTitle">电池属性</td>
-						<td>${product.coreType }</td>
-					</tr>
-					<tr>
-						<td class="tdTitle">容量</td>
-						<td>${product.capacity }</td>
-					</tr>
-					<tr>
-						<td class="tdTitle">适用品牌</td>
-						<td>${product.applyBrand }</td>
-					</tr>
-					<tr>
-						<td class="tdTitle">适用机型</td>
-						<td>${product.applyPhoneType }</td>
-					</tr>
-					<tr>
-						<td class="tdTitle">执行标准</td>
-						<td>${product.executeNormal }</td>
-					</tr>
-					<tr>
-						<td class="tdTitle">标准电压</td>
-						<td>${product.normalVoltage}</td>
-					</tr>
-					<tr>
-						<td class="tdTitle">充电电压</td>
-						<td>${product.chargeVoltage}</td>
-					</tr>
-					<tr>
-						<td class="tdTitle">是否环保</td>
-						<td>${product.environment}</td>
-					</tr>
-					<tr>
-						<td class="tdTitle">快充功能</td>
-						<td>${product.quickCharge}</td>
-					</tr>
-				</tbody>
+				<c:if test="${product.category == 'MOBILE_BATTERY' }">
+					<tbody>
+						<tr>
+							<td class="tdTitle">电池型号</td>
+							<td>${product.model }</td>
+						</tr>
+						<tr>
+							<td class="tdTitle">电池属性</td>
+							<td>${product.coreType }</td>
+						</tr>
+						<tr>
+							<td class="tdTitle">容量</td>
+							<td>${product.capacity }</td>
+						</tr>
+						<tr>
+							<td class="tdTitle">适用品牌</td>
+							<td>${product.applyBrand }</td>
+						</tr>
+						<tr>
+							<td class="tdTitle">适用机型</td>
+							<td>${product.applyPhoneType }</td>
+						</tr>
+						<tr>
+							<td class="tdTitle">执行标准</td>
+							<td>${product.executeNormal }</td>
+						</tr>
+						<tr>
+							<td class="tdTitle">标准电压</td>
+							<td>${product.normalVoltage}</td>
+						</tr>
+						<tr>
+							<td class="tdTitle">充电电压</td>
+							<td>${product.chargeVoltage}</td>
+						</tr>
+						<tr>
+							<td class="tdTitle">是否环保</td>
+							<td>${product.environment}</td>
+						</tr>
+						<tr>
+							<td class="tdTitle">快充功能</td>
+							<td>${product.quickCharge}</td>
+						</tr>
+					</tbody>
+				</c:if>
+				<c:if test="${product.category == 'MOBILE_SCREEN' }">
+					<tbody>
+						<tr>
+							<td class="tdTitle">适用品牌</td>
+							<td>${product.applyBrand }</td>
+						</tr>
+						<tr>
+							<td class="tdTitle">适用机型</td>
+							<td>${product.applyPhoneType }</td>
+						</tr>
+						<tr>
+							<td class="tdTitle">颜色分类</td>
+							<td>${product.color }</td>
+						</tr>
+					</tbody>
+				</c:if>
+				<c:if test="${product.category == 'OTHER' }">
+					<tbody>
+						<tr>
+							<td class="tdTitle">适用品牌</td>
+							<td>${product.applyBrand }</td>
+						</tr>
+						<tr>
+							<td class="tdTitle">适用机型</td>
+							<td>${product.applyPhoneType }</td>
+						</tr>
+					</tbody>
+				</c:if>
 			</table>
 		</div>
 		<div class="product-content-wrapper" id="contentDiv-3" style="display:none">

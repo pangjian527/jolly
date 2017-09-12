@@ -365,3 +365,10 @@ ADD COLUMN `color`  varchar(50) NULL AFTER `category`;
 
 ALTER TABLE `t_product_brand`
 ADD COLUMN `category`  varchar(50) NULL AFTER `update_time`;
+
+
+ --0912 csx add
+ALTER TABLE `t_product`
+MODIFY COLUMN `brand_id`  varchar(40) CHARACTER SET utf8 NULL DEFAULT NULL AFTER `sale_count`,
+MODIFY COLUMN `category`  varchar(50) CHARACTER SET utf8 NULL DEFAULT NULL AFTER `brand_id`,
+MODIFY COLUMN `color`  varchar(50) CHARACTER SET utf8 NULL DEFAULT NULL AFTER `category`;
